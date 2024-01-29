@@ -13,7 +13,7 @@ This repo is a basic application composed of several components.
 - **Auth service**. Express service that handles the authentication of users.
 - **Webapp**. React web application that uses the gateway service to allow basic login and new user features.
 
-Both the user and auth service share a Mongo database that is accessed with mongoose.
+Both the user and auth service share a Mongo database that is accessed with mongoose. 
 
 ## Quick start guide
 
