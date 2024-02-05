@@ -1,16 +1,24 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-solution-strategy]]
-== Solution Strategy
+# Solution Strategy
 
 
 [role="arc42help"]
-****
-.Contents
-A short summary and explanation of the fundamental decisions and solution strategies, that shape system architecture. It includes
 
-* technology decisions
-* decisions about the top-level decomposition of the system, e.g. usage of an architectural pattern or design pattern
+## Contents
+A short summary and explanation of the fundamental decisions and solution strategies, that shape system architecture.
+
+### Technology decisions
+* *JavaScript / React*: Librería de JS diseñada para facilitar el desarrollo de aplicaciones web.
+* *JavaScript / NodeJS*: Entorno runtime asíncrono basado en JS.
+* *MongoDB*: Sistema de bases de datos NoSQL orientado a Documentos.
+* *Docker*: Usado para el despliegue de aplicaciones.
+
+### Top-Level Decisions
+#### Architectural pattern
+A nivel arquitectónico, en este proyecto se usa el patrón MVC (Modelo, Vista, Controlador)
+
 * decisions on how to achieve key quality goals
 * relevant organizational decisions, e.g. selecting a development process or delegating certain tasks to third parties.
 
