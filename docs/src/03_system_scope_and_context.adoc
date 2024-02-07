@@ -5,7 +5,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 
 [role="arc42help"]
-
 ---
 
 ## Contents
