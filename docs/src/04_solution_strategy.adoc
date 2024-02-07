@@ -4,7 +4,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 # Solution Strategy
 
 [role="arc42help"]
-
 ## Contents
 This page contains a short summary and explanation of the fundamental decisions and solution strategies, that shape system architecture.
 
