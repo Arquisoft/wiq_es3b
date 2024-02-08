@@ -34,12 +34,12 @@ See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
 |===
 |Term |Definition
 
-|<React>
-|<JavScript library, we make use of this User Interface library on the front-end>
+|React
+|JavScript library, we make use of this User Interface library on the front-end
 
-|<Docker>
-|<We use it to deploy applications within virtual containers>
+|Docker
+|We use it to deploy applications within virtual containers
 
-|<Node.js>
-|<JavaScript runtime environment, we make use of this on the back-end>
+|Node.js
+|JavaScript runtime environment, we make use of this on the back-end
 |===
