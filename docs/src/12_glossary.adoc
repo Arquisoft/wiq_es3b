@@ -42,4 +42,7 @@ See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
 
 |Node.js
 |JavaScript runtime environment, we make use of this on the back-end
+
+|GitHub
+|Portal used to host the application code and documentation
 |===
