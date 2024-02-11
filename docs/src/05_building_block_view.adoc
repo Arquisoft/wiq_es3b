@@ -5,6 +5,43 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 == Building Block View
 
+==== Motivation
+
+Detailed structure of the system. Focused on the components of the _User Interface_ and _Data Access_. 
+
+==== Contained Building Blocks
+
+[options="header",cols="1,5"]
+|=== 
+
+| Name | Description   
+
+| *_Webapp_*  
+| Sections of the application where the user is going to interact with the system. 
+
+| *_Home_* 
+| Initial screen of the application. A welcome message is going to be displayed as well as the login and sign up options. 
+
+| *_Help_*
+| Offers help to the user, so when he has any problem, he is able to sort out any possible problems.
+
+| *_About_*
+| Conteins important information about the project, like the development method, the developers and how to contact them.
+
+| *_User session_*
+| Everything related to user session, by the session provider, such as Inrupt.
+
+| *_Sign-up_* 
+| Allows the client to create a new account for the application. This process can only be done once per user. 
+
+| *_Log-in_* 
+| Here the user will log-in into their personal account. In case they have created one previously. 
+
+| *_Log-out_* 
+| It logs out the user from the application. 
+
+|=== 
+
 [role="arc42help"]
 ****
 .Content
