@@ -1,19 +1,10 @@
-ifndef::imagesdir[:imagesdir: ../images]
-
 [[section-introduction-and-goals]]
 == Introduction and Goals
-
-[role="arc42help"]
-****
 WIQ is a web application developed by HappySw that allows users to play an online quiz game. 
 
 The questions are automatically generated from Wikidata data and can be grouped by topic. Users can get a prize for each correctly answered question within a limited time and can also check their historical results in the game.
-****
 
 === Requirements Overview
-
-[role="arc42help"]
-****
 The main functional requirements to be met are:
 
 * Users must be able to register
@@ -23,13 +14,9 @@ The main functional requirements to be met are:
 * Access to the user's data must be allowed through an API.
 * Access to the information of the generated questions must be allowed through an API.
 
-****
-
 === Quality Goals
-
-[role="arc42help"]
-****
 The quality goals in order of priority are as follows:
+[options="header",cols="1,2"]
 |===
 |Quality goal|Description
 |Usability|The application must be easy to understand and use
@@ -37,29 +24,8 @@ The quality goals in order of priority are as follows:
 |Security|The confidentiality and integrity of user data must be ensured
 |Maintainability|The application must be testable and easily modifiable
 |===
-****
+
 === Stakeholders
-
-[role="arc42help"]
-****
-.Contents
-Explicit overview of stakeholders of the system, i.e. all person, roles or organizations that
-
-* should know the architecture
-* have to be convinced of the architecture
-* have to work with the architecture or with code
-* need the documentation of the architecture for their work
-* have to come up with decisions about the system or its development
-
-.Motivation
-You should know all parties involved in development of the system or affected by the system.
-Otherwise, you may get nasty surprises later in the development process.
-These stakeholders determine the extent and the level of detail of your work and its results.
-
-.Form
-Table with role names, person names, and their expectations with respect to the architecture and its documentation.
-****
-
 [options="header",cols="1,2,2"]
 |===
 |Role/Name|Contact|Expectations
