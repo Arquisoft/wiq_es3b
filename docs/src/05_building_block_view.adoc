@@ -37,9 +37,6 @@ Detailed structure of the system. Focused on the components of the _User Interfa
 | *_About_*
 | Contains important information about the project, like the development method, the developers and how to contact them.
 
-| *_User session_*
-| Everything related to user session, by the session provider, such as Inrupt.
-
 | *_Sign-up_* 
 | Allows the client to create a new account for the application. This process can only be done once per user. 
 
