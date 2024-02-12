@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import AddUser from './components/AddUser';
-import Login from './components/Login';
+import AddUser from './AddUser';
+import Login from './Login';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';

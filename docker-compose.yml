@@ -61,6 +61,9 @@ services:
     image: ghcr.io/arquisoft/wiq_es3b/webapp:latest
     profiles: ["dev", "prod"]
     build: ./webapp
+    volumes:
+      - ./webapp:/app
+      - webapp_data:/app
     depends_on:
       - gatewayservice
     ports:
@@ -102,6 +105,7 @@ services:
 
 volumes:
   mongodb_data:
+  webapp_data:
   prometheus_data: 
   grafana_data: 
 
