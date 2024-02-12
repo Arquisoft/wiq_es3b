@@ -1,8 +1,9 @@
 const planetsQuestions=require('./planetsQuestions');
+const planetsQuery=planetsQuestions.getInstance();
 const templates=[
     async ()=>
     {
-        const planets= await planetsQuestions.getBiggestPlanet();
+        const planets= await planetsQuery.getBiggestPlanet();
         return{
             "question":"Which planet is bigger?",
             "correct":planets.correct,

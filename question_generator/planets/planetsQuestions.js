@@ -1,6 +1,13 @@
 const queryExecutor=require("../QueryExecutor")
 class PlanetsQuestions{
-    static async getBiggestPlanet(){
+    #planetsQuestions=null;
+    static getInstance(){
+        if (!this.planetsQuestions) {
+            this.planetsQuestions = new PlanetsQuestions();
+          }
+          return this.planetsQuestions;
+    }
+    async getBiggestPlanet(){
         //Se obtiene el id del planeta, su nombre y su radio
         const query= `
             SELECT ?planet ?planetLabel (SAMPLE(?radius) AS ?radius)

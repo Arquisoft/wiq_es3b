@@ -1,29 +1,38 @@
 const queryExecutor=require("../QueryExecutor")
 class CitiesQuestions{
+    #citiesQuestions=null;
+    static getInstance(){
+        if (!this.citiesQuestions) {
+            this.citiesQuestions = new CitiesQuestions();
+          }
+          return this.citiesQuestions;
+    }
     constructor(){
         this.cities=[]
     }
     async getRandomCities(numberOfCities){
         if(this.cities.length==0){ //Se obtienen 100 ciudades relevantes
             const query=`
-            SELECT ?city ?cityLabel ?population
+            SELECT ?city ?cityLabel ?population ?countryLabel
             WITH{
-            SELECT ?city ?cityLabel
-            WHERE{
-                ?city wdt:P31 wd:Q515
-            }
-            LIMIT 1000
-            } AS %i
-            WHERE {
-                INCLUDE %i
-                OPTIONAL{
-                ?city wdt:P1082 ?population
+                SELECT ?city ?cityLabel
+                WHERE{
+                    ?city wdt:P31 wd:Q515
                 }
-                FILTER EXISTS{
-                ?city wdt:P1082 ?population
+                LIMIT 1000
+                } AS %i
+                WHERE {
+                    INCLUDE %i
+                    OPTIONAL{
+                    ?city wdt:P1082 ?population.
+                    ?city wdt:P17 ?country
+                    }
+                    FILTER EXISTS{
+                        ?city wdt:P1082 ?population.
+                        ?city wdt:P17 ?country
+                    }
+                    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
                 }
-                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            }
             ORDER BY DESC(?population)
             LIMIT 100
             `
@@ -54,6 +63,26 @@ class CitiesQuestions{
             }
         }
         return finalResults
+    }
+    async getCityForCountry(){
+        let numberOfCities=4;
+        let result =(await this.getRandomCities(1));
+        let country=result[0].countryLabel.value;
+        let correct = result[0].cityLabel.value;
+        let incorrects = []
+        let i=1;
+        while(i<numberOfCities){
+            let city=await this.getRandomCities(1);
+            if(city[0].countryLabel.value!=country){
+                incorrects.push(city[0].cityLabel.value);
+                i++;
+            }
+        }
+        return {
+            country:country,
+            correct:correct,
+            incorrects:incorrects
+        }
     }
 }
 module.exports =CitiesQuestions;
