@@ -40,7 +40,6 @@ class CitiesQuestions{
             `
             let cities = await queryExecutor.execute(query);
             cities.forEach(city => {
-                console.log(city);
                 const cityId = city.city.value;
                 const cityName = city.cityLabel.value;
                 const population = city.population.value;
@@ -61,7 +60,6 @@ class CitiesQuestions{
             });
 
         }
-        console.log(this.cities);
         const citiesArray = Object.values(this.cities);
         const randomResults = citiesArray.sort(() => Math.random() - 0.5).slice(0, numberOfCities);
         return randomResults
@@ -91,13 +89,14 @@ class CitiesQuestions{
     }
     async getCityForCountry(){
         let numberOfCities=4;
-        let result =await this.getRandomCities(1)[0];
+        let result =(await this.getRandomCities(1))[0];
         let country=result.country;
+
         let correct = result.cityName;
         let incorrects = []
         let i=1;
         while(i<numberOfCities){
-            let city=await this.getRandomCities(1)[0];
+            let city=(await this.getRandomCities(1))[0];
             if(city.country!=country){
                 incorrects.push(city.cityName);
                 i++;
