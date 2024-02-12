@@ -18,6 +18,15 @@ const templates=[
             "correct":results.correct,
             "incorrects":results.incorrects
         }
+    },
+    async ()=>
+    {
+        const results= await citiesQuery.getHigherCity();
+        return{
+            "question":"Which city is higher above sea level?",
+            "correct":results.correct,
+            "incorrects":results.incorrects
+        }
     }
 
 

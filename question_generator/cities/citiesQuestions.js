@@ -1,4 +1,4 @@
-const queryExecutor=require("../QueryExecutor")
+const queryExecutor=require("../queryExecutor")
 class CitiesQuestions{
     #citiesQuestions=null;
     static getInstance(){
@@ -11,9 +11,10 @@ class CitiesQuestions{
         this.cities=[]
     }
     async getRandomCities(numberOfCities){
+        //Hay un problema de repetición de ciudades
         if(this.cities.length==0){ //Se obtienen 100 ciudades relevantes
             const query=`
-            SELECT ?city ?cityLabel ?population ?countryLabel
+            SELECT ?city ?cityLabel ?population ?countryLabel ?elevation_above_sea_level
             WITH{
                 SELECT ?city ?cityLabel
                 WHERE{
@@ -25,11 +26,13 @@ class CitiesQuestions{
                     INCLUDE %i
                     OPTIONAL{
                     ?city wdt:P1082 ?population.
-                    ?city wdt:P17 ?country
+                    ?city wdt:P17 ?country.
+                    ?city wdt:P2044 ?elevation_above_sea_level
                     }
                     FILTER EXISTS{
                         ?city wdt:P1082 ?population.
-                        ?city wdt:P17 ?country
+                        ?city wdt:P17 ?country.
+                        ?city wdt:P2044 ?elevation_above_sea_level
                     }
                     SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
                 }
@@ -66,7 +69,7 @@ class CitiesQuestions{
     }
     async getCityForCountry(){
         let numberOfCities=4;
-        let result =(await this.getRandomCities(1));
+        let result =await this.getRandomCities(1);
         let country=result[0].countryLabel.value;
         let correct = result[0].cityLabel.value;
         let incorrects = []
@@ -84,5 +87,23 @@ class CitiesQuestions{
             incorrects:incorrects
         }
     }
+    async getHigherCity(){
+        let numberOfCities=4;
+        let result =await this.getRandomCities(numberOfCities);
+        const formattedResults = await result.sort((a, b) => b.elevation_above_sea_level.value - a.elevation_above_sea_level.value);
+        const finalResults={
+            correct: null,
+            incorrects: []
+        }
+        for(let i=0;i<numberOfCities;i++){
+            if(i==0){
+                finalResults.correct=formattedResults[i].cityLabel.value
+            }
+            else{
+                finalResults.incorrects.push(formattedResults[i].cityLabel.value)
+            }
+        }
+        return finalResults;
+    }
 }
-module.exports =CitiesQuestions;
+module.exports=CitiesQuestions;
