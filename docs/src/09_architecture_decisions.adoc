@@ -33,3 +33,12 @@ See https://docs.arc42.org/section-9/[Architecture Decisions] in the arc42 docum
 There you will find links and examples about ADR.
 
 ****
+
+[options="header",cols="1,2"]
+|===
+|Decision|Motivation
+| Docker | It is decided to use Docker due to its popularity in the professional field and its ease of execution thanks to the configuration files provided by the subject's faculty.
+| MongoDB | It is decided to use MongoDB based on the recommendation of the faculty, as it is one of the most popular NoSQL databases and because it fits perfectly with the application's needs.
+| NodeJS | It is decided to use NodeJS since it is the recommended option by the subject's faculty and one of the most widely used technologies in this area of web applications, thus having extensive documentation and examples available on the Internet.
+| React | It is decided to use React since it is the recommended option by the subject's faculty.
+|===
