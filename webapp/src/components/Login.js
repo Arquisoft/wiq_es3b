@@ -10,6 +10,8 @@ const Login = () => {
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [createdAt, setCreatedAt] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [timeStart, setTimeStart] = useState(0);
+  const [timeElapsed, setTimeElapsed] = useState(0);
 
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -19,11 +21,22 @@ const Login = () => {
 
       // Extract data from the response
       const { createdAt: userCreatedAt } = response.data;
-
+      
+      setTimeStart(Date.now());
       setCreatedAt(userCreatedAt);
       setLoginSuccess(true);
+      
+      
 
       setOpenSnackbar(true);
+    } catch (error) {
+      setError(error.response.data.error);
+    }
+  };
+
+  const calculateTime = async () => {
+    try {
+      setTimeElapsed((Date.now() - timeStart) / 1000);
     } catch (error) {
       setError(error.response.data.error);
     }
@@ -43,6 +56,12 @@ const Login = () => {
           <Typography component="p" variant="body1" sx={{ textAlign: 'center', marginTop: 2 }}>
             Your account was created on {new Date(createdAt).toLocaleDateString()}.
           </Typography>
+          <Typography component="p" variant="body1" sx={{ textAlign: 'center', marginTop: 2 }}>
+            Han pasado {timeElapsed} segundos.
+          </Typography>
+          <Button variant="contained" color="primary" onClick={calculateTime}>
+            Calcular tiempo
+          </Button>
         </div>
       ) : (
         <div>
