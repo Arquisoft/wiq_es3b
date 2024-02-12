@@ -1,8 +1,13 @@
 const planetsTemplates=require('./planets/planetsTemplates');
 const citiesTemplates=require('./cities/citiesTemplates')
+function loadData(){
+    citiesTemplates.loadData()
+    planetsTemplates.loadData()
+}
 const templates=[
-    planetsTemplates,
-    citiesTemplates
+    planetsTemplates.getRandomQuestion,
+    citiesTemplates.getRandomQuestion
 
 ]
-module.exports = () => templates[Math.floor(Math.random()*templates.length)]() //se obtiene una pregunta aleatoria de los templates
+module.exports.getRandomQuestion = () => templates[Math.floor(Math.random()*templates.length)]();
+module.exports.loadData = ()=>loadData();

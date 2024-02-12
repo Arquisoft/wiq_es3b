@@ -10,15 +10,18 @@ const port = 8002;
 
 app.use(bodyParser.json());
 
+
 app.get('/api/questions/create', async (req, res) => {
-  res.status(200).json(await generalTemplate())
+  res.status(200).json(await generalTemplate.getRandomQuestion())
 });
 app.get('/api/questions/planets/create', async (req, res) => {
-  res.status(200).json(await planetTemplate())
+  res.status(200).json(await planetTemplate.getRandomQuestion())
 });
 app.get('/api/questions/cities/create', async (req, res) => {
-  res.status(200).json(await citiesTemplate())
+  res.status(200).json(await citiesTemplate.getRandomQuestion())
 });
+
+generalTemplate.loadData();
 
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);

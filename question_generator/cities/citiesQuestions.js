@@ -10,7 +10,7 @@ class CitiesQuestions{
     constructor(){
         this.cities={};
     }
-    async getRandomCities(numberOfCities){
+    async loadData(){
         if (Object.keys(this.cities).length === 0) {//Se obtienen 100 ciudades relevantes
             const query=`
             SELECT ?city ?cityLabel ?population ?countryLabel ?elevation_above_sea_level
@@ -56,10 +56,13 @@ class CitiesQuestions{
                     };
                 }
 
-                this.cities[cityId].elevation_above_sea_level.push(elevationAboveSeaLevel);
+                this.cities[cityId].elevation_above_sea_level.push(parseFloat(elevationAboveSeaLevel));
             });
 
         }
+    }
+    async getRandomCities(numberOfCities){
+        await this.loadData();
         const citiesArray = Object.values(this.cities);
         const randomResults = citiesArray.sort(() => Math.random() - 0.5).slice(0, numberOfCities);
         return randomResults

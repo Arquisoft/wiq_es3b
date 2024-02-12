@@ -7,9 +7,12 @@ class PlanetsQuestions{
           }
           return this.planetsQuestions;
     }
-    async getBiggestPlanet(){
-        //Se obtiene el id del planeta, su nombre y su radio
-        const query= `
+    constructor(){
+        this.planets={}
+    }
+    async loadData(){
+        if(Object.keys(this.planets).length==0){
+            const query= `
             SELECT ?planet ?planetLabel (SAMPLE(?radius) AS ?radius)
             WHERE {
             ?categ wdt:P361 wd:Q337768.
@@ -25,24 +28,42 @@ class PlanetsQuestions{
             GROUP BY ?planet ?planetLabel
         `;
         const results=await queryExecutor.execute(query)
-        //Escoge cuatro planetas aleatorios
-        const randomResults = results.sort(() => Math.random() - 0.5).slice(0,4);
-        const formattedResults = await randomResults.map(result => {
-            return {
-              item: result.planetLabel.value,
-              value:parseFloat(result.radius.value),
-            };
-          }).sort((a, b) => b.value - a.value);
+        results.forEach(planet => {
+            const planetId = planet.planet.value;
+            const planetName = planet.planetLabel.value;
+            const radius = planet.radius.value;
+
+            if (!this.planets[planetId]) {
+                this.planets[planetId] = {
+                    planetId: planetId,
+                    planetName: planetName,
+                    radius: []
+                };
+            }
+
+            this.planets[planetId].radius.push(parseFloat(radius));
+        });
+        }
+    }
+    async getRandomPlanets(number) {
+        await this.loadData();
+        const array = Object.values(this.planets);
+        const randomResults = array.sort(() => Math.random() - 0.5).slice(0, number);
+        return randomResults
+    }
+    async getBiggestPlanet(){
+        const results=await this.getRandomPlanets(4);
+        const formattedResults = await results.sort((a, b) => b.radius[0] - a.radius[0]);
         var finalResults={
             correct: null,
             incorrects:[]
         }
         for(let i = 0; i < Math.min(formattedResults.length,4); i++) {
             if(i==0){
-                finalResults.correct=formattedResults[i].item;
+                finalResults.correct=formattedResults[i].planetName;
             }
             else{
-                finalResults.incorrects.push(formattedResults[i].item);
+                finalResults.incorrects.push(formattedResults[i].planetName);
             }
         }
         return finalResults;

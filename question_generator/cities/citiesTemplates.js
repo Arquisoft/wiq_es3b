@@ -1,5 +1,8 @@
 const cities=require('./citiesQuestions');
 const citiesQuery=cities.getInstance();
+function loadData(){
+    citiesQuery.loadData();
+}
 const templates=[
     async ()=>
     {
@@ -31,4 +34,5 @@ const templates=[
 
 
 ]
-module.exports = () => templates[Math.floor(Math.random()*templates.length)]() //se obtiene una pregunta aleatoria de los templates
+module.exports.getRandomQuestion = () => templates[Math.floor(Math.random()*templates.length)]();
+module.exports.loadData = () =>loadData();
