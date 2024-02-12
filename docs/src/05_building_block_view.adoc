@@ -29,11 +29,22 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 ==== Motivation
 
-
+Shows how the application will work internally. 
 
 ==== Contained building blocks
 
+[options="header",cols="1,2"] 
+|=== 
 
+| Name | Description
+
+| *_User Interface_*
+| The user will interact with the UI.
+
+| *_Data Access_*
+| 
+
+|=== 
 
 === Level 3
 
