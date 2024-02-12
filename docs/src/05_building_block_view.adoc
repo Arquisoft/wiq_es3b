@@ -12,7 +12,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 ==== Contained building blocks
 
-[options="header",cols="1,3"] 
+[options="header",cols="1,2"] 
 |=== 
 
 | Name | Description
@@ -22,9 +22,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 | *_WIQ_*
 | System developed to be used by the users.
-
-|
-|
 
 |=== 
 
@@ -64,10 +61,7 @@ Detailed structure of the system. Focused on the components of the _User Interfa
 | It contains the best scores recorded in the game, including the user's highest score and the scores of other users belonging to their group.
 
 | *_History_* 
-| Contains all user participations with the number of games, correct/incorrect answers, and times.
-
-| *_Help_*
-| Offers help to the user, so when he has any problem, he is able to sort out any possible problems.
+| Contains all user participations with the number of games played, correct/incorrect answers, and times.
 
 | *_About_*
 | Contains important information about the project, like the development method, the developers and how to contact them.
