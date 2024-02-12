@@ -28,14 +28,14 @@ class PlanetsQuestions{
           }).sort((a, b) => b.value - a.value);
         var finalResults={
             correct: null,
-            incorrect:[]
+            incorrects:[]
         }
         for(let i = 0; i < Math.min(formattedResults.length,4); i++) {
             if(i==0){
                 finalResults.correct=formattedResults[i].item;
             }
             else{
-                finalResults.incorrect.push(formattedResults[i].item);
+                finalResults.incorrects.push(formattedResults[i].item);
             }
         }
         return finalResults;

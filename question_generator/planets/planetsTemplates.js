@@ -6,7 +6,7 @@ const templates=[
         return{
             "question":"Which planet is bigger?",
             "correct":planets.correct,
-            "incorrects":planets.incorrect
+            "incorrects":planets.incorrects
         }
     }
 
