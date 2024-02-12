@@ -8,11 +8,10 @@ class CitiesQuestions{
           return this.citiesQuestions;
     }
     constructor(){
-        this.cities=[]
+        this.cities={};
     }
     async getRandomCities(numberOfCities){
-        //Hay un problema de repetición de ciudades
-        if(this.cities.length==0){ //Se obtienen 100 ciudades relevantes
+        if (Object.keys(this.cities).length === 0) {//Se obtienen 100 ciudades relevantes
             const query=`
             SELECT ?city ?cityLabel ?population ?countryLabel ?elevation_above_sea_level
             WITH{
@@ -39,9 +38,32 @@ class CitiesQuestions{
             ORDER BY DESC(?population)
             LIMIT 100
             `
-            this.cities=await queryExecutor.execute(query)
+            let cities = await queryExecutor.execute(query);
+            cities.forEach(city => {
+                console.log(city);
+                const cityId = city.city.value;
+                const cityName = city.cityLabel.value;
+                const population = city.population.value;
+                const country = city.countryLabel.value;
+                const elevationAboveSeaLevel = city.elevation_above_sea_level.value;
+
+                if (!this.cities[cityId]) {
+                    this.cities[cityId] = {
+                        cityId: cityId,
+                        cityName: cityName,
+                        population: population,
+                        country: country,
+                        elevation_above_sea_level: []
+                    };
+                }
+
+                this.cities[cityId].elevation_above_sea_level.push(elevationAboveSeaLevel);
+            });
+
         }
-        const randomResults = this.cities.sort(() => Math.random() - 0.5).slice(0,numberOfCities);
+        console.log(this.cities);
+        const citiesArray = Object.values(this.cities);
+        const randomResults = citiesArray.sort(() => Math.random() - 0.5).slice(0, numberOfCities);
         return randomResults
     }
     async getMostPopulatedCity(){
@@ -49,8 +71,8 @@ class CitiesQuestions{
         const results=await this.getRandomCities(numberOfCities);
         const formattedResults = await results.map(result => {
             return {
-              item: result.cityLabel.value,
-              value:parseFloat(result.population.value),
+              item: result.cityName,
+              value:parseFloat(result.population),
             };
           }).sort((a, b) => b.value - a.value);
         const finalResults={
@@ -69,15 +91,15 @@ class CitiesQuestions{
     }
     async getCityForCountry(){
         let numberOfCities=4;
-        let result =await this.getRandomCities(1);
-        let country=result[0].countryLabel.value;
-        let correct = result[0].cityLabel.value;
+        let result =await this.getRandomCities(1)[0];
+        let country=result.country;
+        let correct = result.cityName;
         let incorrects = []
         let i=1;
         while(i<numberOfCities){
-            let city=await this.getRandomCities(1);
-            if(city[0].countryLabel.value!=country){
-                incorrects.push(city[0].cityLabel.value);
+            let city=await this.getRandomCities(1)[0];
+            if(city.country!=country){
+                incorrects.push(city.cityName);
                 i++;
             }
         }
@@ -90,17 +112,18 @@ class CitiesQuestions{
     async getHigherCity(){
         let numberOfCities=4;
         let result =await this.getRandomCities(numberOfCities);
-        const formattedResults = await result.sort((a, b) => b.elevation_above_sea_level.value - a.elevation_above_sea_level.value);
+        //Using first value in the array for elevation_above_sea_level
+        const formattedResults = await result.sort((a, b) => b.elevation_above_sea_level[0] - a.elevation_above_sea_level[0]);
         const finalResults={
             correct: null,
             incorrects: []
         }
         for(let i=0;i<numberOfCities;i++){
             if(i==0){
-                finalResults.correct=formattedResults[i].cityLabel.value
+                finalResults.correct=formattedResults[i].cityName
             }
             else{
-                finalResults.incorrects.push(formattedResults[i].cityLabel.value)
+                finalResults.incorrects.push(formattedResults[i].cityName)
             }
         }
         return finalResults;
