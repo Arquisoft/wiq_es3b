@@ -2,8 +2,17 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-building-block-view]]
 
-
 == Building Block View
+
+=== Level 1
+
+==== Motivation
+
+*_WIQ_* application is the general structure of a system in which users will have the possibility to play a game like _Saber y Ganar_.
+
+
+
+=== Level 3
 
 ==== Motivation
 
