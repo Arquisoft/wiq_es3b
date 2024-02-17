@@ -14,7 +14,7 @@ Actor User
 Component WIQ
 Component Wikidata 
 User -right-> WIQ: interacts with
-WIQ -right-> Wikidata: gets data
+WIQ -right-> Wikidata: receives data
 Wikidata -right..> WIQ
 
 ----
