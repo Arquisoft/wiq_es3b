@@ -42,7 +42,22 @@ Wikidata -right..> WIQ
 |=== 
 
 === Level 2
+[plantuml, "level2", png] 
+----
+Actor User
+Component WIQ {
+    Component ui as "User Interface"
+    Component ms as "MicroService"
+    Database db as "MongoDB"
+}
 
+Component wd as "WikiData"
+
+User -> ui: Interacts 
+ui -> ms: Sends requests
+ms -> db: Reads
+wd -> ms: Gives data
+----
 ==== Motivation
 
 Shows how the application will work internally. 
@@ -58,10 +73,10 @@ Shows how the application will work internally.
 | The user will interact with the UI.
 
 | *_Microservices_*
-| 
+| It is the backend of the UI, formed by different modules.
 
-| *_Data Access_*
-| MongoDB is the selected...
+| *_DataBase_*
+| MongoDB is the chosen NoSQL database management system. It stores all the information necessary for the proper functioning of the application. 
 
 |=== 
 
