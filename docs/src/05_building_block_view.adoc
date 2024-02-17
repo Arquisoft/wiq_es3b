@@ -4,16 +4,18 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 == Building Block View
 
-=== Level 1 
+=== Level 1: Whitebox of the Overall System 
+
+[plantuml, "level1", png]
 
 ----
 
-user u as "User"
-Component w as "WIQ"
-Component d as "WikiData"
-
-u -> w: Plays
-w -> d: Receives information from
+Actor User
+Component WIQ
+Component Wikidata 
+User -right-> WIQ: interacts with
+WIQ -right-> Wikidata: gets data
+Wikidata -right..> WIQ
 
 ----
 
