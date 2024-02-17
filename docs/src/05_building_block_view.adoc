@@ -6,6 +6,17 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Level 1 
 
+----
+
+user u as "User"
+Component w as "WIQ"
+Component d as "WikiData"
+
+u -> w: Plays
+w -> d: Receives information from
+
+----
+
 ==== Motivation
 
 *_WIQ_* application is the general structure of a system in which users will have the possibility to play a game like _Saber y Ganar_ and compare their results with their friends. 
