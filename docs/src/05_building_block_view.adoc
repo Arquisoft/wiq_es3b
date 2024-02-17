@@ -4,7 +4,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 == Building Block View
 
-=== Level 1
+=== Level 1 
 
 ==== Motivation
 
@@ -22,6 +22,9 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 | *_WIQ_*
 | System developed to be used by the users.
+
+| *_WIKIDATA_*
+| Aplication to generate the questions and answers.
 
 |=== 
 
@@ -41,8 +44,11 @@ Shows how the application will work internally.
 | *_User Interface_*
 | The user will interact with the UI.
 
-| *_Data Access_*
+| *_Microservices_*
 | 
+
+| *_Data Access_*
+| MongoDB is the selected...
 
 |=== 
 
