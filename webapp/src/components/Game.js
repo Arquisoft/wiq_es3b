@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const Participation = ({ goTo }) => {
+export const Game = ({ goTo }) => {
   return (
     <div>
-      <h1>Participation</h1>
+      <h1>Game</h1>
       <button onClick={() => goTo(0)}>Menu</button>
     </div>
   );
