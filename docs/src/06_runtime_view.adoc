@@ -78,7 +78,7 @@ In this view, the user can watch different rankings:
 [plantuml,"sequencediagram-ranking",png]
 ----
 actor User as user
-participant HistoryMS as MS
+participant RankingMS as MS
 participant MongoDB as db
 
 activate MS
@@ -100,5 +100,16 @@ In this view, the user can watch this options about his past games:
 
 [plantuml,"sequencediagram-history",png]
 ----
+actor User as user
+participant HistoryMS as MS
+participant MongoDB as db
 
+activate MS
+
+user -> MS: Request history
+MS -> db: Asks for the history
+db -> MS: Gives the user's history
+MS -> user: Shows the history
+
+deactivate MS
 ----
