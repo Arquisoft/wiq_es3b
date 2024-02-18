@@ -53,9 +53,9 @@ Component WIQ {
 
 Component wd as "WikiData"
 
-User -> ui: Interacts 
+User -> ui: Interacts
 ui -> ms: Sends requests
-ms -> db: Reads
+ms <-> db: Reads
 wd -> ms: Gives data
 ----
 ==== Motivation
@@ -81,7 +81,39 @@ Shows how the application will work internally.
 |=== 
 
 === Level 3
+----
+Component WIQ {
 
+    Component ms as "MicroServices" {
+        Component users as "Users Service"
+        Component question as "Question Service"
+        Component game as "Game Service"
+        Component ranking as "ranking"
+        Component history as "History"
+        Database db as "MongoDB"
+    }
+
+    Component ui as "User Interface"
+
+
+    ui --> users
+    ui --> game
+    ui --> history
+    ui --> ranking
+
+
+
+    users <-down-> db
+    game <-down-> db
+    ranking <-down-> db
+    history <-down-> db
+}
+
+Component wd as "Wikidata"
+
+game --> question: generates question
+question <-> wd: ask and answer the question
+----
 ==== Motivation
 
 Detailed structure of the system. Focused on the components of the _User Interface_ and _Data Access_. 
@@ -91,13 +123,7 @@ Detailed structure of the system. Focused on the components of the _User Interfa
 [options="header",cols="1,5"]
 |=== 
 
-| Name | Description   
-
-| *_Webapp_*  
-| Sections of the application where the user is going to interact with the system. 
-
-| *_Home_* 
-| Initial screen of the application. A welcome message is going to be displayed as well as the login and sign up options. 
+| Name | Description 
 
 | *_Game_* 
 | Game screen where the user can play the game.
@@ -111,14 +137,12 @@ Detailed structure of the system. Focused on the components of the _User Interfa
 | *_About_*
 | Contains important information about the project, like the development method, the developers and how to contact them.
 
-| *_Sign-up_* 
-| Allows the client to create a new account for the application. This process can only be done once per user. 
+| *_Users Service_* 
+| Allows the client to create a new account for the application, log in and log out.
 
-| *_Log-in_* 
-| Here the user will log-in into their personal account. In case they have created one previously. 
+| *_Question service_* 
+| Allows to ask him questions and receive the answers of them.
 
-| *_Log-out_* 
-| It logs out the user from the application. 
 
 |=== 
 
