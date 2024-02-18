@@ -6,12 +6,25 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 For the login, the app shows the login view, which asks the user for his username and his password.
 
-Then, the app does a login request to the REST API server, which redirect the user to the identity provider, which handles the authentication.
+Then, the app does a login request to the users microservice, which redirect the user to the identity provider, which handles the authentication.
 
-If the login is succesfully, ...
+If the login is succesfully, the app shows the different options of the game.
 In case the login isn't succesfully, a warning message is shown.
 
-== ESTRUCTURA
+=== Game
+
+=== Ranking
+
+=== History
+
+In this view, the user can watch this options:
+
+- Number of games played
+- Best times
+- Correct/incorrect questions
+
+
+= ESTRUCTURA
 ****
 .Contents
 The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios from the following areas:
