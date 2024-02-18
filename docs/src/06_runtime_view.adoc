@@ -11,6 +11,31 @@ Then, the app does a login request to the users microservice, which redirect the
 If the login is succesfully, the app shows the different options of the game.
 In case the login isn't succesfully, a warning message is shown.
 
+[plantuml,"sequencediagram-login",png] 
+----
+actor User as u
+participant "Web App" as w
+participant "User Microservice" as um
+activate w 
+w -> w: Show Login View 
+u -> w: Chooses Identity 
+w -> um: Requests login 
+deactivate w 
+activate um
+um -> um: Redirects to the provider login form 
+um --> u: Asks for credentials 
+deactivate um
+activate u
+u -> um: Logs in 
+deactivate u 
+activate um
+um --> um: Provides session information 
+um --> w: Provides session ID 
+deactivate um
+activate w 
+w -> w: Show Main View
+deactivate um
+----
 === Game
 
 When the user starts a game, the app generates a question and request the correct answer to the WikiData API. When the user choose a posible answer, the app checks if it is the correct answer. Then, this process is repeated until the end of the game.  
