@@ -14,9 +14,13 @@ In case the login isn't succesfully, a warning message is shown.
 === Game
 
 === Ranking
+In this view, the user can watch different rankings:
+
+- Ordered by accuracy percentage
+- Ordered by number of questions answered correctly
+- Ordered by quantity of game rounds
 
 === History
-
 In this view, the user can watch this options:
 
 - Number of games played
