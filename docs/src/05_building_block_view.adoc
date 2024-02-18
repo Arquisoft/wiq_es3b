@@ -60,7 +60,7 @@ wd -> ms: Gives data
 ----
 ==== Motivation
 
-Shows how the application will work internally. 
+Shows how the application will work internally. The user, through the user interface, will use microservices to access the different modules with the help of the database.
 
 ==== Contained building blocks
 
