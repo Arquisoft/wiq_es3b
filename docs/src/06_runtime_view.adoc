@@ -33,14 +33,41 @@ um --> um: Provides session information
 um --> w: Provides session ID 
 deactivate um
 activate w 
-w -> w: Show Main View
+w -> w: Show Game View
 deactivate um
 ----
 === Game
 
 When the user starts a game, the app generates a question and request the correct answer to the WikiData API. When the user choose a posible answer, the app checks if it is the correct answer. Then, this process is repeated until the end of the game.  
 
+[plantuml,"sequencediagram-game",png]
+----
+actor User as user
+participant WebApp as app
+participant GameMS as gameMS
+participant WikiDataAPI as api
 
+activate app
+
+user -> app: Start game
+app -> gameMS: Generate question
+gameMS -> api: Request correct answer\nfor the generated question
+api --> gameMS: Correct answer
+gameMS -> app: 
+app -> user: Show question and options
+
+loop Until end of the game
+    user -> app: Choose possible answer
+    app -> gameMS: Verify answer\nselected by the user
+    gameMS --> app: Correct or incorrect answer
+    app -> user: Show result\nand current score
+end
+
+user -> app: Finish game
+app --> user: Show final score
+
+deactivate app
+----
 === Ranking
 In this view, the user can watch different rankings:
 
@@ -48,6 +75,10 @@ In this view, the user can watch different rankings:
 - Ordered by number of questions answered correctly
 - Ordered by quantity of game rounds
 
+[plantuml,"sequencediagram-ranking",png]
+----
+
+----
 === History
 In this view, the user can watch this options about his past games:
 
@@ -55,63 +86,7 @@ In this view, the user can watch this options about his past games:
 - Best times
 - Correct/incorrect questions
 
-
-= ESTRUCTURA
-****
-.Contents
-The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios from the following areas:
-
-* important use cases or features: how do building blocks execute them?
-* interactions at critical external interfaces: how do building blocks cooperate with users and neighboring systems?
-* operation and administration: launch, start-up, stop
-* error and exception scenarios
-
-Remark: The main criterion for the choice of possible scenarios (sequences, workflows) is their *architectural relevance*. It is *not* important to describe a large number of scenarios. You should rather document a representative selection.
-
-.Motivation
-You should understand how (instances of) building blocks of your system perform their job and communicate at runtime.
-You will mainly capture scenarios in your documentation to communicate your architecture to stakeholders that are less willing or able to read and understand the static models (building block view, deployment view).
-
-.Form
-There are many notations for describing scenarios, e.g.
-
-* numbered list of steps (in natural language)
-* activity diagrams or flow charts
-* sequence diagrams
-* BPMN or EPCs (event process chains)
-* state machines
-* ...
-
-
-.Further Information
-
-See https://docs.arc42.org/section-6/[Runtime View] in the arc42 documentation.
-
-****
-
-=== <Runtime Scenario 1>
-
-
-* _<insert runtime diagram or textual description of the scenario>_
-* _<insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.>_
-
-It is possible to use a sequence diagram:
-
-[plantuml,"Sequence diagram",png]
-----
-actor Alice
-actor Bob
-database Pod as "Bob's Pod"
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-Alice  --> Pod: Store route
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+[plantuml,"sequencediagram-history",png]
 ----
 
-=== <Runtime Scenario 2>
-
-=== ...
-
-=== <Runtime Scenario n>
+----
