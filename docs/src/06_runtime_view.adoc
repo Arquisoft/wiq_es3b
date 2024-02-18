@@ -24,7 +24,7 @@ In this view, the user can watch different rankings:
 - Ordered by quantity of game rounds
 
 === History
-In this view, the user can watch this options:
+In this view, the user can watch this options about his past games:
 
 - Number of games played
 - Best times
