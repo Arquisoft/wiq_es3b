@@ -81,6 +81,7 @@ Shows how the application will work internally.
 |=== 
 
 === Level 3
+[plantuml, "level3", png]
 ----
 Component WIQ {
 
