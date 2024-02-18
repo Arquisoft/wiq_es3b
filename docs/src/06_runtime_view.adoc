@@ -13,6 +13,9 @@ In case the login isn't succesfully, a warning message is shown.
 
 === Game
 
+When the user starts a game, the app generates a question and request the correct answer to the WikiData API. When the user choose a posible answer, the app checks if it is the correct answer. Then, this process is repeated until the end of the game.  
+
+
 === Ranking
 In this view, the user can watch different rankings:
 
