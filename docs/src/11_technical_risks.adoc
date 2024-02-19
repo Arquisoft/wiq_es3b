@@ -21,4 +21,3 @@
 |Insufficient documentation 
 |A lack of clear documentation about code and architecture can make it difficult to understand and maintain code, leading to additional work.
 |===
-****

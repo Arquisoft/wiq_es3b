@@ -3,11 +3,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-concepts]]
 == Cross-cutting Concepts
 
-
-[role="arc42help"]
-****
-****
-
 === _Domain Model_
 
 _TBD_
@@ -19,9 +14,3 @@ _The communication between the application's APIs will be through the secure mod
 === _Privacy_
 
 _The user's data will be stored in a MongoDb database. That implies that the information is stored securely._
-
-...
-
-=== _<Concept n>_
-
-_<explanation>_

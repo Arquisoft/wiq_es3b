@@ -42,26 +42,12 @@ Regarding the information exchanged with the application, it will require having
 
 ==== Context diagram
 
-[plantuml, "context", png]
-----
-@startuml
-component "App" as app
-:User: -> [app]: Answer question
-[app] -> :User: Return result
-database DB
-[app] -> DB: Ask for question
-DB -> [app]: Return question
-component "WikiData" as wd
-[app] --> wd: Ask for keyword
-wd --> [app]: Return keyword
-@enduml
-----
+
+image::context.png["Context"]
 
 ---
 
 === Technical Context
-
-[role="arc42help"]
 
 ==== Contents
 
@@ -72,17 +58,5 @@ wd --> [app]: Return keyword
 
 ==== Deployment diagram
 
-[plantuml, "deployment", png]
-----
-@startuml
-node "Application Server" as app
-node "DB Server" as db {
-    artifact "MongoDB Server"
-}
-node "Wikidata" as w
-node "Interface" as i
-app - db
-app -- w
-app -- i
-@enduml
-----
+image::deployment.png["Deployment"]
+
