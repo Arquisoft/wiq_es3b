@@ -3,8 +3,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-system-scope-and-context]]
 == System Scope and Context
 
-
-[role="arc42help"]
 ---
 
 === Contents
@@ -16,8 +14,6 @@ The main constraints are developing the game as a web app and using Wikidata to 
 ---
 
 === Business Context
-
-[role="arc42help"]
 
 ==== Contents
 
@@ -46,24 +42,11 @@ Regarding the information exchanged with the application, it will require having
 
 ==== Context diagram
 
-[plantuml, "context", png]
-----
-component "App" as app
-:User: -> [app]: Answer question
-[app] -> User: Return result
-database DB
-[app] -> DB: Ask for question
-DB -> [app]: Return question
-component "WikiData" as wd
-[app] --> wd: Ask for keyword
-wd --> [app]: Return keyword
-----
+image::context.png["Context"]
 
 ---
 
 === Technical Context
-
-[role="arc42help"]
 
 ==== Contents
 
@@ -74,15 +57,4 @@ wd --> [app]: Return keyword
 
 ==== Deployment diagram
 
-[plantuml, "deployment", png]
-----
-node "Aplication Server" as app
-node "DB Server" as db {
-artifact "MongoDB Server"
-}
-node Wikidata as w
-node Interface as i
-app - db
-app -- w
-app -- i
-----
+image::deployment.png["Deployment"]
