@@ -10,9 +10,10 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 ----
 @startuml
-Actor User
-Component WIQ
-Component Wikidata 
+actor User
+component WIQ
+component Wikidata 
+
 User -right-> WIQ: interacts with
 WIQ -right-> Wikidata: receives data
 Wikidata -right..> WIQ
