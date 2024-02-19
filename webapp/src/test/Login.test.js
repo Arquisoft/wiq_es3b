@@ -14,13 +14,7 @@ describe('Login component', () => {
 
   it('should log in successfully', async () => {
 
-    const [menuState, setMenuState] = useState(0)
-
-    const goTo = (parameter) => {
-      setMenuState(parameter)
-    }
-
-    render(<Login goTo={(x) => goTo(x)} />);
+    render(<Login goTo={(parameter) => {}} />);
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
@@ -43,13 +37,7 @@ describe('Login component', () => {
 
   it('should handle error when logging in', async () => {
 
-    const [menuState, setMenuState] = useState(0)
-
-    const goTo = (parameter) => {
-      setMenuState(parameter)
-    }
-
-    render(<Login goTo={(x) => goTo(x)} />);
+    render(<Login goTo={(parameter) => {}} />);
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
