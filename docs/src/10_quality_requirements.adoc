@@ -3,8 +3,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-quality-scenarios]]
 == Quality Requirements
 
-
-[role="arc42help"]
 ****
 
 .Quality Tree
@@ -34,3 +32,5 @@ image::10-Quality_Tree.png["Quality Tree"]
 |Quality Goal|Scenario|Response
 | Maintainability | Introduce new functionality. | Reuse key components in order to easily add that new functionality.
 |===
+
+[role="arc42help"]
