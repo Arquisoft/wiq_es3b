@@ -1,38 +1,38 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-system-scope-and-context]]
-# System Scope and Context
+== System Scope and Context
 
 
 [role="arc42help"]
 ---
 
-## Contents
-### Scope and context
+=== Contents
+==== Scope and context
 
 This project aims to develop a quiz game.
 The main constraints are developing the game as a web app and using Wikidata to obtain the questions and answers.
 
 ---
 
-## Business Context
+=== Business Context
 
 [role="arc42help"]
 
-### Contents
+==== Contents
 
 * *Users:* They interact directly with the application through the user interface provided by the frontend using React, HTML, CSS, and JavaScript.
 * *Wikidata API:* The application communicates with the Wikidata service to obtain questions and answers related to different topics. Requests are made using the HTTP protocol, and response data is received in JSON format.
 
 ---
 
-### Motivation
+==== Motivation
 
 Regarding the information exchanged with the application, it will require having a registered account to play, and it will also exchange information with a MongoDB database and Wikidata itself to obtain the questions.
 
 ---
 
-### Form
+==== Form
 
 |===
 
@@ -44,7 +44,7 @@ Regarding the information exchanged with the application, it will require having
 
 ---
 
-### Context diagram
+==== Context diagram
 [plantuml, "context", png]
 ----
 component "App" as app
@@ -63,18 +63,18 @@ wd --> [app]: Return keyword
 
 ---
 
-## Technical Context
+=== Technical Context
 
 [role="arc42help"]
 
-### Contents
+==== Contents
 
 * *HTTP Channel:* The application uses the HTTP protocol to communicate with the Wikidata API service.
 * *MongoDB Data Channel:* Interactions with the MongoDB database allow for storing and retrieving questions and answers.
 
 ---
 
-### Deployment diagram
+==== Deployment diagram
 [plantuml, "deployment", png]
 ----
 node "Aplication Server" as app
