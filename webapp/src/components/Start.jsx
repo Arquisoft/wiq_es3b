@@ -1,4 +1,5 @@
 import reactLogo from '../assets/react.svg'
+import "../css/Start.css"
 
 export const Start = ({ goTo }) => {
 
@@ -10,7 +11,7 @@ export const Start = ({ goTo }) => {
                     <img src={reactLogo} className="logo react" alt="React logo" />
                 </a>
             </div>
-            <h1>Vite + React</h1>
+            <h1>Quiz ASW</h1>
             <div className="card">
                 <button onClick={ () => goTo(2) }>
                     Jugar

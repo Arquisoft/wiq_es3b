@@ -1,7 +1,6 @@
 @import url('https://fonts.cdnfonts.com/css/roboto-slab-2');
 
 :root {
-  font-family: 'Roboto Slab', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -17,6 +16,7 @@
 
 * {
   font-family: 'Roboto Slab', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  margin: 0 auto;
 }
 
 a {

@@ -32,7 +32,9 @@ const Login = ({ goTo }) => {
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
-  goTo(1);
+  
+  if (loginSuccess) { goTo(1); }
+
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
       {loginSuccess ? (
