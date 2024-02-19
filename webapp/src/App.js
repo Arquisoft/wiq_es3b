@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-
 import { Start } from './components/Start'
 import { Game } from './components/Game'
 import User from './components/User'

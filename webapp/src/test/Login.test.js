@@ -3,6 +3,7 @@ import { render, fireEvent, screen, waitFor, act } from '@testing-library/react'
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import Login from '../components/Login';
+import { useState } from 'react';
 
 const mockAxios = new MockAdapter(axios);
 
@@ -12,7 +13,14 @@ describe('Login component', () => {
   });
 
   it('should log in successfully', async () => {
-    render(<Login />);
+
+    const [menuState, setMenuState] = useState(0)
+
+    const goTo = (parameter) => {
+      setMenuState(parameter)
+    }
+
+    render(<Login goTo={(x) => goTo(x)} />);
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
@@ -34,7 +42,14 @@ describe('Login component', () => {
   });
 
   it('should handle error when logging in', async () => {
-    render(<Login />);
+
+    const [menuState, setMenuState] = useState(0)
+
+    const goTo = (parameter) => {
+      setMenuState(parameter)
+    }
+
+    render(<Login goTo={(x) => goTo(x)} />);
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
