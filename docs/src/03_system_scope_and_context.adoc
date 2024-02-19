@@ -51,7 +51,7 @@ Regarding the information exchanged with the application, it will require having
 @startuml
 component "App" as app
 :User: -> [app]: Answer question
-[app] -> User: Return result
+[app] -> :User: Return result
 database DB
 [app] -> DB: Ask for question
 DB -> [app]: Return question
