@@ -3,8 +3,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-system-scope-and-context]]
 == System Scope and Context
 
-
-[role="arc42help"]
 ---
 
 === Contents
@@ -16,8 +14,6 @@ The main constraints are developing the game as a web app and using Wikidata to 
 ---
 
 === Business Context
-
-[role="arc42help"]
 
 ==== Contents
 
