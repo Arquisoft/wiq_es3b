@@ -9,14 +9,14 @@ ifndef::imagesdir[:imagesdir: ../images]
 [plantuml, "level1", png]
 
 ----
-
+@startuml
 Actor User
 Component WIQ
 Component Wikidata 
 User -right-> WIQ: interacts with
 WIQ -right-> Wikidata: receives data
 Wikidata -right..> WIQ
-
+@enduml
 ----
 
 ==== Motivation
