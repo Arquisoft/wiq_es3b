@@ -48,6 +48,7 @@ Regarding the information exchanged with the application, it will require having
 
 [plantuml, "context", png]
 ----
+@startuml
 component "App" as app
 :User: -> [app]: Answer question
 [app] -> User: Return result
@@ -57,6 +58,7 @@ DB -> [app]: Return question
 component "WikiData" as wd
 [app] --> wd: Ask for keyword
 wd --> [app]: Return keyword
+@enduml
 ----
 
 ---
