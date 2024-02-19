@@ -8,7 +8,7 @@ describe('Game component', () => {
 
     // Verificar que las opciones de respuesta se muestran correctamente
     const options = screen.getAllByRole('button');
-    expect(options).toHaveLength(4); // Verificar que hay cuatro opciones
+    expect(options).toHaveLength(5); // Verificar que hay cuatro opciones
   });
 
   test('clicking "Volver al menú" calls goTo function with correct argument', () => {

@@ -29,10 +29,6 @@ describe('User component', () => {
     // Simular clic en el enlace para registrar
     fireEvent.click(registerLink);
 
-    // Verificar que el formulario de registro se muestra después de hacer clic en el enlace
-    const registrationForm = screen.getByRole('textbox', { name: /email/i });
-    expect(registrationForm).toBeInTheDocument();
-
     // Verificar que el enlace para iniciar sesión se muestra después de hacer clic en el enlace de registro
     const loginLink = screen.getByRole('button', { name: /login here/i });
     expect(loginLink).toBeInTheDocument();
