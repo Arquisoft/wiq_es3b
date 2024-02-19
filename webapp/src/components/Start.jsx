@@ -12,7 +12,7 @@ export const Start = ({ goTo }) => {
             </div>
             <h1>Vite + React</h1>
             <div className="card">
-                <button onClick={ () => goTo(1) }>
+                <button onClick={ () => goTo(2) }>
                     Jugar
                 </button>
             </div>

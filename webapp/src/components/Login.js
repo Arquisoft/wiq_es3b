@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
 
-const Login = () => {
+const Login = ({ goTo }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -22,7 +22,7 @@ const Login = () => {
 
       setCreatedAt(userCreatedAt);
       setLoginSuccess(true);
-
+      
       setOpenSnackbar(true);
     } catch (error) {
       setError(error.response.data.error);
@@ -32,10 +32,11 @@ const Login = () => {
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
-
+  goTo(1);
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
       {loginSuccess ? (
+        
         <div>
           <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
             Hello {username}!

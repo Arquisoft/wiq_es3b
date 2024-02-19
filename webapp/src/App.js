@@ -3,6 +3,7 @@ import './App.css'
 
 import { Start } from './components/Start'
 import { Game } from './components/Game'
+import User from './components/User'
 
 function App() {
   const [menuState, setMenuState] = useState(0)
@@ -13,8 +14,9 @@ function App() {
 
   return (
     <>
-      {menuState === 0 && <Start goTo={(x) => goTo(x)}/>}
-      {menuState === 1 && <Game goTo={(x) => goTo(x)}/>}
+      {menuState === 0 && <User goTo={(x) => goTo(x)}/>}
+      {menuState === 1 && <Start goTo={(x) => goTo(x)}/>}
+      {menuState === 2 && <Game goTo={(x) => goTo(x)}/>}
     </>
   )
 }

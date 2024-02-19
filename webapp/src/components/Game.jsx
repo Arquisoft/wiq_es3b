@@ -57,7 +57,7 @@ export const Game = ({ goTo }) => {
                 React Quiz
             </Typography>
             <Question />
-            <ListItemButton onClick={ () => goTo(0) }>
+            <ListItemButton onClick={ () => goTo(1) }>
                 <ListItemText sx={{textAlign: 'center'}}>
                     Volver al menú
                 </ListItemText>
