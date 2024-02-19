@@ -458,63 +458,39 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_conventions">2.3. Conventions</a></li>
 </ul>
 </li>
-<li><a href="#section-system-scope-and-context">System Scope and Context</a>
-<ul class="sectlevel1">
-<li><a href="#_contents">1. Contents</a>
+<li><a href="#section-system-scope-and-context">3. System Scope and Context</a>
 <ul class="sectlevel2">
-<li><a href="#_scope_and_context">1.1. Scope and context</a></li>
+<li><a href="#_contents">3.1. Contents</a></li>
+<li><a href="#_business_context">3.2. Business Context</a></li>
+<li><a href="#_technical_context">3.3. Technical Context</a></li>
 </ul>
 </li>
-<li><a href="#_business_context">2. Business Context</a>
+<li><a href="#section-solution-strategy">4. Solution Strategy</a>
 <ul class="sectlevel2">
-<li><a href="#_contents_2">2.1. Contents</a></li>
-<li><a href="#_motivation">2.2. Motivation</a></li>
-<li><a href="#_form">2.3. Form</a></li>
-<li><a href="#_context_diagram">2.4. Context diagram</a></li>
+<li><a href="#_contents_4">4.1. Contents</a></li>
 </ul>
 </li>
-<li><a href="#_technical_context">3. Technical Context</a>
+<li><a href="#section-building-block-view">5. Building Block View</a>
 <ul class="sectlevel2">
-<li><a href="#_contents_3">3.1. Contents</a></li>
-<li><a href="#_deployment_diagram">3.2. Deployment diagram</a></li>
+<li><a href="#_level_1_whitebox_of_the_overall_system">5.1. Level 1: Whitebox of the Overall System</a></li>
+<li><a href="#_level_2">5.2. Level 2</a></li>
+<li><a href="#_level_3">5.3. Level 3</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#section-solution-strategy">Solution Strategy</a>
-<ul class="sectlevel1">
-<li><a href="#_contents_4">1. Contents</a>
+<li><a href="#section-runtime-view">6. Runtime View</a>
 <ul class="sectlevel2">
-<li><a href="#_technology_decisions">1.1. Technology Decisions</a></li>
-<li><a href="#_top_level_decisions">1.2. Top-Level Decisions</a></li>
-<li><a href="#_quality_goals_2">1.3. Quality Goals</a></li>
-<li><a href="#_relevant_organizational">1.4. Relevant Organizational</a></li>
-<li><a href="#_motivation_2">1.5. Motivation</a></li>
+<li><a href="#_login">6.1. Login</a></li>
+<li><a href="#_game">6.2. Game</a></li>
+<li><a href="#_ranking">6.3. Ranking</a></li>
+<li><a href="#_history">6.4. History</a></li>
 </ul>
 </li>
-<li><a href="#section-building-block-view">2. Building Block View</a>
+<li><a href="#section-deployment-view">7. Deployment View</a>
 <ul class="sectlevel2">
-<li><a href="#_level_1_whitebox_of_the_overall_system">2.1. Level 1: Whitebox of the Overall System</a></li>
-<li><a href="#_level_2">2.2. Level 2</a></li>
-<li><a href="#_level_3">2.3. Level 3</a></li>
+<li><a href="#_infrastructure_level_1">7.1. Infrastructure Level 1</a></li>
 </ul>
 </li>
-<li><a href="#section-runtime-view">3. Runtime View</a>
-<ul class="sectlevel2">
-<li><a href="#_login">3.1. Login</a></li>
-<li><a href="#_game">3.2. Game</a></li>
-<li><a href="#_ranking">3.3. Ranking</a></li>
-<li><a href="#_history">3.4. History</a></li>
-</ul>
-</li>
-<li><a href="#section-deployment-view">4. Deployment View</a>
-<ul class="sectlevel2">
-<li><a href="#_infrastructure_level_1">4.1. Infrastructure Level 1</a></li>
-</ul>
-</li>
-<li><a href="#section-glossary">5. Glossary</a></li>
-</ul>
-</li>
+<li><a href="#section-glossary">8. Glossary</a></li>
 </ul>
 </div>
 </div>
@@ -771,13 +747,14 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </div>
 </div>
 </div>
-<h1 id="section-system-scope-and-context" class="sect0">System Scope and Context</h1>
-<hr>
 <div class="sect1">
-<h2 id="_contents">1. Contents</h2>
+<h2 id="section-system-scope-and-context">3. System Scope and Context</h2>
 <div class="sectionbody">
+<hr>
 <div class="sect2">
-<h3 id="_scope_and_context">1.1. Scope and context</h3>
+<h3 id="_contents">3.1. Contents</h3>
+<div class="sect3">
+<h4 id="_scope_and_context">3.1.1. Scope and context</h4>
 <div class="paragraph">
 <p>This project aims to develop a quiz game.
 The main constraints are developing the game as a web app and using Wikidata to obtain the questions and answers.</p>
@@ -785,12 +762,10 @@ The main constraints are developing the game as a web app and using Wikidata to 
 <hr>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_business_context">2. Business Context</h2>
-<div class="sectionbody">
-<div class="sect2 arc42help">
-<h3 id="_contents_2">2.1. Contents</h3>
+<div class="sect2">
+<h3 id="_business_context">3.2. Business Context</h3>
+<div class="sect3 arc42help">
+<h4 id="_contents_2">3.2.1. Contents</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -803,15 +778,15 @@ The main constraints are developing the game as a web app and using Wikidata to 
 </div>
 <hr>
 </div>
-<div class="sect2">
-<h3 id="_motivation">2.2. Motivation</h3>
+<div class="sect3">
+<h4 id="_motivation">3.2.2. Motivation</h4>
 <div class="paragraph">
 <p>Regarding the information exchanged with the application, it will require having a registered account to play, and it will also exchange information with a MongoDB database and Wikidata itself to obtain the questions.</p>
 </div>
 <hr>
 </div>
-<div class="sect2">
-<h3 id="_form">2.3. Form</h3>
+<div class="sect3">
+<h4 id="_form">3.2.3. Form</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -842,22 +817,20 @@ The main constraints are developing the game as a web app and using Wikidata to 
 </table>
 <hr>
 </div>
-<div class="sect2">
-<h3 id="_context_diagram">2.4. Context diagram</h3>
+<div class="sect3">
+<h4 id="_context_diagram">3.2.4. Context diagram</h4>
 <div class="imageblock">
 <div class="content">
-<img src="./images/context.png" alt="context" width="1021" height="578">
+<img src="./images/context.png" alt="context" width="1017" height="578">
 </div>
 </div>
 <hr>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_technical_context">3. Technical Context</h2>
-<div class="sectionbody">
-<div class="sect2 arc42help">
-<h3 id="_contents_3">3.1. Contents</h3>
+<div class="sect2">
+<h3 id="_technical_context">3.3. Technical Context</h3>
+<div class="sect3 arc42help">
+<h4 id="_contents_3">3.3.1. Contents</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -870,27 +843,29 @@ The main constraints are developing the game as a web app and using Wikidata to 
 </div>
 <hr>
 </div>
-<div class="sect2">
-<h3 id="_deployment_diagram">3.2. Deployment diagram</h3>
+<div class="sect3">
+<h4 id="_deployment_diagram">3.3.2. Deployment diagram</h4>
 <div class="imageblock">
 <div class="content">
-<img src="./images/deployment.png" alt="deployment" width="1076" height="578">
+<img src="./images/deployment.png" alt="deployment" width="1040" height="578">
 </div>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 </div>
-<h1 id="section-solution-strategy" class="sect0">Solution Strategy</h1>
-<div class="sect1 arc42help">
-<h2 id="_contents_4">1. Contents</h2>
+</div>
+<div class="sect1">
+<h2 id="section-solution-strategy">4. Solution Strategy</h2>
 <div class="sectionbody">
+<div class="sect2 arc42help">
+<h3 id="_contents_4">4.1. Contents</h3>
 <div class="paragraph">
 <p>This page contains a short summary and explanation of the fundamental decisions and solution strategies, that shape system architecture.</p>
 </div>
 <hr>
-<div class="sect2">
-<h3 id="_technology_decisions">1.1. Technology Decisions</h3>
+<div class="sect3">
+<h4 id="_technology_decisions">4.1.1. Technology Decisions</h4>
 <div class="paragraph">
 <p>Below, all the technologies to be used in the development of the application are listed:</p>
 </div>
@@ -915,8 +890,8 @@ The main constraints are developing the game as a web app and using Wikidata to 
 </div>
 <hr>
 </div>
-<div class="sect2">
-<h3 id="_top_level_decisions">1.2. Top-Level Decisions</h3>
+<div class="sect3">
+<h4 id="_top_level_decisions">4.1.2. Top-Level Decisions</h4>
 <div class="paragraph">
 <p>In this section, a summarized list of all decisions regarding the architecture of the application is included.</p>
 </div>
@@ -954,8 +929,8 @@ The main constraints are developing the game as a web app and using Wikidata to 
 </table>
 <hr>
 </div>
-<div class="sect2">
-<h3 id="_quality_goals_2">1.3. Quality Goals</h3>
+<div class="sect3">
+<h4 id="_quality_goals_2">4.1.3. Quality Goals</h4>
 <div class="paragraph">
 <p>Next, several quality goals are established, along with the decisions made to achieve them.</p>
 </div>
@@ -991,8 +966,8 @@ The main constraints are developing the game as a web app and using Wikidata to 
 </table>
 <hr>
 </div>
-<div class="sect2">
-<h3 id="_relevant_organizational">1.4. Relevant Organizational</h3>
+<div class="sect3">
+<h4 id="_relevant_organizational">4.1.4. Relevant Organizational</h4>
 <div class="paragraph">
 <p>Regarding the organization of the team, we have decided to use agile methodologies for better and faster group work. In this project, we will follow the best practices of the SCRUM framework.</p>
 </div>
@@ -1020,8 +995,8 @@ The main constraints are developing the game as a web app and using Wikidata to 
 </div>
 <hr>
 </div>
-<div class="sect2">
-<h3 id="_motivation_2">1.5. Motivation</h3>
+<div class="sect3">
+<h4 id="_motivation_2">4.1.5. Motivation</h4>
 <div class="paragraph">
 <p>This section addresses the fundamental decisions for the project&#8217;s architecture.</p>
 </div>
@@ -1053,24 +1028,25 @@ The main constraints are developing the game as a web app and using Wikidata to 
 </div>
 </div>
 </div>
+</div>
 <div class="sect1">
-<h2 id="section-building-block-view">2. Building Block View</h2>
+<h2 id="section-building-block-view">5. Building Block View</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_level_1_whitebox_of_the_overall_system">2.1. Level 1: Whitebox of the Overall System</h3>
+<h3 id="_level_1_whitebox_of_the_overall_system">5.1. Level 1: Whitebox of the Overall System</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/level1.png" alt="level1" width="1016" height="578">
+<img src="./images/level1.png" alt="level1" width="1014" height="578">
 </div>
 </div>
 <div class="sect3">
-<h4 id="_motivation_3">2.1.1. Motivation</h4>
+<h4 id="_motivation_3">5.1.1. Motivation</h4>
 <div class="paragraph">
 <p><strong><em>WIQ</em></strong> application is the general structure of a system in which users will have the possibility to play a game like <em>Saber y Ganar</em> and compare their results with their friends.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_contained_building_blocks">2.1.2. Contained building blocks</h4>
+<h4 id="_contained_building_blocks">5.1.2. Contained building blocks</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1100,20 +1076,20 @@ The main constraints are developing the game as a web app and using Wikidata to 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_level_2">2.2. Level 2</h3>
+<h3 id="_level_2">5.2. Level 2</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/level2.png" alt="level2" width="1022" height="578">
+<img src="./images/level2.png" alt="level2" width="1043" height="578">
 </div>
 </div>
 <div class="sect3">
-<h4 id="_motivation_4">2.2.1. Motivation</h4>
+<h4 id="_motivation_4">5.2.1. Motivation</h4>
 <div class="paragraph">
 <p>Shows how the application will work internally. The user, through the user interface, will use microservices to access the different modules with the help of the database.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_contained_building_blocks_2">2.2.2. Contained building blocks</h4>
+<h4 id="_contained_building_blocks_2">5.2.2. Contained building blocks</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1143,20 +1119,20 @@ The main constraints are developing the game as a web app and using Wikidata to 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_level_3">2.3. Level 3</h3>
+<h3 id="_level_3">5.3. Level 3</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/level3.png" alt="level3" width="1039" height="578">
+<img src="./images/level3.png" alt="level3" width="1016" height="578">
 </div>
 </div>
 <div class="sect3">
-<h4 id="_motivation_5">2.3.1. Motivation</h4>
+<h4 id="_motivation_5">5.3.1. Motivation</h4>
 <div class="paragraph">
 <p>Detailed structure of the system. Focused on the components of the <em>User Interface</em> and <em>Data Access</em>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_contained_building_blocks_3">2.3.2. Contained Building Blocks</h4>
+<h4 id="_contained_building_blocks_3">5.3.2. Contained Building Blocks</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16.6666%;">
@@ -1201,10 +1177,10 @@ The main constraints are developing the game as a web app and using Wikidata to 
 </div>
 </div>
 <div class="sect1">
-<h2 id="section-runtime-view">3. Runtime View</h2>
+<h2 id="section-runtime-view">6. Runtime View</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_login">3.1. Login</h3>
+<h3 id="_login">6.1. Login</h3>
 <div class="paragraph">
 <p>For the login, the app shows the login view, which asks the user for his username and his password.</p>
 </div>
@@ -1222,7 +1198,7 @@ In case the login isn&#8217;t succesfully, a warning message is shown.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_game">3.2. Game</h3>
+<h3 id="_game">6.2. Game</h3>
 <div class="paragraph">
 <p>When the user starts a game, the app generates a question and request the correct answer to the WikiData API. When the user choose a posible answer, the app checks if it is the correct answer. Then, this process is repeated until the end of the game.</p>
 </div>
@@ -1233,7 +1209,7 @@ In case the login isn&#8217;t succesfully, a warning message is shown.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ranking">3.3. Ranking</h3>
+<h3 id="_ranking">6.3. Ranking</h3>
 <div class="paragraph">
 <p>In this view, the user can watch different rankings:</p>
 </div>
@@ -1257,7 +1233,7 @@ In case the login isn&#8217;t succesfully, a warning message is shown.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_history">3.4. History</h3>
+<h3 id="_history">6.4. History</h3>
 <div class="paragraph">
 <p>In this view, the user can watch this options about his past games:</p>
 </div>
@@ -1284,7 +1260,7 @@ In case the login isn&#8217;t succesfully, a warning message is shown.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="section-deployment-view">4. Deployment View</h2>
+<h2 id="section-deployment-view">7. Deployment View</h2>
 <div class="sectionbody">
 <div class="sidebarblock arc42help">
 <div class="content">
@@ -1292,7 +1268,7 @@ In case the login isn&#8217;t succesfully, a warning message is shown.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_infrastructure_level_1">4.1. Infrastructure Level 1</h3>
+<h3 id="_infrastructure_level_1">7.1. Infrastructure Level 1</h3>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="imageblock text-center">
@@ -1395,50 +1371,6 @@ In case the login isn&#8217;t succesfully, a warning message is shown.</p>
 <div id="section-design-decisions" class="paragraph">
 <p>== Architecture Decisions</p>
 </div>
-</div>
-</div>
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>Important, expensive, large scale or risky architecture decisions including rationales.
-With "decisions" we mean selecting one alternative based on given criteria.</p>
-</div>
-<div class="paragraph">
-<p>Please use your judgement to decide whether an architectural decision should be documented
-here in this central section or whether you better document it locally
-(e.g. within the white box template of one building block).</p>
-</div>
-<div class="paragraph">
-<p>Avoid redundancy.
-Refer to section 4, where you already captured the most important decisions of your architecture.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Stakeholders of your system should be able to comprehend and retrace your decisions.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>Various options:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>ADR (<a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions">Documenting Architecture Decisions</a>) for every important decision</p>
-</li>
-<li>
-<p>List or table, ordered by importance and consequences or:</p>
-</li>
-<li>
-<p>more detailed in form of separate sections per decision</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-9/">Architecture Decisions</a> in the arc42 documentation.
-There you will find links and examples about ADR.</p>
-</div>
-<div class="sidebarblock">
-<div class="content">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1475,104 +1407,17 @@ There you will find links and examples about ADR.</p>
 </div>
 </div>
 </div>
-<div class="paragraph">
-<div class="title">Content</div>
-<p>This section contains all quality requirements as quality tree with scenarios. The most important ones have already been described in section 1.2. (quality goals)</p>
-</div>
-<div class="paragraph">
-<p>Here you can also capture quality requirements with lesser priority,
-which will not create high risks when they are not fully achieved.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Since quality requirements will have a lot of influence on architectural
-decisions you should know for every stakeholder what is really important to them,
-concrete and measurable.</p>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-10/">Quality Requirements</a> in the arc42 documentation.</p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="paragraph">
-<p>=== Quality Tree</p>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<div class="title">Content</div>
-<p>The quality tree (as defined in ATAM – Architecture Tradeoff Analysis Method) with quality/evaluation scenarios as leafs.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>The tree structure with priorities provides an overview for a sometimes large number of quality requirements.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>The quality tree is a high-level overview of the quality goals and requirements:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>tree-like refinement of the term "quality". Use "quality" or "usefulness" as a root</p>
-</li>
-<li>
-<p>a mind map with quality categories as main branches</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>In any case the tree should include links to the scenarios of the following section.</p>
-</div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/10-Quiality_Tree.png" alt="Quality Tree">
+<img src="./images/10-Quality_Tree.png" alt="Quality Tree">
 </div>
+<div class="title">Figure 2. Quality Tree</div>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="paragraph">
 <p>=== Quality Scenarios</p>
 </div>
-</div>
-</div>
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>Concretization of (sometimes vague or implicit) quality requirements using (quality) scenarios.</p>
-</div>
-<div class="paragraph">
-<p>These scenarios describe what should happen when a stimulus arrives at the system.</p>
-</div>
-<div class="paragraph">
-<p>For architects, two kinds of scenarios are important:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Usage scenarios (also called application scenarios or use case scenarios) describe the system’s runtime reaction to a certain stimulus. This also includes scenarios that describe the system’s efficiency or performance. Example: The system reacts to a user’s request within one second.</p>
-</li>
-<li>
-<p>Change scenarios describe a modification of the system or of its immediate environment. Example: Additional functionality is implemented or requirements for a quality attribute change.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Scenarios make quality requirements concrete and allow to
-more easily measure or decide whether they are fulfilled.</p>
-</div>
-<div class="paragraph">
-<p>Especially when you want to assess your architecture using methods like
-ATAM you need to describe your quality goals (from section 1.2)
-more precisely down to a level of scenarios that can be discussed and evaluated.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>Tabular or free form text.</p>
-</div>
-<div class="sidebarblock">
-<div class="content">
 <div class="ulist">
 <ul>
 <li>
@@ -1702,7 +1547,7 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </div>
 </div>
 <div class="sect1">
-<h2 id="section-glossary">5. Glossary</h2>
+<h2 id="section-glossary">8. Glossary</h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
