@@ -3,13 +3,10 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-quality-scenarios]]
 == Quality Requirements
 
-****
 
 .Quality Tree
 
 image::10-Quality_Tree.png["Quality Tree"]
-
-****
 
 === Quality Scenarios
 
