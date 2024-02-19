@@ -76,13 +76,15 @@ wd --> [app]: Return keyword
 
 [plantuml, "deployment", png]
 ----
-node "Aplication Server" as app
+@startuml
+node "Application Server" as app
 node "DB Server" as db {
-artifact "MongoDB Server"
+    artifact "MongoDB Server"
 }
-node Wikidata as w
-node Interface as i
+node "Wikidata" as w
+node "Interface" as i
 app - db
 app -- w
 app -- i
+@enduml
 ----
