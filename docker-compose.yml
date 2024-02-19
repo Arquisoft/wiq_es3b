@@ -64,7 +64,10 @@ services:
     depends_on:
       - gatewayservice
     ports:
-      - "3000:3000" 
+      - "3000:3000"
+    #volumes:
+      #- ./webapp:/app
+    
 
   prometheus:
     image: prom/prometheus
