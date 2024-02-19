@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Start } from './Start'; // Asegúrate de importar el componente correcto
+import { Start } from '../components/Start';
 
 describe('Start component', () => {
   test('renders correctly', () => {
-    render(<Start />); // Renderizar el componente Start
+    render(<Start goTo={(parameter) => {}} />); // Renderizar el componente Start
     
     // Verificar que el texto "Quiz ASW" se muestra correctamente
     const titleText = screen.getByText(/Quiz ASW/i);

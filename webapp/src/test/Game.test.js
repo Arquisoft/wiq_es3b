@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Game } from './Game'; // Asegúrate de importar el componente correcto
+import { Game } from '../components/Game';
 
 describe('Game component', () => {
   test('renders question correctly', () => {
-    render(<Game />); // Renderizar el componente Game
+    render(<Game goTo={(parameter) => {}} />); // Renderizar el componente Game
 
     // Verificar que las opciones de respuesta se muestran correctamente
     const options = screen.getAllByRole('button');

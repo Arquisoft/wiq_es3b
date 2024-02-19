@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import User from './User'; // Asegúrate de importar el componente correcto
+import User from '../components/User';
 
 describe('User component', () => {
   test('renders login form by default', () => {
-    render(<User />);
+    render(<User goTo={(parameter) => {}} />);
     
     // Verificar que el texto de bienvenida se muestra correctamente
     const welcomeText = screen.getByText(/Welcome to the 2024 edition of the Software Architecture course/i);
@@ -20,7 +20,7 @@ describe('User component', () => {
   });
 
   test('toggling between login and registration form works correctly', () => {
-    render(<User />);
+    render(<User goTo={(parameter) => {}} />);
     
     // Verificar que el enlace para registrar está presente
     const registerLink = screen.getByRole('button', { name: /register here/i });
