@@ -6,19 +6,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Level 1: Whitebox of the Overall System 
 
-[plantuml, "level1", png]
-
-----
-@startuml
-actor User
-component WIQ
-component Wikidata 
-
-User -right-> WIQ: interacts with
-WIQ -right-> Wikidata: receives data
-Wikidata -right..> WIQ
-@enduml
-----
+image::level1.png["Level 1"]
 
 ==== Motivation
 
@@ -43,22 +31,9 @@ Wikidata -right..> WIQ
 |=== 
 
 === Level 2
-[plantuml, "level2", png] 
-----
-Actor User
-Component WIQ {
-    Component ui as "User Interface"
-    Component ms as "MicroService"
-    Database db as "MongoDB"
-}
 
-Component wd as "WikiData"
+image::level2.png["Level 2"]
 
-User -> ui: Interacts
-ui -> ms: Sends requests
-ms <-> db: Reads
-wd -> ms: Gives data
-----
 ==== Motivation
 
 Shows how the application will work internally. The user, through the user interface, will use microservices to access the different modules with the help of the database.
@@ -82,40 +57,8 @@ Shows how the application will work internally. The user, through the user inter
 |=== 
 
 === Level 3
-[plantuml, "level3", png]
-----
-Component WIQ {
+image::level3.png["Level 3"]
 
-    Component ms as "MicroServices" {
-        Component users as "Users Service"
-        Component question as "Question Service"
-        Component game as "Game Service"
-        Component ranking as "ranking"
-        Component history as "History"
-        Database db as "MongoDB"
-    }
-
-    Component ui as "User Interface"
-
-
-    ui --> users
-    ui --> game
-    ui --> history
-    ui --> ranking
-
-
-
-    users <-down-> db
-    game <-down-> db
-    ranking <-down-> db
-    history <-down-> db
-}
-
-Component wd as "Wikidata"
-
-game --> question: generates question
-question <-> wd: ask and answer the question
-----
 ==== Motivation
 
 Detailed structure of the system. Focused on the components of the _User Interface_ and _Data Access_. 
@@ -147,5 +90,3 @@ Detailed structure of the system. Focused on the components of the _User Interfa
 
 
 |=== 
-
-[role="arc42help"]
