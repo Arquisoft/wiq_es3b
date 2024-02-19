@@ -3,7 +3,6 @@ import { render, fireEvent, screen, waitFor, act } from '@testing-library/react'
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import Login from '../components/Login';
-import { useState } from 'react';
 
 const mockAxios = new MockAdapter(axios);
 
