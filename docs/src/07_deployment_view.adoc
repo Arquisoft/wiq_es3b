@@ -4,26 +4,18 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 
 == Deployment View
-
-[role="arc42help"]
-****
-****
-
 === Infrastructure Level 1
-
-[role="arc42help"]
-****
 image::Diag_Comp.jpg[align="center",title="Deployment Diagram",link="Diag_Comp.jpg]
 
-Motivation::
+=== Motivation:
 
 The system is based in microservices architecture with three independent services, each responsible for a specific aspect of the functionality. One service is the Graphic interface, this service handles the presentation layer of a web application. Another service is tasked with managing user-related functionalities. MongoDB, a NoSQL database, is used to store and manage user data efficiently. The third service utilizes Wikidata, a free open base, to automatically generate questions.
 
-Quality and/or Performance Features::
+=== Quality and/or Performance Features::
 
 The main reason we have chosen a microservices architecture is to achieve a fast and efficient application.. The availability and efficiency of the application will be affected by Wikidata's availability, but just in the question generation moment.
 
-Mapping of Building Blocks to Infrastructure::
+=== Mapping of Building Blocks to Infrastructure::
 [cols="1,2" options="header"]
 |===
 | **Element** | **Description**
