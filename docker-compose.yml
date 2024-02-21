@@ -39,6 +39,16 @@ services:
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
 
+  questiongenerationservice:
+      container_name: questiongenerationservice-${teamname:-defaultASW}
+      image: ghcr.io/arquisoft/wiq_es3b/questiongenerationservice:latest
+      profiles: ["dev", "prod"]
+      build: ./question_generator
+      ports:
+        - "8003:8003"
+      networks:
+        - mynetwork
+
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
     image: ghcr.io/arquisoft/wiq_es3b/gatewayservice:latest
@@ -48,6 +58,7 @@ services:
       - mongodb
       - userservice
       - authservice
+      - questiongenerationservice
     ports:
       - "8000:8000"
     networks:
@@ -55,6 +66,7 @@ services:
     environment:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
+      QUESTION_GENERATION_SERVICE_URL: http://questiongenerationservice:8003
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}

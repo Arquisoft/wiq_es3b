@@ -6,7 +6,7 @@ const planetTemplate=require('./planets/planetsTemplates');
 const generalTemplate=require('./questionTemplate')
 
 const app = express();
-const port = 8002;
+const port = 8003;
 
 app.use(bodyParser.json());
 
