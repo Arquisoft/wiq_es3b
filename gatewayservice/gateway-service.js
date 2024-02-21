@@ -8,6 +8,7 @@ const port = 8000;
 
 const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
+const questionGenerationServiceUrl = process.env.QUESTION_GENERATION_SERVICE_URL || 'http://localhost:8003';
 
 app.use(cors());
 app.use(express.json());
@@ -35,6 +36,16 @@ app.post('/adduser', async (req, res) => {
   try {
     // Forward the add user request to the user service
     const userResponse = await axios.post(userServiceUrl+'/adduser', req.body);
+    res.json(userResponse.data);
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.response.data.error });
+  }
+});
+
+app.get('/api/questions/create', async (req, res) => {
+  try {
+    // Forward the add user request to the user service
+    const userResponse = await axios.get(questionGenerationServiceUrl+'/api/questions/create');
     res.json(userResponse.data);
   } catch (error) {
     res.status(error.response.status).json({ error: error.response.data.error });
