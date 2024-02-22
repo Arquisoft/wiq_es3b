@@ -48,6 +48,20 @@ services:
         - "8003:8003"
       networks:
         - mynetwork
+  
+  questionservice:
+    container_name: questionservice-${teamname:-defaultASW}
+    image: ghcr.io/arquisoft/wiq_es3b/questionservice:latest
+    profiles: ["dev", "prod"]
+    build: ./questionservice
+    depends_on:
+      - mongodb
+    ports:
+      - "8004:8004"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/questionsdb
 
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
@@ -59,6 +73,7 @@ services:
       - userservice
       - authservice
       - questiongenerationservice
+      - questionservice
     ports:
       - "8000:8000"
     networks:
@@ -67,6 +82,7 @@ services:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
       QUESTION_GENERATION_SERVICE_URL: http://questiongenerationservice:8003
+      QUESTIONS_SERVICE_URL: http://questionservice:8004
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}
@@ -76,7 +92,10 @@ services:
     depends_on:
       - gatewayservice
     ports:
-      - "3000:3000" 
+      - "3000:3000"
+    #volumes:
+      #- ./webapp:/app
+    
 
   prometheus:
     image: prom/prometheus
