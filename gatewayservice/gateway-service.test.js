@@ -37,4 +37,19 @@ describe('Gateway Service', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.userId).toBe('mockedUserId');
   });
+  it('should forward create question request to question generation service', async () => {
+    const mockedQuestionData = {
+      question: expect.any(String),
+      correct: expect.any(String),
+      incorrects: expect.any(Array)
+    };
+
+    axios.get.mockResolvedValue({ data: mockedQuestionData });
+
+    const response = await request(app)
+      .get('/api/questions/create');
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(expect.objectContaining(mockedQuestionData));
+  });
 });
