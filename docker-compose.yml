@@ -39,6 +39,20 @@ services:
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
 
+  questionservice:
+    container_name: questionservice-${teamname:-defaultASW}
+    image: ghcr.io/arquisoft/wiq_es3b/questionservice:latest
+    profiles: ["dev", "prod"]
+    build: ./questionservice
+    depends_on:
+      - mongodb
+    ports:
+      - "8003:8003"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/questionsdb
+
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
     image: ghcr.io/arquisoft/wiq_es3b/gatewayservice:latest
@@ -64,7 +78,10 @@ services:
     depends_on:
       - gatewayservice
     ports:
-      - "3000:3000" 
+      - "3000:3000"
+    #volumes:
+      #- ./webapp:/app
+    
 
   prometheus:
     image: prom/prometheus

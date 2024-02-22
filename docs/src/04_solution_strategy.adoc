@@ -1,32 +1,85 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-solution-strategy]]
-== Solution Strategy
-
+# Solution Strategy
 
 [role="arc42help"]
-****
-.Contents
-A short summary and explanation of the fundamental decisions and solution strategies, that shape system architecture. It includes
+## Contents
+This page contains a short summary and explanation of the fundamental decisions and solution strategies, that shape system architecture.
 
-* technology decisions
-* decisions about the top-level decomposition of the system, e.g. usage of an architectural pattern or design pattern
-* decisions on how to achieve key quality goals
-* relevant organizational decisions, e.g. selecting a development process or delegating certain tasks to third parties.
+---
 
-.Motivation
-These decisions form the cornerstones for your architecture. They are the foundation for many other detailed decisions or implementation rules.
+### Technology Decisions
+Below, all the technologies to be used in the development of the application are listed:
 
-.Form
-Keep the explanations of such key decisions short.
+* *JavaScript / React:* A JavaScript library designed to facilitate the development of web applications.
+* *JavaScript / NodeJS:* An asynchronous runtime environment based on JavaScript.
+* *MongoDB:* A document-oriented NoSQL database system.
+* *Docker:* Used for deploying applications locally.
+* *Azure:* Used for deploying applications on a server.
 
-Motivate what was decided and why it was decided that way,
-based upon problem statement, quality goals and key constraints.
-Refer to details in the following sections.
+---
 
+### Top-Level Decisions
+In this section, a summarized list of all decisions regarding the architecture of the application is included.
 
-.Further Information
+|===
 
-See https://docs.arc42.org/section-4/[Solution Strategy] in the arc42 documentation.
+| *Architectural Pattern* | In this project, the pattern based on the Microservices model is used.
+| *Frontend (Client)* | React: Building the user interface
+| *Backend (Server)* | NodeJS: Building the server on the backend
+| | Mongoose: Interaction with the database
+| *Database* | MongoDB: NoSQL database storing data in BSON format
+| *Deployment* | Azure cloud services
 
-****
+|===
+
+---
+
+### Quality Goals
+Next, several quality goals are established, along with the decisions made to achieve them.
+
+|===
+| *Quality Goal* | *Decisions*
+
+| Usability
+| Creation of a responsive interface adaptable to all types of screens.
+
+| Accessibility
+| Compliance with accessibility standards to ensure a usable application.
+
+| Maintainability
+| A structured project that facilitates the maintainability of the application.
+
+| Testing
+| Assurance of a fully functional and error-free application.
+
+|===
+
+---
+
+### Relevant Organizational
+Regarding the organization of the team, we have decided to use agile methodologies for better and faster group work. In this project, we will follow the best practices of the SCRUM framework.
+
+Practices to be followed:
+
+* Division of the project into *tasks*.
+* Equitable *assignment* of tasks.
+* Frequent *meetings* on the progress of the application.
+* Construction of *"Alpha"* versions before the final release.
+
+Additionally, "Issues" and the GitHub-provided Kanban (ToDo - In Progress - Done) are used for communication.
+
+---
+
+### Motivation
+This section addresses the fundamental decisions for the project's architecture.
+
+|===
+
+| *Data Management* |
+| *Deployment* |
+| *Security* |
+| *Monitoring* |
+
+|===
