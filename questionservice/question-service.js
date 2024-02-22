@@ -33,7 +33,7 @@ app.post('/addquestion', async (req, res) => {
 // logica para preguntas??
 
 // Conecta a la base de datos de preguntas
-const mongoUri = process.env.MONGODB_QUESTIONS_URI || 'mongodb://localhost:27017/questionsdb';
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questionsdb';
 mongoose.connect(mongoUri);
 
 const server = app.listen(port, () => {
