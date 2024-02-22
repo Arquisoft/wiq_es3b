@@ -37,4 +37,18 @@ describe('Gateway Service', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.userId).toBe('mockedUserId');
   });
+
+  // Test /addquestion endpoint
+  it('should add a new question', async () => {
+    const response = await request(app)
+      .post('/addquestion')
+      .send({
+        question: 'What is the capital of France?',
+        options: ['Paris', 'Berlin', 'Madrid', 'Rome'],
+        correctOptionIndex: 0,
+      });
+
+    expect(response.statusCode).toBe(200); 
+    expect(response.body).toHaveProperty('question', 'What is the capital of France?');
+  });
 });
