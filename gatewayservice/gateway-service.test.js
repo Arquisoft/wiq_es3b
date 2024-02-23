@@ -40,7 +40,7 @@ describe('Gateway Service', () => {
 
   // Test /api/questions/create endpoint
   it('should forward create question request to question generation service', async () => {
-    this.timeout(100000);
+    jest.setTimeout(100000);
     const response = await request(app)
       .get('/api/questions/create');
 
