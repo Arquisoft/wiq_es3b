@@ -56,7 +56,7 @@ describe('Gateway Service', () => {
     expect(response.body).toHaveProperty('correct');
     expect(response.body).toHaveProperty('incorrects');
   },100000);
- /*  
+  
   // Test /addquestion endpoint
   it('should add a new question', async () => {
     const response = await request(app)
@@ -69,5 +69,5 @@ describe('Gateway Service', () => {
 
     expect(response.statusCode).toBe(200); 
     expect(response.body).toHaveProperty('question', 'What is the capital of France?');
-  }); */
+  });
 });
