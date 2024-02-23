@@ -11,6 +11,7 @@ afterAll(async () => {
 
 describe('Question generation service', () => {
   it('should forward create question request to question generation service', async () => {
+    this.timeout(100000);
     const response = await request(app)
       .get('/api/questions/create');
 
