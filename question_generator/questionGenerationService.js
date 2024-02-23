@@ -41,3 +41,4 @@ generalTemplate.loadData();
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
 });
+module.exports = server;
