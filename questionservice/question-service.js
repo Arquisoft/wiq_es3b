@@ -7,6 +7,15 @@ const port = 8004; // Puerto para el servicio de preguntas
 
 app.use(express.json());
 
+// Función para validar campos requeridos
+const validateRequiredFields = (req, fields) => {
+  for (const field of fields) {
+    if (!(field in req.body)) {
+      throw new Error(`Field '${field}' is required.`);
+    }
+  }
+};
+
 // Ruta para agregar una nueva pregunta
 app.post('/addquestion', async (req, res) => {
   try {

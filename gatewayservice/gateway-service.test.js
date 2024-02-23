@@ -38,6 +38,7 @@ describe('Gateway Service', () => {
     expect(response.body.userId).toBe('mockedUserId');
   });
   
+  // Test /api/questions/create endpoint
   it('should forward create question request to question generation service', async () => {
     const response = await request(app)
       .get('/api/questions/create');
@@ -46,5 +47,19 @@ describe('Gateway Service', () => {
     expect(response.body).toHaveProperty('question');
     expect(response.body).toHaveProperty('correct');
     expect(response.body).toHaveProperty('incorrects');
+  });
+  
+  // Test /addquestion endpoint
+  it('should add a new question', async () => {
+    const response = await request(app)
+      .post('/addquestion')
+      .send({
+        question: 'What is the capital of France?',
+        options: ['Paris', 'Berlin', 'Madrid', 'Rome'],
+        correctOptionIndex: 0,
+      });
+
+    expect(response.statusCode).toBe(200); 
+    expect(response.body).toHaveProperty('question', 'What is the capital of France?');
   });
 });
