@@ -12,13 +12,28 @@ app.use(bodyParser.json());
 
 
 app.get('/api/questions/create', async (req, res) => {
-  res.status(200).json(await generalTemplate.getRandomQuestion())
+  try {
+    const randomQuestion = await generalTemplate.getRandomQuestion();
+    res.status(200).json(randomQuestion);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 app.get('/api/questions/planets/create', async (req, res) => {
-  res.status(200).json(await planetTemplate.getRandomQuestion())
+  try {
+    const randomQuestion = await planetTemplate.getRandomQuestion();
+    res.status(200).json(randomQuestion);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 app.get('/api/questions/cities/create', async (req, res) => {
-  res.status(200).json(await citiesTemplate.getRandomQuestion())
+  try {
+    const randomQuestion = await citiesTemplate.getRandomQuestion();
+    res.status(200).json(randomQuestion);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 generalTemplate.loadData();

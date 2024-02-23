@@ -92,6 +92,7 @@ unit-tests:
     - run: npm --prefix webapp ci
     - run: npm --prefix users/authservice test -- --coverage
     - run: npm --prefix users/userservice test -- --coverage
+    - run: npm --prefix question_generator/questionGenerationService test -- --coverage
     - run: npm --prefix gatewayservice test -- --coverage
     - run: npm --prefix webapp test -- --coverage
     - name: Analyze with SonarCloud
