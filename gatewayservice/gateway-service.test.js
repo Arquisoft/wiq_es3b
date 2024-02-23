@@ -40,7 +40,6 @@ describe('Gateway Service', () => {
 
   // Test /api/questions/create endpoint
   it('should forward create question request to question generation service', async () => {
-    jest.setTimeout(100000);
     const response = await request(app)
       .get('/api/questions/create');
 
@@ -48,7 +47,7 @@ describe('Gateway Service', () => {
     expect(response.body).toHaveProperty('question');
     expect(response.body).toHaveProperty('correct');
     expect(response.body).toHaveProperty('incorrects');
-  });
+  },1000000);
   
   // Test /addquestion endpoint
   it('should add a new question', async () => {

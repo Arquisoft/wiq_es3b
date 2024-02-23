@@ -11,7 +11,6 @@ afterAll(async () => {
 
 describe('Question generation service', () => {
   it('should forward create question request to question generation service', async () => {
-    jest.setTimeout(100000);
     const response = await request(app)
       .get('/api/questions/create');
 
@@ -19,5 +18,5 @@ describe('Question generation service', () => {
     expect(response.body).toHaveProperty('question');
     expect(response.body).toHaveProperty('correct');
     expect(response.body).toHaveProperty('incorrects');
-  });
+  },100000);
 });
