@@ -37,4 +37,14 @@ describe('Gateway Service', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.userId).toBe('mockedUserId');
   });
+  
+  it('should forward create question request to question generation service', async () => {
+    const response = await request(app)
+      .get('/api/questions/create');
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty('question');
+    expect(response.body).toHaveProperty('correct');
+    expect(response.body).toHaveProperty('incorrects');
+  });
 });
