@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Question = require('./question-model'); // Importa el modelo de preguntas
 
 const app = express();
-const port = 8003; // Puerto para el servicio de preguntas
+const port = 8004; // Puerto para el servicio de preguntas
 
 app.use(express.json());
 
