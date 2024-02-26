@@ -63,6 +63,20 @@ services:
     environment:
       MONGODB_URI: mongodb://mongodb:27017/questionsdb
 
+  gameservice:
+    container_name: gameservice-${teamname:-defaultASW}
+    image: ghcr.io/arquisoft/wiq_es3b/gameservice:latest
+    profiles: ["dev", "prod"]
+    build: ./gameservice
+    depends_on:
+      - mongodb
+    ports:
+      - "8005:8005"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/gamesdb
+
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
     image: ghcr.io/arquisoft/wiq_es3b/gatewayservice:latest
@@ -74,6 +88,7 @@ services:
       - authservice
       - questiongenerationservice
       - questionservice
+      - gameservice
     ports:
       - "8000:8000"
     networks:

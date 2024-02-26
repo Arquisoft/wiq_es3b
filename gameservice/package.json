@@ -1,0 +1,25 @@
+{
+    "name": "gameservice",
+    "version": "1.0.0",
+    "description": "Game service, in charge of adding the games to the application",
+    "main": "service.js",
+    "scripts": {
+      "start": "node game-service.js",
+      "test": "jest"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/arquisoft/wiq_es3b.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/arquisoft/wiq_es3b/issues"
+    },
+    "homepage": "https://github.com/arquisoft/wiq_es3b#readme",
+    "dependencies": {
+      "express": "^4.18.2",
+      "mongoose": "^8.2.0"
+    }
+  }
+  
