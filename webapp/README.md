@@ -88,10 +88,14 @@ unit-tests:
         node-version: 18
     - run: npm --prefix users/authservice ci
     - run: npm --prefix users/userservice ci
+    - run: npm --prefix question_generator ci
+    - run: npm --prefix questionservice ci
     - run: npm --prefix gatewayservice ci
     - run: npm --prefix webapp ci
     - run: npm --prefix users/authservice test -- --coverage
     - run: npm --prefix users/userservice test -- --coverage
+    - run: npm --prefix question_generator test -- --coverage
+    - run: npm --prefix questionservice test -- --coverage
     - run: npm --prefix gatewayservice test -- --coverage
     - run: npm --prefix webapp test -- --coverage
     - name: Analyze with SonarCloud

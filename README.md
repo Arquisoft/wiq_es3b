@@ -91,7 +91,7 @@ The deploy action is the following:
 deploy:
     name: Deploy over SSH
     runs-on: ubuntu-latest
-    needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp]
+    needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp,docker-push-questiongenerationservice, docker-push-questionservice]
     steps:
     - name: Deploy over SSH
       uses: fifsky/ssh-action@master
