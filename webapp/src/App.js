@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { Start } from './components/Start'
-import { Game } from './components/Game.tsx'
+import { Game } from './components/Game'
 import { Participation } from './components/Participation'
 import User from './components/User'
 

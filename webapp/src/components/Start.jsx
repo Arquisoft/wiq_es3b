@@ -1,6 +1,8 @@
 import reactLogo from '../assets/react.svg'
 import "../css/Start.css"
 
+const LIMIT_QUESTIONS = 10
+
 export const Start = ({ goTo }) => {
 
     return (
