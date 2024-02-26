@@ -7,7 +7,7 @@ class QueryExecutor{
         // Configuración de la solicitud HTTP
         const config = {
             headers: {
-            'User-Agent': 'QueryExecutor/1.0 (uo287687@email.com)',
+            'User-Agent': 'QueryExecutor/1.0 (uo287687@uniovi.es)',
             'Accept': 'application/json',
             },
         };
