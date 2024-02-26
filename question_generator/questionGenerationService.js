@@ -3,7 +3,8 @@ const bodyParser = require('body-parser');
 
 const citiesTemplate=require('./cities/citiesTemplates');
 const planetTemplate=require('./planets/planetsTemplates');
-const generalTemplate=require('./questionTemplate')
+const sportTemplate=require('./sports/sportTemplate');
+const generalTemplate=require('./questionTemplate');
 
 const app = express();
 const port = 8003;
@@ -19,6 +20,8 @@ app.get('/api/questions/create', async (req, res) => {
       randomQuestion = await planetTemplate.getRandomQuestion();
     }else if(category=="cities"){
       randomQuestion = await citiesTemplate.getRandomQuestion();
+    }else if(category=="sports"){
+      randomQuestion = await sportTemplate.getRandomQuestion();
     }else{
       randomQuestion = await generalTemplate.getRandomQuestion();
     }
