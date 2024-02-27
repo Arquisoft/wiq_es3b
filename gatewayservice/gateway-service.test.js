@@ -36,6 +36,14 @@ describe('Gateway Service', () => {
           incorrects: ['Mocked Option 1', 'Mocked Option 2']
         }
       });
+    }else if(url.endsWith('/api/questions/create?lang=es&category=sports')){
+      return Promise.resolve({
+        data: {
+          question: 'Mocked Question',
+          correct: 'Mocked Correct Answer',
+          incorrects: ['Mocked Option 1', 'Mocked Option 2']
+        }
+      });
     }
   });
    // Test /health endpoint
@@ -76,6 +84,15 @@ describe('Gateway Service', () => {
     expect(response.body).toHaveProperty('correct');
     expect(response.body).toHaveProperty('incorrects');
   },10000);
+  it('should forward create question request to question generation service', async () => {
+    const response = await request(app)
+      .get('/api/questions/create?lang=es&category=sports');
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty('question');
+    expect(response.body).toHaveProperty('correct');
+    expect(response.body).toHaveProperty('incorrects');
+  },10000);
+
 
 
   // Test /addquestion endpoint
