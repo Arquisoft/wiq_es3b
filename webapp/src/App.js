@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import Nav from './components/Nav'
 import { Start } from './components/Start'
 import { Game } from './components/Game'
 import { Participation } from './components/Participation'
@@ -15,6 +16,7 @@ function App() {
   return (
     <>
       {menuState === 0 && <User goTo={(x) => goTo(x)}/>}
+      {menuState > 0 && <Nav />}
       {menuState === 1 && <Start goTo={(x) => goTo(x)}/>}
       {menuState === 2 && <Game goTo={(x) => goTo(x)}/>}
       {menuState === 3 && <Participation goTo={(x) => goTo(x)}/>}
