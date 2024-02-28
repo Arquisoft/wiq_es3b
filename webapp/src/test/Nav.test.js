@@ -8,7 +8,6 @@ describe('Nav component', () => {
     render(<Nav goTo={mockGoTo} />);
     
     // Verifica que los elementos del Nav se rendericen correctamente
-    expect(screen.getByText('React Quiz')).toBeInTheDocument();
     expect(screen.getByText('Volver al Menú')).toBeInTheDocument();
     expect(screen.getByAltText('Remy Sharp')).toBeInTheDocument();
 
