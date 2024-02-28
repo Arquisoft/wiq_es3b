@@ -1,8 +1,4 @@
 
-import "../css/Start.css"
-
-const LIMIT_QUESTIONS = 10
-
 export const Start = ({ goTo }) => {
 
     return (
@@ -10,9 +6,12 @@ export const Start = ({ goTo }) => {
         <>
         <main>
             <h1>Quiz ASW</h1>
-            <div className="card">
+            <div id="start">
                 <button onClick={ () => goTo(2) }>
                     Jugar
+                </button>
+                <button onClick={ () => goTo(4) }>
+                    Participación
                 </button>
             </div>
         </main>

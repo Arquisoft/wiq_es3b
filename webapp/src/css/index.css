@@ -3,17 +3,22 @@
 :root {
   line-height: 1.5;
   font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  height: 80vh; 
 
-  height: 80vh;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-  min-height: 80vh;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 80vh;
 }
 
 * {
@@ -38,7 +43,6 @@ body {
 
 main {
   display: flex;
-  place-items: center;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -64,6 +68,7 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  vertical-align: bottom;
 }
 button:hover {
   border-color: #646cff;
@@ -71,6 +76,13 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+#start {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 @media (prefers-color-scheme: light) {

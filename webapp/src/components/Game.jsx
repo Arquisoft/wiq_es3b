@@ -3,7 +3,9 @@ import { Card, List, ListItem, ListItemButton, ListItemText, Typography } from '
 import React from 'react'
 import { useState, useEffect } from 'react'
 
-const Question = () => {
+const N_QUESTIONS = 10
+
+const Question = ({ goTo }) => {
     
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState([]);
@@ -14,6 +16,7 @@ const Question = () => {
 
     const [correct, setCorrect] = useState('');
     const [numberCorrect, setNumberCorrect] = useState(0);
+    const [nQuestion, setNQuestion] = useState(0);
 
     const fetchQuestion = async () => {
         try {
@@ -26,6 +29,8 @@ const Question = () => {
 
           setSelectedOption(null);
           setIsSelected(false);
+          setNQuestion(nQuestion + 1);
+          handleGameFinish();
         } catch (error) {
           console.error('Error fetching question:', error);
         }
@@ -65,6 +70,15 @@ const Question = () => {
         return option === correct;
     };
 
+    const handleGameFinish = () => {
+
+        if (nQuestion === N_QUESTIONS) {
+
+            // Almacenar datos
+            goTo(3);
+        }
+    }
+
     useEffect(() => {
         fetchQuestion();
     }, []);
@@ -72,6 +86,8 @@ const Question = () => {
     return(
 
         <main>
+        <div>
+        <Typography>Question: {nQuestion}</Typography>
         <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }}>
 
             <Typography variant='h4' paddingBottom={"20px"}>
@@ -89,15 +105,17 @@ const Question = () => {
                     </ListItem>
                 ))}
             </List>
-            { isSelected ? (
-                
-                <ListItemButton onClick={ () => fetchQuestion() } sx={{ justifyContent: 'center' , marginTop: 2}} >
-                    Next
-                </ListItemButton>
-            ) : (null)
-            }
+            
 
         </Card>
+        { isSelected ? (
+                
+            <ListItemButton onClick={ () => fetchQuestion() } sx={{ justifyContent: 'center' , marginTop: 2}} >
+                Next
+            </ListItemButton>
+            ) : (null)
+        }
+        </div>
         </main>
     )
 }
@@ -107,12 +125,7 @@ export const Game = ({ goTo }) => {
     return (
 
         <>
-            <Question />
-            <ListItemButton onClick={ () => goTo(1) }>
-                <ListItemText sx={{textAlign: 'center'}}>
-                    Volver al menú
-                </ListItemText>
-            </ListItemButton>
+            <Question goTo={(x) => goTo(x)}/>
         </>
     )
 }
