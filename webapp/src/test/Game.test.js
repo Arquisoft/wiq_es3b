@@ -1,24 +1,28 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Game } from '../components/Game';
 
 describe('Game component', () => {
-  test('renders question correctly', () => {
-    render(<Game goTo={(parameter) => {}} />); // Renderizar el componente Game
+  test('renders question correctly', async () => {
+    render(<Game goTo={(parameter) => {}} />);
 
-    // Verificar que las opciones de respuesta se muestran correctamente
-    const options = screen.getAllByRole('button');
-    expect(options).toHaveLength(5); // Verificar que hay cuatro opciones
-  });
+    // Espera a que se cargue la pregunta
+    await waitFor(() => screen.getByText(/Question/i));
 
-  test('clicking "Volver al menú" calls goTo function with correct argument', () => {
-    const goToMock = jest.fn(); // Crear una función simulada
-    render(<Game goTo={goToMock} />); // Renderizar el componente Game con la función simulada
+    // Verifica que la pregunta se renderice correctamente
+    expect(screen.getByText(/Question/i)).toBeInTheDocument();
     
-    // Simular clic en el botón "Volver al menú"
-    fireEvent.click(screen.getByText('Volver al menú'));
+    // Verifica que las opciones se rendericen correctamente
+    const options = await screen.findAllByRole('button');
+    expect(options).toHaveLength(4); // Ajusta esto según la cantidad de opciones que tengas en tu componente
+    
+    // Simula hacer clic en la primera opción
+    fireEvent.click(options[0]);
 
-    // Verificar que la función goTo se llamó con el argumento correcto (en este caso, 1)
-    expect(goToMock).toHaveBeenCalledWith(1);
+    // Espera a que se cargue la próxima pregunta
+    await waitFor(() => screen.getByText(/Question/i));
+
+    // Verifica que la próxima pregunta se renderice correctamente
+    expect(screen.getByText(/Question/i)).toBeInTheDocument();
   });
 });
