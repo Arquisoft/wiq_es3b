@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Participation } from '../components/Participation';
+import Nav from '../components/Nav';
 
 describe('Participation component', () => {
   test('renders correctly', () => {
@@ -15,6 +16,8 @@ describe('Participation component', () => {
   test('clicking "Menu" button calls goTo function with correct argument', () => {
     const goToMock = jest.fn();
     render(<Participation goTo={goToMock} />);
+
+    render(<Nav goTo={goToMock} />)
 
     // Simular clic en el botón "Menu"
     fireEvent.click(screen.getByText('Volver al Menú'));
