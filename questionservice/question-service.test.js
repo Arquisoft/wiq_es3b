@@ -26,7 +26,7 @@ describe('Question Service', () => {
     };
 
     const response = await request(app).post('/addquestion').send(newQuestion);
-    expect(response.status).toBe(200); 
+    expect(response.status).toBe(201); 
     expect(response.body).toHaveProperty('question', 'What is the capital of France?');
   });
   
