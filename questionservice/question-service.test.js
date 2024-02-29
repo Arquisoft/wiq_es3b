@@ -8,7 +8,7 @@ let mongoServer;
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
-  process.env.MONGODB_QUESTIONS_URI = mongoUri; 
+  process.env.MONGODB_URI = mongoUri; 
   mongoose.connect(mongoUri);
 });
 
