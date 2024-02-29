@@ -97,7 +97,7 @@ function Nav({ goTo }) {
             >
               
               <MenuItem onClick={() => goToMenuClic()}>
-                <Typography textAlign="center">Volver al Menú</Typography>
+                <Typography textAlign="center">Volver al menú</Typography>
               </MenuItem>
             </Menu>
           </Box>
@@ -125,7 +125,7 @@ function Nav({ goTo }) {
                 onClick={() => goToMenuClic()}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                Volver al Menú
+                Menú
               </Button>
           </Box>
 
