@@ -8,7 +8,7 @@ let mongoServer;
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
-  process.env.MONGODB_QUESTIONS_URI = mongoUri; 
+  process.env.MONGODB_URI = mongoUri; 
   mongoose.connect(mongoUri);
 });
 
@@ -26,7 +26,7 @@ describe('Question Service', () => {
     };
 
     const response = await request(app).post('/addquestion').send(newQuestion);
-    expect(response.status).toBe(200); 
+    expect(response.status).toBe(201); 
     expect(response.body).toHaveProperty('question', 'What is the capital of France?');
   });
   

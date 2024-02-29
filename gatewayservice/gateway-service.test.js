@@ -88,7 +88,7 @@ describe('Gateway Service', () => {
         correctOptionIndex: 0,
       });
 
-    expect(response.statusCode).toBe(200); 
+    expect(response.statusCode).toBe(201); 
     expect(response.body).toHaveProperty('question', 'What is the capital of France?');
   });
 });
