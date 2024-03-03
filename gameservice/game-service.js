@@ -40,7 +40,37 @@ app.post('/addgame', async (req, res) => {
   }
 });
 
-// Lógica para juegos??
+// Ruta para obtener datos de participación del usuario
+app.get('/getParticipation/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Consulta para obtener los datos de participación del usuario
+    const participationData = await Game.aggregate([
+      { $match: { user: mongoose.Types.ObjectId(userId) } },
+      {
+        $group: {
+          _id: null,
+          totalGames: { $sum: 1 },
+          correctAnswers: { $sum: { $size: { $filter: { input: "$answers", as: "answer", cond: "$$answer.isCorrect" } } } },
+          incorrectAnswers: { $sum: { $size: { $filter: { input: "$answers", as: "answer", cond: { $eq: ["$$answer.isCorrect", false] } } } } },
+          totalTime: { $sum: "$totalTime" },
+        },
+      },
+    ]);
+
+    if (participationData.length === 0) {
+      // No se encontraron datos para el usuario
+      res.status(404).json({ error: 'No participation data found for the user.' });
+      return;
+    }
+
+    res.status(200).json(participationData[0]);
+  } catch (error) {
+    console.error('Error al obtener datos de participación:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 // Conecta a la base de datos de juegos
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/gamesdb';
