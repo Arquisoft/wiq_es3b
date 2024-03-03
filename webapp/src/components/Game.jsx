@@ -46,12 +46,19 @@ const Question = ({ goTo }) => {
     };
     
     const shuffleOptions = (options) => {
-        const shuffledOptions = [...options];
-        for (let i = shuffledOptions.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+        let currentIndex = options.length, temporaryValue, randomIndex;
+
+        while (currentIndex !== 0) {
+
+            randomIndex = currentIndex - 1;
+
+            temporaryValue = options[currentIndex - 1];
+            options[currentIndex - 1] = options[randomIndex];
+            options[randomIndex] = temporaryValue;
+
+            currentIndex--;
         }
-        return shuffledOptions;
+        return options;
     };
     
     const handleSubmit = (option, index) => {
