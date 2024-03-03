@@ -1,22 +1,20 @@
-import reactLogo from '../assets/react.svg'
-import "../css/Start.css"
 
 export const Start = ({ goTo }) => {
 
     return (
 
         <>
-            <div>
-                <a href="https://react.dev" target="_blank">
-                    <img src={reactLogo} className="logo react" alt="React logo" />
-                </a>
-            </div>
+        <main>
             <h1>Quiz ASW</h1>
-            <div className="card">
+            <div id="start">
                 <button onClick={ () => goTo(2) }>
                     Jugar
                 </button>
+                <button onClick={ () => goTo(4) }>
+                    Participación
+                </button>
             </div>
+        </main>
         </>
     )
 }
