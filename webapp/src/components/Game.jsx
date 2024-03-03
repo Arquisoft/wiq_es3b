@@ -46,7 +46,12 @@ const Question = ({ goTo }) => {
     };
     
     const shuffleOptions = (options) => {
-        return options.sort(() => Math.random() - 0.5);
+        const shuffledOptions = [...options];
+        for (let i = shuffledOptions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+        }
+        return shuffledOptions;
     };
     
     const handleSubmit = (option, index) => {
