@@ -1,5 +1,5 @@
-import React from 'react';
-import Chart from "chart.js/auto";
+import React, { useState, useEffect } from 'react';
+import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
 
 export const Participation = ({ userId, goTo }) => {
@@ -19,6 +19,27 @@ export const Participation = ({ userId, goTo }) => {
     fetchData();
   }, [userId]);
 
+  //Gráfica
+  const data = {
+    labels: ['Preguntas Acertadas', 'Preguntas Falladas'],
+    datasets: [
+      {
+        label: 'Número de preguntas',
+        data: [participationData?.correctAnswers || 0, participationData?.incorrectAnswers || 0],
+        backgroundColor: ['green', 'red'],
+      },
+    ],
+  };
+
+  const options = {
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: Math.max(participationData?.correctAnswers || 0, participationData?.incorrectAnswers || 0) + 1,
+      },
+    },
+  };
+
   return (
     <div>
       <h1>Participation</h1>
@@ -28,6 +49,7 @@ export const Participation = ({ userId, goTo }) => {
           <p>Preguntas acertadas: {participationData.correctAnswers}</p>
           <p>Preguntas falladas: {participationData.incorrectAnswers}</p>
           <p>Tiempo total jugando: {participationData.totalTime} segundos</p>
+          <Bar data={data} options={options} />
         </div>
       ) : (
         <p>Cargando datos de participación...</p>
