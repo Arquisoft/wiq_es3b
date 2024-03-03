@@ -59,4 +59,3 @@ image::context.png["Context"]
 ==== Deployment diagram
 
 image::deployment.png["Deployment"]
-
