@@ -1,7 +1,7 @@
 import { Card, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material'
 
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback} from 'react'
 
 const N_QUESTIONS = 10
 
@@ -18,23 +18,32 @@ const Question = ({ goTo }) => {
     const [numberCorrect, setNumberCorrect] = useState(0);
     const [nQuestion, setNQuestion] = useState(0);
 
-    const fetchQuestion = async () => {
+    const fetchQuestion = useCallback(async () => {
+        const handleGameFinish = () => {
+            if (nQuestion === N_QUESTIONS) {
+                // Almacenar datos
+                goTo(3);
+            }
+        };
+    
         try {
-          const response = await fetch('http://localhost:8000/api/questions/create');
-          const data = await response.json();
-
-          setQuestion(data.question);
-          setCorrect(data.correct);
-          setOptions(shuffleOptions([data.correct, ...data.incorrects]));
-
-          setSelectedOption(null);
-          setIsSelected(false);
-          setNQuestion(nQuestion + 1);
-          handleGameFinish();
+            const response = await fetch('http://localhost:8000/api/questions/create');
+            const data = await response.json();
+    
+            setQuestion(data.question);
+            setCorrect(data.correct);
+            setOptions(shuffleOptions([data.correct, ...data.incorrects]));
+    
+            setSelectedOption(null);
+            setIsSelected(false);
+            setNQuestion((prevNQuestion) => prevNQuestion + 1);
+            handleGameFinish();
         } catch (error) {
-          console.error('Error fetching question:', error);
+            console.error('Error fetching question:', error);
         }
-    };
+    }, [setQuestion, setCorrect, setOptions, setSelectedOption, setIsSelected, setNQuestion, nQuestion, goTo]);
+    
+    
 
     const getBackgroundColor = (option, index) => {
 
@@ -82,18 +91,9 @@ const Question = ({ goTo }) => {
         return option === correct;
     };
 
-    const handleGameFinish = () => {
-
-        if (nQuestion === N_QUESTIONS) {
-
-            // Almacenar datos
-            goTo(3);
-        }
-    }
-
     useEffect(() => {
         fetchQuestion();
-    }, []);
+    }, [fetchQuestion]);
 
     return(
 
