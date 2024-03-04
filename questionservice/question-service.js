@@ -19,21 +19,21 @@ const validateRequiredFields = (req, fields) => {
 // Ruta para agregar una nueva pregunta
 app.post('/addquestion', async (req, res) => {
   try {
-    validateRequiredFields(req, ['question', 'options', 'correctOptionIndex']);
+    validateRequiredFields(req, ['question', 'correct', 'incorrects']);
 
-    const { question, options, correctOptionIndex } = req.body;
+    const { question, correct, incorrects } = req.body;
 
     // Crea una nueva instancia del modelo de preguntas
     const newQuestion = new Question({
       question,
-      options,
-      correctOptionIndex,
+      correct,
+      incorrects,
     });
 
     // Guarda la nueva pregunta en la base de datos
     const savedQuestion = await newQuestion.save();
 
-    res.status(201).json(savedQuestion);
+    res.status(200).json(savedQuestion);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }

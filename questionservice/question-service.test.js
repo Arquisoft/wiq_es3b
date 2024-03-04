@@ -19,13 +19,13 @@ afterAll(async () => {
 describe('Question Service', () => {
   it('should add a new question on POST /addquestion', async () => {
     const newQuestion = {
-      question: 'What is the capital of France?',
-      options: ['Paris', 'Berlin', 'Madrid', 'Rome'],
-      correctOptionIndex: 0,
+      question: 'Mocked Question',
+      correct: 'Mocked Correct Answer',
+      incorrects: ['Mocked Option 1', 'Mocked Option 2']
     };
 
     const response = await request(app).post('/addquestion').send(newQuestion);
-    expect(response.status).toBe(201); 
+    expect(response.status).toBe(200); 
     expect(response.body).toHaveProperty('question', 'What is the capital of France?');
   });
   
