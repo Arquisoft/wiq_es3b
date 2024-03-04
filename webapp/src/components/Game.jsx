@@ -110,7 +110,7 @@ const Question = ({ goTo, setGameFinished }) => {
 
     useEffect(() => {
         fetchQuestion();
-    }, [fetchQuestion]);
+    }, []);
 
     return(
 
