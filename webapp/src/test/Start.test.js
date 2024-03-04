@@ -25,4 +25,15 @@ describe('Start component', () => {
     // Verificar que la función goTo se llamó con el argumento correcto (en este caso, 2)
     expect(goToMock).toHaveBeenCalledWith(2);
   });
+
+  test('clicking "Participación" button calls goTo function with correct argument', () => {
+    const goToMock = jest.fn(); // Crear una función simulada
+    render(<Start goTo={goToMock} />); // Renderizar el componente Start con la función simulada
+    
+    // Simular clic en el botón "Participación"
+    fireEvent.click(screen.getByText('Participación'));
+
+    // Verificar que la función goTo se llamó con el argumento correcto (en este caso, 4)
+    expect(goToMock).toHaveBeenCalledWith(4);
+  });
 });

@@ -1,19 +1,18 @@
 const request = require('supertest');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const mongoose = require('mongoose');
-const app = require('./question-service'); 
 
 let mongoServer;
+let app;
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
-  process.env.MONGODB_QUESTIONS_URI = mongoUri; 
-  mongoose.connect(mongoUri);
+  process.env.MONGODB_URI = mongoUri; 
+  app = require('./question-service'); 
 });
 
 afterAll(async () => {
-  await mongoose.disconnect();
+  app.close();
   await mongoServer.stop();
 });
 
@@ -26,7 +25,7 @@ describe('Question Service', () => {
     };
 
     const response = await request(app).post('/addquestion').send(newQuestion);
-    expect(response.status).toBe(200); 
+    expect(response.status).toBe(201); 
     expect(response.body).toHaveProperty('question', 'What is the capital of France?');
   });
   

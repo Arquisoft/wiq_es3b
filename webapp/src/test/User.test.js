@@ -10,6 +10,9 @@ describe('User component', () => {
     const welcomeText = screen.getByText(/Welcome to the 2024 edition of the Software Architecture course/i);
     expect(welcomeText).toBeInTheDocument();
 
+    const welcomeText2 = screen.getByText(/Login :D/i);
+    expect(welcomeText2).toBeInTheDocument();
+
     // Verificar que el formulario de inicio de sesión se muestra por defecto
     const loginForm = screen.getByRole('textbox', { name: /username/i });
     expect(loginForm).toBeInTheDocument();

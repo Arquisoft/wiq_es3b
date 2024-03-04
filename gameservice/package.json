@@ -1,10 +1,10 @@
 {
-  "name": "questionservice",
+  "name": "gameservice",
   "version": "1.0.0",
-  "description": "Question service, in charge of adding the questions to the application",
+  "description": "Game service, in charge of adding the games to the application",
   "main": "service.js",
   "scripts": {
-    "start": "node question-service.js",
+    "start": "node game-service.js",
     "test": "jest"
   },
   "repository": {

@@ -7,11 +7,10 @@ import React from 'react';
 // Esquema de preguntas -> question, correct, incorrects[]
 // Esquema de Juegos -> usuario, preguntas[], respuestas[], tiempo
 
-export const Participation = ({ goTo }) => {
+export const Participation = () => {
     return (
       <div>
         <h1>Participation</h1>
-        <button onClick={() => goTo(0)}>Menu</button>
       </div>
     );
   };

@@ -12,7 +12,7 @@ const darkTheme = createTheme({
     mode: 'dark',
   },
   typography: {
-    fontFamily: 'Arial, sans-serif',
+    fontFamily: 'roboto',
     h1: {
       fontSize: '2.5rem',
       fontWeight: 700, 
