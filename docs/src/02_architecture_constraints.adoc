@@ -1,27 +1,27 @@
-ifndef::imagesdir[:imagesdir: ../images]
-
 [[section-architecture-constraints]]
 == Architecture Constraints
 
+=== Technical constraints
+[options="header",cols="1,2"]
+|===
+|Constraint|Description
+|Wikidata|The generation of the questions should be done automatically with the data from Wikidata
+|Web access|The application must be accessible via the web
+|Git and GitHub|Version control and project tracking will be done using Git. GitHub is used to remotely store the repositories
+|===
+=== Organizational constraints
+[options="header",cols="1,2"]
+|===
+|Constraint|Description
+|Team|The development team is composed of 6 people
+|Repository control|The repository has a "main" and a "develop" branch and numerous "feature" branches where new functionalities are developed
+|Meetings|At least one weekly team meeting is held to maintain proper organisation
+|===
+=== Conventions
+[options="header",cols="1,2"]
+|===
+|Convention|Description
+|Arc42|The arc42 template is used in the documentation
+|AsciiDoc|The documentation is done using AsciiDoc as markup language
+|===
 
-[role="arc42help"]
-****
-.Contents
-Any requirement that constraints software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.
-
-.Motivation
-Architects should know exactly where they are free in their design decisions and where they must adhere to constraints.
-Constraints must always be dealt with; they may be negotiable, though.
-
-.Form
-Simple tables of constraints with explanations.
-If needed you can subdivide them into
-technical constraints, organizational and political constraints and
-conventions (e.g. programming or versioning guidelines, documentation or naming conventions)
-
-
-.Further Information
-
-See https://docs.arc42.org/section-2/[Architecture Constraints] in the arc42 documentation.
-
-****
