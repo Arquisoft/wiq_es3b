@@ -26,11 +26,6 @@ const Login = ({ goTo }) => {
       setCreatedAt(userCreatedAt);
       setLoginSuccess(true);
       
-<<<<<<< HEAD
-      
-
-=======
->>>>>>> origin/Develop
       setOpenSnackbar(true);
     } catch (error) {
       setError(error.response.data.error);

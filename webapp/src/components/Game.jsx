@@ -84,6 +84,7 @@ const Question = ({ goTo }) => {
         } else {
             console.log('Opción incorrecta seleccionada:', option);
         }
+
     };
 
     const isCorrect = (option) => {
@@ -91,7 +92,7 @@ const Question = ({ goTo }) => {
         return option === correct;
     };
 
-    useEffect(() => {
+    useEffectOne(() => {
         fetchQuestion();
     }, [fetchQuestion]);
 
