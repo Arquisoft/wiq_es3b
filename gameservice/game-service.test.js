@@ -19,18 +19,9 @@ afterAll(async () => {
 describe('Game Service', () => {
   it('should add a new game on POST /addgame', async () => {
     const newGame = {
-      user: 'testUser', 
+      user: '609c6e365308ce1a1c2658d1', 
       questions: [
-        {
-          question: 'Mocked Question',
-          correct: 'Mocked Correct Answer',
-          incorrects: ['Mocked Option 1', 'Mocked Option 2']
-        },
-        {
-          question: 'Mocked Question2',
-          correct: 'Mocked Correct Answer2',
-          incorrects: ['Mocked Option 1', 'Mocked Option 2']
-        }
+        "609c6e365308ce1a1c2658d2", "609c6e365308ce1a1c2658d3"
       ], 
       answers: [
         {
@@ -42,7 +33,7 @@ describe('Game Service', () => {
     };
 
     const response = await request(app).post('/addgame').send(newGame);
-    expect(response.status).toBe(201);
+    expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('user', newGame.user.toString());
   });
 });

@@ -38,9 +38,9 @@ app.post('/addgame', async (req, res) => {
     // Guarda el nuevo juego en la base de datos
     const savedGame = await newGame.save();
 
-    res.status(201).json(savedGame);
+    res.status(200).json(savedGame);
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: error.message });
   }
 });
 
