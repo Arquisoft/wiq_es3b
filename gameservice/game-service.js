@@ -40,7 +40,7 @@ app.post('/addgame', async (req, res) => {
 
     res.status(201).json(savedGame);
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: error.message });
   }
 });
 
