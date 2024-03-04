@@ -17,7 +17,8 @@ const templates=[
     {
         const results= await citiesQuery.getCityForCountry();
         return{
-            "question":"Which city is in "+results.country+"?",
+            "question":"Which city is in?",
+            "question_param":results.country,
             "correct":results.correct,
             "incorrects":results.incorrects
         }
