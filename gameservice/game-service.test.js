@@ -42,7 +42,7 @@ describe('Game Service', () => {
     };
 
     const response = await request(app).post('/addgame').send(newGame);
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(201);
     expect(response.body).toHaveProperty('user', newGame.user.toString());
   });
 });

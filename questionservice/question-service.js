@@ -37,7 +37,7 @@ app.post('/addquestion', async (req, res) => {
     // Guarda la nueva pregunta en la base de datos
     const savedQuestion = await newQuestion.save();
 
-    res.status(200).json(savedQuestion);
+    res.status(1).json(savedQuestion);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
