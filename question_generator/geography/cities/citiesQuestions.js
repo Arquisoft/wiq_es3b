@@ -1,4 +1,4 @@
-const queryExecutor=require("../queryExecutor")
+const queryExecutor=require("../../queryExecutor")
 class CitiesQuestions{
     #citiesQuestions=null;
     static getInstance(){

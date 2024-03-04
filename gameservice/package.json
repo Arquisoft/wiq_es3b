@@ -1,10 +1,10 @@
 {
-  "name": "question_generator",
+  "name": "gameservice",
   "version": "1.0.0",
-  "description": "Question generation service",
+  "description": "Game service, in charge of adding the games to the application",
   "main": "service.js",
   "scripts": {
-    "start": "node questionGenerationService.js",
+    "start": "node game-service.js",
     "test": "jest"
   },
   "repository": {
@@ -18,13 +18,13 @@
   },
   "homepage": "https://github.com/arquisoft/wiq_es3b#readme",
   "dependencies": {
-    "axios": "^1.6.7",
-    "body-parser": "^1.20.2",
     "express": "^4.18.2",
-    "i18n": "^0.15.1"
+    "mongoose": "^8.2.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "mongodb": "^6.3.0",
+    "mongodb-memory-server": "^9.1.6",
     "supertest": "^6.3.4"
   }
 }

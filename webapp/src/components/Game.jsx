@@ -1,6 +1,7 @@
 import { Card, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material'
 
 import React from 'react'
+
 import { useState, useEffect } from 'react'
 import { PostGame } from './PostGame'
 
@@ -42,21 +43,23 @@ const Question = ({ goTo, setGameFinished }) => {
 
     const fetchQuestion = async () => {
         try {
-          const response = await fetch('http://localhost:8000/api/questions/create');
-          const data = await response.json();
-
-          setQuestion(data.question);
-          setCorrect(data.correct);
-          setOptions(shuffleOptions([data.correct, ...data.incorrects]));
-
-          setSelectedOption(null);
-          setIsSelected(false);
-          setNQuestion(nQuestion + 1);
-          handleGameFinish();
+            const response = await fetch('http://localhost:8000/api/questions/create');
+            const data = await response.json();
+    
+            setQuestion(data.question);
+            setCorrect(data.correct);
+            setOptions(shuffleOptions([data.correct, ...data.incorrects]));
+    
+            setSelectedOption(null);
+            setIsSelected(false);
+            setNQuestion((prevNQuestion) => prevNQuestion + 1);
+            handleGameFinish();
         } catch (error) {
-          console.error('Error fetching question:', error);
+            console.error('Error fetching question:', error);
         }
-    };
+    }, [setQuestion, setCorrect, setOptions, setSelectedOption, setIsSelected, setNQuestion, nQuestion, goTo]);
+    
+    
 
     const getBackgroundColor = (option, index) => {
 
@@ -89,6 +92,7 @@ const Question = ({ goTo, setGameFinished }) => {
         return option === correct;
     };
 
+
     const handleGameFinish = () => {
 
         if (nQuestion === N_QUESTIONS) { finish() }
@@ -105,10 +109,10 @@ const Question = ({ goTo, setGameFinished }) => {
         setGameFinished(true);
         goTo(1);
     }
-
+    
     useEffect(() => {
         fetchQuestion();
-    }, []);
+    }, [fetchQuestion]);
 
     return(
 

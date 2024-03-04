@@ -20,15 +20,23 @@ describe('Gateway Service', () => {
     }else if (url.endsWith('/addquestion')) {
       return Promise.resolve({
         data: {
-          question: 'What is the capital of France?',
-          options: ['Paris', 'Berlin', 'Madrid', 'Rome'],
-          correctOptionIndex: 0
+          question: 'Mocked Question',
+          correct: 'Mocked Correct Answer',
+          incorrects: ['Mocked Option 1', 'Mocked Option 2']
         }
       });
     }
   });
   axios.get.mockImplementation((url) => {
     if (url.endsWith('/api/questions/create')) {
+      return Promise.resolve({
+        data: {
+          question: 'Mocked Question',
+          correct: 'Mocked Correct Answer',
+          incorrects: ['Mocked Option 1', 'Mocked Option 2']
+        }
+      });
+    }else if(url.endsWith('/api/questions/create?lang=es&category=sports')){
       return Promise.resolve({
         data: {
           question: 'Mocked Question',
@@ -76,6 +84,15 @@ describe('Gateway Service', () => {
     expect(response.body).toHaveProperty('correct');
     expect(response.body).toHaveProperty('incorrects');
   },10000);
+  it('should forward create question request to question generation service', async () => {
+    const response = await request(app)
+      .get('/api/questions/create?lang=es&category=sports');
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty('question');
+    expect(response.body).toHaveProperty('correct');
+    expect(response.body).toHaveProperty('incorrects');
+  },10000);
+
 
 
   // Test /addquestion endpoint
@@ -83,12 +100,12 @@ describe('Gateway Service', () => {
     const response = await request(app)
       .post('/addquestion')
       .send({
-        question: 'What is the capital of France?',
-        options: ['Paris', 'Berlin', 'Madrid', 'Rome'],
-        correctOptionIndex: 0,
+        question: 'Mocked Question',
+        correct: 'Mocked Correct Answer',
+        incorrects: ['Mocked Option 1', 'Mocked Option 2']
       });
 
     expect(response.statusCode).toBe(200); 
-    expect(response.body).toHaveProperty('question', 'What is the capital of France?');
+    expect(response.body).toHaveProperty('question', 'Mocked Question');
   });
 });
