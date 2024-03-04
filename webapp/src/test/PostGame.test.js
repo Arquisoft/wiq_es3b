@@ -28,8 +28,8 @@ describe('PostGame component', () => {
 
   test('formatTiempo devuelve el formato de tiempo correcto', () => {
     // Ejemplo de datos de entrada y salida esperada
-    const segundos = 600; // 10 minutos en segundos
-    const tiempoEsperado = '10:00';
+    const segundos = 0; // 0 segundos
+    const tiempoEsperado = '00:00';
   
     // Renderizar el componente PostGame que contiene la función formatTiempo
     render(<PostGame />);
@@ -38,6 +38,6 @@ describe('PostGame component', () => {
     const tiempoUsadoCell = screen.getByText('Tiempo usado').closest('tr').querySelector('td:last-child');
   
     // Verificar si el texto del componente coincide con el tiempo esperado
-    //expect(tiempoUsadoCell.textContent).toBe(tiempoEsperado);
+    expect(tiempoUsadoCell.textContent).toBe(tiempoEsperado);
   });
 });

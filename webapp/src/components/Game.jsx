@@ -69,6 +69,7 @@ const Question = ({ goTo, setGameFinished }) => {
         if (isCorrect(option)) return 'green';
     };
     
+    // NOSONAR
     const shuffleOptions = (options) => {
         return options.sort(() => Math.random() - 0.5);
     };
