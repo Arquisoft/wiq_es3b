@@ -18,9 +18,9 @@ const templates=[
         const result= await tennisQuery.getPlayerForCountry();
         return{
             "question":"Which player is from?",
-            "question_param":results.country,
-            "correct":results.correct,
-            "incorrects":results.incorrects
+            "question_param":result.country,
+            "correct":result.correct,
+            "incorrects":result.incorrects
         }
     },
     async ()=>

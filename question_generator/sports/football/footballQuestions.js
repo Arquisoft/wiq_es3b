@@ -27,15 +27,14 @@ class TennisQuestions{
                 ORDER BY DESC(?followers)
                 LIMIT 500
             `
-            let players = await queryExecutor.execute(query);
-            players.forEach(tenista => {
-                const playerId = tenista.tenista.value;
-                const playerName = tenista.tenistaLabel.value;
-                const followers = tenista.followers.value;
-                const country = tenista.paisLabel.value;
-                const record = tenista.victorias.value;
-
-                const [wins, looses] = record ? record.split("-") : ['', ''];
+            let equipos = await queryExecutor.execute(query);
+            equipos.forEach(equipo => {
+                const equipoId = equipo.futbolista.value;
+                const equipoName = equipo.equipoLabel.value;
+                const country = equipo.paisLabel.value;
+                const followers = equipo.followers.value;
+                const entrenador = equipo.entrenadorLabel.value;
+                const estadio = equipo.estadioLabel.value;
             });
         }
     }
