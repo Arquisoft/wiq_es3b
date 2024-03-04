@@ -1,6 +1,5 @@
 const request = require('supertest');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const mongoose = require('mongoose');
 const app = require('./question-service'); 
 
 let mongoServer;
@@ -9,11 +8,9 @@ beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri; 
-  mongoose.connect(mongoUri);
 });
 
 afterAll(async () => {
-  await mongoose.disconnect();
   await mongoServer.stop();
 });
 

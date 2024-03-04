@@ -9,11 +9,9 @@ beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri;
-  mongoose.connect(mongoUri);
 });
 
 afterAll(async () => {
-  await mongoose.disconnect();
   await mongoServer.stop();
 });
 
