@@ -12,26 +12,20 @@ class TennisQuestions{
     }
     async loadData(){
         if (Object.keys(this.players).length === 0) {//Se obtienen 100 ciudades relevantes
-            const query=`
-            SELECT DISTINCT ?tenista ?tenistaLabel ?paisLabel (GROUP_CONCAT(DISTINCT ?ocupacionLabel; 
-                separator=", ") AS ?ocupaciones) ?victorias ?followers
+            const query=
+            `
+                SELECT DISTINCT ?equipo ?paisLabel ?equipoLabel ?entrenadorLabel ?followers ?estadioLabel
                 WHERE {
-                    ?tenista wdt:P106 wd:Q10833314. 
-
-                    OPTIONAL { 
-                        ?tenista wdt:P1532 ?paisItem.
-                        ?paisItem rdfs:label ?paisLabel.
-                        FILTER(LANG(?paisLabel) = "en") 
-                    }
-                    OPTIONAL { ?tenista wdt:P106 ?ocupacion. } 
-                    OPTIONAL { ?tenista wdt:P564 ?victorias. } 
-                    OPTIONAL { ?tenista wdt:P8687 ?followers. }
-                    FILTER (BOUND(?victorias) && BOUND(?paisLabel) && BOUND(?followers)) 
+                    ?equipo wdt:P31 wd:Q476028;  # Instancia de equipo de fútbol 
+                    OPTIONAL {?equipo wdt:P17 ?pais }
+                    OPTIONAL {?equipo wdt:P286 ?entrenador }
+                    OPTIONAL {?equipo wdt:P8687 ?followers }
+                    OPTIONAL {?equipo wdt:P115 ?estadio }
+                    FILTER (BOUND(?entrenador))
                     SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
                 }
-                GROUP BY ?tenista ?tenistaLabel ?paisLabel ?victorias ?followers
                 ORDER BY DESC(?followers)
-                LIMIT 350
+                LIMIT 500
             `
             let players = await queryExecutor.execute(query);
             players.forEach(tenista => {
@@ -42,7 +36,6 @@ class TennisQuestions{
                 const record = tenista.victorias.value;
 
                 const [wins, looses] = record ? record.split("-") : ['', ''];
-
             });
         }
     }
