@@ -8,8 +8,8 @@ const gameSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  questions: {
-    type: mongoose.Schema.Types.ObjectId,
+  questions: { 
+    type: [mongoose.Schema.Types.ObjectId],
     ref: 'Question',
     required: true,
   },
