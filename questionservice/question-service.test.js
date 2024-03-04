@@ -1,16 +1,18 @@
 const request = require('supertest');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const app = require('./question-service'); 
 
 let mongoServer;
+let app;
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri; 
+  app = require('./question-service'); 
 });
 
 afterAll(async () => {
+  app.close();
   await mongoServer.stop();
 });
 
