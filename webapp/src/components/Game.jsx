@@ -69,10 +69,11 @@ const Question = ({ goTo, setGameFinished }) => {
         if (isCorrect(option)) return 'green';
     };
     
-    // NOSONAR
+    // sonarignore:start
     const shuffleOptions = (options) => {
         return options.sort(() => Math.random() - 0.5);
     };
+    // sonarignore:end
     
     const handleSubmit = (option, index) => {
         
