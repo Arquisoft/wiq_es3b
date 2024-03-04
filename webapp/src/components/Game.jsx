@@ -2,6 +2,7 @@ import { Card, List, ListItem, ListItemButton, ListItemText, Typography } from '
 
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { PostGame } from './PostGame'
 
 const N_QUESTIONS = 10
 
@@ -46,19 +47,7 @@ const Question = ({ goTo }) => {
     };
     
     const shuffleOptions = (options) => {
-        let currentIndex = options.length, temporaryValue, randomIndex;
-
-        while (currentIndex !== 0) {
-
-            randomIndex = currentIndex - 1;
-
-            temporaryValue = options[currentIndex - 1];
-            options[currentIndex - 1] = options[randomIndex];
-            options[randomIndex] = temporaryValue;
-
-            currentIndex--;
-        }
-        return options;
+        return options.sort(() => Math.random() - 0.5);
     };
     
     const handleSubmit = (option, index) => {
@@ -87,7 +76,7 @@ const Question = ({ goTo }) => {
         if (nQuestion === N_QUESTIONS) {
 
             // Almacenar datos
-            goTo(3);
+            goTo(1);
         }
     }
 
@@ -132,12 +121,19 @@ const Question = ({ goTo }) => {
     )
 }
 
-export const Game = ({ goTo }) => {
+export const Game = () => {
+
+    const [gameState, setGameState] = useState(0)
+
+    const goTo = (parameter) => {
+        setGameState(parameter)
+    }
 
     return (
 
         <>
-            <Question goTo={(x) => goTo(x)}/>
+            {gameState === 0 && <Question goTo={(x) => goTo(x)}/>}
+            {gameState === 1 && <PostGame/>}
         </>
     )
 }
