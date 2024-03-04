@@ -7,6 +7,10 @@ const port = 8005; // Puerto para el servicio de juegos
 
 app.use(express.json());
 
+// Connect to MongoDB
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/gamesdb';
+mongoose.connect(mongoUri);
+
 // Función para validar campos requeridos
 const validateRequiredFields = (req, fields) => {
   for (const field of fields) {
@@ -34,20 +38,21 @@ app.post('/addgame', async (req, res) => {
     // Guarda el nuevo juego en la base de datos
     const savedGame = await newGame.save();
 
-    res.status(201).json(savedGame);
+    res.status(200).json(savedGame);
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: error.message });
   }
 });
 
 // Lógica para juegos??
 
-// Conecta a la base de datos de juegos
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/gamesdb';
-mongoose.connect(mongoUri);
-
 const server = app.listen(port, () => {
   console.log(`Games Service listening at http://localhost:${port}`);
+});
+
+server.on('close', () => {
+  // Close the Mongoose connection
+  mongoose.connection.close();
 });
 
 module.exports = server;

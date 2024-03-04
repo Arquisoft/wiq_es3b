@@ -20,9 +20,9 @@ describe('Gateway Service', () => {
     }else if (url.endsWith('/addquestion')) {
       return Promise.resolve({
         data: {
-          question: 'What is the capital of France?',
-          options: ['Paris', 'Berlin', 'Madrid', 'Rome'],
-          correctOptionIndex: 0
+          question: 'Mocked Question',
+          correct: 'Mocked Correct Answer',
+          incorrects: ['Mocked Option 1', 'Mocked Option 2']
         }
       });
     }
@@ -100,12 +100,12 @@ describe('Gateway Service', () => {
     const response = await request(app)
       .post('/addquestion')
       .send({
-        question: 'What is the capital of France?',
-        options: ['Paris', 'Berlin', 'Madrid', 'Rome'],
-        correctOptionIndex: 0,
+        question: 'Mocked Question',
+        correct: 'Mocked Correct Answer',
+        incorrects: ['Mocked Option 1', 'Mocked Option 2']
       });
 
     expect(response.statusCode).toBe(200); 
-    expect(response.body).toHaveProperty('question', 'What is the capital of France?');
+    expect(response.body).toHaveProperty('question', 'Mocked Question');
   });
 });
