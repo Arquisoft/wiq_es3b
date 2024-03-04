@@ -5,8 +5,9 @@ import { useState, useEffect } from 'react'
 import { PostGame } from './PostGame'
 
 const N_QUESTIONS = 10
+const MAX_TIME = 600;
 
-const Question = ({ goTo }) => {
+const Question = ({ goTo, setGameFinished }) => {
     
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState([]);
@@ -18,6 +19,26 @@ const Question = ({ goTo }) => {
     const [correct, setCorrect] = useState('');
     const [numberCorrect, setNumberCorrect] = useState(0);
     const [nQuestion, setNQuestion] = useState(0);
+
+    const [segundos, setSegundos] = useState(MAX_TIME);
+  
+    useEffect(() => {
+
+        const intervalId = setInterval(() => {
+            setSegundos(segundos => {
+                if (segundos === 1) { clearInterval(intervalId); finish() }
+                return segundos - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
+    const formatTiempo = (segundos) => {
+        const minutos = Math.floor((segundos % 3600) / 60);
+        const segs = segundos % 60;
+        return `${minutos < 10 ? '0' : ''}${minutos}:${segs < 10 ? '0' : ''}${segs}`;
+    };
 
     const fetchQuestion = async () => {
         try {
@@ -60,9 +81,6 @@ const Question = ({ goTo }) => {
 
         if (isCorrect(option)) {
             setNumberCorrect(numberCorrect+1);
-            console.log('Opción correcta seleccionada:', option, ' NC=', numberCorrect);
-        } else {
-            console.log('Opción incorrecta seleccionada:', option);
         }
     };
 
@@ -73,11 +91,19 @@ const Question = ({ goTo }) => {
 
     const handleGameFinish = () => {
 
-        if (nQuestion === N_QUESTIONS) {
+        if (nQuestion === N_QUESTIONS) { finish() }
+        if (segundos === 1) { setSegundos(0); finish() }
+    }
 
-            // Almacenar datos
-            goTo(1);
-        }
+    const finish = () => {
+        // Almacenar datos
+        localStorage.setItem("pAcertadas", numberCorrect);
+        localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
+        localStorage.setItem("tiempoUsado", MAX_TIME - segundos);
+        localStorage.setItem("tiempoRestante", segundos)
+
+        setGameFinished(true);
+        goTo(1);
     }
 
     useEffect(() => {
@@ -86,9 +112,12 @@ const Question = ({ goTo }) => {
 
     return(
 
-        <main>
+        <main className='preguntas'>
         <div>
-        <Typography>Question: {nQuestion}</Typography>
+        <div className='questionTime'>
+        <Typography sx={{ display:'inline-block', textAlign:'left'}} >Question: {nQuestion}</Typography>
+        <Typography sx={{ display:'inline-block', textAlign:'right'}}>Time: {formatTiempo(segundos)}</Typography>
+        </div>
         <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }}>
 
             <Typography variant='h4' paddingBottom={"20px"}>
@@ -106,8 +135,6 @@ const Question = ({ goTo }) => {
                     </ListItem>
                 ))}
             </List>
-            
-
         </Card>
         { isSelected ? (
                 
@@ -122,18 +149,23 @@ const Question = ({ goTo }) => {
 }
 
 export const Game = () => {
-
-    const [gameState, setGameState] = useState(0)
+    const [gameState, setGameState] = useState(0);
+    const [gameFinished, setGameFinished] = useState(false);
 
     const goTo = (parameter) => {
-        setGameState(parameter)
-    }
+        setGameState(parameter);
+    };
+
+    useEffect(() => {
+        if (gameFinished) {
+            setGameState(1); // Cambia el estado después de que Question termine de renderizarse
+        }
+    }, [gameFinished]);
 
     return (
-
         <>
-            {gameState === 0 && <Question goTo={(x) => goTo(x)}/>}
-            {gameState === 1 && <PostGame/>}
+            {gameState === 0 && <Question goTo={(x) => goTo(x)} setGameFinished={setGameFinished} />}
+            {gameState === 1 && <PostGame />}
         </>
-    )
-}
+    );
+};

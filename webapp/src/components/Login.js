@@ -1,5 +1,5 @@
 // src/components/Login.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
 
@@ -33,7 +33,11 @@ const Login = ({ goTo }) => {
     setOpenSnackbar(false);
   };
   
-  if (loginSuccess) { goTo(1); }
+  useEffect(() => {
+    if (loginSuccess) {
+      goTo(1);
+    }
+  }, [loginSuccess, goTo]);
 
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>

@@ -44,7 +44,7 @@ function Nav({ goTo }) {
   }
 
   return (
-    <AppBar position="static">
+    <AppBar className='nav' position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -96,7 +96,7 @@ function Nav({ goTo }) {
               }}
             >
               
-              <MenuItem onClick={() => goToMenuClic()}>
+              <MenuItem className='menu' onClick={() => goToMenuClic()}>
                 <Typography textAlign="center">Volver al menú</Typography>
               </MenuItem>
             </Menu>
@@ -125,7 +125,7 @@ function Nav({ goTo }) {
                 onClick={() => goToMenuClic()}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                Menú
+                Menu
               </Button>
           </Box>
 
@@ -151,10 +151,10 @@ function Nav({ goTo }) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem >
+              <MenuItem className='menu'>
                 <Typography textAlign="center">Profile</Typography>
               </MenuItem>
-              <MenuItem onClick={logoutClic}>
+              <MenuItem className='menu' onClick={logoutClic}>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
 
