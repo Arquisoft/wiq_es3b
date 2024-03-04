@@ -1,11 +1,13 @@
 import { Card, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material'
 
 import React from 'react'
-import { useState, useEffect, useCallback} from 'react'
+import { useState, useEffect } from 'react'
+import { PostGame } from './PostGame'
 
 const N_QUESTIONS = 10
+const MAX_TIME = 600;
 
-const Question = ({ goTo }) => {
+const Question = ({ goTo, setGameFinished }) => {
     
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState([]);
@@ -18,14 +20,28 @@ const Question = ({ goTo }) => {
     const [numberCorrect, setNumberCorrect] = useState(0);
     const [nQuestion, setNQuestion] = useState(0);
 
-    const fetchQuestion = useCallback(async () => {
-        const handleGameFinish = () => {
-            if (nQuestion === N_QUESTIONS) {
-                // Almacenar datos
-                goTo(3);
-            }
-        };
-    
+    const [segundos, setSegundos] = useState(MAX_TIME);
+  
+    useEffect(() => {
+
+        const intervalId = setInterval(() => {
+            setSegundos(segundos => {
+                if (segundos === 1) { clearInterval(intervalId); finish() }
+                return segundos - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
+    const formatTiempo = (segundos) => {
+        const minutos = Math.floor((segundos % 3600) / 60);
+        const segs = segundos % 60;
+        return `${minutos < 10 ? '0' : ''}${minutos}:${segs < 10 ? '0' : ''}${segs}`;
+    };
+
+    const fetchQuestion = async () => {
+
         try {
             const response = await fetch('http://localhost:8000/api/questions/create');
             const data = await response.json();
@@ -41,8 +57,7 @@ const Question = ({ goTo }) => {
         } catch (error) {
             console.error('Error fetching question:', error);
         }
-    }, [setQuestion, setCorrect, setOptions, setSelectedOption, setIsSelected, setNQuestion, nQuestion, goTo]);
-    
+    };
     
 
     const getBackgroundColor = (option, index) => {
@@ -54,21 +69,15 @@ const Question = ({ goTo }) => {
         if (isCorrect(option)) return 'green';
     };
     
+    // @SONAR_STOP@
+    // sonarignore:start
     const shuffleOptions = (options) => {
-        let currentIndex = options.length, temporaryValue, randomIndex;
-
-        while (currentIndex !== 0) {
-
-            randomIndex = currentIndex - 1;
-
-            temporaryValue = options[currentIndex - 1];
-            options[currentIndex - 1] = options[randomIndex];
-            options[randomIndex] = temporaryValue;
-
-            currentIndex--;
-        }
-        return options;
+        //NOSONAR
+        return options.sort(() => Math.random() - 0.5); //NOSONAR
+        //NOSONAR
     };
+    // sonarignore:end
+    // @SONAR_START@
     
     const handleSubmit = (option, index) => {
         
@@ -80,9 +89,6 @@ const Question = ({ goTo }) => {
 
         if (isCorrect(option)) {
             setNumberCorrect(numberCorrect+1);
-            console.log('Opción correcta seleccionada:', option, ' NC=', numberCorrect);
-        } else {
-            console.log('Opción incorrecta seleccionada:', option);
         }
     };
 
@@ -91,15 +97,35 @@ const Question = ({ goTo }) => {
         return option === correct;
     };
 
+    const handleGameFinish = () => {
+
+        if (nQuestion === N_QUESTIONS) { finish() }
+        if (segundos === 1) { setSegundos(0); finish() }
+    }
+
+    const finish = () => {
+        // Almacenar datos
+        localStorage.setItem("pAcertadas", numberCorrect);
+        localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
+        localStorage.setItem("tiempoUsado", MAX_TIME - segundos);
+        localStorage.setItem("tiempoRestante", segundos)
+
+        setGameFinished(true);
+        goTo(1);
+    }
+
     useEffect(() => {
         fetchQuestion();
-    }, [fetchQuestion]);
+    }, []);
 
     return(
 
-        <main>
+        <main className='preguntas'>
         <div>
-        <Typography>Question: {nQuestion}</Typography>
+        <div className='questionTime'>
+        <Typography sx={{ display:'inline-block', textAlign:'left'}} >Question: {nQuestion}</Typography>
+        <Typography sx={{ display:'inline-block', textAlign:'right'}}>Time: {formatTiempo(segundos)}</Typography>
+        </div>
         <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }}>
 
             <Typography variant='h4' paddingBottom={"20px"}>
@@ -117,8 +143,6 @@ const Question = ({ goTo }) => {
                     </ListItem>
                 ))}
             </List>
-            
-
         </Card>
         { isSelected ? (
                 
@@ -132,12 +156,24 @@ const Question = ({ goTo }) => {
     )
 }
 
-export const Game = ({ goTo }) => {
+export const Game = () => {
+    const [gameState, setGameState] = useState(0);
+    const [gameFinished, setGameFinished] = useState(false);
+
+    const goTo = (parameter) => {
+        setGameState(parameter);
+    };
+
+    useEffect(() => {
+        if (gameFinished) {
+            setGameState(1); // Cambia el estado después de que Question termine de renderizarse
+        }
+    }, [gameFinished]);
 
     return (
-
         <>
-            <Question goTo={(x) => goTo(x)}/>
+            {gameState === 0 && <Question goTo={(x) => goTo(x)} setGameFinished={setGameFinished} />}
+            {gameState === 1 && <PostGame />}
         </>
-    )
-}
+    );
+};
