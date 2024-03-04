@@ -16,10 +16,14 @@ jobs:
     - run: npm --prefix users/userservice ci
     - run: npm --prefix question_generator ci
     - run: npm --prefix questionservice ci
+    - run: npm --prefix gameservice ci
     - run: npm --prefix gatewayservice ci
     - run: npm --prefix webapp ci
     - run: npm --prefix users/authservice test -- --coverage
     - run: npm --prefix users/userservice test -- --coverage
+    - run: npm --prefix questionservice test -- --coverage
+    - run: npm --prefix question_generator test -- --coverage
+    - run: npm --prefix gameservice test -- --coverage
     - run: npm --prefix gatewayservice test -- --coverage
     - run: npm --prefix webapp test -- --coverage
     - name: Analyze with SonarCloud
@@ -39,6 +43,7 @@ jobs:
     - run: npm --prefix users/userservice install
     - run: npm --prefix question_generator install
     - run: npm --prefix questionservice install
+    - run: npm --prefix gameservice install
     - run: npm --prefix gatewayservice install
     - run: npm --prefix webapp install
     - run: npm --prefix webapp run build
@@ -97,7 +102,6 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: ghcr.io
         workdir: users/userservice
-
   docker-push-questiongenerationservice:
     name: Push question service Docker Image to GitHub Packages
     runs-on: ubuntu-latest
@@ -115,7 +119,6 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: ghcr.io
         workdir: questiongenerationservice
-
   docker-push-questionservice:
     name: Push question service Docker Image to GitHub Packages
     runs-on: ubuntu-latest
@@ -133,7 +136,23 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: ghcr.io
         workdir: questionservice
-        
+  docker-push-gameservice:
+    name: Push question service Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    needs: [e2e-tests]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@v5
+      with:
+        name: arquisoft/wiq_es3b/gameservice
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: ghcr.io
+        workdir: gameservice  
   docker-push-gatewayservice:
     name: Push gateway service Docker Image to GitHub Packages
     runs-on: ubuntu-latest
