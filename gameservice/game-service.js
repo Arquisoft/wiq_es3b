@@ -51,9 +51,14 @@ app.get('/getParticipation/:userId', async (req, res) => {
       {
         $group: {
           _id: null,
-          totalGames: { $sum: 1 },
-          correctAnswers: { $sum: { $size: { $filter: { input: "$answers", as: "answer", cond: "$$answer.isCorrect" } } } },
-          incorrectAnswers: { $sum: { $size: { $filter: { input: "$answers", as: "answer", cond: { $eq: ["$$answer.isCorrect", false] } } } } },
+          totalGames: { $sum: 1 }, //$sum -> Returns a sum of numerical values
+          correctAnswers: { $sum: { $size: { 
+            $filter: {
+               input: "$answers", as: "answer", cond: "$$answer.isCorrect" } 
+          } } },
+          incorrectAnswers: { $sum: { $size: {
+            $filter: { input: "$answers", as: "answer", cond: { $eq: ["$$answer.isCorrect", false] } } 
+          } } },
           totalTime: { $sum: "$totalTime" },
         },
       },
