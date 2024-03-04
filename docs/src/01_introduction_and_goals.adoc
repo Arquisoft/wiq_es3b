@@ -1,93 +1,36 @@
-ifndef::imagesdir[:imagesdir: ../images]
-
 [[section-introduction-and-goals]]
 == Introduction and Goals
+WIQ is a web application developed by HappySw that allows users to play an online quiz game. 
 
-[role="arc42help"]
-****
-Describes the relevant requirements and the driving forces that software architects and development team must consider. 
-These include
-
-* underlying business goals, 
-* essential features, 
-* essential functional requirements, 
-* quality goals for the architecture and
-* relevant stakeholders and their expectations
-****
+The questions are automatically generated from Wikidata data and can be grouped by topic. Users can get a prize for each correctly answered question within a limited time and can also check their historical results in the game.
 
 === Requirements Overview
+The main functional requirements to be met are:
 
-[role="arc42help"]
-****
-.Contents
-Short description of the functional requirements, driving forces, extract (or abstract)
-of requirements. Link to (hopefully existing) requirements documents
-(with version number and information where to find it).
-
-.Motivation
-From the point of view of the end users a system is created or modified to
-improve support of a business activity and/or improve the quality.
-
-.Form
-Short textual description, probably in tabular use-case format.
-If requirements documents exist this overview should refer to these documents.
-
-Keep these excerpts as short as possible. Balance readability of this document with potential redundancy w.r.t to requirements documents.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 documentation.
-
-****
+* Users must be able to register
+* Users must be able to consult their participation history
+* Each question must have one correct answer and several incorrect answers.
+* Questions must have a time limit to answer them
+* Access to the user's data must be allowed through an API.
+* Access to the information of the generated questions must be allowed through an API.
 
 === Quality Goals
-
-[role="arc42help"]
-****
-.Contents
-The top three (max five) quality goals for the architecture whose fulfillment is of highest importance to the major stakeholders. 
-We really mean quality goals for the architecture. Don't confuse them with project goals.
-They are not necessarily identical.
-
-Consider this overview of potential topics (based upon the ISO 25010 standard):
-
-image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
-
-.Motivation
-You should know the quality goals of your most important stakeholders, since they will influence fundamental architectural decisions. 
-Make sure to be very concrete about these qualities, avoid buzzwords.
-If you as an architect do not know how the quality of your work will be judged...
-
-.Form
-A table with quality goals and concrete scenarios, ordered by priorities
-****
+The quality goals in order of priority are as follows:
+[options="header",cols="1,2"]
+|===
+|Quality goal|Description
+|Usability|The application must be easy to understand and use
+|Performance efficiency|Question generation must be efficient
+|Security|The confidentiality and integrity of user data must be ensured
+|Maintainability|The application must be testable and easily modifiable
+|===
 
 === Stakeholders
-
-[role="arc42help"]
-****
-.Contents
-Explicit overview of stakeholders of the system, i.e. all person, roles or organizations that
-
-* should know the architecture
-* have to be convinced of the architecture
-* have to work with the architecture or with code
-* need the documentation of the architecture for their work
-* have to come up with decisions about the system or its development
-
-.Motivation
-You should know all parties involved in development of the system or affected by the system.
-Otherwise, you may get nasty surprises later in the development process.
-These stakeholders determine the extent and the level of detail of your work and its results.
-
-.Form
-Table with role names, person names, and their expectations with respect to the architecture and its documentation.
-****
-
 [options="header",cols="1,2,2"]
 |===
 |Role/Name|Contact|Expectations
-| _<Role-1>_ | _<Contact-1>_ | _<Expectation-1>_
-| _<Role-2>_ | _<Contact-2>_ | _<Expectation-2>_
+| Teachers | They interact with the development team and review the project to detect and correct errors| The application must meet all functional requirements and must follow the quality goals
+| RTVE (client) | Company commissioning the development of the application | The company hopes that the application will be easy to use for all users and that it will be a good version of its "Saber y Ganar" programme
+| Development Team| They are the creators of the project | They must develop an application that meets all the requirements and is attractive in order to attract as many users as possible
+|Users|End-users who will interact with the application|They expect it to be user-friendly, attractive and similar to the programme it imitates ("Saber y Ganar")
 |===

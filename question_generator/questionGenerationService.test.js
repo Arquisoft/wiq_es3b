@@ -22,7 +22,7 @@ describe('Question generation service', () => {
 
   it('should forward create question request to question generation service', async () => {
     const response = await request(app)
-      .get('/api/questions/planets/create');
+      .get('/api/questions/create?category=sports');
 
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('question');
@@ -32,7 +32,7 @@ describe('Question generation service', () => {
 
   it('should forward create question request to question generation service', async () => {
     const response = await request(app)
-      .get('/api/questions/cities/create');
+      .get('/api/questions/create?category=geography');
 
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('question');

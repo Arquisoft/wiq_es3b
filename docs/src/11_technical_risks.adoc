@@ -1,25 +1,23 @@
-ifndef::imagesdir[:imagesdir: ../images]
-
 [[section-technical-risks]]
 == Risks and Technical Debts
+=== Risks
+[options="header",cols="1,2"]
+|===
+|Risk|Description
+|Teamwork failures
+|The distribution of tasks must be done effectively, so that if one member of the team does not perform an assigned task, it can be solved by another member.
+|Version management problems
+|Errors in version control can delay the project. Ignorance of the branches and their purpose can lead to code conflicts.
+|Lack of time
+|Not planning work well can result in difficulties meeting deadlines
+|Use of unknown technologies
+|The use of languages and technologies unknown to group members can make it difficult to perform assigned tasks
+|===
 
-
-[role="arc42help"]
-****
-.Contents
-A list of identified technical risks or technical debts, ordered by priority
-
-.Motivation
-“Risk management is project management for grown-ups” (Tim Lister, Atlantic Systems Guild.) 
-
-This should be your motto for systematic detection and evaluation of risks and technical debts in the architecture, which will be needed by management stakeholders (e.g. project managers, product owners) as part of the overall risk analysis and measurement planning.
-
-.Form
-List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-11/[Risks and Technical Debt] in the arc42 documentation.
-
-****
+=== Technical debts
+[options="header",cols="1,2"]
+|===
+|Risk|Description
+|Insufficient documentation 
+|A lack of clear documentation about code and architecture can make it difficult to understand and maintain code, leading to additional work.
+|===
