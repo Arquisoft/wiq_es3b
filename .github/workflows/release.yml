@@ -103,7 +103,7 @@ jobs:
         registry: ghcr.io
         workdir: users/userservice
   docker-push-questiongenerationservice:
-    name: Push question service Docker Image to GitHub Packages
+    name: Push question generation service Docker Image to GitHub Packages
     runs-on: ubuntu-latest
     permissions:
       contents: read
