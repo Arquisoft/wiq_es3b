@@ -114,11 +114,12 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@v5
       with:
-        name: arquisoft/wiq_es3b/questiongenerationservice
+        name: arquisoft/wiq_es3b/question_generator
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: ghcr.io
-        workdir: questiongenerationservice
+        workdir: question_generator
+
   docker-push-questionservice:
     name: Push question service Docker Image to GitHub Packages
     runs-on: ubuntu-latest
