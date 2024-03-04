@@ -106,6 +106,6 @@ describe('Gateway Service', () => {
       });
 
     expect(response.statusCode).toBe(201); 
-    expect(response.body).toHaveProperty('question', 'What is the capital of France?');
+    expect(response.body).toHaveProperty('question', 'Mocked Question');
   });
 });
