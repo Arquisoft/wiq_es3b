@@ -21,8 +21,8 @@ describe('Question Service', () => {
   it('should add a new question on POST /addquestion', async () => {
     const newQuestion = {
       question: 'What is the capital of France?',
-      options: ['Paris', 'Berlin', 'Madrid', 'Rome'],
-      correctOptionIndex: 0,
+      correct: "Paris",
+      incorrects: ['Berlin', 'Madrid', 'Rome'],
     };
 
     const response = await request(app).post('/addquestion').send(newQuestion);
