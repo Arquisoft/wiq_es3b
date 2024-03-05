@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Participation } from '../components/Participation';
-import Nav from '../components/Nav';
 
 describe('Participation component', () => {
   test('renders correctly', () => {

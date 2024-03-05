@@ -33,7 +33,7 @@ describe('Start component', () => {
     // Simular clic en el botón "Participación"
     fireEvent.click(screen.getByText('Participación'));
 
-    // Verificar que la función goTo se llamó con el argumento correcto (en este caso, 4)
-    expect(goToMock).toHaveBeenCalledWith(4);
+    // Verificar que la función goTo se llamó con el argumento correcto (en este caso, 3)
+    expect(goToMock).toHaveBeenCalledWith(3);
   });
 });

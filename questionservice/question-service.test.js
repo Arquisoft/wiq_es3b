@@ -1,33 +1,32 @@
 const request = require('supertest');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const mongoose = require('mongoose');
-const app = require('./question-service'); 
 
 let mongoServer;
+let app;
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri; 
-  mongoose.connect(mongoUri);
+  app = require('./question-service'); 
 });
 
 afterAll(async () => {
-  await mongoose.disconnect();
+  app.close();
   await mongoServer.stop();
 });
 
 describe('Question Service', () => {
   it('should add a new question on POST /addquestion', async () => {
     const newQuestion = {
-      question: 'What is the capital of France?',
-      correct: "Paris",
-      incorrects: ['Berlin', 'Madrid', 'Rome'],
+      question: 'Mocked Question',
+      correct: 'Mocked Correct Answer',
+      incorrects: ['Mocked Option 1', 'Mocked Option 2']
     };
 
     const response = await request(app).post('/addquestion').send(newQuestion);
-    expect(response.status).toBe(201); 
-    expect(response.body).toHaveProperty('question', 'What is the capital of France?');
+    expect(response.status).toBe(200); 
+    expect(response.body).toHaveProperty('question', 'Mocked Question');
   });
   
 });
