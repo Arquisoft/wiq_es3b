@@ -1,5 +1,5 @@
 // src/components/Login.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
 
@@ -10,6 +10,8 @@ const Login = ({ goTo }) => {
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [createdAt, setCreatedAt] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [timeStart, setTimeStart] = useState(0);
+  const [timeElapsed, setTimeElapsed] = useState(0);
 
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -19,7 +21,8 @@ const Login = ({ goTo }) => {
 
       // Extract data from the response
       const { createdAt: userCreatedAt } = response.data;
-
+      
+      setTimeStart(Date.now());
       setCreatedAt(userCreatedAt);
       setLoginSuccess(true);
       
@@ -29,11 +32,23 @@ const Login = ({ goTo }) => {
     }
   };
 
+  const calculateTime = async () => {
+    try {
+      setTimeElapsed((Date.now() - timeStart) / 1000);
+    } catch (error) {
+      setError(error.response.data.error);
+    }
+  };
+
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
   
-  if (loginSuccess) { goTo(1); }
+  useEffect(() => {
+    if (loginSuccess) {
+      goTo(1);
+    }
+  }, [loginSuccess, goTo]);
 
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
@@ -46,6 +61,12 @@ const Login = ({ goTo }) => {
           <Typography component="p" variant="body1" sx={{ textAlign: 'center', marginTop: 2 }}>
             Your account was created on {new Date(createdAt).toLocaleDateString()}.
           </Typography>
+          <Typography component="p" variant="body1" sx={{ textAlign: 'center', marginTop: 2 }}>
+            Han pasado {timeElapsed} segundos.
+          </Typography>
+          <Button variant="contained" color="primary" onClick={calculateTime}>
+            Calcular tiempo
+          </Button>
         </div>
       ) : (
         <div>

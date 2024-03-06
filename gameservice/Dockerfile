@@ -18,3 +18,4 @@ EXPOSE 8005
 
 # Define the command to run your app
 CMD ["node", "game-service.js"]
+
