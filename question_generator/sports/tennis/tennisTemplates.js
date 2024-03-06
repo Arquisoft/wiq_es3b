@@ -6,42 +6,42 @@ function loadData(){
 const templates=[
     async ()=>
     {
-        const result= await tennisQuery.getPlayerWithMoreFollowers();
+        const results = await tennisQuery.getPlayerWithMoreFollowers();
         return{
             "question":"Who has more followers?",
-            "correct":result.correct,
-            "incorrects":result.incorrects
+            "correct":results.correct,
+            "incorrects":results.incorrects
         }
     },
     async ()=>
     {
-        const result= await tennisQuery.getPlayerForCountry();
+        const results = await tennisQuery.getPlayerForCountry();
         return{
             "question":"Which player is from?",
-            "question_param":result.country,
-            "correct":result.correct,
-            "incorrects":result.incorrects
+            "question_param":results.country,
+            "correct":results.correct,
+            "incorrects":results.incorrects
         }
     },
     async ()=>
     {
-        const result= await tennisQuery.getPlayerWithMoreWins();
+        const results = await tennisQuery.getPlayerWithMoreWins();
         return{
             "question":"Who has more wins?",
-            "correct":result.correct,
-            "incorrects":result.incorrects
+            "correct":results.correct,
+            "incorrects":results.incorrects
         }
     },
     async ()=>
     {
-        const result= await tennisQuery.getPlayerWithMoreLooses();
+        const results = await tennisQuery.getPlayerWithMoreLooses();
         return{
             "question":"Who has more looses?",
-            "correct":result.correct,
-            "incorrects":result.incorrects
+            "correct":results.correct,
+            "incorrects":results.incorrects
         }
     }
 
 ]
 module.exports.getRandomQuestion = () => templates[Math.floor(Math.random()*templates.length)]();
-module.exports.loadData = ()=>loadData();
+module.exports.loadData = ()=>loadData(); 
