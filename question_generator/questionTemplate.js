@@ -7,9 +7,9 @@ function loadData(){
     sportTemplates.loadData()
 }
 const templates=[
-    planetsTemplates.getRandomQuestion,
-    geographyTemplates.getRandomQuestion,
-    sportTemplates.getRandomQuestion
+    ...Array(1).fill(planetsTemplates.getRandomQuestion),
+    ...Array(4).fill(geographyTemplates.getRandomQuestion),
+    ...Array(4).fill(sportTemplates.getRandomQuestion)
 
 ]
 module.exports.getRandomQuestion = () => templates[Math.floor(Math.random()*templates.length)]();
