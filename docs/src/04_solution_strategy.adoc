@@ -1,15 +1,14 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-solution-strategy]]
-# Solution Strategy
+== Solution Strategy
 
-[role="arc42help"]
-## Contents
+=== Contents
 This page contains a short summary and explanation of the fundamental decisions and solution strategies, that shape system architecture.
 
 ---
 
-### Technology Decisions
+==== Technology Decisions
 Below, all the technologies to be used in the development of the application are listed:
 
 * *JavaScript / React:* A JavaScript library designed to facilitate the development of web applications.
@@ -20,7 +19,7 @@ Below, all the technologies to be used in the development of the application are
 
 ---
 
-### Top-Level Decisions
+==== Top-Level Decisions
 In this section, a summarized list of all decisions regarding the architecture of the application is included.
 
 |===
@@ -36,7 +35,7 @@ In this section, a summarized list of all decisions regarding the architecture o
 
 ---
 
-### Quality Goals
+==== Quality Goals
 Next, several quality goals are established, along with the decisions made to achieve them.
 
 |===
@@ -58,7 +57,7 @@ Next, several quality goals are established, along with the decisions made to ac
 
 ---
 
-### Relevant Organizational
+==== Relevant Organizational
 Regarding the organization of the team, we have decided to use agile methodologies for better and faster group work. In this project, we will follow the best practices of the SCRUM framework.
 
 Practices to be followed:
@@ -72,7 +71,7 @@ Additionally, "Issues" and the GitHub-provided Kanban (ToDo - In Progress - Done
 
 ---
 
-### Motivation
+==== Motivation
 This section addresses the fundamental decisions for the project's architecture.
 
 |===
