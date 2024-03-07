@@ -34,7 +34,9 @@ class TennisQuestions{
                 const country = tenista.paisLabel.value;
                 const record = tenista.victorias.value;
 
-                const [wins, looses] = record ? record.split("-") : ['', ''];
+                const recordAux = record ? record.split("-") : ['', ''];
+                const wins = recordAux[0];
+                const looses = recordAux[1];
 
                 if (!this.players[playerId]) {
                     this.players[playerId] = {
@@ -130,7 +132,7 @@ class TennisQuestions{
               item: result.playerName,
               value:parseInt(result.looses),
             };
-          }).sort((a, b) => a.value - b.value);
+          }).sort((a, b) => b.value - a.value);
         const finalResults={
             correct: null,
             incorrects: []
