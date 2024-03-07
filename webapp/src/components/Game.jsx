@@ -43,7 +43,10 @@ const Question = ({ goTo, setGameFinished }) => {
     const fetchQuestion = async () => {
 
         try {
-            const response = await fetch('http://localhost:8000/api/questions/create');
+            const response = await fetch('http://localhost:8000/api/questions/create', {
+                method: 'GET',
+                mode: 'cors',
+            });
             const data = await response.json();
     
             setQuestion(data.question);
