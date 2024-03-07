@@ -80,6 +80,16 @@ app.post('/addgame', async (req, res) => {
   }
 });
 
+app.post('/getParticipation/:username', async (req, res) => {
+  try {
+    // Forward the login request to the authentication service
+    const participationResponse = await axios.post(gameServiceUrl+'/getParticipation/:username', req.body);
+    res.json(participationResponse.data);
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.response.data.error });
+  }
+});
+
 // Start the gateway service
 const server = app.listen(port, () => {
   console.log(`Gateway Service listening at http://localhost:${port}`);

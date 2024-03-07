@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
 
-export const Participation = ({ userId, goTo }) => {
+export const Participation = ({ username, goTo }) => {
   const [participationData, setParticipationData] = useState(null);
 
   useEffect(() => {
     // Realizar la solicitud al servidor para obtener los datos de participación
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8005/getParticipation/${userId}`);
+        const response = await axios.get(`http://localhost:8005/getParticipation/${username}`);
         setParticipationData(response.data);
       } catch (error) {
         console.error('Error al obtener los datos de participación:', error);
@@ -17,7 +17,7 @@ export const Participation = ({ userId, goTo }) => {
     };
 
     fetchData();
-  }, [userId]);
+  }, [username]);
 
   //Gráfica
   const data = {

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import { useUser } from './UserContext';
 
 const Login = ({ goTo }) => {
   const [username, setUsername] = useState('');
@@ -26,6 +27,8 @@ const Login = ({ goTo }) => {
       setCreatedAt(userCreatedAt);
       setLoginSuccess(true);
       
+      updateUser({ username });
+
       setOpenSnackbar(true);
     } catch (error) {
       setError(error.response.data.error);

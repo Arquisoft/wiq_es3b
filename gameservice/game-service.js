@@ -45,24 +45,40 @@ app.post('/addgame', async (req, res) => {
 });
 
 // Ruta para obtener datos de participación del usuario
-app.get('/getParticipation/:userId', async (req, res) => {
+app.get('/getParticipation/:username', async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const { username } = req.params;
+    const user = await User.findOne({ username });
 
     // Consulta para obtener los datos de participación del usuario
     const participationData = await Game.aggregate([
-      { $match: { user: mongoose.Types.ObjectId(userId) } },
+      { $match: { user } },
       {
         $group: {
           _id: null,
-          totalGames: { $sum: 1 }, //$sum -> Returns a sum of numerical values
-          correctAnswers: { $sum: { $size: { 
-            $filter: {
-               input: "$answers", as: "answer", cond: "$$answer.isCorrect" } 
-          } } },
-          incorrectAnswers: { $sum: { $size: {
-            $filter: { input: "$answers", as: "answer", cond: { $eq: ["$$answer.isCorrect", false] } } 
-          } } },
+          totalGames: { $sum: 1 },
+          correctAnswers: {
+            $sum: {
+              $size: {
+                $filter: {
+                  input: "$answers",
+                  as: "answer",
+                  cond: "$$answer.isCorrect"
+                }
+              }
+            }
+          },
+          incorrectAnswers: {
+            $sum: {
+              $size: {
+                $filter: {
+                  input: "$answers",
+                  as: "answer",
+                  cond: { $eq: ["$$answer.isCorrect", false] }
+                }
+              }
+            }
+          },
           totalTime: { $sum: "$totalTime" },
         },
       },
@@ -80,6 +96,7 @@ app.get('/getParticipation/:userId', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 const server = app.listen(port, () => {
   console.log(`Games Service listening at http://localhost:${port}`);

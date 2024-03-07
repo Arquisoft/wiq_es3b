@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import { useUser } from './UserContext';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -15,6 +16,7 @@ const AddUser = () => {
     try {
       await axios.post(`${apiEndpoint}/adduser`, { username, password });
       setOpenSnackbar(true);
+      updateUser({ username });
     } catch (error) {
       setError(error.response.data.error);
     }
