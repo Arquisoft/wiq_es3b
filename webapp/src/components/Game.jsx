@@ -21,7 +21,6 @@ const Question = ({ goTo, setGameFinished }) => {
     const [nQuestion, setNQuestion] = useState(0);
 
     const [segundos, setSegundos] = useState(MAX_TIME);
-  
     useEffect(() => {
 
         const intervalId = setInterval(() => {
@@ -32,6 +31,7 @@ const Question = ({ goTo, setGameFinished }) => {
         }, 1000);
 
         return () => clearInterval(intervalId);
+    // eslint-disable-next-line
     }, []);
 
     const formatTiempo = (segundos) => {
@@ -119,6 +119,7 @@ const Question = ({ goTo, setGameFinished }) => {
 
     useEffect(() => {
         fetchQuestion();
+    // eslint-disable-next-line
     }, []);
 
     return(
