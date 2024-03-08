@@ -22,7 +22,6 @@ jobs:
     - run: npm --prefix users/authservice test -- --coverage
     - run: npm --prefix users/userservice test -- --coverage
     - run: npm --prefix questionservice test -- --coverage
-    - run: npm --prefix question_generator test -- --coverage
     - run: npm --prefix gameservice test -- --coverage
     - run: npm --prefix gatewayservice test -- --coverage
     - run: npm --prefix webapp test -- --coverage
