@@ -6,15 +6,40 @@ function loadData(){
 const templates=[
     async ()=>
     {
-        const result= await tennisQuery.getPlayerWithMoreGrandSlams();
+        const results = await tennisQuery.getPlayerWithMoreFollowers();
         return{
-            "question":"Who has more Grand Slams?",
-            "correct":result.correct,
-            "incorrects":result.incorrects
+            "question":"Who has more followers?",
+            "correct":results.correct,
+            "incorrects":results.incorrects
+        }
+    },
+    async ()=>
+    {
+        const results = await tennisQuery.getPlayerForCountry();
+        return{
+            "question":"Which player is from " + results.country + "?",
+            "correct":results.correct,
+            "incorrects":results.incorrects
+        }
+    },
+    async ()=>
+    {
+        const results = await tennisQuery.getPlayerWithMoreWins();
+        return{
+            "question":"Who has more wins?",
+            "correct":results.correct,
+            "incorrects":results.incorrects
+        }
+    },
+    async ()=>
+    {
+        const results = await tennisQuery.getPlayerWithMoreLooses();
+        return{
+            "question":"Who has more looses?",
+            "correct":results.correct,
+            "incorrects":results.incorrects
         }
     }
-
-
 ]
 module.exports.getRandomQuestion = () => templates[Math.floor(Math.random()*templates.length)]();
 module.exports.loadData = ()=>loadData();
