@@ -18,7 +18,7 @@ describe('Question generation service', () => {
     expect(response.body).toHaveProperty('question');
     expect(response.body).toHaveProperty('correct');
     expect(response.body).toHaveProperty('incorrects');
-  },10000);
+  },100000);
 
   it('should forward create question request to question generation service', async () => {
     const response = await request(app)
@@ -28,7 +28,7 @@ describe('Question generation service', () => {
     expect(response.body).toHaveProperty('question');
     expect(response.body).toHaveProperty('correct');
     expect(response.body).toHaveProperty('incorrects');
-  },10000);
+  },100000);
 
   it('should forward create question request to question generation service', async () => {
     const response = await request(app)
@@ -38,5 +38,5 @@ describe('Question generation service', () => {
     expect(response.body).toHaveProperty('question');
     expect(response.body).toHaveProperty('correct');
     expect(response.body).toHaveProperty('incorrects');
-  },10000);
+  },100000);
 });

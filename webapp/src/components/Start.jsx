@@ -10,7 +10,7 @@ export const Start = ({ goTo }) => {
                 <button onClick={ () => goTo(2) }>
                     Jugar
                 </button>
-                <button onClick={ () => goTo(4) }>
+                <button onClick={ () => goTo(3) }>
                     Participación
                 </button>
             </div>

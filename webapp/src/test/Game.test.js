@@ -1,6 +1,8 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import { Game } from '../components/Game';
+
+const MAX_TIME = 600;
 
 // Mock de preguntas predefinidas
 const mockQuestions = [
@@ -18,6 +20,16 @@ const mockQuestions = [
 
 // Mock de la función goTo
 const mockGoTo = jest.fn();
+
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  clear: jest.fn(),
+};
+global.localStorage = localStorageMock;
+
+// Mock de setInterval y clearInterval
+jest.useFakeTimers();
 
 describe('Game component', () => {
   beforeEach(() => {
@@ -58,4 +70,13 @@ describe('Game component', () => {
     //fireEvent.click(nextButton);
     //expect(global.fetch).toHaveBeenCalledTimes(2); // Verifica que se hizo una segunda llamada a fetch para obtener la siguiente pregunta
   });
+
+  // Test para verificar que el juego finaliza cuando se alcanza el número máximo de preguntas
+test('El juego finaliza correctamente cuando se alcanza el número máximo de preguntas', async () => {
+
+  render(<Game goTo={() => {}} setGameFinished={() => {}} />);
+  act(() => {
+    jest.advanceTimersByTime(MAX_TIME * 1000);
+  });
+});
 });

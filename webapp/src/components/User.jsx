@@ -14,6 +14,8 @@ function User({ goTo }) {
   };
 
   return (
+    <main>
+      <div>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2 }}>
@@ -32,6 +34,8 @@ function User({ goTo }) {
         )}
       </Typography>
     </Container>
+    </div>
+    </main>
   );
 }
 
