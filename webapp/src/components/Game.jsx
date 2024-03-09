@@ -7,6 +7,8 @@ import { PostGame } from './PostGame'
 const N_QUESTIONS = 10
 const MAX_TIME = 600;
 
+const gatewayUrl=process.env.GATEWAY_SERVICE_URL||"http://localhost:8000"
+
 const Question = ({ goTo, setGameFinished }) => {
     
     const [question, setQuestion] = useState('');
@@ -43,9 +45,8 @@ const Question = ({ goTo, setGameFinished }) => {
     const fetchQuestion = async () => {
 
         try {
-            const response = await fetch('http://localhost:8000/api/questions/create', {
-                method: 'GET',
-                mode: 'cors',
+            const response = await fetch(`${gatewayUrl}/api/questions/create`, {
+                method: 'GET'
             });
             const data = await response.json();
     
