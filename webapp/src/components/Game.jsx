@@ -3,9 +3,12 @@ import { Card, List, ListItem, ListItemButton, ListItemText, Typography } from '
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { PostGame } from './PostGame'
+import Axios from 'axios';
 
 const N_QUESTIONS = 10
 const MAX_TIME = 600;
+
+const gatewayUrl=process.env.GATEWAY_SERVICE_URL||"http://localhost:8000"
 
 const Question = ({ goTo, setGameFinished }) => {
     
@@ -43,11 +46,8 @@ const Question = ({ goTo, setGameFinished }) => {
     const fetchQuestion = async () => {
 
         try {
-            const response = await fetch('http://localhost:8000/api/questions/create', {
-                method: 'GET',
-                mode: 'cors',
-            });
-            const data = await response.json();
+            const response = await Axios.get(`${gatewayUrl}/api/questions/create`);
+            const data = response.data;
     
             setQuestion(data.question);
             setCorrect(data.correct);

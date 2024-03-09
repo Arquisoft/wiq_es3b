@@ -109,6 +109,8 @@ services:
       - gatewayservice
     ports:
       - "3000:3000"
+    environment:
+      GATEWAY_SERVICE_URL: http://gatewayservice:8000
     #volumes:
       #- ./webapp:/app
     
