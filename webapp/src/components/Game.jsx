@@ -7,7 +7,7 @@ import { PostGame } from './PostGame'
 const N_QUESTIONS = 10
 const MAX_TIME = 600;
 
-const gatewayUrl=process.env.GATEWAY_SERVICE_URL||"http://localhost:8000"
+const gatewayUrl=process.env.REACT_APP_API_ENDPOINT||"http://localhost:8000"
 
 const Question = ({ goTo, setGameFinished }) => {
     
