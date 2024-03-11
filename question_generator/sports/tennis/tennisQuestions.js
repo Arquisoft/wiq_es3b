@@ -49,7 +49,11 @@ class TennisQuestions{
                 };
             }
         });
-        this.players=newResults;
+        if(this.players.length ==0){
+            this.players= await newResults;
+        }else{
+            this.plaplayersnets=newResults;
+        }
     }
     async getRandomPlayers(numberOfPlayers){
         const array = Object.values(this.players);

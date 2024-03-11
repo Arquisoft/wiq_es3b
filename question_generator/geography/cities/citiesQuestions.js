@@ -58,7 +58,12 @@ class CitiesQuestions{
 
             newResults[cityId].elevation_above_sea_level.push(parseFloat(elevationAboveSeaLevel));
         });
-        this.cities=newResults;
+        if(this.cities.length ==0){
+            this.cities= await newResults;
+        }else{
+            this.cities=newResults;
+        }
+        
     }
     async getRandomCities(numberOfCities){
         const citiesArray = Object.values(this.cities);

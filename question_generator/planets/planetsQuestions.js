@@ -26,24 +26,28 @@ class PlanetsQuestions{
         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
         }
         GROUP BY ?planet ?planetLabel
-    `;
-    const results=await queryExecutor.execute(query)
-    results.forEach(planet => {
-        const planetId = planet.planet.value;
-        const planetName = planet.planetLabel.value;
-        const radius = planet.radius.value;
+        `;
+        const results=await queryExecutor.execute(query)
+        results.forEach(planet => {
+            const planetId = planet.planet.value;
+            const planetName = planet.planetLabel.value;
+            const radius = planet.radius.value;
 
-        if (!newResults[planetId]) {
-            newResults[planetId] = {
-                planetId: planetId,
-                planetName: planetName,
-                radius: []
-            };
+            if (!newResults[planetId]) {
+                newResults[planetId] = {
+                    planetId: planetId,
+                    planetName: planetName,
+                    radius: []
+                };
+            }
+
+            newResults[planetId].radius.push(parseFloat(radius));
+        });
+        if(this.planets.length ==0){
+            this.planets= await newResults;
+        }else{
+            this.planets=newResults;
         }
-
-        newResults[planetId].radius.push(parseFloat(radius));
-    });
-    this.planets=newResults;
     }
     async getRandomPlanets(number) {
         const array = Object.values(this.planets);
