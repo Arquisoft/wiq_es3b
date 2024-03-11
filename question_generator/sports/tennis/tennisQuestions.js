@@ -49,13 +49,13 @@ class TennisQuestions{
                 };
             }
         });
-        if(this.players.length ==0){
-            this.players= await newResults;
-        }else{
-            this.plaplayersnets=newResults;
-        }
+        this.players=newResults;
+        
     }
     async getRandomPlayers(numberOfPlayers){
+        if(Object.keys(this.players).length==0){
+            await this.loadData();
+        }
         const array = Object.values(this.players);
         const randomResults = array.sort(() => Math.random() - 0.5).slice(0, numberOfPlayers);
         return randomResults

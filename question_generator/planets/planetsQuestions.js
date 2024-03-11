@@ -43,13 +43,12 @@ class PlanetsQuestions{
 
             newResults[planetId].radius.push(parseFloat(radius));
         });
-        if(this.planets.length ==0){
-            this.planets= await newResults;
-        }else{
-            this.planets=newResults;
-        }
+        this.planets=newResults;
     }
     async getRandomPlanets(number) {
+        if(Object.keys(this.planets).length==0){
+            await this.loadData();
+        }
         const array = Object.values(this.planets);
         const randomResults = array.sort(() => Math.random() - 0.5).slice(0, number);
         return randomResults
