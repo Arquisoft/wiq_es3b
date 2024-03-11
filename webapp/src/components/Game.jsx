@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import { PostGame } from './PostGame'
 
 const N_QUESTIONS = 10
-const MAX_TIME = 600;
+const MAX_TIME = 4;
 
 const gatewayUrl=process.env.REACT_APP_API_ENDPOINT||"http://localhost:8000"
 
@@ -104,15 +104,17 @@ const Question = ({ goTo, setGameFinished }) => {
     const handleGameFinish = () => {
 
         if (nQuestion === N_QUESTIONS) { finish() }
-        if (segundos === 1) { setSegundos(0); finish() }
+        if (segundos === 1) {
+            localStorage.setItem("tiempoUsado", MAX_TIME);
+            finish();
+        }
+
     }
 
     const finish = () => {
         // Almacenar datos
         localStorage.setItem("pAcertadas", numberCorrect);
         localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
-        localStorage.setItem("tiempoUsado", MAX_TIME - segundos);
-        localStorage.setItem("tiempoRestante", segundos)
 
         setGameFinished(true);
         goTo(1);

@@ -90,6 +90,11 @@ button:focus-visible {
   justify-content: space-between;
 }
 
+.preguntas {
+  justify-content: flex-start;
+  margin-top: 10vh;
+}
+
 .preguntas span {
   font-size: 1.4em;
   font-family: 'Roboto slab';
