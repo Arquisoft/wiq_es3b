@@ -7,6 +7,8 @@ import { PostGame } from './PostGame'
 const N_QUESTIONS = 10
 const MAX_TIME = 600;
 
+const gatewayUrl=process.env.REACT_APP_API_ENDPOINT||"http://localhost:8000"
+
 const Question = ({ goTo, setGameFinished }) => {
     
     const [question, setQuestion] = useState('');
@@ -21,7 +23,6 @@ const Question = ({ goTo, setGameFinished }) => {
     const [nQuestion, setNQuestion] = useState(0);
 
     const [segundos, setSegundos] = useState(MAX_TIME);
-  
     useEffect(() => {
 
         const intervalId = setInterval(() => {
@@ -32,6 +33,7 @@ const Question = ({ goTo, setGameFinished }) => {
         }, 1000);
 
         return () => clearInterval(intervalId);
+    // eslint-disable-next-line
     }, []);
 
     const formatTiempo = (segundos) => {
@@ -43,7 +45,9 @@ const Question = ({ goTo, setGameFinished }) => {
     const fetchQuestion = async () => {
 
         try {
-            const response = await fetch('http://localhost:8000/api/questions/create');
+            const response = await fetch(`${gatewayUrl}/api/questions/create`, {
+                method: 'GET'
+            });
             const data = await response.json();
     
             setQuestion(data.question);
@@ -116,6 +120,7 @@ const Question = ({ goTo, setGameFinished }) => {
 
     useEffect(() => {
         fetchQuestion();
+    // eslint-disable-next-line
     }, []);
 
     return(
