@@ -6,7 +6,28 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
+
+const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8005';
+
 export const PostGame = () => {
+
+    //'user', 'questions', 'answers', 'totalTime'
+    const postGame = async () => {
+        try {
+            user = jwt.decode({userId});
+            pAcertadas = localStorage.getItem("pAcertadas");
+            pFalladas = localStorage.getItem("pFalladas");
+            tiempoUsado = localStorage.getItem("tiempoUsado");
+
+            //Se necesita las questions y answers del usuario
+
+            await axios.post(`${apiEndpoint}/addgame`, { user, pAcertadas, pFalladas, tiempoUsado });
+        } catch (error) {
+            setError(error.response.data.error);
+        }
+      };
 
     const formatTiempo = (segundos) => {
         const minutos = Math.floor((segundos % 3600) / 60);
