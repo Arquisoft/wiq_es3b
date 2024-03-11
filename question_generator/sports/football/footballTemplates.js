@@ -1,41 +1,14 @@
-const tennisQuestions=require('./tennisQuestions');
-const tennisQuery=tennisQuestions.getInstance();
+const footballQuestions=require('./footballQuestions');
+const footballQuery=footballQuestions.getInstance();
 function loadData(){
-    tennisQuery.loadData();
+    footballQuery.loadData();
 }
 const templates=[
     async ()=>
     {
-        const results = await tennisQuery.getPlayerWithMoreFollowers();
+        const results = await footballQuery.getPlayerWithMoreGrandSlams();
         return{
-            "question":"Who has more followers?",
-            "correct":results.correct,
-            "incorrects":results.incorrects
-        }
-    },
-    async ()=>
-    {
-        const results = await tennisQuery.getPlayerForCountry();
-        return{
-            "question":"Which player is from " + results.country + "?",
-            "correct":results.correct,
-            "incorrects":results.incorrects
-        }
-    },
-    async ()=>
-    {
-        const results = await tennisQuery.getPlayerWithMoreWins();
-        return{
-            "question":"Who has more wins?",
-            "correct":results.correct,
-            "incorrects":results.incorrects
-        }
-    },
-    async ()=>
-    {
-        const results = await tennisQuery.getPlayerWithMoreLooses();
-        return{
-            "question":"Who has more looses?",
+            "question":"Who has more followers? (Tennis)",
             "correct":results.correct,
             "incorrects":results.incorrects
         }

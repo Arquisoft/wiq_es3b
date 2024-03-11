@@ -8,7 +8,7 @@ const templates=[
     {
         const results = await tennisQuery.getPlayerWithMoreFollowers();
         return{
-            "question":"Who has more followers?",
+            "question":"Who has more followers? (Tennis)",
             "correct":results.correct,
             "incorrects":results.incorrects
         }
@@ -17,7 +17,7 @@ const templates=[
     {
         const results = await tennisQuery.getPlayerForCountry();
         return{
-            "question":"Which player is from " + results.country + "?",
+            "question":"Which tennis player is from " + results.country + "?",
             "correct":results.correct,
             "incorrects":results.incorrects
         }
@@ -26,7 +26,7 @@ const templates=[
     {
         const results = await tennisQuery.getPlayerWithMoreWins();
         return{
-            "question":"Who has more wins?",
+            "question":"Who has more wins? (Tennis)",
             "correct":results.correct,
             "incorrects":results.incorrects
         }
@@ -35,7 +35,7 @@ const templates=[
     {
         const results = await tennisQuery.getPlayerWithMoreLooses();
         return{
-            "question":"Who has more looses?",
+            "question":"Who has more looses? (Tennis)",
             "correct":results.correct,
             "incorrects":results.incorrects
         }

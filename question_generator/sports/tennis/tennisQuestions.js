@@ -24,7 +24,7 @@ class TennisQuestions{
                     SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
                 }
                 ORDER BY DESC(?followers)
-                LIMIT 200
+                LIMIT 100
             `
             let players = await queryExecutor.execute(query);
             players.forEach(tenista => {
