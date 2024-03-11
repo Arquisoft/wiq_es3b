@@ -11,58 +11,56 @@ class CitiesQuestions{
         this.cities={};
     }
     async loadData(){
-        if (Object.keys(this.cities).length === 0) {//Se obtienen 100 ciudades relevantes
-            const query=`
-            SELECT ?city ?cityLabel ?population ?countryLabel ?elevation_above_sea_level
-            WITH{
-                SELECT ?city ?cityLabel
-                WHERE{
-                    ?city wdt:P31 wd:Q515
+        let newResults={};
+        const query=`
+        SELECT ?city ?cityLabel ?population ?countryLabel ?elevation_above_sea_level
+        WITH{
+            SELECT ?city ?cityLabel
+            WHERE{
+                ?city wdt:P31 wd:Q515
+            }
+            LIMIT 1000
+            } AS %i
+            WHERE {
+                INCLUDE %i
+                OPTIONAL{
+                ?city wdt:P1082 ?population.
+                ?city wdt:P17 ?country.
+                ?city wdt:P2044 ?elevation_above_sea_level
                 }
-                LIMIT 1000
-                } AS %i
-                WHERE {
-                    INCLUDE %i
-                    OPTIONAL{
+                FILTER EXISTS{
                     ?city wdt:P1082 ?population.
                     ?city wdt:P17 ?country.
                     ?city wdt:P2044 ?elevation_above_sea_level
-                    }
-                    FILTER EXISTS{
-                        ?city wdt:P1082 ?population.
-                        ?city wdt:P17 ?country.
-                        ?city wdt:P2044 ?elevation_above_sea_level
-                    }
-                    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
                 }
-            ORDER BY DESC(?population)
-            LIMIT 100
-            `
-            let cities = await queryExecutor.execute(query);
-            cities.forEach(city => {
-                const cityId = city.city.value;
-                const cityName = city.cityLabel.value;
-                const population = city.population.value;
-                const country = city.countryLabel.value;
-                const elevationAboveSeaLevel = city.elevation_above_sea_level.value;
+                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+            }
+        ORDER BY DESC(?population)
+        LIMIT 100
+        `
+        let cities = await queryExecutor.execute(query);
+        cities.forEach(city => {
+            const cityId = city.city.value;
+            const cityName = city.cityLabel.value;
+            const population = city.population.value;
+            const country = city.countryLabel.value;
+            const elevationAboveSeaLevel = city.elevation_above_sea_level.value;
 
-                if (!this.cities[cityId]) {
-                    this.cities[cityId] = {
-                        cityId: cityId,
-                        cityName: cityName,
-                        population: population,
-                        country: country,
-                        elevation_above_sea_level: []
-                    };
-                }
+            if (!newResults[cityId]) {
+                newResults[cityId] = {
+                    cityId: cityId,
+                    cityName: cityName,
+                    population: population,
+                    country: country,
+                    elevation_above_sea_level: []
+                };
+            }
 
-                this.cities[cityId].elevation_above_sea_level.push(parseFloat(elevationAboveSeaLevel));
-            });
-
-        }
+            newResults[cityId].elevation_above_sea_level.push(parseFloat(elevationAboveSeaLevel));
+        });
+        this.cities=newResults;
     }
     async getRandomCities(numberOfCities){
-        await this.loadData();
         const citiesArray = Object.values(this.cities);
         const randomResults = citiesArray.sort(() => Math.random() - 0.5).slice(0, numberOfCities);
         return randomResults
