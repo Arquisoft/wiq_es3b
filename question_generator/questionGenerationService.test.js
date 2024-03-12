@@ -2,11 +2,13 @@ const request = require('supertest');
 let app;
 
 beforeAll(async () => {
+  jest.useFakeTimers();
   app = require('./questionGenerationService'); 
 });
 
 afterAll(async () => {
     app.close();
+    jest.useRealTimers();
 });
 
 describe('Question generation service', () => {

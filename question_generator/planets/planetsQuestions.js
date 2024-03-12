@@ -11,21 +11,21 @@ class PlanetsQuestions{
         this.planets={}
     }
     async loadData(){
-        if(Object.keys(this.planets).length==0){
-            const query= `
-            SELECT ?planet ?planetLabel (SAMPLE(?radius) AS ?radius)
-            WHERE {
-            ?categ wdt:P361 wd:Q337768.
-            ?planet wdt:P31 ?categ.
-            OPTIONAL {
-                ?planet wdt:P2120 ?radius.
-            }
-            FILTER EXISTS {
-                ?planet wdt:P2120 ?radius.
-            }
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            }
-            GROUP BY ?planet ?planetLabel
+        let newResults={};
+        const query= `
+        SELECT ?planet ?planetLabel (SAMPLE(?radius) AS ?radius)
+        WHERE {
+        ?categ wdt:P361 wd:Q337768.
+        ?planet wdt:P31 ?categ.
+        OPTIONAL {
+            ?planet wdt:P2120 ?radius.
+        }
+        FILTER EXISTS {
+            ?planet wdt:P2120 ?radius.
+        }
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+        }
+        GROUP BY ?planet ?planetLabel
         `;
         const results=await queryExecutor.execute(query)
         results.forEach(planet => {
@@ -33,20 +33,22 @@ class PlanetsQuestions{
             const planetName = planet.planetLabel.value;
             const radius = planet.radius.value;
 
-            if (!this.planets[planetId]) {
-                this.planets[planetId] = {
+            if (!newResults[planetId]) {
+                newResults[planetId] = {
                     planetId: planetId,
                     planetName: planetName,
                     radius: []
                 };
             }
 
-            this.planets[planetId].radius.push(parseFloat(radius));
+            newResults[planetId].radius.push(parseFloat(radius));
         });
-        }
+        this.planets=newResults;
     }
     async getRandomPlanets(number) {
-        await this.loadData();
+        if(Object.keys(this.planets).length==0){
+            await this.loadData();
+        }
         const array = Object.values(this.planets);
         const randomResults = array.sort(() => Math.random() - 0.5).slice(0, number);
         return randomResults

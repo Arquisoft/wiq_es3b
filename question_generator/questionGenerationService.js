@@ -64,7 +64,12 @@ app.get('/api/questions/create', async (req, res) => {
 });
 
 
-generalTemplate.loadData();
+function loadData() {
+  generalTemplate.loadData();
+}
+
+// Ejecuta loadData cada hora (60 minutos * 60 segundos * 1000 milisegundos)
+setInterval(loadData, 60 * 60 * 1000);
 
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
