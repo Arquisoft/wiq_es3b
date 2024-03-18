@@ -16,7 +16,6 @@ class TennisQuestions{
         SELECT DISTINCT ?tenista ?tenistaLabel ?pais ?paisLabel ?victorias ?followers
             WHERE {
                 ?tenista wdt:P106 wd:Q10833314. 
-
                 OPTIONAL { ?tenista wdt:P1532 ?pais. } 
                 OPTIONAL { ?tenista wdt:P564 ?victorias. } 
                 OPTIONAL { ?tenista wdt:P8687 ?followers. }
@@ -24,7 +23,7 @@ class TennisQuestions{
                 SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             }
             ORDER BY DESC(?followers)
-            LIMIT 200
+            LIMIT 100
         `
         let players = await queryExecutor.execute(query);
         players.forEach(tenista => {
@@ -33,7 +32,6 @@ class TennisQuestions{
             const followers = tenista.followers.value;
             const country = tenista.paisLabel.value;
             const record = tenista.victorias.value;
-
             const recordAux = record ? record.split("-") : ['', ''];
             const wins = recordAux[0];
             const looses = recordAux[1];
