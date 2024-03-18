@@ -1,7 +1,8 @@
 import { Card, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material'
+import { SessionContext } from '../SessionContext';
 
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { PostGame } from './PostGame'
 
 const N_QUESTIONS = 10
@@ -11,6 +12,8 @@ const gatewayUrl=process.env.REACT_APP_API_ENDPOINT||"http://localhost:8000"
 
 const Question = ({ goTo, setGameFinished }) => {
     
+    const { sessionData } = useContext(SessionContext);
+
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState([]);
 
@@ -23,6 +26,7 @@ const Question = ({ goTo, setGameFinished }) => {
     const [nQuestion, setNQuestion] = useState(0);
 
     const [segundos, setSegundos] = useState(MAX_TIME);
+
     useEffect(() => {
 
         const intervalId = setInterval(() => {
