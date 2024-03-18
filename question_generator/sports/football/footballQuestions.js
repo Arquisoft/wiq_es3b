@@ -24,7 +24,7 @@ class FootballQuestions{
                 SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             }
             ORDER BY DESC(?followers)
-            LIMIT 250
+            LIMIT 150
             `
             let teams = await queryExecutor.execute(query);
             teams.forEach(team => {
