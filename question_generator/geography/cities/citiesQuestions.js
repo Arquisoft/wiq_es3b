@@ -1,4 +1,5 @@
-const queryExecutor=require("../../queryExecutor")
+const queryExecutor=require("../../queryExecutor");
+const QuestionsUtils = require("../../questions-utils");
 class CitiesQuestions{
     #citiesQuestions=null;
     static getInstance(){
@@ -150,26 +151,12 @@ class CitiesQuestions{
         }
         return finalResults
     }
-    async getCityForCountry(){
-        let numberOfCities=4;
-        let result =(await this.getRandomCities(1))[0];
-        let country=result.country;
 
-        let correct = result.name;
-        let incorrects = []
-        let i=1;
-        while(i<numberOfCities){
-            let city=(await this.getRandomCities(1))[0];
-            if(city.country!=country){
-                incorrects.push(city.name);
-                i++;
-            }
+    async doQuestion(property,nValues){
+        if(Object.keys(this.cities).length==0){
+            await this.loadData();
         }
-        return {
-            country:country,
-            correct:correct,
-            incorrects:incorrects
-        }
+        return QuestionsUtils.getValuesFromDataAndProperty(this.cities, property, nValues);
     }
     async getHigherCity(){
         let numberOfCities=4;

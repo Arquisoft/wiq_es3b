@@ -15,10 +15,10 @@ const templates=[
     },
     async ()=>
     {
-        const results= await citiesQuery.getCityForCountry();
+        const results= await citiesQuery.doQuestion('country',4);
         return{
             "question":"Which city is in?",
-            "question_param":results.country,
+            "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects
         }
