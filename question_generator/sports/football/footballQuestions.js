@@ -1,6 +1,6 @@
 const queryExecutor=require("../../queryExecutor")
 class FootballQuestions{
-    #tennisQuestions=null;
+    #footballQuestions=null;
     static getInstance(){
         if (!this.questions) {
             this.questions = new FootballQuestions();
@@ -11,61 +11,136 @@ class FootballQuestions{
         this.teams={}
     }
     async loadData(){
-        if (Object.keys(this.teams).length === 0) {//Se obtienen 100 ciudades relevantes
+            let newResults={};
             const query=
             `
-            SELECT DISTINCT ?equipo ?paisLabel ?equipoLabel ?entrenadorLabel ?followers ?estadioLabel
-                WHERE {
-                    ?equipo wdt:P31 wd:Q476028;  # Instancia de equipo de fútbol 
-                    OPTIONAL {?equipo wdt:P17 ?pais }
-                    OPTIONAL {?equipo wdt:P286 ?entrenador }
-                    OPTIONAL {?equipo wdt:P8687 ?followers }
-                    OPTIONAL {?equipo wdt:P115 ?estadio }
-                    FILTER (BOUND(?entrenador))
-                    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-                }
-                ORDER BY DESC(?followers)
-                LIMIT 250
+            SELECT DISTINCT ?equipo ?paisLabel ?equipoLabel ?entrenadorLabel ?followers 
+            WHERE {
+                ?equipo wdt:P31 wd:Q476028;  # Instancia de equipo de fútbol 
+                OPTIONAL {?equipo wdt:P17 ?pais }
+                OPTIONAL {?equipo wdt:P286 ?entrenador }
+                OPTIONAL {?equipo wdt:P8687 ?followers }
+                FILTER (BOUND(?entrenador))
+                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+            }
+            ORDER BY DESC(?followers)
+            LIMIT 250
             `
             let teams = await queryExecutor.execute(query);
-            teams.forEach(tenista => {
-                const playerId = tenista.tenista.value;
-                const playerName = tenista.tenistaLabel.value;
-                const followers = tenista.followers.value;
-                const country = tenista.paisLabel.value;
-                const record = tenista.victorias.value;
+            teams.forEach(team => {
+                const teamId = team.equipo.value;
+                const teamName = team.equipoLabel.value;
+                const followers = team.followers.value;
+                const country = team.paisLabel.value;
+                const coach = team.entrenadorLabel.value;
 
-                const recordAux = record ? record.split("-") : ['', ''];
-                const wins = recordAux[0];
-                const looses = recordAux[1];
-
-                if (!this.teams[playerId]) {
-                    this.teams[playerId] = {
-                        playerId: playerId,
-                        playerName: playerName,
+                if (!newResults[teamId]) {
+                    newResults[teamId] = {
+                        teamId: teamId,
+                        teamName: teamName,
                         followers: followers,
                         country: country,
-                        wins: wins,
-                        looses: looses
+                        coach: coach
                     };
                 }
             });
+            /*query = 
+            `
+            SELECT DISTINCT ?equipo ?estadioLabel ?equipoLabel ?followers 
+            WHERE {
+            ?equipo wdt:P31 wd:Q476028;  # Instancia de equipo de fútbol 
+            OPTIONAL {?equipo wdt:P115 ?estadio }
+            OPTIONAL {?equipo wdt:P8687 ?followers }
+            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+            }
+            ORDER BY DESC(?followers)
+            LIMIT 150
+            `
+            teams = await queryExecutor.execute(query);
+            teams.forEach(team => {
+                const teamId = team.equipo.value;
+                const stadium = team.estadioLabel.value;
+
+                if (newResults[teamId]) {
+                    console.log("AAAA")
+                    newResults[teamId].stadium = stadium;
+                }
+            }); */
+            this.teams=newResults;
+    }
+    async getRandomTeam(numberOfTeams){
+        if(Object.keys(this.teams).length==0){
+            await this.loadData();
         }
+        const array = Object.values(this.teams);
+        const randomResults = array.sort(() => Math.random() - 0.5).slice(0, numberOfTeams);
+        return randomResults 
     }
-    async getRandomPlayer(number){
-        await this.loadData();
-        const array = Object.values(this.data);
-        const randomResults = array.sort(() => Math.random() - 0.5).slice(0, number);
-        return randomResults
-    }
-    async getPlayerWithMoreGrandSlams() {
-        const results=await this.getRandomPlayer(4);
-        //...
+    async getTeamForCountry(){
+        let numberOfTeams=4;
+        let result =(await this.getRandomTeam(1))[0];
+        let country=result.country;
+        
+        let correct = result.teamName;
+        let incorrects = []
+        let i=1;
+        while(i<numberOfTeams){
+            let team=(await this.getRandomTeam(1))[0];
+            if(team.country!=country){
+                incorrects.push(team.teamName);
+                i++;
+            }
+        }
         return {
-            correct: "Rafa Nadal",
-            incorrects: ["Persona 2", "Persona 3"]
+            country:country,
+            correct:correct,
+            incorrects:incorrects
         }
     }
+    async getTeamForCoach(){
+        let numberOfTeams=4;
+        let result =(await this.getRandomTeam(1))[0];
+        let coach=result.coach;
+        let teamName=result.teamName;
+
+        let correct = result.teamName;
+        let incorrects = []
+        let i=1;
+        while(i<numberOfTeams){
+            let team=(await this.getRandomTeam(1))[0];
+            if(team.teamName!=teamName){
+                incorrects.push(team.teamName);
+                i++;
+            }
+        }
+        return {
+            coach:coach,
+            correct:correct,
+            incorrects:incorrects
+        }
+    }
+/*    async getTeamForStadium(){
+        let numberOfTeams=4;
+        let result =(await this.getRandomTeam(1))[0];
+        let stadium=result.stadium;
+        let teamName=result.teamName;
+
+        let correct = result.teamName;
+        let incorrects = []
+        let i=1;
+        while(i<numberOfTeams){
+            let team=(await this.getRandomTeam(1))[0];
+            if(team.teamName!=teamName){
+                incorrects.push(team.teamName);
+                i++;
+            }
+        }
+        return {
+            stadium:stadium,
+            correct:correct,
+            incorrects:incorrects
+        }
+    } */
 
 }
 module.exports = FootballQuestions;
