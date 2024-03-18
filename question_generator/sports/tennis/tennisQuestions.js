@@ -11,48 +11,49 @@ class TennisQuestions{
         this.players={}
     }
     async loadData(){
-        if (Object.keys(this.players).length === 0) {//Se obtienen 100 ciudades relevantes
-            const query=`
-            SELECT DISTINCT ?tenista ?tenistaLabel ?pais ?paisLabel ?victorias ?followers
-                WHERE {
-                    ?tenista wdt:P106 wd:Q10833314. 
+        let newResults={};
+        const query=`
+        SELECT DISTINCT ?tenista ?tenistaLabel ?pais ?paisLabel ?victorias ?followers
+            WHERE {
+                ?tenista wdt:P106 wd:Q10833314. 
+                OPTIONAL { ?tenista wdt:P1532 ?pais. } 
+                OPTIONAL { ?tenista wdt:P564 ?victorias. } 
+                OPTIONAL { ?tenista wdt:P8687 ?followers. }
+                FILTER (BOUND(?victorias) && BOUND(?pais) && BOUND(?followers)) 
+                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+            }
+            ORDER BY DESC(?followers)
+            LIMIT 100
+        `
+        let players = await queryExecutor.execute(query);
+        players.forEach(tenista => {
+            const playerId = tenista.tenista.value;
+            const playerName = tenista.tenistaLabel.value;
+            const followers = tenista.followers.value;
+            const country = tenista.paisLabel.value;
+            const record = tenista.victorias.value;
+            const recordAux = record ? record.split("-") : ['', ''];
+            const wins = recordAux[0];
+            const looses = recordAux[1];
 
-                    OPTIONAL { ?tenista wdt:P1532 ?pais. } 
-                    OPTIONAL { ?tenista wdt:P564 ?victorias. } 
-                    OPTIONAL { ?tenista wdt:P8687 ?followers. }
-                    FILTER (BOUND(?victorias) && BOUND(?pais) && BOUND(?followers)) 
-                    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-                }
-                ORDER BY DESC(?followers)
-                LIMIT 100
-            `
-            let players = await queryExecutor.execute(query);
-            players.forEach(tenista => {
-                const playerId = tenista.tenista.value;
-                const playerName = tenista.tenistaLabel.value;
-                const followers = tenista.followers.value;
-                const country = tenista.paisLabel.value;
-                const record = tenista.victorias.value;
-
-                const recordAux = record ? record.split("-") : ['', ''];
-                const wins = recordAux[0];
-                const looses = recordAux[1];
-
-                if (!this.players[playerId]) {
-                    this.players[playerId] = {
-                        playerId: playerId,
-                        playerName: playerName,
-                        followers: followers,
-                        country: country,
-                        wins: wins,
-                        looses: looses
-                    };
-                }
-            });
-        }
+            if (!newResults[playerId]) {
+                newResults[playerId] = {
+                    playerId: playerId,
+                    playerName: playerName,
+                    followers: followers,
+                    country: country,
+                    wins: wins,
+                    looses: looses
+                };
+            }
+        });
+        this.players=newResults;
+        
     }
     async getRandomPlayers(numberOfPlayers){
-        await this.loadData();
+        if(Object.keys(this.players).length==0){
+            await this.loadData();
+        }
         const array = Object.values(this.players);
         const randomResults = array.sort(() => Math.random() - 0.5).slice(0, numberOfPlayers);
         return randomResults
