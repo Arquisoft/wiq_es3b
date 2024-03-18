@@ -12,7 +12,9 @@ class CitiesQuestions{
     }
     async loadData(){
         let newResults={};
-        const query=`
+        const queries=[
+        //ciudades del mundo
+        `
         SELECT ?city ?cityLabel ?population ?countryLabel ?elevation_above_sea_level
         WITH{
             SELECT ?city ?cityLabel
@@ -36,28 +38,84 @@ class CitiesQuestions{
                 SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             }
         ORDER BY DESC(?population)
+        LIMIT 50
+        `,
+         //ciudades de España
+        `SELECT ?city ?cityLabel ?population ?countryLabel ?elevation_above_sea_level
+        WITH{
+            SELECT ?city ?cityLabel
+            WHERE{
+                ?city wdt:P31 wd:Q2074737
+            }
+            LIMIT 1000
+            } AS %i
+            WHERE {
+                INCLUDE %i
+                OPTIONAL{
+                ?city wdt:P1082 ?population.
+                ?city wdt:P17 ?country.
+                ?city wdt:P2044 ?elevation_above_sea_level
+                }
+                FILTER EXISTS{
+                    ?city wdt:P1082 ?population.
+                    ?city wdt:P17 ?country.
+                    ?city wdt:P2044 ?elevation_above_sea_level
+                }
+                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+            }
+        ORDER BY DESC(?population)
+        LIMIT 15`,
+        // Metropolis
+        ` 
+        SELECT ?city ?cityLabel ?population ?countryLabel ?elevation_above_sea_level
+        WITH{
+            SELECT ?city ?cityLabel
+            WHERE{
+                ?city wdt:P31 wd:Q200250
+            }
+            LIMIT 100
+            } AS %i
+            WHERE {
+                INCLUDE %i
+                OPTIONAL{
+                ?city wdt:P1082 ?population.
+                ?city wdt:P17 ?country.
+                ?city wdt:P2044 ?elevation_above_sea_level
+                }
+                FILTER EXISTS{
+                    ?city wdt:P1082 ?population.
+                    ?city wdt:P17 ?country.
+                    ?city wdt:P2044 ?elevation_above_sea_level
+                }
+                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+            }
+        ORDER BY DESC(?population)
         LIMIT 100
         `
-        let cities = await queryExecutor.execute(query);
-        cities.forEach(city => {
-            const cityId = city.city.value;
-            const cityName = city.cityLabel.value;
-            const population = city.population.value;
-            const country = city.countryLabel.value;
-            const elevationAboveSeaLevel = city.elevation_above_sea_level.value;
+        ];
+        for(let i = 0; i <queries.length; i++) {
+            let query = queries[i];
+            let cities = await queryExecutor.execute(query);
+            cities.forEach(city => {
+                const cityId = city.city.value;
+                const cityName = city.cityLabel.value;
+                const population = city.population.value;
+                const country = city.countryLabel.value;
+                const elevationAboveSeaLevel = city.elevation_above_sea_level.value;
 
-            if (!newResults[cityId]) {
-                newResults[cityId] = {
-                    cityId: cityId,
-                    cityName: cityName,
-                    population: population,
-                    country: country,
-                    elevation_above_sea_level: []
-                };
-            }
+                if (!newResults[cityId]) {
+                    newResults[cityId] = {
+                        cityId: cityId,
+                        name: cityName,
+                        population: population,
+                        country: country,
+                        elevation_above_sea_level: []
+                    };
+                }
 
-            newResults[cityId].elevation_above_sea_level.push(parseFloat(elevationAboveSeaLevel));
-        });
+                newResults[cityId].elevation_above_sea_level.push(parseFloat(elevationAboveSeaLevel));
+            });
+        }
         this.cities=newResults;
         
     }
@@ -74,7 +132,7 @@ class CitiesQuestions{
         const results=await this.getRandomCities(numberOfCities);
         const formattedResults = await results.map(result => {
             return {
-              item: result.cityName,
+              item: result.name,
               value:parseFloat(result.population),
             };
           }).sort((a, b) => b.value - a.value);
@@ -97,13 +155,13 @@ class CitiesQuestions{
         let result =(await this.getRandomCities(1))[0];
         let country=result.country;
 
-        let correct = result.cityName;
+        let correct = result.name;
         let incorrects = []
         let i=1;
         while(i<numberOfCities){
             let city=(await this.getRandomCities(1))[0];
             if(city.country!=country){
-                incorrects.push(city.cityName);
+                incorrects.push(city.name);
                 i++;
             }
         }
@@ -124,10 +182,10 @@ class CitiesQuestions{
         }
         for(let i=0;i<numberOfCities;i++){
             if(i==0){
-                finalResults.correct=formattedResults[i].cityName
+                finalResults.correct=formattedResults[i].name
             }
             else{
-                finalResults.incorrects.push(formattedResults[i].cityName)
+                finalResults.incorrects.push(formattedResults[i].name)
             }
         }
         return finalResults;
