@@ -108,7 +108,10 @@ const Question = ({ goTo, setGameFinished }) => {
         localStorage.setItem("pAcertadas", numberCorrect);
         localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
         localStorage.setItem("tiempoUsado", MAX_TIME - segundos);
-        localStorage.setItem("tiempoRestante", segundos)
+        localStorage.setItem("tiempoRestante", segundos);
+
+        //localStorage.setItem("questionsAnswered", )
+        //localStorage.setItem("answers", )
 
         setGameFinished(true);
         goTo(1);

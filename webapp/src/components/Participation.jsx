@@ -56,7 +56,7 @@ export const Participation = ({ goTo }) => {
       ) : (
         <p>Cargando datos de participación...</p>
       )}
-      <button onClick={() => goTo(0)}>Menú</button>
+      <button onClick={() => goTo(1)}>Menú</button>
     </div>
   );
 };
