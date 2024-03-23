@@ -21,7 +21,9 @@ describe('Question Service', () => {
     const newQuestion = {
       question: 'Mocked Question',
       correct: 'Mocked Correct Answer',
-      incorrects: ['Mocked Option 1', 'Mocked Option 2']
+      incorrects: ['Mocked Option 1', 'Mocked Option 2'],
+      user: 'Mocked User',
+      category: 'Mocked Category'
     };
 
     const response = await request(app).post('/addquestion').send(newQuestion);
