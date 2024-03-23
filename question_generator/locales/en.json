@@ -3,11 +3,12 @@
 	"Which city has more population?": "Which city has more population?",
 	"Which city is in?": "Which city is in %s?",
 	"Which city has a larger area?": "Which city has a larger area?",
-
+	
 	"Which planet is bigger?": "Which planet is bigger?",
 
 	"Who has more Grand Slams?": "Who has more Grand Slams?",
 	"Who has more followers?": "Who has more followers?",
-	"Who has more looses?": "Who has more looses?"
-	
+	"Who has more looses?": "Who has more looses?",
+	"Who has more wins?": "Who has more wins?",
+	"Which player is from?" : "Which player is from %s?"
 }

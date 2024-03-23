@@ -59,7 +59,6 @@ app.get('/api/questions/create', async (req, res) => {
       const url = questionServiceUrl+'/addquestion';
       try {
         const response = await axios.post(url, question);
-        console.log(response.data);
       } catch (error) {
         console.error(error);
       }

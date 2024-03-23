@@ -19,6 +19,10 @@ class QueryExecutor{
             },
             ...config,
         });
+        if (!response || !response.data) {
+            console.error('La consulta a Wikidata no devolvió ningún resultado');
+            return;
+          }
     
         return response.data.results.bindings;
     

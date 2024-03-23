@@ -20,8 +20,8 @@ const validateRequiredFields = (req, fields) => {
   }
 };
 
-// Ruta para agregar una nueva pregunta
-app.post('/addquestion', async (req, res) => {
+
+const addQuestion = async (req, res) => {
   try {
     validateRequiredFields(req, ['question', 'correct', 'incorrects', 'user', 'category']);
 
@@ -43,7 +43,9 @@ app.post('/addquestion', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+};
+// Ruta para agregar una nueva pregunta
+app.post('/addquestion', addQuestion);
 
 // logica para preguntas??
 
@@ -57,3 +59,4 @@ server.on('close', () => {
 });
 
 module.exports = server;
+module.exports.addQuestion = addQuestion;
