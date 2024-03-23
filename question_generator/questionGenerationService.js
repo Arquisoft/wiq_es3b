@@ -6,6 +6,8 @@ const geographyTemplate=require('./geography/geographyTemplate');
 const planetTemplate=require('./planets/planetsTemplates');
 const sportTemplate=require('./sports/sportTemplate');
 const generalTemplate=require('./questionTemplate');
+const axios = require('axios');
+const questionServiceUrl = process.env.QUESTIONS_SERVICE_URL || 'http://localhost:8004';
 
 const app = express();
 const port = 8003;
@@ -50,6 +52,22 @@ app.get('/api/questions/create', async (req, res) => {
         randomQuestion = await generalTemplate.getRandomQuestion();
     }
     randomQuestion.question = i18n.__(randomQuestion.question, randomQuestion.question_param);
+    const saveQuestion = async (question) => {
+      const url = questionServiceUrl+'/addquestion';
+      try {
+        const response = await axios.post(url, question);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    //esto creo que puede ser asincrono
+    await saveQuestion({
+      question: randomQuestion.question,
+      correct: randomQuestion.correct,
+      incorrects: randomQuestion.incorrects
+    });
+
 
     res.status(200).json(
       {

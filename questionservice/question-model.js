@@ -19,6 +19,11 @@ const questionSchema = new mongoose.Schema({
           message: 'Options must be between 2 and 4 elements.',
     },
   },
+  generationDate: {
+    type: Date,
+    default: Date.now,
+    required: true,
+  },
 });
 
 const Question = mongoose.model('Question', questionSchema);
