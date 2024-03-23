@@ -100,15 +100,24 @@ class CitiesQuestions{
             {
                 name:'elevation_above_sea_level',
                 id: 'P2044'
+            },
+            {
+                name:'highest_point',
+                id: 'P610'
+            },
+            {
+                name: 'area',
+                id: 'P2046'
             }
-
         ]
         for(let i = 0; i <Object.keys(newResults).length; i++) {
             let cityId = Object.keys(newResults)[i];
             let  r= await queryExecutor.executeQueryForEntityAndProperty(cityId, propertiesToLoad);
             if(r.length>0){
                 for(let j=0;j<propertiesToLoad.length;j++){
-                    newResults[cityId][propertiesToLoad[j].name] = r[0][propertiesToLoad[j].name].value;
+                    if(r[0][propertiesToLoad[j].name]!==undefined){
+                        newResults[cityId][propertiesToLoad[j].name] = r[0][propertiesToLoad[j].name].value;
+                    }
                 }
             }
         }

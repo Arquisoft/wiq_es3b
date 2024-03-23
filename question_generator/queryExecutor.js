@@ -33,8 +33,17 @@ class QueryExecutor{
             return [];
         }
         const query=
-        `SELECT ${properties.map(property=>`?${property.name}`).join(' ')} WHERE {?id ?prop wd:${entity};wdt:${properties[0].id} ?${properties[0].name}. OPTIONAL {${properties.map(property=>`?id wdt:${property.id} ?${property.name}.`).join(' ')} SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }}}LIMIT 1`
-        return await this.execute(query);
+        `SELECT ${properties.map(property=>`?${property.name}Label`).join(' ')} WHERE {OPTIONAL {${properties.map(property=>`wd:${entity} wdt:${property.id} ?${property.name}.`).join(' ')}} SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }}LIMIT 1`
+        let results=await this.execute(query);
+        const editedResults = results.map(result => {
+            const editedResult = {};
+            for (const key in result) {
+                const newKey = key.replace(/Label$/, '');
+                editedResult[newKey] = result[key];
+            }
+            return editedResult;
+        });
+        return editedResults;
     }
 }
 module.exports=QueryExecutor
