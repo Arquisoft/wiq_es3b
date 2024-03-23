@@ -11,111 +11,106 @@ class CitiesQuestions{
     constructor(){
         this.cities={};
     }
-    async loadData(){
-        let newResults={};
-        const queries=[
-        //ciudades del mundo
-        `
-        SELECT ?city ?cityLabel ?population ?countryLabel ?elevation_above_sea_level
-        WITH{
-            SELECT ?city ?cityLabel
-            WHERE{
-                ?city wdt:P31 wd:Q515
-            }
-            LIMIT 1000
-            } AS %i
-            WHERE {
-                INCLUDE %i
-                OPTIONAL{
-                ?city wdt:P1082 ?population.
-                ?city wdt:P17 ?country.
-                ?city wdt:P2044 ?elevation_above_sea_level
+    async loadCities(){
+        let result={};
+        const citiesQueries=[
+            //Instancia de CITY
+            `SELECT ?city ?cityLabel ?population ?countryLabel 
+            WITH{
+                SELECT ?city ?cityLabel
+                WHERE{
+                    ?city wdt:P31 wd:Q515
                 }
-                FILTER EXISTS{
+                LIMIT 1000
+                } AS %i
+                WHERE {
+                    INCLUDE %i
+                    OPTIONAL{
                     ?city wdt:P1082 ?population.
                     ?city wdt:P17 ?country.
-                    ?city wdt:P2044 ?elevation_above_sea_level
+                    }
+                    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
                 }
-                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            }
-        ORDER BY DESC(?population)
-        LIMIT 50
-        `,
-         //ciudades de España
-        `SELECT ?city ?cityLabel ?population ?countryLabel ?elevation_above_sea_level
-        WITH{
-            SELECT ?city ?cityLabel
-            WHERE{
-                ?city wdt:P31 wd:Q2074737
-            }
-            LIMIT 1000
-            } AS %i
-            WHERE {
-                INCLUDE %i
-                OPTIONAL{
-                ?city wdt:P1082 ?population.
-                ?city wdt:P17 ?country.
-                ?city wdt:P2044 ?elevation_above_sea_level
+            ORDER BY DESC(?population)
+            LIMIT 100`,
+            //Ciudades de España
+            `SELECT ?city ?cityLabel ?population ?countryLabel 
+            WITH{
+                SELECT ?city ?cityLabel
+                WHERE{
+                    ?city wdt:P31 wd:Q2074737
                 }
-                FILTER EXISTS{
+                LIMIT 1000
+                } AS %i
+                WHERE {
+                    INCLUDE %i
+                    OPTIONAL{
                     ?city wdt:P1082 ?population.
                     ?city wdt:P17 ?country.
-                    ?city wdt:P2044 ?elevation_above_sea_level
+                    }
+                    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
                 }
-                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            }
-        ORDER BY DESC(?population)
-        LIMIT 15`,
-        // Metropolis
-        ` 
-        SELECT ?city ?cityLabel ?population ?countryLabel ?elevation_above_sea_level
-        WITH{
-            SELECT ?city ?cityLabel
-            WHERE{
-                ?city wdt:P31 wd:Q200250
-            }
-            LIMIT 100
-            } AS %i
-            WHERE {
-                INCLUDE %i
-                OPTIONAL{
-                ?city wdt:P1082 ?population.
-                ?city wdt:P17 ?country.
-                ?city wdt:P2044 ?elevation_above_sea_level
+            ORDER BY DESC(?population)
+            LIMIT 20`,
+            //Metropolis
+            `SELECT ?city ?cityLabel ?population ?countryLabel 
+            WITH{
+                SELECT ?city ?cityLabel
+                WHERE{
+                    ?city wdt:P31 wd:Q200250
                 }
-                FILTER EXISTS{
+                LIMIT 1000
+                } AS %i
+                WHERE {
+                    INCLUDE %i
+                    OPTIONAL{
                     ?city wdt:P1082 ?population.
                     ?city wdt:P17 ?country.
-                    ?city wdt:P2044 ?elevation_above_sea_level
+                    }
+                    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
                 }
-                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            }
-        ORDER BY DESC(?population)
-        LIMIT 100
-        `
+            ORDER BY DESC(?population)
+            LIMIT 5`
+
         ];
-        for(let i = 0; i <queries.length; i++) {
-            let query = queries[i];
+        for(let i = 0; i <citiesQueries.length; i++) {
+            let query = citiesQueries[i];
             let cities = await queryExecutor.execute(query);
-            cities.forEach(city => {
-                const cityId = city.city.value;
+            cities.forEach(city=>{
+                const cityId = city.city.value.match(/Q\d+/)[0];
                 const cityName = city.cityLabel.value;
                 const population = city.population.value;
                 const country = city.countryLabel.value;
-                const elevationAboveSeaLevel = city.elevation_above_sea_level.value;
-
-                if (!newResults[cityId]) {
-                    newResults[cityId] = {
+                if (!result[cityId]) {
+                    result[cityId] = {
                         cityId: cityId,
                         name: cityName,
                         population: population,
-                        country: country,
-                        elevation_above_sea_level: []
-                    };
+                        country: country
+                    }
                 }
-
-                newResults[cityId].elevation_above_sea_level.push(parseFloat(elevationAboveSeaLevel));
             });
+        }
+        return result;
+    
+    }
+    async loadData(){
+        let newResults = await this.loadCities();
+        const propertiesToLoad=[
+            {
+                name:'elevation_above_sea_level',
+                id: 'P2044'
+            }
+
+        ]
+        for(let i = 0; i <Object.keys(newResults).length; i++) {
+            let cityId = Object.keys(newResults)[i];
+            for(let j = 0; j < propertiesToLoad.length; j++) {
+                let  r= await queryExecutor.executeQueryForEntityAndProperty(cityId, propertiesToLoad[j]);
+                if(r.length>0){
+                    newResults[cityId][propertiesToLoad[j].name] = r[0][propertiesToLoad[j].name].value;
+                }
+            }
         }
         this.cities=newResults;
         

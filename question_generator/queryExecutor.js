@@ -28,5 +28,10 @@ class QueryExecutor{
         console.error('Error al realizar la consulta a Wikidata:', error.message);
         }
     }
+    static async executeQueryForEntityAndProperty(entity, property){
+        const query=
+        `SELECT ?${property.name} WHERE{?id ?prop wd:${entity};wdt:${property.id} ?${property.name}.SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }}LIMIT 1`
+        return await this.execute(query);
+    }
 }
 module.exports=QueryExecutor
