@@ -24,6 +24,12 @@ const questionSchema = new mongoose.Schema({
     default: Date.now,
     required: true,
   },
+  user: {
+    type: String
+  },
+  category: {
+    type: String
+  },
 });
 
 const Question = mongoose.model('Question', questionSchema);

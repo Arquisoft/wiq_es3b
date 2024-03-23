@@ -35,7 +35,9 @@ app.use(
 
 app.get('/api/questions/create', async (req, res) => {
   try {
-    const category = req.query.category;
+    let category = req.query.category;
+    //User is null because we are not using authentication yet
+    let user=null;
     let randomQuestion;
 
     switch (category) {
@@ -50,6 +52,7 @@ app.get('/api/questions/create', async (req, res) => {
         break;
       default:
         randomQuestion = await generalTemplate.getRandomQuestion();
+        category = 'general';
     }
     randomQuestion.question = i18n.__(randomQuestion.question, randomQuestion.question_param);
     const saveQuestion = async (question) => {
@@ -61,11 +64,12 @@ app.get('/api/questions/create', async (req, res) => {
         console.error(error);
       }
     };
-    //esto creo que puede ser asincrono
-    await saveQuestion({
+    saveQuestion({
       question: randomQuestion.question,
       correct: randomQuestion.correct,
-      incorrects: randomQuestion.incorrects
+      incorrects: randomQuestion.incorrects,
+      user: user,
+      category: category
     });
 
 
@@ -77,7 +81,7 @@ app.get('/api/questions/create', async (req, res) => {
       }
     );
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error'});
   }
 });
 
@@ -85,7 +89,7 @@ app.get('/api/questions/create', async (req, res) => {
 function loadData() {
   generalTemplate.loadData();
 }
-
+loadData();
 // Ejecuta loadData cada hora (60 minutos * 60 segundos * 1000 milisegundos)
 setInterval(loadData, 60 * 60 * 1000);
 

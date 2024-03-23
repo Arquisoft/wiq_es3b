@@ -1,15 +1,13 @@
 {
-
-	"Which city is higher above sea level?": "¿Qué ciudad tiene más altitud sobre el nivel del mar?",
+	"Which city is higher above sea level?": "¿Qué ciudad está a mayor altitud?",
 	"Which city has more population?": "¿Qué ciudad tiene más población?",
-	"Which city is in?": "¿Qué ciudad está en %s?",
+	"Which city is in?": "¿Qué ciudad se encuentra %s?",
+	"Which city has a larger area?": "¿Qué ciudad tiene un área más grande?",
 
+	"Which planet is bigger?": "¿Qué planeta es más grande?",
 
-    
-    "Which planet is bigger?": "¿Qué planeta tiene un tamaño mayor?",
-
-
-
-
-    "Who has more Grand Slams?": "¿Quién tiene más Grand Slams?"
+	"Who has more Grand Slams?": "¿Quién tiene más Grand Slams?",
+	"Who has more followers?": "¿Quién tiene más seguidores?",
+	"Who has more looses?": "¿Quién tiene más derrotas?"
+	
 }

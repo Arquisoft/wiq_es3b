@@ -23,15 +23,17 @@ const validateRequiredFields = (req, fields) => {
 // Ruta para agregar una nueva pregunta
 app.post('/addquestion', async (req, res) => {
   try {
-    validateRequiredFields(req, ['question', 'correct', 'incorrects']);
+    validateRequiredFields(req, ['question', 'correct', 'incorrects', 'user', 'category']);
 
-    const { question, correct, incorrects } = req.body;
+    const { question, correct, incorrects, user, category } = req.body;
 
     // Crea una nueva instancia del modelo de preguntas
     const newQuestion = new Question({
       question,
       correct,
       incorrects,
+      user,
+      category
     });
 
     // Guarda la nueva pregunta en la base de datos
