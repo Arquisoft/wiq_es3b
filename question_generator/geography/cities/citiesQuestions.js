@@ -105,9 +105,9 @@ class CitiesQuestions{
         ]
         for(let i = 0; i <Object.keys(newResults).length; i++) {
             let cityId = Object.keys(newResults)[i];
-            for(let j = 0; j < propertiesToLoad.length; j++) {
-                let  r= await queryExecutor.executeQueryForEntityAndProperty(cityId, propertiesToLoad[j]);
-                if(r.length>0){
+            let  r= await queryExecutor.executeQueryForEntityAndProperty(cityId, propertiesToLoad);
+            if(r.length>0){
+                for(let j=0;j<propertiesToLoad.length;j++){
                     newResults[cityId][propertiesToLoad[j].name] = r[0][propertiesToLoad[j].name].value;
                 }
             }

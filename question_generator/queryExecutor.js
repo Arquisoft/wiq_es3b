@@ -28,9 +28,12 @@ class QueryExecutor{
         console.error('Error al realizar la consulta a Wikidata:', error.message);
         }
     }
-    static async executeQueryForEntityAndProperty(entity, property){
+    static async executeQueryForEntityAndProperty(entity, properties){
+        if(!Array.isArray(properties) || properties.length==0){
+            return [];
+        }
         const query=
-        `SELECT ?${property.name} WHERE{?id ?prop wd:${entity};wdt:${property.id} ?${property.name}.SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }}LIMIT 1`
+        `SELECT ${properties.map(property=>`?${property.name}`).join(' ')} WHERE {?id ?prop wd:${entity};wdt:${properties[0].id} ?${properties[0].name}. OPTIONAL {${properties.map(property=>`?id wdt:${property.id} ?${property.name}.`).join(' ')} SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }}}LIMIT 1`
         return await this.execute(query);
     }
 }
