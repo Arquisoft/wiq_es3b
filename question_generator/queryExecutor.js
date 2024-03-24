@@ -37,7 +37,7 @@ class QueryExecutor{
             return [];
         }
         const query=
-        `SELECT ${properties.map(property=>`?${property.name}Label`).join(' ')} WHERE {OPTIONAL {${properties.map(property=>`wd:${entity} wdt:${property.id} ?${property.name}.`).join(' ')}} SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }}LIMIT 1`
+        `SELECT ${properties.map(property=>`?${property.name}Label`).join(' ')} WHERE {${properties.map(property=>`OPTIONAL {wd:${entity} wdt:${property.id} ?${property.name}.}`).join(' ')} SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }}LIMIT 1`
         let results=await this.execute(query);
         const editedResults = results.map(result => {
             const editedResult = {};

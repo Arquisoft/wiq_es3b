@@ -108,6 +108,18 @@ class CitiesQuestions{
             {
                 name: 'area',
                 id: 'P2046'
+            },
+            {
+                name: 'continent',
+                id: 'P30'
+            },
+            {
+                name: 'head_of_government',
+                id: 'P6'
+            },
+            {
+                name: 'located_in_time_zone',
+                id: 'P421'
             }
         ]
         for(let i = 0; i <Object.keys(newResults).length; i++) {
