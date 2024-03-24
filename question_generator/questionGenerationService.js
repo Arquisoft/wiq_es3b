@@ -6,6 +6,8 @@ const geographyTemplate=require('./geography/geographyTemplate');
 const planetTemplate=require('./planets/planetsTemplates');
 const sportTemplate=require('./sports/sportTemplate');
 const generalTemplate=require('./questionTemplate');
+const axios = require('axios');
+const questionServiceUrl = process.env.QUESTIONS_SERVICE_URL || 'http://localhost:8004';
 
 const app = express();
 const port = 8003;
@@ -33,7 +35,9 @@ app.use(
 
 app.get('/api/questions/create', async (req, res) => {
   try {
-    const category = req.query.category;
+    let category = req.query.category;
+    //User is null because we are not using authentication yet
+    let user=null;
     let randomQuestion;
 
     switch (category) {
@@ -48,8 +52,25 @@ app.get('/api/questions/create', async (req, res) => {
         break;
       default:
         randomQuestion = await generalTemplate.getRandomQuestion();
+        category = 'general';
     }
     randomQuestion.question = i18n.__(randomQuestion.question, randomQuestion.question_param);
+    const saveQuestion = async (question) => {
+      const url = questionServiceUrl+'/addquestion';
+      try {
+        const response = await axios.post(url, question);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    saveQuestion({
+      question: randomQuestion.question,
+      correct: randomQuestion.correct,
+      incorrects: randomQuestion.incorrects,
+      user: user,
+      category: category
+    });
+
 
     res.status(200).json(
       {
@@ -59,7 +80,7 @@ app.get('/api/questions/create', async (req, res) => {
       }
     );
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error'});
   }
 });
 
@@ -67,7 +88,7 @@ app.get('/api/questions/create', async (req, res) => {
 function loadData() {
   generalTemplate.loadData();
 }
-
+loadData();
 // Ejecuta loadData cada hora (60 minutos * 60 segundos * 1000 milisegundos)
 setInterval(loadData, 60 * 60 * 1000);
 

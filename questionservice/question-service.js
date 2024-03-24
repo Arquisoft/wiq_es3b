@@ -20,18 +20,20 @@ const validateRequiredFields = (req, fields) => {
   }
 };
 
-// Ruta para agregar una nueva pregunta
-app.post('/addquestion', async (req, res) => {
-  try {
-    validateRequiredFields(req, ['question', 'correct', 'incorrects']);
 
-    const { question, correct, incorrects } = req.body;
+const addQuestion = async (req, res) => {
+  try {
+    validateRequiredFields(req, ['question', 'correct', 'incorrects', 'user', 'category']);
+
+    const { question, correct, incorrects, user, category } = req.body;
 
     // Crea una nueva instancia del modelo de preguntas
     const newQuestion = new Question({
       question,
       correct,
       incorrects,
+      user,
+      category
     });
 
     // Guarda la nueva pregunta en la base de datos
@@ -41,7 +43,9 @@ app.post('/addquestion', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+};
+// Ruta para agregar una nueva pregunta
+app.post('/addquestion', addQuestion);
 
 // logica para preguntas??
 
@@ -55,3 +59,4 @@ server.on('close', () => {
 });
 
 module.exports = server;
+module.exports.addQuestion = addQuestion;
