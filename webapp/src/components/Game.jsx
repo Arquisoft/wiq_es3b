@@ -23,7 +23,7 @@ const Question = ({ goTo, setGameFinished }) => {
 
     const [correct, setCorrect] = useState('');
     const [numberCorrect, setNumberCorrect] = useState(0);
-    const [nQuestion, setNQuestion] = useState(0);
+    const [nQuestion, setNQuestion] = useState(-1);
 
     const [segundos, setSegundos] = useState(MAX_TIME);
 
@@ -31,7 +31,7 @@ const Question = ({ goTo, setGameFinished }) => {
 
         const intervalId = setInterval(() => {
             setSegundos(segundos => {
-                if (segundos === 1) { clearInterval(intervalId); finish() }
+                if (segundos === 1) { clearInterval(intervalId); finishByTime() }
                 return segundos - 1;
             });
         }, 1000);
@@ -107,16 +107,31 @@ const Question = ({ goTo, setGameFinished }) => {
 
     const handleGameFinish = () => {
 
-        if (nQuestion === N_QUESTIONS) { finish() }
-        if (segundos === 1) { setSegundos(0); finish() }
+        if (nQuestion === N_QUESTIONS) { 
+            localStorage.setItem("pAcertadas", numberCorrect);
+            localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
+            finishByQuestions();
+        }
+        if (segundos === 1) {
+            localStorage.setItem("pAcertadas", numberCorrect);
+            localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
+            finishByTime();
+        }
     }
 
-    const finish = () => {
+    const finishByQuestions = () => {
         // Almacenar datos
-        localStorage.setItem("pAcertadas", numberCorrect);
-        localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
         localStorage.setItem("tiempoUsado", MAX_TIME - segundos);
         localStorage.setItem("tiempoRestante", segundos)
+
+        setGameFinished(true);
+        goTo(1);
+    }
+
+    const finishByTime = () => {
+        // Almacenar datos
+        localStorage.setItem("tiempoUsado", MAX_TIME);
+        localStorage.setItem("tiempoRestante", 0);
 
         setGameFinished(true);
         goTo(1);
@@ -153,13 +168,11 @@ const Question = ({ goTo, setGameFinished }) => {
                 ))}
             </List>
         </Card>
-        { isSelected ? (
-                
-            <ListItemButton onClick={ () => fetchQuestion() } sx={{ justifyContent: 'center' , marginTop: 2}} >
-                Next
-            </ListItemButton>
-            ) : (null)
-        }
+        <ListItemButton onClick={ isSelected ? () => fetchQuestion() : null }
+                    sx={{ justifyContent: 'center' , marginTop: 2}} 
+                    className={isSelected ? '' : 'isNotSelected'} >
+            Next
+        </ListItemButton>
         </div>
         </main>
     )
