@@ -169,7 +169,7 @@ const Question = ({ goTo, setGameFinished }) => {
         </div>
         <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }}>
 
-            <Typography variant='h4' sx={{ padding:'10px 40px 30px 40px' }}>
+            <Typography variant='h4' sx={{ padding:'10px 40px 30px 40px', color:'#8f95fd' }}>
                 {question}
             </Typography>
 

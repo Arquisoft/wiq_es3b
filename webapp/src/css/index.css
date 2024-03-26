@@ -85,6 +85,10 @@ button:focus-visible {
   gap: 10px;
 }
 
+.tituloStart {
+  color: #8f95fd;
+}
+
 .questionTime {
   display: flex;
   justify-content: space-between;

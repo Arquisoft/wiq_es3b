@@ -5,7 +5,7 @@ export const Start = ({ goTo }) => {
 
         <>
         <main>
-            <h1>ASW Quiz - WIQ</h1>
+            <h1 className="tituloStart">ASW Quiz - WIQ</h1>
             <div id="start">
                 <button onClick={ () => goTo(2) }>
                     Play
