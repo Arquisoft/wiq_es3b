@@ -41,6 +41,7 @@ export const Participation = ({ userId, goTo }) => {
   };
 
   return (
+    <main>
     <div>
       <h1>Participation</h1>
       {participationData ? (
@@ -54,7 +55,7 @@ export const Participation = ({ userId, goTo }) => {
       ) : (
         <p>Cargando datos de participación...</p>
       )}
-      <button onClick={() => goTo(0)}>Menú</button>
     </div>
+    </main>
   );
 };

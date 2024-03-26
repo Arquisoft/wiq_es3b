@@ -6,7 +6,7 @@ import { useState, useEffect, useContext } from 'react'
 import { PostGame } from './PostGame'
 
 const N_QUESTIONS = 10
-const MAX_TIME = 600;
+const MAX_TIME = 120;
 
 const gatewayUrl=process.env.REACT_APP_API_ENDPOINT||"http://localhost:8000"
 
@@ -158,9 +158,10 @@ const Question = ({ goTo, setGameFinished }) => {
 
             <List sx={{ bgcolor: '#333'}} disablePadding>
                 {options.map((option, index) => (
-                    <ListItem onClick={ () => handleSubmit(option, index) } key={index} sx={{ bgcolor: getBackgroundColor(option, index)}}>
-                        <ListItemButton>
-                            <ListItemText sx={{textAlign: 'center'}}>
+                    <ListItem onClick={ () => handleSubmit(option, index) } key={index}
+                                sx={{ bgcolor: getBackgroundColor(option, index)}}>
+                        <ListItemButton className={isSelected ? 'disabledButton' : ''}>
+                            <ListItemText sx={{textAlign: 'center'}} >
                                 {option}
                             </ListItemText>
                         </ListItemButton>

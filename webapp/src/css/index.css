@@ -110,8 +110,17 @@ button:focus-visible {
   font-family: 'Roboto slab';
 }
 
+.navButton:hover {
+  color: #747bff;
+}
+
 .isNotSelected {
   color: #555 !important;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.disabledButton {
   cursor: not-allowed;
   pointer-events: none;
 }
