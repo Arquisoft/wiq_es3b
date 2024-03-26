@@ -125,6 +125,16 @@ button:focus-visible {
   pointer-events: none;
 }
 
+.audioQuestion {
+  margin: 1px;
+}
+
+.audioImg {
+  width: 1.6em;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

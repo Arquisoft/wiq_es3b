@@ -5,8 +5,16 @@ import React from 'react'
 import { useState, useEffect, useContext } from 'react'
 import { PostGame } from './PostGame'
 
+import correctSound from '../audio/correct.mp3';
+import incorrectSound from '../audio/incorrect.mp3';
+import soundOnImage from '../assets/sonidoON.png';
+import soundOffImage from '../assets/sonidoOFF.png';
+
 const N_QUESTIONS = 10
 const MAX_TIME = 120;
+
+const correctAudio = new Audio(correctSound);
+const incorrectAudio = new Audio(incorrectSound);
 
 const gatewayUrl=process.env.REACT_APP_API_ENDPOINT||"http://localhost:8000"
 
@@ -26,6 +34,8 @@ const Question = ({ goTo, setGameFinished }) => {
     const [nQuestion, setNQuestion] = useState(-1);
 
     const [segundos, setSegundos] = useState(MAX_TIME);
+
+    const [sonido, setSonido] = useState(true);
 
     useEffect(() => {
 
@@ -97,6 +107,9 @@ const Question = ({ goTo, setGameFinished }) => {
 
         if (isCorrect(option)) {
             setNumberCorrect(numberCorrect+1);
+            if (sonido) { correctAudio.play(); }
+        } else {
+            if (sonido) { incorrectAudio.play(); }
         }
     };
 
@@ -133,6 +146,7 @@ const Question = ({ goTo, setGameFinished }) => {
         localStorage.setItem("tiempoUsado", MAX_TIME);
         localStorage.setItem("tiempoRestante", 0);
 
+        if (sonido) { incorrectAudio.play(); }
         setGameFinished(true);
         goTo(1);
     }
@@ -147,12 +161,15 @@ const Question = ({ goTo, setGameFinished }) => {
         <main className='preguntas'>
         <div>
         <div className='questionTime'>
-        <Typography sx={{ display:'inline-block', textAlign:'left'}} >Question: {nQuestion}</Typography>
+            <div className='audioQuestion'>
+            <img className='audioImg' src={sonido ? soundOnImage : soundOffImage} onClick={() => setSonido(!sonido)} />
+            <Typography sx={{ display:'inline-block', textAlign:'left'}} >Question: {nQuestion}</Typography>
+            </div>
         <Typography sx={{ display:'inline-block', textAlign:'right'}}>Time: {formatTiempo(segundos)}</Typography>
         </div>
         <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }}>
 
-            <Typography variant='h4' paddingBottom={"20px"}>
+            <Typography variant='h4' sx={{ padding:'10px 40px 30px 40px' }}>
                 {question}
             </Typography>
 
