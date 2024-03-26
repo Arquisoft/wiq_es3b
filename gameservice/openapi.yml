@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  title: Game Service
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8005'
+    description: Development server
+  - url: http://SOMEIP:8005
+    description: Production server
+paths:
+  /getParticipation/{userId}:
+    get:
+      summary: Get user participation data
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: The ID of the user
+      responses:
+        '200':
+          description: User participation data retrieved successfully
+        '404':
+          description: No participation data found for the user
+        '500':
+          description: Error occurred while retrieving participation data
+components:
+  schemas:
+    ParticipationData:
+      type: object
+      properties:
+        totalGames:
+          type: integer
+        correctAnswers:
+          type: integer
+        incorrectAnswers:
+          type: integer
+        totalTime:
+          type: integer
