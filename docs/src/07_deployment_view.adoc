@@ -5,7 +5,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 == Deployment View
 === Infrastructure Level 1
-image::deployment_diagram.svg[align="center",title="Deployment Diagram",link="{imagesdir[imagesdir}deployment_diagram.svg"]
+image::deployment_diagram.svg[align="center",title="Deployment Diagram",link="./{imagesdir[imagesdir}/deployment_diagram.svg"]
 
 === Motivation:
 
