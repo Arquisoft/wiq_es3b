@@ -20,6 +20,19 @@ paths:
       responses:
         '200':
           description: Question created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  question:
+                    type: string
+                  correct:
+                    type: string
+                  incorrects:
+                    type: array
+                    items:
+                      type: string
         '500':
           description: Error occurred while creating question
   /addquestion:
