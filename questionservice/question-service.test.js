@@ -30,5 +30,13 @@ describe('Question Service', () => {
     expect(response.status).toBe(200); 
     expect(response.body).toHaveProperty('question', 'Mocked Question');
   });
-  
+
+    // Test /api/info/questions endpoint
+  it('should forward info request with id to question service', async () => {
+    const response = await request(app)
+      .get('/api/info/questions');
+    expect(response.statusCode).toBe(200);
+    expect(response.headers['content-type']).toContain('application/json');
+    expect(response.body).toEqual(expect.any(Array));
+  });
 });
