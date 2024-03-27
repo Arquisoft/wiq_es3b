@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  title: Question Service
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8004'
+    description: Development server
+  - url: http://SOMEIP:8004
+    description: Production server
+paths:
+  /addQuestion:
+    post:
+      summary: Add a new question
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+      responses:
+        '200':
+          description: Question added successfully
+        '400':
+          description: Missing required fields
+        '500':
+          description: Error occurred while adding question
+components:
+  schemas:
+    Question:
+      type: object
+      properties:
+        question:
+          type: string
+        correct:
+          type: string
+        incorrects:
+          type: array
+          items:
+            type: string
+        user:
+          type: string
+        category:
+          type: string

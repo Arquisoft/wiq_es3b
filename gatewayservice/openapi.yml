@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: Gateway Service
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8000'
+    description: Development server
+  - url: http://SOMEIP:8000
+    description: Production server
+paths:
+  /api/questions/create:
+    get:
+      summary: Create a question
+      parameters:
+        - in: query
+          name: lang
+          schema:
+            type: string
+          description: The language for the question
+      responses:
+        '200':
+          description: Question created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  question:
+                    type: string
+                  correct:
+                    type: string
+                  incorrects:
+                    type: array
+                    items:
+                      type: string
+        '500':
+          description: Error occurred while creating question
+  /addquestion:
+    post:
+      summary: Add a new question
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+      responses:
+        '200':
+          description: Question added successfully
+        '500':
+          description: Error occurred while adding question
+  /addgame:
+    post:
+      summary: Add a new game
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+      responses:
+        '200':
+          description: Game added successfully
+        '500':
+          description: Error occurred while adding game
+components:
+  schemas:
+    Question:
+      type: object
+      properties:
+        id:
+          type: string
+        user:
+          type: string
+        category:
+          type: string
+    Game:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
