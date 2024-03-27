@@ -47,7 +47,25 @@ const addQuestion = async (req, res) => {
 // Ruta para agregar una nueva pregunta
 app.post('/addquestion', addQuestion);
 
-// logica para preguntas??
+
+app.get('/api/info/questions', async (req, res) => {
+  try {
+    const { id, user, category } = req.query;
+    let query = {};
+
+    if (id) query._id = id;
+    if (user !== undefined) query.user = user === '' ? null : user;
+    if (category) query.category = category;
+
+    const questions = await Question.find(query);
+    if (!questions) {
+      return res.status(404).json({ error: 'No questions found' });
+    }
+    res.status(200).json(questions);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 const server = app.listen(port, () => {
   console.log(`Questions Service listening at http://localhost:${port}`);

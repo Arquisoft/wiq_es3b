@@ -61,6 +61,19 @@ app.get('/api/questions/create', async (req, res) => {
   }
 });
 
+app.get('/api/info/questions', async function (req, res) {
+  try {
+    let url = questionServiceUrl + '/api/info/questions';
+    if(Object.keys(req.query).length > 0) {
+      url += '?' + new URLSearchParams(req.query).toString();
+    }
+    const infoResponse = await axios.get(url);
+    res.json(infoResponse.data);
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.response.data.error });
+  }
+});
+
 // Ruta para agregar una nueva pregunta
 app.post('/addquestion', async (req, res) => {
   try {
