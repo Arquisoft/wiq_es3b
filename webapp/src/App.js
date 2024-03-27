@@ -5,7 +5,7 @@ import { Start } from './components/Start'
 import { Game } from './components/Game'
 import { Participation } from './components/Participation'
 import User from './components/User'
-import { UserProvider } from './UserContext';
+import { UserProvider } from './components/UserContext';
 
 function App() {
   const [menuState, setMenuState] = useState(0)
