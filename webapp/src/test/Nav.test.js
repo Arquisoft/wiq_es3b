@@ -1,11 +1,16 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import Nav from '../components/Nav';
+import { SessionProvider } from '../SessionContext';
 
 describe('Nav Component', () => {
 
   test('opens and closes navigation menu on menu icon click', async () => {
-    const { getByLabelText, queryByText } = render(<Nav />);
+    const { getByLabelText, queryByText } = render(
+      <SessionProvider>
+        <Nav />
+      </SessionProvider>
+    );
     const menuIcon = getByLabelText('account of current user');
 
     fireEvent.click(menuIcon);
@@ -16,7 +21,11 @@ describe('Nav Component', () => {
   });
 
   test('opens and closes user menu on avatar click', async () => {
-    const { getByAltText, queryByText } = render(<Nav />);
+    const { getByAltText, queryByText } = render(
+      <SessionProvider>
+        <Nav />
+      </SessionProvider>
+    );
     const avatar = getByAltText('Remy Sharp');
 
     fireEvent.click(avatar);
@@ -26,10 +35,14 @@ describe('Nav Component', () => {
 
   });
 
-  test('calls goTo function when "Volver al menú" is clicked', async () => {
+  test('calls goTo function when "Menu" is clicked', async () => {
     const goToMock = jest.fn();
-    const { getByText } = render(<Nav goTo={goToMock} />);
-    fireEvent.click(getByText('Volver al menú'));
+    const { getByText } = render(
+      <SessionProvider>
+        <Nav goTo={goToMock} />
+      </SessionProvider>
+    );
+    fireEvent.click(getByText('Menu'));
     await waitFor(() => {
       expect(goToMock).toHaveBeenCalledTimes(1);
     });
@@ -37,7 +50,11 @@ describe('Nav Component', () => {
 
   test('calls goTo function when "Logout" is clicked', async () => {
     const goToMock = jest.fn();
-    const { getByText } = render(<Nav goTo={goToMock} />);
+    const { getByText } = render(
+      <SessionProvider>
+        <Nav goTo={goToMock} />
+      </SessionProvider>
+    );
     fireEvent.click(getByText('Logout'));
     await waitFor(() => {
       expect(goToMock).toHaveBeenCalledTimes(1);

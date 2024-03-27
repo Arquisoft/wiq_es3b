@@ -1,10 +1,15 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import User from '../components/User';
+import { SessionProvider } from '../SessionContext';
 
 describe('User component', () => {
   test('renders login form by default', () => {
-    render(<User goTo={(parameter) => {}} />);
+    render(
+      <SessionProvider>
+        <User goTo={(parameter) => {}} />
+      </SessionProvider>
+    );
     
     // Verificar que el texto de bienvenida se muestra correctamente
     const welcomeText = screen.getByText(/Welcome to the 2024 edition of the Software Architecture course/i);
@@ -23,7 +28,11 @@ describe('User component', () => {
   });
 
   test('toggling between login and registration form works correctly', () => {
-    render(<User goTo={(parameter) => {}} />);
+    render(
+      <SessionProvider>
+        <User goTo={(parameter) => {}} />
+      </SessionProvider>
+    );
     
     // Verificar que el enlace para registrar está presente
     const registerLink = screen.getByRole('button', { name: /register here/i });

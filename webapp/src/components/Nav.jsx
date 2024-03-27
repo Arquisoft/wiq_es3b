@@ -20,6 +20,7 @@ import profileImage from '../assets/defaultImgProfile.jpg';
 function Nav({ goTo }) {
 
   const { sessionData } = useContext(SessionContext);
+  const username = sessionData ? sessionData.username : '';
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -118,7 +119,7 @@ function Nav({ goTo }) {
           </Box>
 
           <Box sx={{ flexGrow: 0, flexDirection: 'row', display:'flex', alignItems: 'center', fontWeight: 'bold'}}>
-            <Typography sx={{ marginRight: 2, fontFamily: 'Roboto Slab'}} >{sessionData.username}</Typography>
+            <Typography sx={{ marginRight: 2, fontFamily: 'Roboto Slab'}} >{username}</Typography>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src={profileImage}/>
