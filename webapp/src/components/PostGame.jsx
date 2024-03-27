@@ -25,7 +25,7 @@ const PostGame = () => {
         answers: [], // Respuestas del usuario
         totalTime: parseInt(localStorage.getItem("tiempoUsado"))
       };
-      await axios.post('http://localhost:8005/saveGame', gameData);
+      await axios.post('http://localhost:8005/addgame', gameData);
     } catch (error) {
       console.error('Error al guardar los datos de la partida:', error);
     }
