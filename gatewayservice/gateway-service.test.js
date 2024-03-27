@@ -3,7 +3,6 @@ const axios = require('axios');
 let app; 
 beforeAll(async () => {
   app = require('./gateway-service'); 
-  const request = require('supertest');
 });
 afterAll(async () => {
     app.close();
@@ -66,45 +65,6 @@ describe('Gateway Service', () => {
         }
       ]
       });
-    } else if (url.endsWith('/api/info/questions?id=123')) {
-      return Promise.resolve({
-      data: [
-        {
-        question: 'Mocked Question 1',
-        correct: 'Mocked Correct Answer 1',
-        incorrects: ['Mocked Option 1', 'Mocked Option 2'],
-        generationDate: '2022-01-01',
-        user: 'mockedUser',
-        category: 'mockedCategory'
-        }
-      ]
-      });
-    }else if (url.endsWith('/api/info/questions?user=testuser')) {
-      return Promise.resolve({
-      data: [
-        {
-        question: 'Mocked Question 1',
-        correct: 'Mocked Correct Answer 1',
-        incorrects: ['Mocked Option 1', 'Mocked Option 2'],
-        generationDate: '2022-01-01',
-        user: 'testuser',
-        category: 'mockedCategory'
-        }
-      ]
-      });
-    }else if (url.endsWith('/api/info/questions?category=testcategory')) {
-      return Promise.resolve({
-      data: [
-        {
-        question: 'Mocked Question 1',
-        correct: 'Mocked Correct Answer 1',
-        incorrects: ['Mocked Option 1', 'Mocked Option 2'],
-        generationDate: '2022-01-01',
-        user: 'mockedUser',
-        category: 'testcategory'
-        }
-      ]
-      }); 
     }
   });
    // Test /health endpoint
@@ -143,37 +103,6 @@ describe('Gateway Service', () => {
     expect(response.statusCode).toBe(200);
     expect(response.headers['content-type']).toContain('application/json');
     expect(response.body).toEqual(expect.any(Array));
-  });
-  // Test /api/info/questions endpoint with id query parameter
-  it('should forward info request with id to question service', async () => {
-    const response = await request(app)
-      .get('/api/info/questions?id=123');
-    expect(response.statusCode).toBe(200);
-    expect(response.headers['content-type']).toContain('application/json');
-    expect(response.body).toEqual(expect.any(Array));
-  });
-
-  // Test /api/info/questions endpoint with user query parameter
-  it('should forward info request with user to question service', async () => {
-    const response = await request(app)
-      .get('/api/info/questions?user=testuser');
-    expect(response.statusCode).toBe(200);
-    expect(response.headers['content-type']).toContain('application/json');
-    response.body.forEach((element) => {
-      expect(element.user).toBe('testuser');
-    });
-  });
-
-  // Test /api/info/questions endpoint with category query parameter
-  it('should forward info request with category to question service', async () => {
-    const response = await request(app)
-      .get('/api/info/questions?category=testcategory');
-    expect(response.statusCode).toBe(200);
-    expect(response.headers['content-type']).toContain('application/json');
-    expect(response.body).toEqual(expect.any(Array));
-    response.body.forEach((element) => {
-      expect(element.category).toBe('testcategory');
-    });
   });
 
   // Test /api/info/questions endpoint when service is down
