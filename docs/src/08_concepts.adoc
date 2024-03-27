@@ -1,16 +1,39 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-concepts]]
-== Cross-cutting Concepts
+## First Designs
 
-=== _Domain Model_
+### Home Page
+:imagesdir: ../images
+image::HomeView.png[Home Menu View]
+---
+### Game page
+image::GameView.png[Game View]
+---
 
-_TBD_
+## Cross-cutting Concepts
 
-=== _Security_
+### Maintainability:
 
-_The communication between the application's APIs will be through the secure mode of HTTP._
+We designed the application in a modular way to facilitate its maintenance and task division.
+We separated functions for reuse in different parts of the code, such as React components.
 
-=== _Privacy_
+### Usability:
 
-_The user's data will be stored in a MongoDb database. That implies that the information is stored securely._
+We researched user needs to design a simple and intuitive interface.
+We employed a user-centered approach and followed recommended usability guidelines such as font size, interface colors, etc.
+
+### Security:
+
+We store only essential information with user passwords encrypted for security.
+Unregistered users will not be able to access others' information.
+
+### Testing:
+Usability and functionality tests are conducted to gather feedback and create the best possible product.
+
+### Expansions:
+Various expansions to the application are proposed, such as a multiplayer version or adaptability to mobile devices.
+
+### Data persistence and availability:
+Application data is stored using MongoDB, one of the most commonly used NoSQL databases.
+The application can be deployed at any time locally or in an environment such as a virtual machine.

@@ -1,9 +1,7 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
-[[section-deployment-view]]
-
-
 == Deployment View
+
 === Infrastructure Level 1
 image::deployment_diagram.svg[align="center",title="Deployment Diagram"]
 
@@ -31,6 +29,3 @@ The availability and efficiency of the application will be affected by the avail
 | _Auth service_ | _The microservice responsible for managing the authentication of the users._
 | _MongoDB_ | _A NoSQL based database where we can save the user's data._
 |===
-
-
-
