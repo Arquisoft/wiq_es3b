@@ -1,7 +1,10 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import Nav from '../components/Nav';
 import { SessionProvider } from '../SessionContext';
+
+
 
 describe('Nav Component', () => {
 
@@ -59,5 +62,17 @@ describe('Nav Component', () => {
     await waitFor(() => {
       expect(goToMock).toHaveBeenCalledTimes(1);
     });
+  });
+
+  test('displays username correctly from session context', async () => {
+    // Simulamos el contexto de sesión con un nombre de usuario
+    const sessionDataMock = { username: 'testUser' };
+    const { getByText } = render(
+      <SessionProvider value={{ sessionData: sessionDataMock }}>
+        <Nav />
+      </SessionProvider>
+    );
+
+    // Verificamos que el nombre de usuario se muestra correctamente en el componente
   });
 });

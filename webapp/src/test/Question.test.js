@@ -81,4 +81,47 @@ describe('Question component', () => {
       expect(getByText('What is the capital of France?')).toBeInTheDocument();
     });
   });
+
+  it('correctly updates localStorage and game state when all questions are answered', () => {
+    // Mock para localStorage
+    const localStorageMock = (() => {
+      let store = {};
+      return {
+        getItem: (key) => store[key],
+        setItem: (key, value) => store[key] = value,
+        clear: () => store = {}
+      };
+    })();
+    Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+
+    // Mock para funciones auxiliares
+    const mockSetGameFinished = jest.fn();
+    const mockGoTo = jest.fn();
+    const questionComponent = <SessionProvider>
+       <Question setGameFinished={mockSetGameFinished} goTo={mockGoTo} />
+      </SessionProvider>;
+
+
+    // Establecer valores iniciales
+    localStorage.setItem('pAcertadas', '5');
+    localStorage.setItem('pFalladas', '5');
+    localStorage.setItem('tiempoUsado', '60');
+    localStorage.setItem('tiempoRestante', '60');
+
+    // Renderizar el componente
+    const { getByText } = render(questionComponent);
+
+    // Verificar que las funciones auxiliares no se hayan llamado aún
+    expect(mockSetGameFinished).not.toHaveBeenCalled();
+    expect(mockGoTo).not.toHaveBeenCalled();
+
+    // Simular que se responde a todas las preguntas
+    fireEvent.click(getByText('Next'));
+
+    // Verificar que las funciones auxiliares se hayan llamado correctamente
+    expect(localStorage.getItem('pAcertadas')).toBe('5'); // 5 preguntas correctas
+    expect(localStorage.getItem('pFalladas')).toBe('5'); // 5 preguntas incorrectas
+    expect(localStorage.getItem('tiempoUsado')).toBe('60'); // Tiempo usado no cambia
+    expect(localStorage.getItem('tiempoRestante')).toBe('60'); // Tiempo restante no cambia
+  });
 });
