@@ -6,6 +6,13 @@
 	"Which city is governed by?": "¿Qué ciudad es gobernada por %s?",
 	"Which city is in the time zone?": "¿Qué ciudad está en la zona horaria %s?",
 
+	"Which autonomous community of Spain has an area of?": "¿Qué comunidad autónoma de España tiene un área de %s km2?",
+	"Which autonomous community of Spain has a population of?": "¿Qué comunidad autónoma de España tiene una población de %s?",
+	"Which autonomous community of Spain has a capital called?": "¿Qué comunidad autónoma de España tiene una capital llamada %s?",
+	"Which autonomous community of Spain has a president called?": "¿Qué comunidad autónoma de España tiene un presidente llamado %s?",
+	"Which autonomous community of Spain has x as the highest point?" : "¿Qué comunidad autónoma de España tiene %s como el punto más alto?",
+	
+
 	"Which planet is bigger?": "¿Qué planeta es más grande?",
 	"Which planet has a mass of?": "¿Qué planeta tiene una masa de %s kg?",
 	"Which planet has a radius of?": "¿Qué planeta tiene un radio de %s km?",
