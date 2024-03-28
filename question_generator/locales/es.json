@@ -7,6 +7,13 @@
 	"Which city is in the time zone?": "¿Qué ciudad está en la zona horaria %s?",
 
 	"Which planet is bigger?": "¿Qué planeta es más grande?",
+	"Which planet has a mass of?": "¿Qué planeta tiene una masa de %s kg?",
+	"Which planet has a radius of?": "¿Qué planeta tiene un radio de %s km?",
+	"Which planet has an orbital period of?" : "¿Qué planeta tiene un período orbital de %s días?",
+	"Which planet has x as the lowest point?" : "¿Qué planeta tiene %s como el punto más bajo?",
+	"Which planet has x as the highest point?" : "¿Qué planeta tiene %s como el punto más alto?",
+	"Which planet has an area of x?" : "¿Qué planeta tiene un área de %s km2?",
+	"Which planet has a density of x?" : "¿Qué planeta tiene una densidad de %s kg/m3?",
 
 	"Who has more Grand Slams?": "¿Quién tiene más Grand Slams?",
 	"Who has more followers?": "¿Quién tiene más seguidores?",
