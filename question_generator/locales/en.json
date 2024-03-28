@@ -16,8 +16,8 @@
 	"Which planet has a density of x?" : "Which planet has a density of %s kg/m3?",
 
 	"Who has more Grand Slams?": "Who has more Grand Slams?",
-	"Who has more followers?": "Who has more followers?",
-	"Who has more looses?": "Who has more looses?",
-	"Who has more wins?": "Who has more wins?",
+	"Who has more followers? (Tennis)": "Who has more followers? (Tennis)",
+	"Who has more looses? (Tennis)": "Who has more looses? (Tennis)",
+	"Who has more wins? (Tennis)": "Who has more wins? (Tennis)",
 	"Which tennis player is from?" : "Which tennis player is from %s?"
 }
