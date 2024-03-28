@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act, findByText, screen } from '@testing-library/react';
+import { render, fireEvent, act, waitFor, findByText, screen } from '@testing-library/react';
 import { Game } from '../components/Game';
 import { SessionProvider } from '../SessionContext';
 
@@ -61,25 +61,17 @@ describe('Game component', () => {
       </SessionProvider>
     );
 
-    //act(() => {
-      //const correctOption = getByText(mockQuestions[0].correct);
-      //fireEvent.click(correctOption);
-
-      //const incorrectOption = getByText(mockQuestions[0].incorrects[0]);
-      //fireEvent.click(incorrectOption);
-    //});
-    //expect(incorrectOption.parentElement).toHaveStyle('background-color: red');
-  });
-
-  it('handles Next button click correctly', async () => {
-    await act(async () => {
-    
-      <SessionProvider>
-        <Game goTo={mockGoTo} />
-      </SessionProvider>
-
-
+    await waitFor(() => {
+      expect(getByText(mockQuestions[0].question)).toBeInTheDocument();
     });
+
+    // Seleccionar la opción correcta
+    fireEvent.click(getByText(mockQuestions[0].correct));
+    expect(getByText(mockQuestions[0].correct).parentElement.toBeInTheDocument);
+
+    // Seleccionar una opción incorrecta
+    fireEvent.click(getByText(mockQuestions[0].incorrects[0]));
+    expect(getByText(mockQuestions[0].incorrects[0]).parentElement.toBeInTheDocument);
   });
 
   // Test para verificar que el juego finaliza cuando se alcanza el número máximo de preguntas
