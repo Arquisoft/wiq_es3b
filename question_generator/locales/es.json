@@ -6,12 +6,26 @@
 	"Which city is governed by?": "¿Qué ciudad es gobernada por %s?",
 	"Which city is in the time zone?": "¿Qué ciudad está en la zona horaria %s?",
 
+	"Which autonomous community of Spain has an area of?": "¿Qué comunidad autónoma de España tiene un área de %s km2?",
+	"Which autonomous community of Spain has a population of?": "¿Qué comunidad autónoma de España tiene una población de %s?",
+	"Which autonomous community of Spain has a capital called?": "¿Qué comunidad autónoma de España tiene una capital llamada %s?",
+	"Which autonomous community of Spain has a president called?": "¿Qué comunidad autónoma de España tiene un presidente llamado %s?",
+	"Which autonomous community of Spain has x as the highest point?" : "¿Qué comunidad autónoma de España tiene %s como el punto más alto?",
+	
+
 	"Which planet is bigger?": "¿Qué planeta es más grande?",
+	"Which planet has a mass of?": "¿Qué planeta tiene una masa de %s kg?",
+	"Which planet has a radius of?": "¿Qué planeta tiene un radio de %s km?",
+	"Which planet has an orbital period of?" : "¿Qué planeta tiene un período orbital de %s días?",
+	"Which planet has x as the lowest point?" : "¿Qué planeta tiene %s como el punto más bajo?",
+	"Which planet has x as the highest point?" : "¿Qué planeta tiene %s como el punto más alto?",
+	"Which planet has an area of x?" : "¿Qué planeta tiene un área de %s km2?",
+	"Which planet has a density of x?" : "¿Qué planeta tiene una densidad de %s kg/m3?",
 
 	"Who has more Grand Slams?": "¿Quién tiene más Grand Slams?",
-	"Who has more followers?": "¿Quién tiene más seguidores?",
-	"Who has more looses?": "¿Quién tiene más derrotas?",
-	"Who has more wins?": "¿Quién tiene más victorias?",
+	"Who has more followers?": "¿Quién tiene más seguidores? (Tenis)",
+	"Who has more looses?": "¿Quién tiene más derrotas? (Tenis)",
+	"Who has more wins?": "¿Quién tiene más victorias? (Tenis)",
 	"Which tennis player is from?" : "¿Qué jugador es de %s?"
 	
 }

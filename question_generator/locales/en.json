@@ -2,15 +2,31 @@
 	"Which city is higher above sea level?": "Which city is higher above sea level?",
 	"Which city has more population?": "Which city has more population?",
 	"Which city is in?": "Which city is in %s?",
-	"Which city has an area of?": "Which city has an area od %s km2?",
+	"Which city has an area of?": "Which city has an area of %s km2?",
 	"Which city is governed by?": "Which city is governed by %s?",
 	"Which city is in the time zone?": "Which city is in the time zone %s?",
+
+	"Which autonomous community of Spain has an area of?": "Which autonomous community of Spain has an area of %s km2?",
+	"Which autonomous community of Spain has a population of?": "Which autonomous community of Spain has a population of %s?",
+	"Which autonomous community of Spain has a capital called?": "Which autonomous community of Spain has a capital called %s?",
+	"Which autonomous community of Spain has a president called?": "Which autonomous community of Spain has a president called %s?",
+	"Which autonomous community of Spain has x as the highest point?" : "Which autonomous community of Spain has %s as the highest point?",
+
+
+
 	
 	"Which planet is bigger?": "Which planet is bigger?",
+	"Which planet has a mass of?": "Which planet has a mass of %s kg?",
+	"Which planet has a radius of?": "Which planet has a radius of %s km?",
+	"Which planet has an orbital period of?" : "Which planet has an orbital period of %s days?",
+	"Which planet has x as the lowest point?" : "Which planet has %s as the lowest point?",
+	"Which planet has x as the highest point?" : "Which planet has %s as the highest point?",
+	"Which planet has an area of x?" : "Which planet has an area of %s km2?",
+	"Which planet has a density of x?" : "Which planet has a density of %s kg/m3?",
 
 	"Who has more Grand Slams?": "Who has more Grand Slams?",
-	"Who has more followers?": "Who has more followers?",
-	"Who has more looses?": "Who has more looses?",
-	"Who has more wins?": "Who has more wins?",
+	"Who has more followers? (Tennis)": "Who has more followers? (Tennis)",
+	"Who has more looses? (Tennis)": "Who has more looses? (Tennis)",
+	"Who has more wins? (Tennis)": "Who has more wins? (Tennis)",
 	"Which tennis player is from?" : "Which tennis player is from %s?"
 }
