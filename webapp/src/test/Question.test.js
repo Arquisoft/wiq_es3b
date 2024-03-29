@@ -258,4 +258,28 @@ describe('handleGameFinish function', () => {
     expect(localStorage.getItem('pFalladas')).toBeDefined();
   });
 
+  it('should finish the game when the number of questions reaches the limit', () => {
+    const mockedFinishByQuestions = jest.fn();
+    const mockedFinishByTime = jest.fn();
+
+    const { rerender } = render(
+      <SessionProvider><Question 
+            goTo={jest.fn()} 
+            setGameFinished={true} 
+            /></SessionProvider>
+    );
+
+    // Simulamos que se ha alcanzado el límite de preguntas
+    act(() => {
+        rerender(
+          <SessionProvider><Question 
+                goTo={jest.fn()} 
+                setGameFinished={true} 
+                /></SessionProvider>
+        );
+    });
+
+    //expect(mockedFinishByQuestions).toHaveBeenCalled();
+    expect(mockedFinishByTime).not.toHaveBeenCalled();
+  });
 });

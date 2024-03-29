@@ -79,6 +79,12 @@ describe('Nav Component', () => {
     expect(getByText('noUser')).toBeInTheDocument();
   });
 
+
+
+
+
+
+
   test('calls goToMenuClic when the button "Menu" is clicked', async () => {
     const goToMock = jest.fn();
     const { getByText } = render(
