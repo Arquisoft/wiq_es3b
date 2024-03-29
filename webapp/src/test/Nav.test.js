@@ -78,4 +78,46 @@ describe('Nav Component', () => {
     // Verifica que el nombre de usuario se muestre correctamente en el componente
     expect(getByText('noUser')).toBeInTheDocument();
   });
+
+  test('calls goToMenuClic when the button "Menu" is clicked', async () => {
+    const goToMock = jest.fn();
+    const { getByText } = render(
+      <SessionProvider>
+        <Nav goTo={goToMock} />
+      </SessionProvider>
+      );
+    const button = getByText('Menu');
+
+    fireEvent.click(button);
+
+    expect(goToMock).toHaveBeenCalled();
+  });
+
+  test('calls goToMenuClic when the button "ASW WIQ" is clicked', async () => {
+    const goToMock = jest.fn();
+    const { getByText } = render(
+      <SessionProvider>
+        <Nav goTo={goToMock} />
+      </SessionProvider>
+      );
+    const button = getByText('ASW WIQ');
+
+    fireEvent.click(button);
+
+    expect(goToMock).toHaveBeenCalled();
+  });
+
+  test('calls goToMenuClic when the button "Volver al menú" is clicked', async () => {
+    const goToMock = jest.fn();
+    const { getByText } = render(
+      <SessionProvider>
+        <Nav goTo={goToMock} />
+      </SessionProvider>
+      );
+    const button = getByText('Volver al menú');
+
+    fireEvent.click(button);
+
+    expect(goToMock).toHaveBeenCalled();
+  });
 });
