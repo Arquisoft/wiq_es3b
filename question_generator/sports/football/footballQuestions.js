@@ -14,17 +14,18 @@ class FootballQuestions{
             let newResults={};
             const query=
             `
-            SELECT DISTINCT ?equipo ?paisLabel ?equipoLabel ?entrenadorLabel ?followers 
+            SELECT DISTINCT ?equipo ?paisLabel ?equipoLabel ?entrenadorLabel ?followers
             WHERE {
                 ?equipo wdt:P31 wd:Q476028;  # Instancia de equipo de fútbol 
-                OPTIONAL {?equipo wdt:P17 ?pais }
-                OPTIONAL {?equipo wdt:P286 ?entrenador }
-                OPTIONAL {?equipo wdt:P8687 ?followers }
-                FILTER (BOUND(?entrenador))
+                        OPTIONAL {?equipo wdt:P17 ?pais }
+                        OPTIONAL {?equipo wdt:P286 ?entrenador }
+                        OPTIONAL {?equipo wdt:P8687 ?followers }
+                FILTER (BOUND(?entrenador) && ?followers >= 500000)
                 SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             }
             ORDER BY DESC(?followers)
-            LIMIT 150
+            LIMIT 500
+            
             `
             let teams = await queryExecutor.execute(query);
             teams.forEach(team => {
