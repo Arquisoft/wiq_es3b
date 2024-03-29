@@ -65,14 +65,17 @@ describe('Nav Component', () => {
   });
 
   test('displays username correctly from session context', async () => {
-    // Simulamos el contexto de sesión con un nombre de usuario
-    const sessionDataMock = { username: 'testUser' };
+    // Simula el contexto de sesión con un nombre de usuario
+    const sessionDataMock = { username: '' };
+  
+    // Renderiza el componente Nav dentro del SessionProvider con el contexto de sesión simulado
     const { getByText } = render(
       <SessionProvider value={{ sessionData: sessionDataMock }}>
         <Nav />
       </SessionProvider>
     );
-
-    // Verificamos que el nombre de usuario se muestra correctamente en el componente
+  
+    // Verifica que el nombre de usuario se muestre correctamente en el componente
+    expect(getByText('noUser')).toBeInTheDocument();
   });
 });

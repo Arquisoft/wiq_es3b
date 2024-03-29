@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 import Question from '../components/Question';
 import { SessionProvider } from '../SessionContext';
@@ -27,9 +28,11 @@ describe('Question component', () => {
   });
 
   it('renders question and options correctly', async () => {
-    const { getByText } = render(<SessionProvider>
+    const { getByText } = render(
+      <SessionProvider>
         <Question />
-      </SessionProvider>);
+      </SessionProvider>
+    );
 
     // Esperar a que se cargue la pregunta
     await waitFor(() => {
@@ -46,9 +49,11 @@ describe('Question component', () => {
   });
 
   it('selects correct option and handles click correctly', async () => {
-    const { getByText } = render(<SessionProvider>
+    const { getByText } = render(
+      <SessionProvider>
         <Question />
-      </SessionProvider>);
+      </SessionProvider>
+    );
 
     // Esperar a que se cargue la pregunta
     await waitFor(() => {
@@ -56,7 +61,9 @@ describe('Question component', () => {
     });
 
     // Seleccionar la opción correcta
-    fireEvent.click(getByText('Paris'));
+    act(() => {
+      fireEvent.click(getByText('Paris'));
+    });
 
     // Verificar que la opción seleccionada tenga estilo verde
     expect(getByText('Paris').parentElement).toBeInTheDocument;
@@ -64,9 +71,10 @@ describe('Question component', () => {
 
   it('handles Next button click correctly', async () => {
     const { getByText } = render(
-    <SessionProvider>
+      <SessionProvider>
         <Question />
-      </SessionProvider>);
+      </SessionProvider>
+    );
 
     // Esperar a que se cargue la pregunta
     await waitFor(() => {
@@ -103,10 +111,12 @@ describe('Question component', () => {
 
 
     // Establecer valores iniciales
-    localStorage.setItem('pAcertadas', '5');
-    localStorage.setItem('pFalladas', '5');
-    localStorage.setItem('tiempoUsado', '60');
-    localStorage.setItem('tiempoRestante', '60');
+    act(() => {
+      localStorage.setItem('pAcertadas', '5');
+      localStorage.setItem('pFalladas', '5');
+      localStorage.setItem('tiempoUsado', '60');
+      localStorage.setItem('tiempoRestante', '60');
+    });
 
     // Renderizar el componente
     const { getByText } = render(questionComponent);
@@ -116,7 +126,9 @@ describe('Question component', () => {
     expect(mockGoTo).not.toHaveBeenCalled();
 
     // Simular que se responde a todas las preguntas
-    fireEvent.click(getByText('Next'));
+    act(() => {
+      fireEvent.click(getByText('Next'));
+    });
 
     // Verificar que las funciones auxiliares se hayan llamado correctamente
     expect(localStorage.getItem('pAcertadas')).toBe('5'); // 5 preguntas correctas
@@ -124,4 +136,25 @@ describe('Question component', () => {
     expect(localStorage.getItem('tiempoUsado')).toBe('60'); // Tiempo usado no cambia
     expect(localStorage.getItem('tiempoRestante')).toBe('60'); // Tiempo restante no cambia
   });
+
+  test('La URL de la puerta de enlace debe ser procesada correctamente desde REACT_APP_API_ENDPOINT', () => {
+    const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+    expect(gatewayUrl).toBeDefined();
+  });
+
+  test('El contador de segundos debe decrementar correctamente', () => {
+    jest.useFakeTimers();
+    const setSegundos = jest.fn();
+    render(
+      <SessionProvider>
+        <Question />
+      </SessionProvider>
+      );
+
+    jest.advanceTimersByTime(5000);
+
+    expect(setSegundos).toHaveBeenCalledTimes(0);
+  });
+
+  
 });

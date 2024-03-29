@@ -20,7 +20,7 @@ import profileImage from '../assets/defaultImgProfile.jpg';
 function Nav({ goTo }) {
 
   const { sessionData } = useContext(SessionContext);
-  const username = sessionData ? sessionData.username : '';
+  const username = sessionData ? sessionData.username : 'noUser';
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
