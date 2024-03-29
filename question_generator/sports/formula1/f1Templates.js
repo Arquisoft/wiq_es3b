@@ -1,4 +1,4 @@
-const footballQuestions=require('./footballQuestions');
+const footballQuestions=require('./f1Questions');
 const footballQuery=footballQuestions.getInstance();
 function loadData(){
     footballQuery.loadData();
