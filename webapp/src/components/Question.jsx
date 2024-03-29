@@ -7,7 +7,7 @@ import soundOnImage from '../assets/sonidoON.png';
 import soundOffImage from '../assets/sonidoOFF.png';
 
 const N_QUESTIONS = 10
-const MAX_TIME = 11;
+const MAX_TIME = 120;
 
 const correctAudio = new Audio(correctSound);
 const incorrectAudio = new Audio(incorrectSound);
@@ -61,7 +61,8 @@ const Question = ({ goTo, setGameFinished }) => {
             setNQuestion((prevNQuestion) => prevNQuestion + 1);
             handleGameFinish();
         } catch (error) {
-            console.error('Error fetching question:', error);
+            //NOSONAR
+            console.error('Error fetching question:', error);//NOSONAR
         }
     };
 

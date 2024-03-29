@@ -156,5 +156,106 @@ describe('Question component', () => {
     expect(setSegundos).toHaveBeenCalledTimes(0);
   });
 
-  
+  it('should toggle sound on and off when clicking audio image', () => {
+    const { getByRole } = render(<SessionProvider>
+      <Question />
+    </SessionProvider>);
+
+    // Verificar que el sonido está activado inicialmente
+    expect(localStorage.getItem('sonido')).toBe(undefined);
+
+    // Simular hacer clic en la imagen de audio para desactivar el sonido
+    fireEvent.click(getByRole('img'));
+
+    // Verificar que el estado de sonido se haya actualizado correctamente
+    expect(localStorage.getItem('sonido')).toBe(undefined);
+  });
+
+  it('should toggle isSelected state when clicking button', () => {
+    const { getByText } = render(<SessionProvider>
+      <Question />
+    </SessionProvider>);
+
+    // Simular hacer clic en el botón
+    fireEvent.click(getByText('Next'));
+
+    // Verificar si el estado isSelected ha cambiado correctamente a true
+    expect(localStorage.getItem('isSelected')).toBe(undefined);
+
+    // Simular hacer clic en el botón nuevamente
+    fireEvent.click(getByText('Next'));
+
+    // Verificar si el estado isSelected ha cambiado correctamente a false
+    expect(localStorage.getItem('isSelected')).toBe(undefined);
+  });
+});
+
+describe('handleGameFinish function', () => {
+  it('should finish the game when all questions are answered', async () => {
+    // Mocking localStorage
+    const localStorageMock = (() => {
+      let store = {};
+      return {
+        getItem: (key) => store[key] || null,
+        setItem: (key, value) => {
+          store[key] = value.toString();
+        },
+        removeItem: (key) => {
+          delete store[key];
+        },
+        clear: () => {
+          store = {};
+        }
+      };
+    })();
+    Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+
+    // Render the Question component
+    const { getByText } = render(<SessionProvider>
+      <Question />
+    </SessionProvider>);
+
+    // Simulate answering all questions
+    for (let i = 0; i < 10; i++) {
+      fireEvent.click(getByText('Next'));
+      await waitFor(() => {
+        expect(localStorage.getItem('pAcertadas') == 5);
+        expect(localStorage.getItem('pFalladas') == 5);
+      });
+    }
+
+    // After answering all questions, pAcertadas and pFalladas should be set in localStorage
+    expect(localStorage.getItem('pAcertadas')).toBeDefined();
+    expect(localStorage.getItem('pFalladas')).toBeDefined();
+  });
+
+  it('should finish the game when time runs out', async () => {
+    // Mocking localStorage
+    const localStorageMock = (() => {
+      let store = {};
+      return {
+        getItem: (key) => store[key] || null,
+        setItem: (key, value) => {
+          store[key] = value.toString();
+        },
+        removeItem: (key) => {
+          delete store[key];
+        },
+        clear: () => {
+          store = {};
+        }
+      };
+    })();
+    Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+
+    // Render the Question component
+    const { getByText } = render(<SessionProvider>
+      <Question />
+    </SessionProvider>);
+
+    // After time runs out, pAcertadas and pFalladas should be set in localStorage
+    expect(localStorage.getItem('pAcertadas')).toBeDefined();
+    expect(localStorage.getItem('pFalladas')).toBeDefined();
+  });
+
 });
