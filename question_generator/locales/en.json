@@ -2,8 +2,18 @@
 	"Which city is higher above sea level?": "Which city is higher above sea level?",
 	"Which city has more population?": "Which city has more population?",
 	"Which city is in?": "Which city is in %s?",
+	"Which city has an area of?": "Which city has an area od %s km2?",
+	"Which city is governed by?": "Which city is governed by %s?",
+	"Which city is in the time zone?": "Which city is in the time zone %s?",
+	
 	"Which planet is bigger?": "Which planet is bigger?",
+
 	"Who has more Grand Slams?": "Who has more Grand Slams?",
 	"Who has more followers?": "Who has more followers?",
-	"Who has more looses?": "Who has more looses?"
+	"Who has more looses?": "Who has more looses?",
+	"Who has more wins?": "Who has more wins?",
+	"Which tennis player is from?" : "Which tennis player is from %s?",
+
+	"Which team plays in?": "Which team plays in %s?",
+	"Which team trains?": "Which team trains %s?"
 }

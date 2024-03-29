@@ -18,7 +18,7 @@ const templates=[
     {
         const results = await footballQuery.doQuestion('coach', 4);
         return{
-            "question":"Which team trains? ",
+            "question":"Which team trains?",
             "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects
@@ -28,7 +28,7 @@ const templates=[
     {
         const results = await footballQuery.doQuestion('stadium', 4);
         return{
-            "question":"Which team plays in? ",
+            "question":"Which team plays in?",
             "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects

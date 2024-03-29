@@ -2,6 +2,9 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const promBundle = require('express-prom-bundle');
+const swaggerUi = require('swagger-ui-express');
+const fs=require("fs");
+const YAML=require("yaml");
 
 const app = express();
 const port = 8000;
@@ -58,6 +61,19 @@ app.get('/api/questions/create', async (req, res) => {
   }
 });
 
+app.get('/api/info/questions', async function (req, res) {
+  try {
+    let url = questionServiceUrl + '/api/info/questions';
+    if(Object.keys(req.query).length > 0) {
+      url += '?' + new URLSearchParams(req.query).toString();
+    }
+    const infoResponse = await axios.get(url);
+    res.json(infoResponse.data);
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.response.data.error });
+  }
+});
+
 // Ruta para agregar una nueva pregunta
 app.post('/addquestion', async (req, res) => {
   try {
@@ -79,6 +95,15 @@ app.post('/addgame', async (req, res) => {
     res.status(error.response.status).json({ error: error.response.data.error });
   }
 });
+
+let openapiPath='./openapi.yml'
+if (fs.existsSync(openapiPath)) {
+  const file = fs.readFileSync(openapiPath, 'utf8');
+  const swaggerDocument = YAML.parse(file);
+  app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+} else {
+  console.log("Not configuring OpenAPI. Configuration file not present.")
+}
 
 // Start the gateway service
 const server = app.listen(port, () => {
