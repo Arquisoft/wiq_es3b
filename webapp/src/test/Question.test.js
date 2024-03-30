@@ -283,7 +283,7 @@ describe('handleGameFinish function', () => {
 
   it('should call finishByTime when game finishes by time', () => {
 
-    render(<SessionProvider><Question goTo={goToMock} /></SessionProvider>);
+    render(<SessionProvider><Question /></SessionProvider>);
     
     const MAX_TIME = 120;
     // Simula que se agota el tiempo
