@@ -6,9 +6,11 @@ import correctSound from '../audio/correct.mp3';
 import incorrectSound from '../audio/incorrect.mp3';
 import soundOnImage from '../assets/sonidoON.png';
 import soundOffImage from '../assets/sonidoOFF.png';
+import PropTypes from 'prop-types';
+
 
 const N_QUESTIONS = 10;
-const MAX_TIME = 2;
+const MAX_TIME = 120;
 
 const correctAudio = new Audio(correctSound);
 const incorrectAudio = new Audio(incorrectSound);
@@ -42,7 +44,7 @@ export const handleGameFinish = (nQuestion, numberCorrect, segundos, MAX_TIME, s
 const Question = ({ goTo, setGameFinished }) => {
     localStorage.setItem("pAcertadas", 0);
 
-    const { sessionData } = useContext(SessionContext);
+    const { } = useContext(SessionContext);
 
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState([]);
@@ -58,7 +60,7 @@ const Question = ({ goTo, setGameFinished }) => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             setSegundos(segundos => {
-                if (segundos === 1) { clearInterval(intervalId); finishByTime(setGameFinished, goTo, sonido); setGameFinished(true); goTo(1); }
+                if (segundos === 1) { clearInterval(intervalId); finishByTime(sonido); setGameFinished(true); goTo(1); }
                 return segundos - 1;
             });
         }, 1000);
@@ -86,7 +88,7 @@ const Question = ({ goTo, setGameFinished }) => {
             setSelectedOption(null);
             setIsSelected(false);
             setNQuestion((prevNQuestion) => prevNQuestion + 1);
-            handleGameFinish(nQuestion, setGameFinished, goTo, numberCorrect, segundos, MAX_TIME, sonido);
+            handleGameFinish(nQuestion, numberCorrect, segundos, MAX_TIME, sonido);
             if (nQuestion === N_QUESTIONS) { setGameFinished(true); goTo(1);}
             if (segundos === 1) {setGameFinished(true); goTo(1);}
         } catch (error) {
@@ -122,6 +124,7 @@ const Question = ({ goTo, setGameFinished }) => {
             if (sonido) { correctAudio.play(); }
         } else {
             if (sonido) { incorrectAudio.play(); }
+            else { setNumberCorrect(numberCorrect); }
         }
     };
 
@@ -138,7 +141,9 @@ const Question = ({ goTo, setGameFinished }) => {
             <div>
                 <div className='questionTime'>
                     <div className='audioQuestion'>
-                        <img className='audioImg' src={sonido ? soundOnImage : soundOffImage} onClick={() => setSonido(!sonido)} />
+                    <button onClick={() => setSonido(!sonido)} style={{ border: 'none', background: 'none', padding: 0 }}>
+                        <img className='audioImg' src={sonido ? soundOnImage : soundOffImage} alt="Toggle Sound" />
+                    </button>
                         <Typography sx={{ display: 'inline-block', textAlign: 'left' }}>Question: {nQuestion}</Typography>
                     </div>
                     <Typography sx={{ display: 'inline-block', textAlign: 'right' }}>Time: {formatTiempo(segundos)}</Typography>
@@ -149,7 +154,7 @@ const Question = ({ goTo, setGameFinished }) => {
                     </Typography>
                     <List sx={{ bgcolor: '#333' }} disablePadding>
                         {options.map((option, index) => (
-                            <ListItem onClick={() => handleSubmit(option, index)} key={index}
+                            <ListItem onClick={() => handleSubmit(option, index)}
                                 sx={{ bgcolor: getBackgroundColor(option, index) }}>
                                 <ListItemButton className={isSelected ? 'disabledButton' : ''}>
                                     <ListItemText sx={{ textAlign: 'center' }} >
@@ -169,5 +174,10 @@ const Question = ({ goTo, setGameFinished }) => {
         </main>
     );
 }
+
+Question.propTypes = {
+    goTo: PropTypes.func.isRequired, // Asegura que goTo sea una función y es requerida
+    setGameFinished: PropTypes.func.isRequired,
+};
 
 export default Question;

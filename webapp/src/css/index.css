@@ -133,6 +133,10 @@ button:focus-visible {
   margin: 1px;
 }
 
+.audioQuestion button {
+  vertical-align: middle;
+}
+
 .audioImg {
   width: 1.6em;
   cursor: pointer;
