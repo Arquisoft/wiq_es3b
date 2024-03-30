@@ -16,29 +16,29 @@ class FootballQuestions{
         let result={};
         const queries=[
             `
-            SELECT DISTINCT ?equipo ?equipoLabel ?followers
+            SELECT ?piloto ?pilotoLabel ?points
             WHERE {
-                ?equipo wdt:P31 wd:Q476028;  
-                        wdt:P17 wd:Q29;
-                OPTIONAL {?equipo wdt:P8687 ?followers }
+                ?piloto wdt:P106 wd:Q10841764;
+                OPTIONAL{?piloto wdt:P1358 ?points}
                 SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            }
-            ORDER BY DESC(?followers)
-            LIMIT 50 
+                FILTER(BOUND(?points))
+                }
+            ORDER BY DESC (?points)
+            LIMIT 150
             `
         ];
         for(let i = 0; i <queries.length; i++) {
             let query = queries[i];
-            let teams = await queryExecutor.execute(query);
-            teams.forEach(team=>{
-                const teamId = team.equipo.value.match(/Q\d+/)[0];
-                const teamName = team.equipoLabel.value;
-                const followers = team.followers.value;
-                if (!result[teamId]) {
-                    result[teamId] = {
-                        teamId: teamId,
-                        name: teamName,
-                        followers: followers,
+            let pilots = await queryExecutor.execute(query);
+            pilots.forEach(pilot=>{
+                const pilotId = pilot.piloto.value.match(/Q\d+/)[0];
+                const pilotName = pilot.pilotoLabel.value;
+                const points = pilot.points.value;
+                if (!result[pilotId]) {
+                    result[pilotId] = {
+                        pilotId: pilotId,
+                        name: pilotName,
+                        followers: points,
                     }
                 }
             });
@@ -51,16 +51,16 @@ class FootballQuestions{
         let newResults = await this.loadValues();
         const propertiesToLoad=[
             {
-                name:'country',
-                id: 'P17'
+                name:'birthPlace',
+                id: 'P19'
             },
             {
-                name:'coach',
-                id: 'P286'
+                name:'wins',
+                id: 'P1355'
             },
             {
-                name:'stadium',
-                id: 'P115'
+                name:'podiums',
+                id: 'P10648'
             },
             {
                 name:'inception',

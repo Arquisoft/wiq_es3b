@@ -15,6 +15,10 @@
 	"Which tennis player is from?" : "¿Qué jugador es de %s?",
 
 	"Which team plays in?": "¿Qué equipo juega en %s?",
-	"Which team trains?": "¿Qué equipo entrena %s?"
+	"Which team trains?": "¿Qué equipo entrena %s?",
+
+	"Which f1 pilot was born in?": "¿Qué piloto de F1 nació en %s?",
+	"Which f1 pilot has more podiums?": "¿Qué piloto de F1 tiene más podiums?",
+	"Which f1 pilot has more wins?": "¿Qué pilto de F1 tiene más victorias?"
 	
 }

@@ -1,34 +1,32 @@
-const footballQuestions=require('./f1Questions');
-const footballQuery=footballQuestions.getInstance();
+const f1Questions=require('./f1Questions');
+const f1Query=f1Questions.getInstance();
 function loadData(){
-    footballQuery.loadData();
+    f1Query.loadData();
 }
 const templates=[
     async ()=>
     {
-        const results = await footballQuery.doQuestion('inception', 4);
+        const results = await f1Query.doQuestion('wins', 4);
         return{
-            "question":"Which football team was founded in ?",
-            "question_param":results.question_param,
+            "question":"Which f1 pilot has more wins?",
             "correct":results.correct,
             "incorrects":results.incorrects
         }
     },
     async ()=>
     {
-        const results = await footballQuery.doQuestion('coach', 4);
+        const results = await f1Query.doQuestion('podiums', 4);
         return{
-            "question":"Which team trains?",
-            "question_param":results.question_param,
+            "question":"Which f1 pilot has more podiums?",
             "correct":results.correct,
             "incorrects":results.incorrects
         }
     },
     async ()=>
     {
-        const results = await footballQuery.doQuestion('stadium', 4);
+        const results = await f1Query.doQuestion('birthPlace', 4);
         return{
-            "question":"Which team plays in?",
+            "question":"Which f1 pilot was born in?",
             "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects

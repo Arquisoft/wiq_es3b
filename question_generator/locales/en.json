@@ -15,5 +15,10 @@
 	"Which tennis player is from?" : "Which tennis player is from %s?",
 
 	"Which team plays in?": "Which team plays in %s?",
-	"Which team trains?": "Which team trains %s?"
+	"Which team trains?": "Which team trains %s?",
+
+	"Which f1 pilot was born in?": "Which f1 pilot was born in %s?",
+	"Which f1 pilot has more podiums?": "Which f1 pilot has more podiums?",
+	"Which f1 pilot has more wins?": "Which f1 pilot has more wins?"
+
 }
