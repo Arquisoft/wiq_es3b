@@ -1,9 +1,13 @@
 // src/components/Login.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import { SessionContext } from '../SessionContext';
 
 const Login = ({ goTo }) => {
+
+  const { saveSessionData } = useContext(SessionContext);
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -20,12 +24,12 @@ const Login = ({ goTo }) => {
       const response = await axios.post(`${apiEndpoint}/login`, { username, password });
 
       // Extract data from the response
-      const { createdAt: userCreatedAt } = response.data;
+      const { createdAt: userCreatedAt, username: loggedInUsername } = response.data;
       
       setTimeStart(Date.now());
       setCreatedAt(userCreatedAt);
       setLoginSuccess(true);
-      
+      saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt });
       setOpenSnackbar(true);
     } catch (error) {
       setError(error.response.data.error);

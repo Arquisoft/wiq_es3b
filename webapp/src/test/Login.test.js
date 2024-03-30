@@ -3,8 +3,13 @@ import { render, fireEvent, screen, waitFor, act } from '@testing-library/react'
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import Login from '../components/Login';
+import { SessionContext } from '../SessionContext';
 
 const mockAxios = new MockAdapter(axios);
+
+const mockValue = {
+  saveSessionData: () => {}
+};
 
 describe('Login component', () => {
   beforeEach(() => {
@@ -13,7 +18,11 @@ describe('Login component', () => {
 
   it('should log in successfully', async () => {
 
-    render(<Login goTo={(parameter) => {}} />);
+    render(
+      <SessionContext.Provider value={mockValue}>
+        <Login goTo={(parameter) => {}} />
+      </SessionContext.Provider>
+    );
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
@@ -36,7 +45,11 @@ describe('Login component', () => {
 
   it('should handle error when logging in', async () => {
 
-    render(<Login goTo={(parameter) => {}} />);
+    render(
+      <SessionContext.Provider value={mockValue}>
+        <Login goTo={(parameter) => {}} />
+      </SessionContext.Provider>
+    );
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
