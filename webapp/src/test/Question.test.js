@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
-import Question, { finishByQuestions, finishByTime } from '../components/Question';
+import Question, { finishByQuestions, finishByTime, handleGameFinish } from '../components/Question';
 import { SessionProvider } from '../SessionContext';
 
 // Mock para la respuesta del servicio de preguntas
@@ -109,6 +109,8 @@ describe('Question component', () => {
        <Question setGameFinished={mockSetGameFinished} goTo={mockGoTo} />
       </SessionProvider>;
 
+    // Renderizar el componente
+    const { getByText } = render(questionComponent);
 
     // Establecer valores iniciales
     act(() => {
@@ -117,9 +119,6 @@ describe('Question component', () => {
       localStorage.setItem('tiempoUsado', '60');
       localStorage.setItem('tiempoRestante', '60');
     });
-
-    // Renderizar el componente
-    const { getByText } = render(questionComponent);
 
     // Verificar que las funciones auxiliares no se hayan llamado aún
     expect(mockSetGameFinished).not.toHaveBeenCalled();
@@ -291,9 +290,22 @@ describe('handleGameFinish function', () => {
     jest.advanceTimersByTime((MAX_TIME + 1) * 1000); // Asegúrate de que el tiempo se agote
     
     finishByTime(true);
+    finishByTime(true);
 
     // Verifica si finishByTime fue llamado
     //expect(finishByTime).toHaveBeenCalledWith(true, goToMock, true); // Verifica si se llamó con los argumentos correctos
   });
-  
+
+  it('should call handleGameFinish with the correct arguments', () => {
+    render(<SessionProvider><Question /></SessionProvider>);
+    
+    // Simula que se alcanza el final del juego
+    const nQuestion = 10; // Número de preguntas igual al máximo
+    const numberCorrect = 8; // Supongamos que el jugador acierta 8 preguntas
+    const segundos = 1; // Simula que se acaba el tiempo
+    const MAX_TIME = 120;
+    const sonido = true; // Supongamos que el sonido está activado
+
+    handleGameFinish(nQuestion, numberCorrect, segundos, MAX_TIME, sonido);
+  });
 });

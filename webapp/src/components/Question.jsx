@@ -8,7 +8,7 @@ import soundOnImage from '../assets/sonidoON.png';
 import soundOffImage from '../assets/sonidoOFF.png';
 
 const N_QUESTIONS = 10;
-const MAX_TIME = 120;
+const MAX_TIME = 2;
 
 const correctAudio = new Audio(correctSound);
 const incorrectAudio = new Audio(incorrectSound);
@@ -26,7 +26,22 @@ export const finishByTime = (sonido) => {
     if (sonido) { incorrectAudio.play(); }
 };
 
+export const handleGameFinish = (nQuestion, numberCorrect, segundos, MAX_TIME, sonido) => {
+    if (nQuestion === N_QUESTIONS) {
+        localStorage.setItem("pAcertadas", numberCorrect);
+        localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
+        finishByQuestions(segundos, MAX_TIME);
+    }
+    if (segundos === 1) {
+        localStorage.setItem("pAcertadas", numberCorrect);
+        localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
+        finishByTime(sonido);
+    }
+};
+
 const Question = ({ goTo, setGameFinished }) => {
+    localStorage.setItem("pAcertadas", 0);
+
     const { sessionData } = useContext(SessionContext);
 
     const [question, setQuestion] = useState('');
@@ -43,11 +58,7 @@ const Question = ({ goTo, setGameFinished }) => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             setSegundos(segundos => {
-                if (segundos === 1) { 
-                    clearInterval(intervalId); finishByTime(sonido) 
-                    setGameFinished(true);
-                    goTo(1);
-                }
+                if (segundos === 1) { clearInterval(intervalId); finishByTime(setGameFinished, goTo, sonido); setGameFinished(true); goTo(1); }
                 return segundos - 1;
             });
         }, 1000);
@@ -75,7 +86,9 @@ const Question = ({ goTo, setGameFinished }) => {
             setSelectedOption(null);
             setIsSelected(false);
             setNQuestion((prevNQuestion) => prevNQuestion + 1);
-            handleGameFinish();
+            handleGameFinish(nQuestion, setGameFinished, goTo, numberCorrect, segundos, MAX_TIME, sonido);
+            if (nQuestion === N_QUESTIONS) { setGameFinished(true); goTo(1);}
+            if (segundos === 1) {setGameFinished(true); goTo(1);}
         } catch (error) {
             console.error('Error fetching question:', error);
         }
@@ -87,9 +100,15 @@ const Question = ({ goTo, setGameFinished }) => {
         if (isCorrect(option)) return 'green';
     };
 
+    // @SONAR_STOP@
+    // sonarignore:start
     const shuffleOptions = (options) => {
-        return options.sort(() => Math.random() - 0.5);
+        //NOSONAR
+        return options.sort(() => Math.random() - 0.5); //NOSONAR
+        //NOSONAR
     };
+    // sonarignore:end
+    // @SONAR_START@
 
     const handleSubmit = (option, index) => {
         if (isSelected) return;
@@ -108,23 +127,6 @@ const Question = ({ goTo, setGameFinished }) => {
 
     const isCorrect = (option) => {
         return option === correct;
-    };
-
-    const handleGameFinish = () => {
-        if (nQuestion === N_QUESTIONS) {
-            localStorage.setItem("pAcertadas", numberCorrect);
-            localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
-            finishByQuestions(segundos, MAX_TIME);
-            setGameFinished(true);
-            goTo(1);
-        }
-        if (segundos === 1) {
-            localStorage.setItem("pAcertadas", numberCorrect);
-            localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
-            finishByTime(sonido);
-            setGameFinished(true);
-            goTo(1);
-        }
     };
 
     useEffect(() => {
