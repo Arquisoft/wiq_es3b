@@ -1,3 +1,4 @@
+// Question.js
 import React, { useState, useEffect, useContext } from 'react';
 import { Card, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 import { SessionContext } from '../SessionContext';
@@ -6,13 +7,24 @@ import incorrectSound from '../audio/incorrect.mp3';
 import soundOnImage from '../assets/sonidoON.png';
 import soundOffImage from '../assets/sonidoOFF.png';
 
-const N_QUESTIONS = 10
+const N_QUESTIONS = 10;
 const MAX_TIME = 120;
 
 const correctAudio = new Audio(correctSound);
 const incorrectAudio = new Audio(incorrectSound);
 
-const gatewayUrl=process.env.REACT_APP_API_ENDPOINT||"http://localhost:8000"
+const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
+
+export const finishByQuestions = (segundos, MAX_TIME) => {
+    localStorage.setItem("tiempoUsado", MAX_TIME - segundos);
+    localStorage.setItem("tiempoRestante", segundos);
+};
+
+export const finishByTime = (sonido) => {
+    localStorage.setItem("tiempoUsado", MAX_TIME);
+    localStorage.setItem("tiempoRestante", 0);
+    if (sonido) { incorrectAudio.play(); }
+};
 
 const Question = ({ goTo, setGameFinished }) => {
     const { sessionData } = useContext(SessionContext);
@@ -31,7 +43,11 @@ const Question = ({ goTo, setGameFinished }) => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             setSegundos(segundos => {
-                if (segundos === 1) { clearInterval(intervalId); finishByTime() }
+                if (segundos === 1) { 
+                    clearInterval(intervalId); finishByTime(sonido) 
+                    setGameFinished(true);
+                    goTo(1);
+                }
                 return segundos - 1;
             });
         }, 1000);
@@ -51,18 +67,17 @@ const Question = ({ goTo, setGameFinished }) => {
                 method: 'GET'
             });
             const data = await response.json();
-    
+
             setQuestion(data.question);
             setCorrect(data.correct);
             setOptions(shuffleOptions([data.correct, ...data.incorrects]));
-    
+
             setSelectedOption(null);
             setIsSelected(false);
             setNQuestion((prevNQuestion) => prevNQuestion + 1);
             handleGameFinish();
         } catch (error) {
-            //NOSONAR
-            console.error('Error fetching question:', error);//NOSONAR
+            console.error('Error fetching question:', error);
         }
     };
 
@@ -71,16 +86,10 @@ const Question = ({ goTo, setGameFinished }) => {
         if (!isCorrect(option) && index === selectedIndex) return 'red';
         if (isCorrect(option)) return 'green';
     };
-    
-    // @SONAR_STOP@
-    // sonarignore:start
+
     const shuffleOptions = (options) => {
-        //NOSONAR
-        return options.sort(() => Math.random() - 0.5); //NOSONAR
-        //NOSONAR
+        return options.sort(() => Math.random() - 0.5);
     };
-    // sonarignore:end
-    // @SONAR_START@
 
     const handleSubmit = (option, index) => {
         if (isSelected) return;
@@ -102,31 +111,20 @@ const Question = ({ goTo, setGameFinished }) => {
     };
 
     const handleGameFinish = () => {
-        if (nQuestion === N_QUESTIONS) { 
+        if (nQuestion === N_QUESTIONS) {
             localStorage.setItem("pAcertadas", numberCorrect);
             localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
-            finishByQuestions();
+            finishByQuestions(segundos, MAX_TIME);
+            setGameFinished(true);
+            goTo(1);
         }
         if (segundos === 1) {
             localStorage.setItem("pAcertadas", numberCorrect);
             localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
-            finishByTime();
+            finishByTime(sonido);
+            setGameFinished(true);
+            goTo(1);
         }
-    };
-
-    const finishByQuestions = () => {
-        localStorage.setItem("tiempoUsado", MAX_TIME - segundos);
-        localStorage.setItem("tiempoRestante", segundos);
-        setGameFinished(true);
-        goTo(1);
-    };
-
-    const finishByTime = () => {
-        localStorage.setItem("tiempoUsado", MAX_TIME);
-        localStorage.setItem("tiempoRestante", 0);
-        if (sonido) { incorrectAudio.play(); }
-        setGameFinished(true);
-        goTo(1);
     };
 
     useEffect(() => {
@@ -139,20 +137,20 @@ const Question = ({ goTo, setGameFinished }) => {
                 <div className='questionTime'>
                     <div className='audioQuestion'>
                         <img className='audioImg' src={sonido ? soundOnImage : soundOffImage} onClick={() => setSonido(!sonido)} />
-                        <Typography sx={{ display:'inline-block', textAlign:'left'}} >Question: {nQuestion}</Typography>
+                        <Typography sx={{ display: 'inline-block', textAlign: 'left' }}>Question: {nQuestion}</Typography>
                     </div>
-                    <Typography sx={{ display:'inline-block', textAlign:'right'}}>Time: {formatTiempo(segundos)}</Typography>
+                    <Typography sx={{ display: 'inline-block', textAlign: 'right' }}>Time: {formatTiempo(segundos)}</Typography>
                 </div>
                 <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }}>
-                    <Typography variant='h4' sx={{ padding:'10px 40px 30px 40px', color:'#8f95fd' }}>
+                    <Typography variant='h4' sx={{ padding: '10px 40px 30px 40px', color: '#8f95fd' }}>
                         {question}
                     </Typography>
-                    <List sx={{ bgcolor: '#333'}} disablePadding>
+                    <List sx={{ bgcolor: '#333' }} disablePadding>
                         {options.map((option, index) => (
-                            <ListItem onClick={ () => handleSubmit(option, index) } key={index}
-                                sx={{ bgcolor: getBackgroundColor(option, index)}}>
+                            <ListItem onClick={() => handleSubmit(option, index)} key={index}
+                                sx={{ bgcolor: getBackgroundColor(option, index) }}>
                                 <ListItemButton className={isSelected ? 'disabledButton' : ''}>
-                                    <ListItemText sx={{textAlign: 'center'}} >
+                                    <ListItemText sx={{ textAlign: 'center' }} >
                                         {option}
                                     </ListItemText>
                                 </ListItemButton>
@@ -160,8 +158,8 @@ const Question = ({ goTo, setGameFinished }) => {
                         ))}
                     </List>
                 </Card>
-                <ListItemButton onClick={ isSelected ? () => fetchQuestion() : null }
-                    sx={{ justifyContent: 'center' , marginTop: 2}} 
+                <ListItemButton onClick={isSelected ? () => fetchQuestion() : null}
+                    sx={{ justifyContent: 'center', marginTop: 2 }}
                     className={isSelected ? '' : 'isNotSelected'} >
                     Next
                 </ListItemButton>

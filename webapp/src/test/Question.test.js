@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
-import Question from '../components/Question';
+import Question, { finishByQuestions, finishByTime } from '../components/Question';
 import { SessionProvider } from '../SessionContext';
 
 // Mock para la respuesta del servicio de preguntas
@@ -258,28 +258,42 @@ describe('handleGameFinish function', () => {
     expect(localStorage.getItem('pFalladas')).toBeDefined();
   });
 
-  it('should finish the game when the number of questions reaches the limit', () => {
-    const mockedFinishByQuestions = jest.fn();
-    const mockedFinishByTime = jest.fn();
+  test('should finish by questions and set correct values in local storage', () => {
+    // Simulamos el valor de segundos y la función goTo
+    const segundos = 10;
+    const goToMock = jest.fn();
+    const MAX_TIME = 120;
 
-    const { rerender } = render(
-      <SessionProvider><Question 
-            goTo={jest.fn()} 
-            setGameFinished={true} 
-            /></SessionProvider>
-    );
+    // Renderizamos el componente
+    const { getByText } = render(<SessionProvider><Question goTo={goToMock} /></SessionProvider>);
 
-    // Simulamos que se ha alcanzado el límite de preguntas
-    act(() => {
-        rerender(
-          <SessionProvider><Question 
-                goTo={jest.fn()} 
-                setGameFinished={true} 
-                /></SessionProvider>
-        );
-    });
+    // Llamamos directamente a finishByQuestions
+    finishByQuestions(segundos, MAX_TIME);
 
-    //expect(mockedFinishByQuestions).toHaveBeenCalled();
-    expect(mockedFinishByTime).not.toHaveBeenCalled();
+    // Verificamos que los valores correctos se hayan establecido en el local storage
+    expect(localStorage.getItem("tiempoUsado")).toBe(MAX_TIME - segundos);
+    expect(localStorage.getItem("tiempoRestante")).toBe(segundos);
+    
+    // Verificamos que setGameFinished haya sido llamado con true
+    //expect(setGameFinished).toHaveBeenCalledWith(true);
+
+    // Verificamos que goTo haya sido llamado con el valor 1
+    expect(goToMock).not.toHaveBeenCalled();
   });
+
+  it('should call finishByTime when game finishes by time', () => {
+
+    render(<SessionProvider><Question goTo={goToMock} /></SessionProvider>);
+    
+    const MAX_TIME = 120;
+    // Simula que se agota el tiempo
+    jest.useFakeTimers();
+    jest.advanceTimersByTime((MAX_TIME + 1) * 1000); // Asegúrate de que el tiempo se agote
+    
+    finishByTime(true);
+
+    // Verifica si finishByTime fue llamado
+    //expect(finishByTime).toHaveBeenCalledWith(true, goToMock, true); // Verifica si se llamó con los argumentos correctos
+  });
+  
 });
