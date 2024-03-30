@@ -1,8 +1,9 @@
 import React from 'react';
+import { useContext } from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Nav from '../components/Nav';
-import { SessionProvider } from '../SessionContext';
+import { SessionProvider, SessionContext } from '../SessionContext';
 
 
 
@@ -79,12 +80,6 @@ describe('Nav Component', () => {
     expect(getByText('noUser')).toBeInTheDocument();
   });
 
-
-
-
-
-
-
   test('calls goToMenuClic when the button "Menu" is clicked', async () => {
     const goToMock = jest.fn();
     const { getByText } = render(
@@ -125,5 +120,24 @@ describe('Nav Component', () => {
     fireEvent.click(button);
 
     expect(goToMock).toHaveBeenCalled();
+  });
+
+  test('shows the username of de user account in nav', () => {
+
+    const storedData = { username: 'testUser' };
+    localStorage.setItem('sessionData', JSON.stringify(storedData));
+
+    const TestComponent = () => {
+      const { sessionData } = React.useContext(SessionContext);
+      return <Nav />
+    };
+
+    const { getByText } = render(
+      <SessionProvider>
+        <TestComponent />
+      </SessionProvider>
+    );
+
+    expect(getByText('testUser')).toBeInTheDocument();
   });
 });
