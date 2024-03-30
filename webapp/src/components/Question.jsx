@@ -163,7 +163,7 @@ const Question = ({ goTo, setGameFinished }) => {
                     </Typography>
                     <List sx={{ bgcolor: '#333' }} disablePadding>
                         {options.map((option, index) => (
-                            <ListItem onClick={() => handleSubmit(option, index)} key={generateUniqueId(option)}
+                            <ListItem onClick={() => handleSubmit(option, index)} key={generateUniqueId()}
                                 sx={{ bgcolor: getBackgroundColor(option, index) }}>
                                 <ListItemButton className={isSelected ? 'disabledButton' : ''}>
                                     <ListItemText sx={{ textAlign: 'center' }} >
