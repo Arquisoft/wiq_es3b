@@ -8,7 +8,7 @@ const templates=[
     {
         const results = await footballQuery.doQuestion('inception', 4);
         return{
-            "question":"Which football team was founded in ?",
+            "question":"Which football team was founded in?",
             "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects

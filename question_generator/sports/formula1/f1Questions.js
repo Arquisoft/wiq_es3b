@@ -86,6 +86,61 @@ class FootballQuestions{
         }
         return QuestionsUtils.getValuesFromDataAndProperty(this.data, property, nValues);
     }
+    async getRandomDriver(numberOfDrivers){
+        if(Object.keys(this.data).length==0){
+            await this.loadData();
+        }
+        const array = Object.values(this.data);
+        const randomResults = array.sort(() => Math.random() - 0.5).slice(0, numberOfDrivers);
+        return randomResults
+    }
+    async getDriverWithMoreWins() {
+        let numberOfDrivers=4;
+        let results = await this.getRandomDriver(numberOfDrivers);
+        const formattedResults = await results.map(result => {
+            console.log(parseInt(result.wins))
+            return {
+              item: result.name,
+              value:parseInt(result.wins),
+            };
+          }).sort((a, b) => b.value - a.value);
+        const finalResults={
+            correct: null,
+            incorrects: []
+        }
+        for(let i=0;i<numberOfDrivers;i++){
+            if(i==0){
+                finalResults.correct=formattedResults[i].item
+            }
+            else{
+                finalResults.incorrects.push(formattedResults[i].item)
+            }
+        }
+        return finalResults
+    }
+    async getDriverWithMorePodiums() {
+        let numberOfDrivers=4;
+        let results = await this.getRandomDriver(numberOfDrivers);
+        const formattedResults = await results.map(result => {
+            return {
+              item: result.name,
+              value:parseInt(result.podiums),
+            };
+          }).sort((a, b) => b.value - a.value);
+        const finalResults={
+            correct: null,
+            incorrects: []
+        }
+        for(let i=0;i<numberOfDrivers;i++){
+            if(i==0){
+                finalResults.correct=formattedResults[i].item
+            }
+            else{
+                finalResults.incorrects.push(formattedResults[i].item)
+            }
+        }
+        return finalResults
+    }
 
 }
 module.exports = FootballQuestions;
