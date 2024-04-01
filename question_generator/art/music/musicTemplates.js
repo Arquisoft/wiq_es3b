@@ -10,7 +10,7 @@ const templates=[
     {
         const results = await musicQuery.getSongByPerformers();
         return{
-            "question":"Which song is sing by?",
+            "question":"Which song is song by?",
             "question_param":results.performers,
             "correct":results.correct,
             "incorrects":results.incorrects
