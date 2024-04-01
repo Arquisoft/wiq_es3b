@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
 import { SessionContext } from '../SessionContext';

@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Game = require('./game-model'); // Importa el modelo de juegos
-const User = require('./user-model');
+const User = require('../users/userservice/user-model');
 
 const app = express();
 const port = 8005; // Puerto para el servicio de juegos
