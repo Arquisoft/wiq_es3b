@@ -12,7 +12,7 @@ describe('User component', () => {
     );
     
     // Verificar que el texto de bienvenida se muestra correctamente
-    const welcomeText = screen.getByText(/Welcome to the 2024 edition of the Software Architecture course/i);
+    const welcomeText = screen.getByText(/ASW - WIQ Quiz/i);
     expect(welcomeText).toBeInTheDocument();
 
     const welcomeText2 = screen.getByText(/Login :D/i);
