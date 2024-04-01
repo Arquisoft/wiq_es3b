@@ -24,6 +24,12 @@
 	
 	"Which song is song by?": "Which song is song by %s?",
 	"Which song was released in?": "Which song was released in %s?",
-	"Which song belongs to?": "¿Qué canción pertenece a %s?"
+	"Which song belongs to?": "¿Qué canción pertenece a %s?",
+
+	"Which serie has episodes?": "¿Qué serie tiene %s episodios?",
+	"Which serie has seasons?": "¿Qué serie tiene %s temporadas?",
+
+	"Which movie was realeased in?": "¿Qué película fue lanzada en %s?",
+	"Which movie was directed by?": "¿Qué película fue dirigida por %s?"
 	
 }
