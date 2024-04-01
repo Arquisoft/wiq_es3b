@@ -1,4 +1,4 @@
-const videoGamesQuestions=require('./moviesQuestions');
+const videoGamesQuestions=require('./videogamesQuestions');
 const videoGamesQuery=videoGamesQuestions.getInstance();
 function loadData(){
     videoGamesQuery.loadData();
