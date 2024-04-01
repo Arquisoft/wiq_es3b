@@ -18,8 +18,10 @@ function App() {
       {menuState === 0 && <User goTo={(x) => goTo(x)}/>}
       {menuState > 0 && <Nav goTo={(x) => goTo(x)}/>}
       {menuState === 1 && <Start goTo={(x) => goTo(x)}/>}
-      {menuState === 2 && <Game />}
-      {menuState === 3 && <Participation goTo={(x) => goTo(x)}/>}
+      {menuState === 2 && <Game gameMode="classic"/>}
+      {menuState === 3 && <Game gameMode="infinite"/>}
+      {menuState === 4 && <Game gameMode="onlyOneLife"/>}
+      {menuState === 5 && <Participation goTo={(x) => goTo(x)}/>}
     </>
   )
 }

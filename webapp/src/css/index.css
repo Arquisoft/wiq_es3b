@@ -193,6 +193,10 @@ button:focus-visible {
   border: 5px solid #8f95fd !important;
 }
 
+.disappear {
+  display: none !important;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

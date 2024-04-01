@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PostGame } from './PostGame';
 import Question from './Question';
 
-export const Game = () => {
+export const Game = ({ gameMode }) => {
     const [gameState, setGameState] = useState(0);
     const [gameFinished, setGameFinished] = useState(false);
 
@@ -18,7 +18,7 @@ export const Game = () => {
 
     return (
         <>
-            {gameState === 0 && <Question goTo={(x) => goTo(x)} setGameFinished={setGameFinished} />}
+            {gameState === 0 && <Question goTo={(x) => goTo(x)} setGameFinished={setGameFinished} gameMode={gameMode}/>}
             {gameState === 1 && <PostGame />}
         </>
     );

@@ -28,32 +28,44 @@ export const finishByTime = (sonido) => {
     if (sonido) { incorrectAudio.play(); }
 };
 
-export const handleGameFinish = (nQuestion, numberCorrect, segundos, MAX_TIME, sonido) => {
+export const handleClassicGameFinish = (nQuestion, numberCorrect, numberIncorrect, segundos, MAX_TIME, sonido) => {
     if (nQuestion === N_QUESTIONS) {
         localStorage.setItem("pAcertadas", numberCorrect);
-        localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
+        localStorage.setItem("pFalladas", numberIncorrect);
         finishByQuestions(segundos, MAX_TIME);
     }
     if (segundos === 1) {
         localStorage.setItem("pAcertadas", numberCorrect);
-        localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
+        localStorage.setItem("pFalladas", numberIncorrect);
         finishByTime(sonido);
     }
 };
 
-const Question = ({ goTo, setGameFinished }) => {
-    localStorage.setItem("pAcertadas", 0);
+export const handleOOLGameFinish = (nQuestion, time) => {
+    localStorage.setItem("pAcertadas", nQuestion - 1);
+    localStorage.setItem("tiempoUsado", new Date() - time);
+};
 
+const Question = ({ goTo, setGameFinished, gameMode }) => {
+
+    localStorage.setItem("pAcertadas", 0);
+    localStorage.setItem("pFalladas", 0);
     useContext(SessionContext);
+
+    var initTime = null;
+    if (gameMode == "onlyOneLife") { initTime = new Date(); }
 
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState();
     const [isSelected, setIsSelected] = useState(false);
+    
     const [correct, setCorrect] = useState('');
     const [numberCorrect, setNumberCorrect] = useState(0);
+    const [numberIncorrect, setNumberIncorrect] = useState(0);
     const [nQuestion, setNQuestion] = useState(-1);
+
     const [segundos, setSegundos] = useState(MAX_TIME);
     const [sonido, setSonido] = useState(true);
 
@@ -88,9 +100,11 @@ const Question = ({ goTo, setGameFinished }) => {
             setSelectedOption(null);
             setIsSelected(false);
             setNQuestion((prevNQuestion) => prevNQuestion + 1);
-            handleGameFinish(nQuestion, numberCorrect, segundos, MAX_TIME, sonido);
-            if (nQuestion === N_QUESTIONS) { setGameFinished(true); goTo(1);}
-            if (segundos === 1) {setGameFinished(true); goTo(1);}
+            if (gameMode === "classic") {
+                handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, MAX_TIME, sonido);
+                if (nQuestion === N_QUESTIONS) { setGameFinished(true); goTo(1);}
+                if (segundos === 1) {setGameFinished(true); goTo(1);}
+            }
         } catch (error) {
             console.error('Error fetching question:', error);
         }
@@ -123,7 +137,14 @@ const Question = ({ goTo, setGameFinished }) => {
             setNumberCorrect(numberCorrect + 1);
             if (sonido) { correctAudio.play(); }
         } else if (sonido) { 
-            incorrectAudio.play(); 
+            incorrectAudio.play();
+            setNumberIncorrect(numberIncorrect + 1);
+            setTimeout(() => {
+                if (gameMode === 'onlyOneLife') {
+                    handleOOLGameFinish(nQuestion, initTime);
+                    setGameFinished(true); goTo(1);
+                }
+            }, 1000);
         }
     };
 
@@ -155,7 +176,8 @@ const Question = ({ goTo, setGameFinished }) => {
                     </button>
                         <Typography sx={{ display: 'inline-block', textAlign: 'left' }}>Question: {nQuestion}</Typography>
                     </div>
-                    <Typography sx={{ display: 'inline-block', textAlign: 'right' }}>Time: {formatTiempo(segundos)}</Typography>
+                    <Typography className={gameMode === 'infinite' || gameMode === 'onlyOneLife' ? 'disappear' : ''} 
+                        sx={{ display: 'inline-block', textAlign: 'right' }}> Time: {formatTiempo(segundos)}</Typography>
                 </div>
                 <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }}>
                     <Typography variant='h4' sx={{ padding: '10px 40px 30px 40px', color: '#8f95fd' }}>
