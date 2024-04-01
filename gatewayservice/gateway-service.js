@@ -49,12 +49,16 @@ app.post('/adduser', async (req, res) => {
 
 app.get('/api/questions/create', async (req, res) => {
   try {
-    let apiUrl=questionGenerationServiceUrl+'/api/questions/create';
-    if(Object.keys(req.query).length > 0) {
-      apiUrl+='?'+new URLSearchParams(req.query);
-    }
+    const queryParams = new URLSearchParams(req.query);
+    const apiUrl = new URL('/api/questions/create', questionGenerationServiceUrl);
+    apiUrl.search = queryParams.toString();
+    
     // Forward the add user request to the user service
-    const userResponse = await axios.get(apiUrl);
+    const userResponse = await axios.get(apiUrl.toString(), {
+      headers: {
+        Authorization: req.headers.authorization
+      }
+    });
     res.json(userResponse.data);
   } catch (error) {
     res.status(error.response.status).json({ error: error.response.data.error });

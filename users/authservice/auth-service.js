@@ -47,6 +47,21 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+app.get('/verify', async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'your-secret-key');
+    const userId = decodedToken.userId;
+    const user = await User.findById(userId);
+    if (user) {
+      res.json({ username: user.username, createdAt: user.createdAt });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    res.status(401).json({ error: 'Invalid token' });
+  }
+});
 
 // Start the server
 const server = app.listen(port, () => {
