@@ -8,6 +8,7 @@ const sportTemplate=require('./sports/sportTemplate');
 const generalTemplate=require('./questionTemplate');
 const axios = require('axios');
 const questionServiceUrl = process.env.QUESTIONS_SERVICE_URL || 'http://localhost:8004';
+const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 
 const app = express();
 const port = 8003;
@@ -36,8 +37,15 @@ app.use(
 app.get('/api/questions/create', async (req, res) => {
   try {
     let category = req.query.category;
-    //User is null because we are not using authentication yet
     let user=null;
+    if (req.headers.authorization) {
+      const response = await axios.get(`${authServiceUrl}/verify`, {
+      headers: {
+        Authorization: req.headers.authorization
+      }
+      });
+      user = response.data.username;
+    }
     let randomQuestion;
 
     switch (category) {

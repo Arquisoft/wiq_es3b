@@ -44,7 +44,8 @@ export const handleGameFinish = (nQuestion, numberCorrect, segundos, MAX_TIME, s
 const Question = ({ goTo, setGameFinished }) => {
     localStorage.setItem("pAcertadas", 0);
 
-    useContext(SessionContext);
+    const {sessionData}=useContext(SessionContext);
+    const userToken = sessionData ? sessionData.token : '';
 
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState([]);
@@ -77,7 +78,10 @@ const Question = ({ goTo, setGameFinished }) => {
     const fetchQuestion = async () => {
         try {
             const response = await fetch(`${gatewayUrl}/api/questions/create`, {
-                method: 'GET'
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`
+                }
             });
             const data = await response.json();
 
