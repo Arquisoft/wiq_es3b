@@ -48,10 +48,10 @@ const Login = ({ goTo }) => {
   }, [loginSuccess, goTo]);
 
   return (
-    <Container component="div" maxWidth="xs" sx={{ marginTop: 4 }}>
+    <Container component="div" maxWidth="xs" sx={{ marginTop: 8 }}>
         <div>
-          <Typography component="h1" variant="h5">
-            Login :D
+          <Typography component="h2" variant="h5">
+            &gt; Login
           </Typography>
           <TextField
             margin="normal"
@@ -68,7 +68,7 @@ const Login = ({ goTo }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button variant="contained" color="primary" onClick={loginUser}>
+          <Button className='buttonLoginRegister' variant="contained" color="primary" onClick={loginUser}>
             Login
           </Button>
           <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
