@@ -48,6 +48,8 @@ services:
         - "8003:8003"
       networks:
         - mynetwork
+      environment:
+        QUESTIONS_SERVICE_URL: http://questionservice:8004
   
   questionservice:
     container_name: questionservice-${teamname:-defaultASW}
