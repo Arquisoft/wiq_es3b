@@ -98,7 +98,6 @@ class FootballQuestions{
         let numberOfDrivers=4;
         let results = await this.getRandomDriver(numberOfDrivers);
         const formattedResults = await results.map(result => {
-            console.log(parseInt(result.wins))
             return {
               item: result.name,
               value:parseInt(result.wins),
