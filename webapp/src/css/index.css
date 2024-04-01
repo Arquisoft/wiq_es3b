@@ -143,6 +143,36 @@ button:focus-visible {
   vertical-align: middle;
 }
 
+#fotosPerfil {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  padding: 20px 0 20px 0;
+}
+
+.fotoPerfilBtn {
+  border-radius: 0% !important;
+  border: none;
+  cursor: pointer;
+  width: 3.5em;
+  padding: 0 !important;
+}
+
+.fotoPerfil {
+  background-color: #3498db;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3.5em;
+  border-radius: 10%;
+}
+
+.selectedImg {
+  border: 4px solid #FFF !important;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

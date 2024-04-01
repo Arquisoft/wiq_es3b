@@ -27,5 +27,26 @@
 	"Who has more looses?": "¿Quién tiene más derrotas? (Tenis)",
 	"Who has more wins?": "¿Quién tiene más victorias? (Tenis)",
 	"Which tennis player is from?" : "¿Qué jugador es de %s?"
+
+	"Which football team was founded in?": "¿Qué equipo de fútbol fue fundado en %s?",
+	"Which team plays in?": "¿Qué equipo juega en %s?",
+	"Which team trains?": "¿Qué equipo entrena %s?",
+
+	"Which f1 driver was born in?": "¿Qué piloto de F1 nació en %s?",
+	"Which f1 driver has more podiums?": "¿Qué piloto de F1 tiene más podiums?",
+	"Which f1 driver has more wins?": "¿Qué pilto de F1 tiene más victorias?",
+	
+	"Which song is song by?": "¿Qué canción canta %s?",
+	"Which song was released in?": "¿Qué canción fue lanzada en %s?",
+	"Which song belongs to?": "¿Qué canción pertenece a %s?",
+
+	"Which serie has episodes?": "¿Qué serie tiene %s episodios?",
+	"Which serie has seasons?": "¿Qué serie tiene %s temporadas?",
+
+	"Which movie was realeased in?": "¿Qué película fue lanzada en %s?",
+	"Which movie was directed by?": "¿Qué película fue dirigida por %s?",
+
+	"Which videogames has sold more units?": "¿Qué videojuego ha vendido más unidades?",
+	"Which videogame was released in?": "¿Qué videojuego fue lanzado el %s?"
 	
 }
