@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
+import { SessionContext } from '../SessionContext';
 
-export const Participation = ({ userId, goTo }) => {
+export const Participation = ({ goTo }) => {
+  const { sessionData } = useContext(SessionContext); // Obtener datos de sesión del contexto
   const [participationData, setParticipationData] = useState(null);
 
   useEffect(() => {
     // Realizar la solicitud al servidor para obtener los datos de participación
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8005/getParticipation/${userId}`);
+        const response = await axios.get(`http://localhost:8005/getParticipation/${sessionData.username}`); // Utilizar el nombre de usuario de la sesión
         setParticipationData(response.data);
       } catch (error) {
         console.error('Error al obtener los datos de participación:', error);
       }
     };
 
-    fetchData();
-  }, [userId]);
+    if (sessionData) {
+      fetchData();
+    }
+  }, [sessionData]);
 
   //Gráfica
   const data = {

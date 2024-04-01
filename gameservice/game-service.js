@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Game = require('./game-model'); // Importa el modelo de juegos
+const User = require('./user-model');
 
 const app = express();
 const port = 8005; // Puerto para el servicio de juegos
@@ -45,9 +46,20 @@ app.post('/addgame', async (req, res) => {
 });
 
 // Ruta para obtener datos de participación del usuario
-app.get('/getParticipation/:userId', async (req, res) => {
+app.get('/getParticipation/:username', async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const username = req.params.username;
+
+    // Buscar el usuario por nombre de usuario en la base de datos
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      // Si no se encuentra el usuario, responder con un error
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+
+    const userId = user._id;
 
     // Consulta para obtener los datos de participación del usuario
     const participationData = await Game.aggregate([
@@ -55,7 +67,7 @@ app.get('/getParticipation/:userId', async (req, res) => {
       {
         $group: {
           _id: null,
-          totalGames: { $sum: 1 }, //$sum -> Returns a sum of numerical values
+          totalGames: { $sum: 1 }, //$sum -> Retorna la suma de los valores numéricos
           correctAnswers: { $sum: { $size: { 
             $filter: {
                input: "$answers", as: "answer", cond: "$$answer.isCorrect" } 
