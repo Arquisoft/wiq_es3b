@@ -1,3 +1,4 @@
+const moment = require('moment');
 const footballQuestions=require('./footballQuestions');
 const footballQuery=footballQuestions.getInstance();
 function loadData(){
@@ -9,7 +10,7 @@ const templates=[
         const results = await footballQuery.doQuestion('inception', 4);
         return{
             "question":"Which football team was founded in?",
-            "question_param":results.question_param,
+            "question_param":moment(results.question_param).format('YYYY-MM-DD'),
             "correct":results.correct,
             "incorrects":results.incorrects
         }
