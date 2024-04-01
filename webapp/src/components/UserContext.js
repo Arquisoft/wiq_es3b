@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import axios from 'axios'; 
-import { useHistory } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom'; 
 
 const UserContext = createContext();
 
@@ -8,7 +8,7 @@ export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState({
     username: '',
   });
-  const history = useHistory(); 
+  const history = useNavigate(); 
 
   const updateUser = (newData) => {
     setUserData((prevData) => ({ ...prevData, ...newData }));

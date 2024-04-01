@@ -2,7 +2,7 @@ import { Card, List, ListItem, ListItemButton, ListItemText, Typography } from '
 
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { PostGame } from './PostGame'
+import  PostGame  from './PostGame'
 
 const N_QUESTIONS = 10
 const MAX_TIME = 600;
