@@ -19,7 +19,7 @@ const templates=[
         const results = await moviesQuery.doQuestion('year', 4);
         return{
             "question":"Which movie was realeased in?",
-            "question_param":results.question_param,
+            "question_param":moment(results.question_param).format('YYYY-MM-DD'),
             "correct":results.correct,
             "incorrects":results.incorrects
         }
