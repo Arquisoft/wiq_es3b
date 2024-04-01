@@ -1,3 +1,5 @@
+const console=require('console')
+const moment = require('moment');
 const musicQuestions=require('./musicQuestions');
 const musicQuery=musicQuestions.getInstance();
 function loadData(){
@@ -17,10 +19,11 @@ const templates=[
     async ()=>
     {
         const results = await musicQuery.doQuestion('year', 4);
-        results.question_param = moment(results.question_param).format('YYYY-MM-DD')
+     //   results.question_param = moment(results.question_param).format('YYYY-MM-DD')
+     //   console.log(results.question_param)
         return{
             "question":"Which song was released in?",
-            "question_param":results.question_param,
+            "question_param":moment(results.question_param).format('YYYY-MM-DD'),
             "correct":results.correct,
             "incorrects":results.incorrects
         }
