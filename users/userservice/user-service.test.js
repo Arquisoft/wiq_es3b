@@ -21,6 +21,7 @@ describe('User Service', () => {
     const newUser = {
       username: 'testuser',
       password: 'testpassword',
+      profileImage: 'perfil2.jpg',
     };
 
     const response = await request(app).post('/adduser').send(newUser);
