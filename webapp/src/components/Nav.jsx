@@ -15,12 +15,14 @@ import AdbIcon from '@mui/icons-material/Adb';
 
 import { useContext } from 'react';
 import { SessionContext } from '../SessionContext';
-import profileImage from '../assets/defaultImgProfile.jpg';
+import defaultProfileImg from '../assets/defaultImgProfile.jpg';
 
 function Nav({ goTo }) {
 
   const { sessionData } = useContext(SessionContext);
   const username = sessionData ? sessionData.username : 'noUser';
+  const profileImgSrc = sessionData && sessionData.profileImage ? 
+        require(`../assets/${sessionData.profileImage}`) : defaultProfileImg;
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -122,7 +124,7 @@ function Nav({ goTo }) {
             <Typography sx={{ marginRight: 2, fontFamily: 'Roboto Slab'}} >{username}</Typography>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={profileImage}/>
+                <Avatar alt="Remy Sharp" src={profileImgSrc}/>
               </IconButton>
             </Tooltip>
             <Menu
