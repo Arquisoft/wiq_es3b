@@ -143,7 +143,7 @@ button:focus-visible {
   vertical-align: middle;
 }
 
-.fotosPerfil {
+#fotosPerfil {
   display: grid;
   justify-content: center;
   grid-template-columns: repeat(5, 1fr);

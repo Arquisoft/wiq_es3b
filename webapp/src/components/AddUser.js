@@ -76,7 +76,7 @@ const AddUser = () => {
       <Typography component="h2" variant="h5">
         Select a profile image
       </Typography>
-      <div className='fotosPerfil'>
+      <div id='fotosPerfil'>
         <IconButton className={`fotoPerfilBtn`} onClick={() => handleImageClick('defaultImgProfile.jpg')}>
           <img className={`fotoPerfil ${profileImage === 'defaultImgProfile.jpg' ? 'selectedImg' : ''}`}
                 src={profileImg1} alt='Imagen Perfil 1' />
