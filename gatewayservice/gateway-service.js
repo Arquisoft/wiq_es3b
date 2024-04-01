@@ -55,8 +55,7 @@ app.get('/api/questions/create', async (req, res) => {
     }
     // Forward the add user request to the user service
     const userResponse = await axios.get(apiUrl, {
-      headers: req.headers,
-      data: req.body
+      headers: req.headers
     });
     res.json(userResponse.data);
   } catch (error) {
