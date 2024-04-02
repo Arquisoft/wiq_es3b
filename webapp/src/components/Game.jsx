@@ -19,7 +19,7 @@ export const Game = ({ gameMode }) => {
     return (
         <>
             {gameState === 0 && <Question goTo={(x) => goTo(x)} setGameFinished={setGameFinished} gameMode={gameMode}/>}
-            {gameState === 1 && <PostGame />}
+            {gameState === 1 && <PostGame gameMode={gameMode}/>}
         </>
     );
 };

@@ -1,4 +1,6 @@
 
+import Divider from '@mui/material/Divider';
+
 export const Start = ({ goTo }) => {
 
     return (
@@ -10,6 +12,7 @@ export const Start = ({ goTo }) => {
                 <button onClick={ () => goTo(2) }>
                     Classic Game
                 </button>
+                <Divider sx={{ border:'2px solid', marginBottom:'1em' }} />
                 <button onClick={ () => goTo(3) }>
                     Infinite Mode
                 </button>
@@ -17,6 +20,10 @@ export const Start = ({ goTo }) => {
                     One Life Mode
                 </button>
                 <button onClick={ () => goTo(5) }>
+                    Category Mode
+                </button>
+                <Divider sx={{ border:'2px solid', marginTop:'1em' }} />
+                <button onClick={ () => goTo(6) }>
                     Participation
                 </button>
             </div>

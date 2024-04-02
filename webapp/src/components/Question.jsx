@@ -28,22 +28,33 @@ export const finishByTime = (sonido) => {
     if (sonido) { incorrectAudio.play(); }
 };
 
-export const handleClassicGameFinish = (nQuestion, numberCorrect, numberIncorrect, segundos, MAX_TIME, sonido) => {
+export const handleClassicGameFinish = (nQuestion, numberCorrect, numberIncorrect, 
+        segundos, MAX_TIME, sonido, goTo, setGameFinished) => {
     if (nQuestion === N_QUESTIONS) {
         localStorage.setItem("pAcertadas", numberCorrect);
         localStorage.setItem("pFalladas", numberIncorrect);
         finishByQuestions(segundos, MAX_TIME);
+        setGameFinished(true); goTo(1);
     }
     if (segundos === 1) {
         localStorage.setItem("pAcertadas", numberCorrect);
         localStorage.setItem("pFalladas", numberIncorrect);
         finishByTime(sonido);
+        setGameFinished(true); goTo(1);
     }
 };
 
-export const handleOOLGameFinish = (nQuestion, time) => {
+export const handleOOLGameFinish = (nQuestion, time, goTo, setGameFinished) => {
     localStorage.setItem("pAcertadas", nQuestion - 1);
     localStorage.setItem("tiempoUsado", new Date() - time);
+    setGameFinished(true); goTo(1);
+};
+
+export const handelInfiniteGameFinish = (numberCorrect, numberIncorrect, time, goTo, setGameFinished) => {
+    localStorage.setItem("pAcertadas", numberCorrect);
+    localStorage.setItem("pFalladas", numberIncorrect);
+    localStorage.setItem("tiempoUsado", new Date() - time);
+    setGameFinished(true); goTo(1);
 };
 
 const Question = ({ goTo, setGameFinished, gameMode }) => {
@@ -53,7 +64,7 @@ const Question = ({ goTo, setGameFinished, gameMode }) => {
     useContext(SessionContext);
 
     var initTime = null;
-    if (gameMode == "onlyOneLife") { initTime = new Date(); }
+    if (gameMode === "onlyOneLife" || gameMode === "infinite") { initTime = new Date(); }
 
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState([]);
@@ -101,9 +112,8 @@ const Question = ({ goTo, setGameFinished, gameMode }) => {
             setIsSelected(false);
             setNQuestion((prevNQuestion) => prevNQuestion + 1);
             if (gameMode === "classic") {
-                handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, MAX_TIME, sonido);
-                if (nQuestion === N_QUESTIONS) { setGameFinished(true); goTo(1);}
-                if (segundos === 1) {setGameFinished(true); goTo(1);}
+                handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, 
+                            MAX_TIME, sonido, goTo, setGameFinished);
             }
         } catch (error) {
             console.error('Error fetching question:', error);
@@ -141,8 +151,7 @@ const Question = ({ goTo, setGameFinished, gameMode }) => {
             setNumberIncorrect(numberIncorrect + 1);
             setTimeout(() => {
                 if (gameMode === 'onlyOneLife') {
-                    handleOOLGameFinish(nQuestion, initTime);
-                    setGameFinished(true); goTo(1);
+                    handleOOLGameFinish(nQuestion, initTime, goTo, setGameFinished);
                 }
             }, 1000);
         }
@@ -168,7 +177,7 @@ const Question = ({ goTo, setGameFinished, gameMode }) => {
 
     return (
         <main className='preguntas'>
-            <div>
+            <div className='divPreguntas'>
                 <div className='questionTime'>
                     <div className='audioQuestion'>
                     <button onClick={() => setSonido(!sonido)} style={{ border: 'none', background: 'none', padding: 0 }}>
@@ -176,8 +185,9 @@ const Question = ({ goTo, setGameFinished, gameMode }) => {
                     </button>
                         <Typography sx={{ display: 'inline-block', textAlign: 'left' }}>Question: {nQuestion}</Typography>
                     </div>
-                    <Typography className={gameMode === 'infinite' || gameMode === 'onlyOneLife' ? 'disappear' : ''} 
-                        sx={{ display: 'inline-block', textAlign: 'right' }}> Time: {formatTiempo(segundos)}</Typography>
+                    { (gameMode !== "infinite" && gameMode !== "onlyOneLife") ?
+                    <Typography sx={{ display: 'inline-block', textAlign: 'right' }}> Time: {formatTiempo(segundos)}</Typography>
+                    : ""}
                 </div>
                 <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }}>
                     <Typography variant='h4' sx={{ padding: '10px 40px 30px 40px', color: '#8f95fd' }}>
@@ -196,11 +206,19 @@ const Question = ({ goTo, setGameFinished, gameMode }) => {
                         ))}
                     </List>
                 </Card>
+                <div className='botoneraPreguntas'>
                 <ListItemButton onClick={isSelected ? () => fetchQuestion() : null}
                     sx={{ justifyContent: 'center', marginTop: 2 }}
                     className={isSelected ? '' : 'isNotSelected'} >
                     Next
                 </ListItemButton>
+                { gameMode === "infinite" ?
+                    <ListItemButton onClick={ () => handelInfiniteGameFinish( numberCorrect, numberIncorrect, initTime, goTo, setGameFinished) }
+                        sx={{ color: '#f35858', justifyContent: 'center', marginTop: 2 }}>
+                        End Game
+                    </ListItemButton>
+                : ""}
+                </div>
             </div>
         </main>
     );
