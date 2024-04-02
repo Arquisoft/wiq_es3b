@@ -7,29 +7,49 @@ function loadData(){
 const templates=[
     async ()=>
     {
-        const results = await literatureQuery.getSongByPerformers();
+        const results = await literatureQuery.getAuthorOfBook();
         return{
-            "question":"Which song is song by?",
-            "question_param":results.performers,
+            "question":"Which author wrote?",
+            "question_param":results.question_param,
+            "correct":results.correct,
+            "incorrects":results.incorrects
+        }
+    }/*,
+    async ()=>
+    {
+        const results = await literatureQuery.getLanguageOfBook();
+        return{
+            "question":"Which is the original language of?",
+            "question_param":results.question_param,
+            "correct":results.correct,
+            "incorrects":results.incorrects
+        }
+    }*/,
+    async ()=>
+    {
+        const results = await literatureQuery.doQuestion('language', 4);
+        return{
+            "question":"Which book is written in?",
+            "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects
         }
     },
     async ()=>
     {
-        const results = await literatureQuery.doQuestion('year', 4);
+        const results = await literatureQuery.doQuestion('author', 4);
         return{
-            "question":"Which song was released in?",
-            "question_param":moment(results.question_param).format('YYYY-MM-DD'),
+            "question":"Which book was written by?",
+            "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects
         }
     },
     async ()=>
     {
-        const results = await literatureQuery.doQuestion('album', 4);
+        const results = await literatureQuery.doQuestion('genre', 4);
         return{
-            "question":"Which song belongs to?",
+            "question":"Which book belongs to genre?",
             "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects

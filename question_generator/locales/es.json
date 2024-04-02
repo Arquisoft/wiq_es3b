@@ -50,6 +50,13 @@
 	"Which videogame was released in?": "¿Qué videojuego fue lanzado el %s?",
 
 	"Which paint belongs to genre?": "¿Qué pintura pertenece al género %s?",
-	"Which paint was painted in?": "¿Qué pintura fue pintada en %s?"
+	"Which paint was painted in?": "¿Qué pintura fue pintada en %s?",
+
+	"Which author wrote?": "¿Qué autor escribió %s?",
+	"Which is the original language of?": "¿Cuál es el idioma original de %s?",
+	"Which book is written in?": "¿Qué libro está escrito originalmente en %s?",
+	"Which book was written by?": "¿Qué libro fue escrito por %s?",
+	"Which book belongs to genre?": "¿Qué libro pertenece al género %s?"
+
 	
 }

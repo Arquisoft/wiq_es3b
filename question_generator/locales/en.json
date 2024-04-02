@@ -49,6 +49,12 @@
 	"Which videogame was released in?": "Which videogame was released in %s?",
 
 	"Which paint belongs to genre?":"Which paint belongs to genre %s?",
-	"Which paint was painted in?": "Which paint was painted in %s?"
+	"Which paint was painted in?": "Which paint was painted in %s?",
+
+	"Which author wrote?": "Which author wrote %s?",
+	"Which is the original language of?": "Which is the original language of %s?",
+	"Which book is written in?": "Which book is written originally in %s?",
+	"Which book was written by?": "Which book was written by %s?",
+	"Which book belongs to genre?": "Which book belongs to genre %s?"
 
 }

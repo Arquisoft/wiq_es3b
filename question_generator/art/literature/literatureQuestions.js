@@ -16,31 +16,26 @@ class LiteratureQuestions{
         let result={};
         const queries=[
             `
-            SELECT ?cancion ?cancionLabel ?performerLabel
+            SELECT DISTINCT ?libro ?libroLabel
             WHERE {
-                ?cancion wdt:P31 wd:Q134556;
-                         wdt:P407 wd:Q1321 .
-                ?cancion wdt:P175 ?performer
+                ?libro wdt:P31 wd:Q7725634. 
                 SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             }
-            LIMIT 200
+            LIMIT 150
             `
         ];
         for(let i = 0; i <queries.length; i++) {
             let query = queries[i];
             let books = await queryExecutor.execute(query);
             books.forEach(book=>{
-                const bookId = book.cancion.value.match(/Q\d+/)[0];
-                const bookName = book.cancionLabel.value;
-                const performer = book.performerLabel.value;
+                const bookId = book.libro.value.match(/Q\d+/)[0];
+                const bookName = book.libroLabel.value;
                 if (!result[bookId]) {
                     result[bookId] = {
                         bookId: bookId,
                         name: bookName,
-                        performers: [],
                     }
                 }
-                result[bookId].performers.push(performer);
             });
         }
         return result;
@@ -51,12 +46,16 @@ class LiteratureQuestions{
         let newResults = await this.loadValues();
         const propertiesToLoad=[
             {
-                name:'year',
-                id: 'P577'
+                name:'language',
+                id: 'P407'
             }, 
             {
-                name: 'album',
-                id: 'P361'
+                name: 'genre',
+                id: 'P7937'
+            },
+            {
+                name: 'author',
+                id: 'P50'
             }
         ]
         for(let i = 0; i <Object.keys(newResults).length; i++) {
@@ -78,31 +77,52 @@ class LiteratureQuestions{
         }
         return QuestionsUtils.getValuesFromDataAndProperty(this.data, property, nValues);
     }
-    async getRandomSong(numberOfSongs){
+    async getRandomBook(numberOfBooks){
         if(Object.keys(this.data).length==0){
             await this.loadData();
         }
         const array = Object.values(this.data);
-        const randomResults = array.sort(() => Math.random() - 0.5).slice(0, numberOfSongs);
+        const randomResults = array.sort(() => Math.random() - 0.5).slice(0, numberOfBooks);
         return randomResults
     }
-    async getSongByPerformers() {
-        let numberOfSongs=4;
-        let result =(await this.getRandomSong(1))[0];
-        let performers = result.performers.join(', ');
+    async getAuthorOfBook() {
+        let numberOfBooks=4;
+        let result =(await this.getRandomBook(1))[0];
+        let name = result.name;
         
-        let correct = result.name;
+        let correct = result.author;
         let incorrects = []
         let i=1;
-        while(i<numberOfSongs){
-            let song=(await this.getRandomSong(1))[0];
-            if(song.performers.join(', ')!=performers){
-                incorrects.push(song.name);
+        while(i<numberOfBooks){
+            let book=(await this.getRandomBook(1))[0];
+            if(book.author!=correct){
+                incorrects.push(book.author);
                 i++;
             }
         }
         return {
-            performers:performers,
+            question_param:name,
+            correct:correct,
+            incorrects:incorrects
+        }
+    }
+    async getLanguageOfBook() {
+        let numberOfBooks=4;
+        let result =(await this.getRandomBook(1))[0];
+        let name = result.name;
+        
+        let correct = result.language;
+        let incorrects = []
+        let i=1;
+        while(i<numberOfBooks){
+            let book=(await this.getRandomBook(1))[0];
+            if(book.language!=correct){
+                incorrects.push(book.language);
+                i++;
+            }
+        }
+        return {
+            question_param:name,
             correct:correct,
             incorrects:incorrects
         }
