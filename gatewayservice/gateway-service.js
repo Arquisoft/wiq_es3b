@@ -93,8 +93,8 @@ app.post('/addquestion', async (req, res) => {
 app.post('/addgame', async (req, res) => {
   try {
     // Forward the add game request to the games service
-    const gameResponse = await axios.post(gameServiceUrl + '/addgame', req.body);
-    res.json(gameResponse.data);
+    //const gameResponse = await axios.post(gameServiceUrl + '/addgame', req.body);
+    res.json(req.body);
   } catch (error) {
     res.status(error.response.status).json({ error: error.response.data.error });
   }

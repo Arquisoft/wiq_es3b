@@ -28,17 +28,52 @@ export const finishByTime = (sonido) => {
     if (sonido) { incorrectAudio.play(); }
 };
 
-export const handleGameFinish = (nQuestion, numberCorrect, segundos, MAX_TIME, sonido) => {
+export const handleGameFinish = (nQuestion, numberCorrect, segundos, MAX_TIME, sonido, token) => {
+    let finish = false;
     if (nQuestion === N_QUESTIONS) {
         localStorage.setItem("pAcertadas", numberCorrect);
         localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
         finishByQuestions(segundos, MAX_TIME);
+        finish = true;
     }
     if (segundos === 1) {
         localStorage.setItem("pAcertadas", numberCorrect);
         localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
         finishByTime(sonido);
+        finish = true;
     }
+    if(finish){
+        fetch(`${gatewayUrl}/addgame`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                correctAnswers: localStorage.getItem("pAcertadas"),
+                incorrectAnswers: localStorage.getItem("pFalladas"),
+                usedTime: localStorage.getItem("tiempoUsado"),
+                remainingTime: localStorage.getItem("tiempoRestante"),
+                questions: localStorage.getItem("questions"),
+                category: localStorage.getItem("category"),
+                difficulty: localStorage.getItem("difficulty"),
+                date: new Date()
+            })
+        })
+        .then(response => response)
+        .catch(error => {
+            console.error('Error adding game:', error);
+        });
+        //reset
+        localStorage.setItem("pAcertadas", 0);
+        localStorage.setItem("pFalladas", 0);
+        localStorage.setItem("tiempoUsado", 0);
+        localStorage.setItem("tiempoRestante", 0);
+        localStorage.setItem("questions", []);
+        localStorage.setItem("category", '');
+        localStorage.setItem("difficulty", '');
+    }
+
 };
 
 const Question = ({ goTo, setGameFinished }) => {
@@ -88,11 +123,10 @@ const Question = ({ goTo, setGameFinished }) => {
             setQuestion(data.question);
             setCorrect(data.correct);
             setOptions(shuffleOptions([data.correct, ...data.incorrects]));
-
             setSelectedOption(null);
             setIsSelected(false);
             setNQuestion((prevNQuestion) => prevNQuestion + 1);
-            handleGameFinish(nQuestion, numberCorrect, segundos, MAX_TIME, sonido);
+            handleGameFinish(nQuestion, numberCorrect, segundos, MAX_TIME, sonido, userToken);
             if (nQuestion === N_QUESTIONS) { setGameFinished(true); goTo(1);}
             if (segundos === 1) {setGameFinished(true); goTo(1);}
         } catch (error) {
@@ -118,7 +152,11 @@ const Question = ({ goTo, setGameFinished }) => {
 
     const handleSubmit = (option, index) => {
         if (isSelected) return;
-
+        const storedQuestions = localStorage.getItem("questions") ? JSON.parse(localStorage.getItem("questions")) : [];
+        const incorrects = options.filter((opt) => opt !== correct);
+        const newQuestion = { question, correct, incorrects, answer: option };
+        const updatedQuestions = [...storedQuestions, newQuestion];
+        localStorage.setItem("questions", JSON.stringify(updatedQuestions)); 
         setSelectedOption(option);
         setSelectedIndex(index);
         setIsSelected(true);
