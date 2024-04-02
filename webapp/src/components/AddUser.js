@@ -31,10 +31,10 @@ const AddUser = ({ goTo }) => {
       const response = await axios.post(`${apiEndpoint}/login`, { username, password });
 
       // Extraer datos de la respuesta
-      const { createdAt: userCreatedAt, username: loggedInUsername } = response.data;
+      const { createdAt: userCreatedAt, username: loggedInUsername, userId: id } = response.data;
       
       // Guardar la sesión del usuario
-      saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt });
+      saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, userId: id});
 
       // Ir al siguiente componente después de iniciar sesión automáticamente
       goTo(1); 

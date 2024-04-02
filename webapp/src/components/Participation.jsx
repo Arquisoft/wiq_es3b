@@ -11,7 +11,7 @@ export const Participation = ({ goTo }) => {
     // Realizar la solicitud al servidor para obtener los datos de participación
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8005/getParticipation/${sessionData.username}`); // Utilizar el nombre de usuario de la sesión
+        const response = await axios.get(`http://localhost:8005/getParticipation/${sessionData.userId}`); // Utilizar el nombre de usuario de la sesión
         setParticipationData(response.data);
       } catch (error) {
         console.error('Error al obtener los datos de participación:', error);

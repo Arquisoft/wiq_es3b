@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Game = require('./game-model'); // Importa el modelo de juegos
-const User = require('../users/userservice/user-model');
+const Game = require('./game-model'); 
 
 const app = express();
 const port = 8005; // Puerto para el servicio de juegos
@@ -46,24 +45,19 @@ app.post('/addgame', async (req, res) => {
 });
 
 // Ruta para obtener datos de participación del usuario
-app.get('/getParticipation/:username', async (req, res) => {
+app.get('/getParticipation/:userId', async (req, res) => {
   try {
-    const username = req.params.username;
+    const userId = req.params.userId;
 
-    // Buscar el usuario por nombre de usuario en la base de datos
-    const user = await User.findOne({ username });
-
-    if (!user) {
+    if (!userId) {
       // Si no se encuentra el usuario, responder con un error
       res.status(404).json({ error: 'User not found' });
       return;
     }
 
-    const userId = user._id;
-
     // Consulta para obtener los datos de participación del usuario
     const participationData = await Game.aggregate([
-      { $match: { user: mongoose.Types.ObjectId(userId) } },
+      { $match: { user: userId } },
       {
         $group: {
           _id: null,
