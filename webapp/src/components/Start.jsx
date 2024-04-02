@@ -12,7 +12,7 @@ export const Start = ({ goTo }) => {
                 <button onClick={ () => goTo(2) }>
                     Classic Game
                 </button>
-                <Divider sx={{ border:'2px solid', marginBottom:'1em' }} />
+                <Divider sx={{ border:'2px solid', marginBottom:'0.8em' }} />
                 <button onClick={ () => goTo(3) }>
                     Infinite Mode
                 </button>
@@ -22,7 +22,7 @@ export const Start = ({ goTo }) => {
                 <button onClick={ () => goTo(5) }>
                     Category Mode
                 </button>
-                <Divider sx={{ border:'2px solid', marginTop:'1em' }} />
+                <Divider sx={{ border:'2px solid', marginTop:'0.8em' }} />
                 <button onClick={ () => goTo(6) }>
                     Participation
                 </button>

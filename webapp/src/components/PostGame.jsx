@@ -16,34 +16,33 @@ export const PostGame = ({ gameMode }) => {
 
     return (
 
-        <main className='preguntas'>
         <div>
-            <Typography sx={{ textAlign: 'center', fontSize:'2.2em' }}>Fin del juego</Typography>
+            <Typography sx={{ textAlign: 'center', fontSize:'2em', margin:'2em 0 0.3em 0 !important' }}>Fin del juego</Typography>
             <Card>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableBody>
           
                         <TableRow key={"Preguntas acertadas"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell sx={{ fontSize:'1.3em' }}>Preguntas acertadas</TableCell>
-                            <TableCell sx={{ fontSize:'1.3em' }} align="right">{localStorage.getItem("pAcertadas")}</TableCell>
+                            <TableCell sx={{ fontSize:'1.2em' }}>Preguntas acertadas</TableCell>
+                            <TableCell sx={{ fontSize:'1.2em' }} align="right">{localStorage.getItem("pAcertadas")}</TableCell>
                         </TableRow>
 
                         { gameMode !== "onlyOneLife" ?
                         <TableRow key={"Preguntas falladas"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell sx={{ fontSize:'1.3em' }}>Preguntas falladas</TableCell>
-                            <TableCell sx={{ fontSize:'1.3em' }} align="right">{localStorage.getItem("pFalladas")}</TableCell>
+                            <TableCell sx={{ fontSize:'1.2em' }}>Preguntas falladas</TableCell>
+                            <TableCell sx={{ fontSize:'1.2em' }} align="right">{localStorage.getItem("pFalladas")}</TableCell>
                         </TableRow>
                         : ""}
                         <TableRow key={"Tiempo usado"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell sx={{ fontSize:'1.3em' }}>Tiempo usado</TableCell>
-                            <TableCell sx={{ fontSize:'1.3em' }} align="right">{formatTiempo(localStorage.getItem("tiempoUsado"))}</TableCell>
+                            <TableCell sx={{ fontSize:'1.2em' }}>Tiempo usado</TableCell>
+                            <TableCell sx={{ fontSize:'1.2em' }} align="right">{formatTiempo(localStorage.getItem("tiempoUsado"))}</TableCell>
                         </TableRow>
 
-                        { gameMode === "classic" ?
+                        { gameMode === "classic" || gameMode === "category" ?
                         <TableRow key={"Tiempo restante"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell sx={{ fontSize:'1.3em' }}>Tiempo restante</TableCell>
-                            <TableCell sx={{ fontSize:'1.3em' }} align="right">{formatTiempo(localStorage.getItem("tiempoRestante"))}</TableCell>
+                            <TableCell sx={{ fontSize:'1.2em' }}>Tiempo restante</TableCell>
+                            <TableCell sx={{ fontSize:'1.2em' }} align="right">{formatTiempo(localStorage.getItem("tiempoRestante"))}</TableCell>
                         </TableRow>
                         : ""}
           
@@ -52,6 +51,5 @@ export const PostGame = ({ gameMode }) => {
             </TableContainer>
             </Card>
         </div>
-        </main>
     )
 }

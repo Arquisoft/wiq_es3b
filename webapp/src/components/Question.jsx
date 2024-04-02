@@ -4,16 +4,18 @@ import { Card, List, ListItem, ListItemButton, ListItemText, Typography } from '
 import { SessionContext } from '../SessionContext';
 import correctSound from '../audio/correct.mp3';
 import incorrectSound from '../audio/incorrect.mp3';
+import activateSound from '../audio/activate.mp3';
 import soundOnImage from '../assets/sonidoON.png';
 import soundOffImage from '../assets/sonidoOFF.png';
 import PropTypes from 'prop-types';
 
 
 const N_QUESTIONS = 10;
-const MAX_TIME = 120;
+const MAX_TIME = 12;
 
 const correctAudio = new Audio(correctSound);
 const incorrectAudio = new Audio(incorrectSound);
+const activateAudio = new Audio(activateSound);
 
 const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
@@ -29,7 +31,7 @@ export const finishByTime = (sonido) => {
 };
 
 export const handleClassicGameFinish = (nQuestion, numberCorrect, numberIncorrect, 
-        segundos, MAX_TIME, sonido, goTo, setGameFinished) => {
+        segundos, sonido, goTo, setGameFinished) => {
     if (nQuestion === N_QUESTIONS) {
         localStorage.setItem("pAcertadas", numberCorrect);
         localStorage.setItem("pFalladas", numberIncorrect);
@@ -44,27 +46,36 @@ export const handleClassicGameFinish = (nQuestion, numberCorrect, numberIncorrec
     }
 };
 
-export const handleOOLGameFinish = (nQuestion, time, goTo, setGameFinished) => {
+export const handleOOLGameFinish = (nQuestion, segundosInfinite, goTo, setGameFinished) => {
     localStorage.setItem("pAcertadas", nQuestion - 1);
-    localStorage.setItem("tiempoUsado", new Date() - time);
+    localStorage.setItem("tiempoUsado", segundosInfinite);
     setGameFinished(true); goTo(1);
 };
 
-export const handelInfiniteGameFinish = (numberCorrect, numberIncorrect, time, goTo, setGameFinished) => {
+export const handelInfiniteGameFinish = (numberCorrect, numberIncorrect, segundosInfinite, goTo, setGameFinished) => {
     localStorage.setItem("pAcertadas", numberCorrect);
     localStorage.setItem("pFalladas", numberIncorrect);
-    localStorage.setItem("tiempoUsado", new Date() - time);
+    localStorage.setItem("tiempoUsado", segundosInfinite);
     setGameFinished(true); goTo(1);
 };
 
-const Question = ({ goTo, setGameFinished, gameMode }) => {
+export const reloadF = (setSegundos, setSegundosInfinite, setNQuestion, setNumberCorrect, setNumberIncorrect, setReload) => {
+
+    setSegundos(MAX_TIME);
+    setSegundosInfinite(0);
+    setNQuestion(-1);
+    setNumberCorrect(0);
+    setNumberIncorrect(0);
+    setReload(false);
+};
+
+const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
 
     localStorage.setItem("pAcertadas", 0);
     localStorage.setItem("pFalladas", 0);
     useContext(SessionContext);
 
-    var initTime = null;
-    if (gameMode === "onlyOneLife" || gameMode === "infinite") { initTime = new Date(); }
+    const [reload, setReload] = useState(restart);
 
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState([]);
@@ -78,14 +89,24 @@ const Question = ({ goTo, setGameFinished, gameMode }) => {
     const [nQuestion, setNQuestion] = useState(-1);
 
     const [segundos, setSegundos] = useState(MAX_TIME);
+    const [segundosInfinite, setSegundosInfinite] = useState(0);
     const [sonido, setSonido] = useState(true);
+
+    if (reload) { reloadF(setSegundos, setSegundosInfinite, setNQuestion, setNumberCorrect, setNumberIncorrect, setReload); }
 
     useEffect(() => {
         const intervalId = setInterval(() => {
+            { gameMode !== "infinite" & gameMode !== "onlyOneLife" ?
             setSegundos(segundos => {
-                if (segundos === 1) { clearInterval(intervalId); finishByTime(sonido); setGameFinished(true); goTo(1); }
+                if (segundos === 1 ) { clearInterval(intervalId); handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, 
+                    segundos, sonido, goTo, setGameFinished); }
                 return segundos - 1;
-            });
+            })
+            :
+            setSegundosInfinite(segundosInfinite => {
+                return segundosInfinite + 1;
+            })
+            }
         }, 1000);
 
         return () => clearInterval(intervalId);
@@ -99,7 +120,7 @@ const Question = ({ goTo, setGameFinished, gameMode }) => {
 
     const fetchQuestion = async () => {
         try {
-            const response = await fetch(`${gatewayUrl}/api/questions/create`, {
+            const response = await fetch(`${gatewayUrl}/api/questions/create?category=${category}&lang=es`, {
                 method: 'GET'
             });
             const data = await response.json();
@@ -111,7 +132,7 @@ const Question = ({ goTo, setGameFinished, gameMode }) => {
             setSelectedOption(null);
             setIsSelected(false);
             setNQuestion((prevNQuestion) => prevNQuestion + 1);
-            if (gameMode === "classic") {
+            if (gameMode === "classic" || gameMode === "category") {
                 handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, 
                             MAX_TIME, sonido, goTo, setGameFinished);
             }
@@ -146,16 +167,26 @@ const Question = ({ goTo, setGameFinished, gameMode }) => {
         if (isCorrect(option)) {
             setNumberCorrect(numberCorrect + 1);
             if (sonido) { correctAudio.play(); }
+            if (gameMode === 'onlyOneLife') {
+                setTimeout(() => {
+                    fetchQuestion();
+                }, 2000);
+            }
         } else if (sonido) { 
             incorrectAudio.play();
             setNumberIncorrect(numberIncorrect + 1);
             setTimeout(() => {
                 if (gameMode === 'onlyOneLife') {
-                    handleOOLGameFinish(nQuestion, initTime, goTo, setGameFinished);
+                    handleOOLGameFinish(nQuestion, segundosInfinite, goTo, setGameFinished);
                 }
-            }, 1000);
+            }, 2000);
         }
     };
+
+    const changeSound = () => {
+        if (!sonido) { activateAudio.play(); }
+        setSonido(!sonido)
+    }
 
     const isCorrect = (option) => {
         return option === correct;
@@ -176,11 +207,11 @@ const Question = ({ goTo, setGameFinished, gameMode }) => {
     // @SONAR_START@
 
     return (
-        <main className='preguntas'>
+        
             <div className='divPreguntas'>
                 <div className='questionTime'>
                     <div className='audioQuestion'>
-                    <button onClick={() => setSonido(!sonido)} style={{ border: 'none', background: 'none', padding: 0 }}>
+                    <button onClick={() => changeSound()} style={{ border: 'none', background: 'none', padding: 0 }}>
                         <img className='audioImg' src={sonido ? soundOnImage : soundOffImage} alt="Toggle Sound" />
                     </button>
                         <Typography sx={{ display: 'inline-block', textAlign: 'left' }}>Question: {nQuestion}</Typography>
@@ -190,7 +221,7 @@ const Question = ({ goTo, setGameFinished, gameMode }) => {
                     : ""}
                 </div>
                 <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }}>
-                    <Typography variant='h4' sx={{ padding: '10px 40px 30px 40px', color: '#8f95fd' }}>
+                    <Typography variant='h4' sx={{ padding: '10px 40px 30px 40px', color: '#8f95fd', fontSize: '2em' }}>
                         {question}
                     </Typography>
                     <List sx={{ bgcolor: '#333' }} disablePadding>
@@ -198,7 +229,7 @@ const Question = ({ goTo, setGameFinished, gameMode }) => {
                             <ListItem onClick={() => handleSubmit(option, index)} key={generateUniqueId()}
                                 sx={{ bgcolor: getBackgroundColor(option, index) }}>
                                 <ListItemButton className={isSelected ? 'disabledButton' : ''}>
-                                    <ListItemText sx={{ textAlign: 'center' }} >
+                                    <ListItemText sx={{ textAlign: 'center', fontSize: '1em' }} >
                                         {option}
                                     </ListItemText>
                                 </ListItemButton>
@@ -207,20 +238,22 @@ const Question = ({ goTo, setGameFinished, gameMode }) => {
                     </List>
                 </Card>
                 <div className='botoneraPreguntas'>
+                { gameMode !== "onlyOneLife" ?
                 <ListItemButton onClick={isSelected ? () => fetchQuestion() : null}
                     sx={{ justifyContent: 'center', marginTop: 2 }}
                     className={isSelected ? '' : 'isNotSelected'} >
                     Next
                 </ListItemButton>
+                : ""}
                 { gameMode === "infinite" ?
-                    <ListItemButton onClick={ () => handelInfiniteGameFinish( numberCorrect, numberIncorrect, initTime, goTo, setGameFinished) }
+                    <ListItemButton onClick={ () => handelInfiniteGameFinish( numberCorrect, numberIncorrect, segundosInfinite, goTo, setGameFinished) }
                         sx={{ color: '#f35858', justifyContent: 'center', marginTop: 2 }}>
                         End Game
                     </ListItemButton>
                 : ""}
                 </div>
             </div>
-        </main>
+        
     );
 }
 
