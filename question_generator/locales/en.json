@@ -11,9 +11,6 @@
 	"Which autonomous community of Spain has a capital called?": "Which autonomous community of Spain has a capital called %s?",
 	"Which autonomous community of Spain has a president called?": "Which autonomous community of Spain has a president called %s?",
 	"Which autonomous community of Spain has x as the highest point?" : "Which autonomous community of Spain has %s as the highest point?",
-
-
-
 	
 	"Which planet is bigger?": "Which planet is bigger?",
 	"Which planet has a mass of?": "Which planet has a mass of %s kg?",
@@ -49,6 +46,9 @@
 	"Which movie was directed by?": "Which movie was directed by %s?",
 
 	"Which videogames has sold more units?": "Which videogames has sold more units?",
-	"Which videogame was released in?": "Which videogame was released in %s?"
+	"Which videogame was released in?": "Which videogame was released in %s?",
+
+	"Which paint belongs to genre?":"Which paint belongs to genre %s?",
+	"Which paint was painted in?": "Which paint was painted in %s?"
 
 }

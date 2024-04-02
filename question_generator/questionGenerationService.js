@@ -61,8 +61,10 @@ app.get('/api/questions/create', async (req, res) => {
         break;
       case 'art':
         randomQuestion = await artTemplate.getRandomQuestion();
+        break;
       case 'entertainment':
         randomQuestion = await entertainmentTemplate.getRandomQuestion();
+        break;
       default:
         randomQuestion = await generalTemplate.getRandomQuestion();
         category = 'general';

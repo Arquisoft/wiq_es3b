@@ -47,6 +47,9 @@
 	"Which movie was directed by?": "¿Qué película fue dirigida por %s?",
 
 	"Which videogames has sold more units?": "¿Qué videojuego ha vendido más unidades?",
-	"Which videogame was released in?": "¿Qué videojuego fue lanzado el %s?"
+	"Which videogame was released in?": "¿Qué videojuego fue lanzado el %s?",
+
+	"Which paint belongs to genre?": "¿Qué pintura pertenece al género %s?",
+	"Which paint was painted in?": "¿Qué pintura fue pintada en %s?"
 	
 }
