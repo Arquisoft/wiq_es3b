@@ -55,6 +55,7 @@ export const handleGameFinish = (nQuestion, numberCorrect, segundos, MAX_TIME, s
                 usedTime: localStorage.getItem("tiempoUsado"),
                 remainingTime: localStorage.getItem("tiempoRestante"),
                 questions: localStorage.getItem("questions"),
+                answers: localStorage.getItem("answers"),
                 category: localStorage.getItem("category"),
                 difficulty: localStorage.getItem("difficulty"),
                 date: new Date()
@@ -65,13 +66,8 @@ export const handleGameFinish = (nQuestion, numberCorrect, segundos, MAX_TIME, s
             console.error('Error adding game:', error);
         });
         //reset
-        localStorage.setItem("pAcertadas", 0);
-        localStorage.setItem("pFalladas", 0);
-        localStorage.setItem("tiempoUsado", 0);
-        localStorage.setItem("tiempoRestante", 0);
+        localStorage.setItem("answers", []);
         localStorage.setItem("questions", []);
-        localStorage.setItem("category", '');
-        localStorage.setItem("difficulty", '');
     }
 
 };
@@ -154,9 +150,12 @@ const Question = ({ goTo, setGameFinished }) => {
         if (isSelected) return;
         const storedQuestions = localStorage.getItem("questions") ? JSON.parse(localStorage.getItem("questions")) : [];
         const incorrects = options.filter((opt) => opt !== correct);
-        const newQuestion = { question, correct, incorrects, answer: option };
+        const newQuestion = { question, correct, incorrects };
         const updatedQuestions = [...storedQuestions, newQuestion];
         localStorage.setItem("questions", JSON.stringify(updatedQuestions)); 
+        const storedAnswers = localStorage.getItem("answers") ? JSON.parse(localStorage.getItem("answers")) : [];
+        const answer = { option: option, isCorrect: isCorrect(option) };
+        localStorage.setItem("answers", JSON.stringify([...storedAnswers, answer]));
         setSelectedOption(option);
         setSelectedIndex(index);
         setIsSelected(true);
