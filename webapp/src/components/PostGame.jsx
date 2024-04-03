@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import { SessionContext } from '../SessionContext';
+import { N_QUESTIONS } from './Question'
 
 const PostGame = () => {
     const { sessionData } = useContext(SessionContext);
