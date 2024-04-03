@@ -9,6 +9,8 @@ export const SessionProvider = ({ children }) => {
   });
 
   const saveSessionData = (data) => {
+    console.log('Datos de sesión guardados:', data);
+    
     setSessionData(data);
     localStorage.setItem('sessionData', JSON.stringify(data));
   };

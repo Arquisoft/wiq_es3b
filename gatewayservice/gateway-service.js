@@ -96,6 +96,24 @@ app.post('/addgame', async (req, res) => {
   }
 });
 
+// Ruta para obtener la participación del usuario
+app.get('/getParticipation/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    if (!userId) {
+      res.status(404).json({ error: 'User ID not provided' });
+      return;
+    }
+
+    const gameResponse = await axios.get(`${gameServiceUrl}/getParticipation/${userId}`);
+    res.json(gameResponse.data);
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.response.data.error });
+  }
+});
+
+
 let openapiPath='./openapi.yml'
 if (fs.existsSync(openapiPath)) {
   const file = fs.readFileSync(openapiPath, 'utf8');
