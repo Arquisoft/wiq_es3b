@@ -90,11 +90,13 @@ const Question = ({ goTo, setGameFinished }) => {
 
     const fetchQuestion = async () => {
         try {
-            setNQuestion((prevNQuestion) => prevNQuestion + 1); // Incrementar nQuestion antes de llamar a fetchQuestion()
             const response = await fetch(`${gatewayUrl}/api/questions/create`, {
                 method: 'GET'
             });
             const data = await response.json();
+            
+            // Incrementar nQuestion después de obtener la pregunta
+            setNQuestion((prevNQuestion) => prevNQuestion + 1);
     
             setQuestion(data.question);
             setCorrect(data.correct);
