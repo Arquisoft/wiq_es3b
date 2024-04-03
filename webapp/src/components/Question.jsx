@@ -72,7 +72,8 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
 
     localStorage.setItem("pAcertadas", 0);
     localStorage.setItem("pFalladas", 0);
-    useContext(SessionContext);
+    const {sessionData}=useContext(SessionContext);
+    const userToken = sessionData ? sessionData.token : '';
 
     const [reload, setReload] = useState(restart);
 
@@ -131,7 +132,10 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
     const fetchQuestion = async () => {
         try {
             const response = await fetch(`${gatewayUrl}/api/questions/create?category=${category}&lang=en`, {
-                method: 'GET'
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`
+                }
             });
             const data = await response.json();
 
