@@ -52,3 +52,5 @@ export const PostGame = () => {
         </main>
     )
 }
+
+export default PostGame;
