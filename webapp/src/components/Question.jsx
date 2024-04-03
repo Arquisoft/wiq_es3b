@@ -7,7 +7,8 @@ import soundOnImage from '../assets/sonidoON.png';
 import soundOffImage from '../assets/sonidoOFF.png';
 import PropTypes from 'prop-types';
 
-const N_QUESTIONS = 10;
+export const N_QUESTIONS = 10;
+
 const MAX_TIME = 120;
 
 const correctAudio = new Audio(correctSound);
