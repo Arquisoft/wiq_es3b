@@ -10,6 +10,8 @@ import axios from 'axios';
 import { SessionContext } from '../SessionContext';
 import { N_QUESTIONS } from './Question'
 
+const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
+
 const PostGame = () => {
     const { sessionData } = useContext(SessionContext);
 
@@ -20,7 +22,7 @@ const PostGame = () => {
             const storedQuestions = [];
             const storedAnswers = [];
             for (let i = 0; i < N_QUESTIONS; i++) {
-                storedQuestions.push(localStorage.getItem(`question_${i}`));
+                storedQuestions.push(localStorage.getItem(`question_id_${i}`));
                 storedAnswers.push({
                     response: localStorage.getItem(`answer_${i}`),
                     isCorrect: localStorage.getItem(`isCorrect_${i}`) === "true"
@@ -28,7 +30,7 @@ const PostGame = () => {
             }
 
             // Guardar el juego en la base de datos
-            const response = await axios.post('http://localhost:8005/addgame', {
+            const response = await axios.post(`${gatewayUrl}/addgame`, {
                 user: sessionData.userId,
                 questions: storedQuestions,
                 answers: storedAnswers,
@@ -41,7 +43,9 @@ const PostGame = () => {
     };
 
     useEffect(() => {
-        saveGame();
+        if (sessionData && sessionData.userId) {
+            saveGame();
+        }
     }, [sessionData]); // Ejecuta saveGame cada vez que sessionData cambie
 
     const formatTiempo = (segundos) => {

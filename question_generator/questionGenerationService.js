@@ -36,8 +36,8 @@ app.use(
 app.get('/api/questions/create', async (req, res) => {
   try {
     let category = req.query.category;
-    //User is null because we are not using authentication yet
-    let user=null;
+    // User is null because we are not using authentication yet
+    let user = null;
     let randomQuestion;
 
     switch (category) {
@@ -59,11 +59,14 @@ app.get('/api/questions/create', async (req, res) => {
       const url = questionServiceUrl+'/addquestion';
       try {
         const response = await axios.post(url, question);
+        return response.data._id;
       } catch (error) {
         console.error(error);
+        throw error;
       }
     };
-    saveQuestion({
+
+    const questionId = await saveQuestion({
       question: randomQuestion.question,
       correct: randomQuestion.correct,
       incorrects: randomQuestion.incorrects,
@@ -71,16 +74,14 @@ app.get('/api/questions/create', async (req, res) => {
       category: category
     });
 
-
-    res.status(200).json(
-      {
-        question: randomQuestion.question,
-        correct: randomQuestion.correct,
-        incorrects: randomQuestion.incorrects
-      }
-    );
+    res.status(200).json({
+      question: randomQuestion.question,
+      correct: randomQuestion.correct,
+      incorrects: randomQuestion.incorrects,
+      questionId: questionId
+    });
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error'});
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

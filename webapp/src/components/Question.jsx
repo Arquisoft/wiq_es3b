@@ -90,28 +90,29 @@ const Question = ({ goTo, setGameFinished }) => {
 
     const fetchQuestion = async () => {
         try {
+            setNQuestion((prevNQuestion) => prevNQuestion + 1); // Incrementar nQuestion antes de llamar a fetchQuestion()
             const response = await fetch(`${gatewayUrl}/api/questions/create`, {
                 method: 'GET'
             });
             const data = await response.json();
-
+    
             setQuestion(data.question);
             setCorrect(data.correct);
             setOptions(shuffleOptions([data.correct, ...data.incorrects]));
-
+    
             setSelectedOption(null);
             setIsSelected(false);
-            setNQuestion((prevNQuestion) => prevNQuestion + 1);
             handleGameFinish(nQuestion, numberCorrect, segundos, MAX_TIME, sonido, setQuestions, setAnswers);
             if (nQuestion === N_QUESTIONS) { setGameFinished(true); goTo(1);}
             if (segundos === 1) {setGameFinished(true); goTo(1);}
-
+    
             // Guardar la pregunta actual en el localStorage
             localStorage.setItem(`question_${nQuestion}`, data.question);
+            localStorage.setItem(`question_id_${nQuestion}`, data.questionId);
         } catch (error) {
             console.error('Error fetching question:', error);
         }
-    };
+    };    
 
     const getBackgroundColor = (option, index) => {
         if (selectedOption == null) return 'transparent';
