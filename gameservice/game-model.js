@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const gameSchema = new mongoose.Schema({
   user: {
-    type: mongoose.Types.ObjectId, 
+    type: String, 
     ref: 'User',
     required: true,
   },
   questions: [{ 
-    type: mongoose.Types.ObjectId,
+    type: String,
     ref: 'Question',
     required: true,
   }],

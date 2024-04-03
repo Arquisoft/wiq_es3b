@@ -48,20 +48,20 @@ export const Participation = ({ goTo }) => {
 
   return (
     <main>
-    <div>
-      <h1>Participation</h1>
-      {participationData ? (
-        <div>
-          <p>Número de partidas jugadas: {participationData.totalGames}</p>
-          <p>Preguntas acertadas: {participationData.correctAnswers}</p>
-          <p>Preguntas falladas: {participationData.incorrectAnswers}</p>
-          <p>Tiempo total jugando: {participationData.totalTime} segundos</p>
-          <Bar data={data} options={options} />
-        </div>
-      ) : (
-        <p>Cargando datos de participación...</p>
-      )}
-    </div>
+      <div>
+        <h1>Participation</h1>
+        {participationData !== null ? (
+          <div>
+            <p>Número de partidas jugadas: {participationData.totalGames}</p>
+            <p>Preguntas acertadas: {participationData.correctAnswers}</p>
+            <p>Preguntas falladas: {participationData.incorrectAnswers}</p>
+            <p>Tiempo total jugando: {participationData.totalTime} segundos</p>
+            <Bar data={data} options={options} />
+          </div>
+        ) : (
+          <p>Cargando datos de participación...</p>
+        )}
+      </div>
     </main>
   );
 };

@@ -29,8 +29,8 @@ app.post('/addgame', async (req, res) => {
 
     // Crea una nueva instancia del modelo de juegos
     const newGame = new Game({
-      user: mongoose.Types.ObjectId(user), // Cambio aquí
-      questions: mongoose.Types.ObjectId(questions),
+      user: user, 
+      questions: questions,
       answers,
       totalTime,
     });
