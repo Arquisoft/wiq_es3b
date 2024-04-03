@@ -1,15 +1,25 @@
 const moment = require('moment');
-const footballQuestions=require('./footballQuestions');
-const footballQuery=footballQuestions.getInstance();
+const musicQuestions=require('./musicQuestions');
+const musicQuery=musicQuestions.getInstance();
 function loadData(){
-    footballQuery.loadData();
+    musicQuery.loadData();
 }
 const templates=[
     async ()=>
     {
-        const results = await footballQuery.doQuestion('inception', 4);
+        const results = await musicQuery.getSongByPerformers();
         return{
-            "question":"Which football team was founded in?",
+            "question":"Which song is song by?",
+            "question_param":results.performers,
+            "correct":results.correct,
+            "incorrects":results.incorrects
+        }
+    },
+    async ()=>
+    {
+        const results = await musicQuery.doQuestion('year', 4);
+        return{
+            "question":"Which song was released in?",
             "question_param":moment(results.question_param).format('YYYY-MM-DD'),
             "correct":results.correct,
             "incorrects":results.incorrects
@@ -17,19 +27,9 @@ const templates=[
     },
     async ()=>
     {
-        const results = await footballQuery.doQuestion('coach', 4);
+        const results = await musicQuery.doQuestion('album', 4);
         return{
-            "question":"Which team trains?",
-            "question_param":results.question_param,
-            "correct":results.correct,
-            "incorrects":results.incorrects
-        }
-    },
-    async ()=>
-    {
-        const results = await footballQuery.doQuestion('stadium', 4);
-        return{
-            "question":"Which team plays in?",
+            "question":"Which song belongs to?",
             "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects
