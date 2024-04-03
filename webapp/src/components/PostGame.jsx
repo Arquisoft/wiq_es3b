@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Card, Typography } from "@mui/material";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -6,6 +7,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useUser } from './UserContext';
+import axios from 'axios';
 
 export const PostGame = () => {
 
@@ -46,6 +49,6 @@ export const PostGame = () => {
             </div>
         </main>
     )
-}
+};
 
 export default PostGame;
