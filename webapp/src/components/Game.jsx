@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PostGame } from './PostGame';
+import PostGame from './PostGame';
 import Question from './Question';
 
 export const Game = () => {

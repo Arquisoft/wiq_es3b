@@ -1,4 +1,3 @@
-// Question.js
 import React, { useState, useEffect, useContext } from 'react';
 import { Card, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 import { SessionContext } from '../SessionContext';
@@ -7,7 +6,6 @@ import incorrectSound from '../audio/incorrect.mp3';
 import soundOnImage from '../assets/sonidoON.png';
 import soundOffImage from '../assets/sonidoOFF.png';
 import PropTypes from 'prop-types';
-
 
 const N_QUESTIONS = 10;
 const MAX_TIME = 120;
@@ -28,7 +26,7 @@ export const finishByTime = (sonido) => {
     if (sonido) { incorrectAudio.play(); }
 };
 
-export const handleGameFinish = (nQuestion, numberCorrect, segundos, MAX_TIME, sonido) => {
+export const handleGameFinish = (nQuestion, numberCorrect, segundos, MAX_TIME, sonido, setQuestions, setAnswers) => {
     if (nQuestion === N_QUESTIONS) {
         localStorage.setItem("pAcertadas", numberCorrect);
         localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
@@ -39,12 +37,25 @@ export const handleGameFinish = (nQuestion, numberCorrect, segundos, MAX_TIME, s
         localStorage.setItem("pFalladas", N_QUESTIONS - numberCorrect);
         finishByTime(sonido);
     }
+
+    // Guardar las preguntas y respuestas en el localStorage
+    const storedQuestions = [];
+    const storedAnswers = [];
+    for (let i = 0; i < N_QUESTIONS; i++) {
+        storedQuestions.push(localStorage.getItem(`question_${i}`));
+        storedAnswers.push({
+            response: localStorage.getItem(`answer_${i}`),
+            isCorrect: localStorage.getItem(`isCorrect_${i}`) === "true"
+        });
+    }
+    setQuestions(storedQuestions);
+    setAnswers(storedAnswers);
 };
 
 const Question = ({ goTo, setGameFinished }) => {
     localStorage.setItem("pAcertadas", 0);
 
-    useContext(SessionContext);
+    const { sessionData } = useContext(SessionContext);
 
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState([]);
@@ -56,6 +67,8 @@ const Question = ({ goTo, setGameFinished }) => {
     const [nQuestion, setNQuestion] = useState(-1);
     const [segundos, setSegundos] = useState(MAX_TIME);
     const [sonido, setSonido] = useState(true);
+    const [questions, setQuestions] = useState([]);
+    const [answers, setAnswers] = useState([]);
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -88,9 +101,12 @@ const Question = ({ goTo, setGameFinished }) => {
             setSelectedOption(null);
             setIsSelected(false);
             setNQuestion((prevNQuestion) => prevNQuestion + 1);
-            handleGameFinish(nQuestion, numberCorrect, segundos, MAX_TIME, sonido);
+            handleGameFinish(nQuestion, numberCorrect, segundos, MAX_TIME, sonido, setQuestions, setAnswers);
             if (nQuestion === N_QUESTIONS) { setGameFinished(true); goTo(1);}
             if (segundos === 1) {setGameFinished(true); goTo(1);}
+
+            // Guardar la pregunta actual en el localStorage
+            localStorage.setItem(`question_${nQuestion}`, data.question);
         } catch (error) {
             console.error('Error fetching question:', error);
         }
@@ -105,9 +121,7 @@ const Question = ({ goTo, setGameFinished }) => {
     // @SONAR_STOP@
     // sonarignore:start
     const shuffleOptions = (options) => {
-        //NOSONAR
-        return options.sort(() => Math.random() - 0.5); //NOSONAR
-        //NOSONAR
+        return options.sort(() => Math.random() - 0.5);
     };
     // sonarignore:end
     // @SONAR_START@
@@ -125,6 +139,10 @@ const Question = ({ goTo, setGameFinished }) => {
         } else if (sonido) { 
             incorrectAudio.play(); 
         }
+
+        // Guardar la respuesta actual en el localStorage
+        localStorage.setItem(`answer_${nQuestion}`, option);
+        localStorage.setItem(`isCorrect_${nQuestion}`, isCorrect(option));
     };
 
     const isCorrect = (option) => {
@@ -138,9 +156,7 @@ const Question = ({ goTo, setGameFinished }) => {
     // @SONAR_STOP@
     // sonarignore:start
     const generateUniqueId = () => {
-        //NOSONAR
-        return Math.random().toString(36).substr(2, 9);//NOSONAR
-        //NOSONAR
+        return Math.random().toString(36).substr(2, 9);
     };
     // sonarignore:end
     // @SONAR_START@
