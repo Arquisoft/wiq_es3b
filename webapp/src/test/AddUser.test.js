@@ -15,7 +15,7 @@ describe('AddUser component', () => {
 
   it('should add user successfully', async () => {
     render(
-      <SessionContext.Provider value={{ saveSessionData: jest.fn() }}> {/* Proporciona el contexto con saveSessionData */}
+      <SessionContext.Provider value={{ saveSessionData: jest.fn(), clearSessionData: jest.fn() }}> 
         <AddUser />
       </SessionContext.Provider>
     );
