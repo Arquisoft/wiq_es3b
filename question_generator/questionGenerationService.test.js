@@ -1,15 +1,14 @@
 const request = require('supertest');
 const axios = require('axios');
-let app;
+const app = require('./questionGenerationService'); 
 
-beforeAll(async () => {
+beforeAll(() => {
   jest.useFakeTimers();
-  app = require('./questionGenerationService'); 
 });
 
 afterAll(async () => {
-    app.close();
-    jest.useRealTimers();
+  await app.close();
+  jest.useRealTimers();
 });
 
 describe('Question generation service', () => {
@@ -31,9 +30,9 @@ describe('Question generation service', () => {
     expect(response.body).toHaveProperty('question');
     expect(response.body).toHaveProperty('correct');
     expect(response.body).toHaveProperty('incorrects');
-  }, 100000);
+  });
 
-  it('should forward create question request to question generation service', async () => {
+  it('should forward create question request to question generation service with sports category', async () => {
     const response = await request(app)
       .get('/api/questions/create?category=sports');
 
@@ -41,9 +40,9 @@ describe('Question generation service', () => {
     expect(response.body).toHaveProperty('question');
     expect(response.body).toHaveProperty('correct');
     expect(response.body).toHaveProperty('incorrects');
-  },100000);
+  });
 
-  it('should forward create question request to question generation service', async () => {
+  it('should forward create question request to question generation service with geography category', async () => {
     const response = await request(app)
       .get('/api/questions/create?category=geography');
 
@@ -51,5 +50,5 @@ describe('Question generation service', () => {
     expect(response.body).toHaveProperty('question');
     expect(response.body).toHaveProperty('correct');
     expect(response.body).toHaveProperty('incorrects');
-  },100000);
+  });
 });

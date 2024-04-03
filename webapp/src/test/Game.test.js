@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act, waitFor, findByText, screen } from '@testing-library/react';
+import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
 import { Game } from '../components/Game';
 import { SessionProvider } from '../SessionContext';
 
@@ -44,39 +44,45 @@ describe('Game component', () => {
   });
 
   it('renders question and options correctly', async () => {
-    const { getByText, findAllByText } = render(
-      <SessionProvider>
-        <Game goTo={mockGoTo} />
-      </SessionProvider>
-    );
-    expect(getByText(/Question/i)).toBeInTheDocument();
-    const options = await findAllByText(/./i);
-    //expect(options).toHaveLength(4); // Verifica que haya 4 opciones
+    await act(async () => {
+      render(
+        <SessionProvider>
+          <Game goTo={mockGoTo} />
+        </SessionProvider>
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText(/Question/i)).toBeInTheDocument();
+      });
+
+      expect(screen.getAllByText(/./i)).toHaveLength(4); // Verifica que haya 4 opciones
+    });
   });
 
   it('handles option selection correctly', async () => {
-    const { getByText, findAllByText } = render(
-      <SessionProvider>
-        <Game goTo={mockGoTo} />
-      </SessionProvider>
-    );
+    await act(async () => {
+      render(
+        <SessionProvider>
+          <Game goTo={mockGoTo} />
+        </SessionProvider>
+      );
 
-    await waitFor(() => {
-      expect(getByText(mockQuestions[0].question)).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByText(mockQuestions[0].question)).toBeInTheDocument();
+      });
+
+      // Seleccionar la opción correcta
+      fireEvent.click(screen.getByText(mockQuestions[0].correct));
+      expect(screen.getByText(mockQuestions[0].correct).parentElement).toBeInTheDocument();
+
+      // Seleccionar una opción incorrecta
+      fireEvent.click(screen.getByText(mockQuestions[0].incorrects[0]));
+      expect(screen.getByText(mockQuestions[0].incorrects[0]).parentElement).toBeInTheDocument();
     });
-
-    // Seleccionar la opción correcta
-    fireEvent.click(getByText(mockQuestions[0].correct));
-    expect(getByText(mockQuestions[0].correct).parentElement.toBeInTheDocument);
-
-    // Seleccionar una opción incorrecta
-    fireEvent.click(getByText(mockQuestions[0].incorrects[0]));
-    expect(getByText(mockQuestions[0].incorrects[0]).parentElement.toBeInTheDocument);
   });
 
   // Test para verificar que el juego finaliza cuando se alcanza el número máximo de preguntas
   test('El juego finaliza correctamente cuando se alcanza el número máximo de preguntas', async () => {
-
     await act(async () => {
       render(
         <SessionProvider>

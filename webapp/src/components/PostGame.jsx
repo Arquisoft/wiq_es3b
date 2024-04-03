@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React from 'react';
 import { Card, Typography } from "@mui/material";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -57,31 +57,27 @@ const PostGame = () => {
     return (
         <main className='preguntas'>
             <div>
-                <Typography sx={{ textAlign: 'center', fontSize: '2.2em' }}>Fin del juego</Typography>
+                <Typography sx={{ textAlign: 'center', fontSize:'2.2em' }}>Fin del juego</Typography>
                 <Card>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableBody>
                                 <TableRow key={"Preguntas acertadas"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                    <TableCell sx={{ fontSize: '1.3em' }}>Preguntas acertadas</TableCell>
-                                    <TableCell sx={{ fontSize: '1.3em' }} align="right">{localStorage.getItem("pAcertadas")}</TableCell>
+                                    <TableCell sx={{ fontSize:'1.3em' }}>Preguntas acertadas</TableCell>
+                                    <TableCell sx={{ fontSize:'1.3em' }} align="right">{localStorage.getItem("pAcertadas")}</TableCell>
                                 </TableRow>
-
                                 <TableRow key={"Preguntas falladas"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                    <TableCell sx={{ fontSize: '1.3em' }}>Preguntas falladas</TableCell>
-                                    <TableCell sx={{ fontSize: '1.3em' }} align="right">{localStorage.getItem("pFalladas")}</TableCell>
+                                    <TableCell sx={{ fontSize:'1.3em' }}>Preguntas falladas</TableCell>
+                                    <TableCell sx={{ fontSize:'1.3em' }} align="right">{localStorage.getItem("pFalladas")}</TableCell>
                                 </TableRow>
-
                                 <TableRow key={"Tiempo usado"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                    <TableCell sx={{ fontSize: '1.3em' }}>Tiempo usado</TableCell>
-                                    <TableCell sx={{ fontSize: '1.3em' }} align="right">{formatTiempo(localStorage.getItem("tiempoUsado"))}</TableCell>
+                                    <TableCell sx={{ fontSize:'1.3em' }}>Tiempo usado</TableCell>
+                                    <TableCell sx={{ fontSize:'1.3em' }} align="right">{formatTiempo(localStorage.getItem("tiempoUsado"))}</TableCell>
                                 </TableRow>
-
                                 <TableRow key={"Tiempo restante"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                    <TableCell sx={{ fontSize: '1.3em' }}>Tiempo restante</TableCell>
-                                    <TableCell sx={{ fontSize: '1.3em' }} align="right">{formatTiempo(localStorage.getItem("tiempoRestante"))}</TableCell>
+                                    <TableCell sx={{ fontSize:'1.3em' }}>Tiempo restante</TableCell>
+                                    <TableCell sx={{ fontSize:'1.3em' }} align="right">{formatTiempo(localStorage.getItem("tiempoRestante"))}</TableCell>
                                 </TableRow>
-
                             </TableBody>
                         </Table>
                     </TableContainer>

@@ -5,6 +5,8 @@ import '@testing-library/jest-dom/extend-expect';
 import Question, { finishByQuestions, finishByTime, handleGameFinish } from '../components/Question';
 import { SessionProvider } from '../SessionContext';
 
+const mockGoTo = jest.fn();
+
 // Mock para la respuesta del servicio de preguntas
 const mockQuestionResponse = {
   question: 'What is the capital of France?',
@@ -30,7 +32,7 @@ describe('Question component', () => {
   it('renders question and options correctly', async () => {
     const { getByText } = render(
       <SessionProvider>
-        <Question />
+        <Question goTo={mockGoTo} />
       </SessionProvider>
     );
 
@@ -51,7 +53,7 @@ describe('Question component', () => {
   it('selects correct option and handles click correctly', async () => {
     const { getByText } = render(
       <SessionProvider>
-        <Question />
+        <Question goTo={mockGoTo} />
       </SessionProvider>
     );
 
@@ -72,7 +74,7 @@ describe('Question component', () => {
   it('handles Next button click correctly', async () => {
     const { getByText } = render(
       <SessionProvider>
-        <Question />
+        <Question goTo={mockGoTo} />
       </SessionProvider>
     );
 
@@ -146,7 +148,7 @@ describe('Question component', () => {
     const setSegundos = jest.fn();
     render(
       <SessionProvider>
-        <Question />
+        <Question goTo={mockGoTo} />
       </SessionProvider>
       );
 
@@ -157,7 +159,7 @@ describe('Question component', () => {
 
   it('should toggle sound on and off when clicking audio image', () => {
     const { getByRole } = render(<SessionProvider>
-      <Question />
+      <Question goTo={mockGoTo} />
     </SessionProvider>);
 
     // Verificar que el sonido está activado inicialmente
@@ -172,7 +174,7 @@ describe('Question component', () => {
 
   it('should toggle isSelected state when clicking button', () => {
     const { getByText } = render(<SessionProvider>
-      <Question />
+      <Question goTo={mockGoTo} />
     </SessionProvider>);
 
     // Simular hacer clic en el botón
@@ -211,7 +213,7 @@ describe('handleGameFinish function', () => {
 
     // Render the Question component
     const { getByText } = render(<SessionProvider>
-      <Question />
+      <Question goTo={mockGoTo} />
     </SessionProvider>);
 
     // Simulate answering all questions
@@ -249,7 +251,7 @@ describe('handleGameFinish function', () => {
 
     // Render the Question component
     const { getByText } = render(<SessionProvider>
-      <Question />
+      <Question goTo={mockGoTo} />
     </SessionProvider>);
 
     // After time runs out, pAcertadas and pFalladas should be set in localStorage
