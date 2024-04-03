@@ -17,7 +17,7 @@ export const Start = ({ goTo }) => {
                     Infinite Mode
                 </button>
                 <button onClick={ () => goTo(4) }>
-                    One Life Mode
+                    Three Lifes Classic
                 </button>
                 <button onClick={ () => goTo(5) }>
                     Category Mode

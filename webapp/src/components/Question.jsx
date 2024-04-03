@@ -7,11 +7,11 @@ import incorrectSound from '../audio/incorrect.mp3';
 import activateSound from '../audio/activate.mp3';
 import soundOnImage from '../assets/sonidoON.png';
 import soundOffImage from '../assets/sonidoOFF.png';
+import vidaImg from '../assets/vida.png';
 import PropTypes from 'prop-types';
 
-
 const N_QUESTIONS = 10;
-const MAX_TIME = 12;
+const MAX_TIME = 240;
 
 const correctAudio = new Audio(correctSound);
 const incorrectAudio = new Audio(incorrectSound);
@@ -46,8 +46,8 @@ export const handleClassicGameFinish = (nQuestion, numberCorrect, numberIncorrec
     }
 };
 
-export const handleOOLGameFinish = (nQuestion, segundosInfinite, goTo, setGameFinished) => {
-    localStorage.setItem("pAcertadas", nQuestion - 1);
+export const handleOOLGameFinish = (numberCorrect, segundosInfinite, goTo, setGameFinished) => {
+    localStorage.setItem("pAcertadas", numberCorrect);
     localStorage.setItem("tiempoUsado", segundosInfinite);
     setGameFinished(true); goTo(1);
 };
@@ -92,25 +92,36 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
     const [segundosInfinite, setSegundosInfinite] = useState(0);
     const [sonido, setSonido] = useState(true);
 
+    const [vidas, setVidas] = useState(3);
+
+    const images = [];
+    for (let i = 0; i < vidas; i++) {
+        images.push(<img className='vidaImg' key={i} src={ vidaImg } alt="Vida" />);
+    }
+
     if (reload) { reloadF(setSegundos, setSegundosInfinite, setNQuestion, setNumberCorrect, setNumberIncorrect, setReload); }
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            { gameMode !== "infinite" & gameMode !== "onlyOneLife" ?
-            setSegundos(segundos => {
-                if (segundos === 1 ) { clearInterval(intervalId); handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, 
-                    segundos, sonido, goTo, setGameFinished); }
-                return segundos - 1;
-            })
-            :
-            setSegundosInfinite(segundosInfinite => {
-                return segundosInfinite + 1;
-            })
+            if (gameMode !== "infinite" & gameMode !== "threeLife") {
+                setSegundos(segundos => {
+                    if (segundos === 1 ) { clearInterval(intervalId); finishGameByTime(segundos); }
+                    return segundos - 1;
+                })
+            } else {
+                setSegundosInfinite(segundosInfinite => {
+                    return segundosInfinite + 1;
+                })
             }
         }, 1000);
 
         return () => clearInterval(intervalId);
     }, []);
+
+    const finishGameByTime = (segundos) => {
+        handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, 
+            segundos, sonido, goTo, setGameFinished);
+    };
 
     const formatTiempo = (segundos) => {
         const minutos = Math.floor((segundos % 3600) / 60);
@@ -120,7 +131,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
 
     const fetchQuestion = async () => {
         try {
-            const response = await fetch(`${gatewayUrl}/api/questions/create?category=${category}&lang=es`, {
+            const response = await fetch(`${gatewayUrl}/api/questions/create?category=${category}&lang=en`, {
                 method: 'GET'
             });
             const data = await response.json();
@@ -134,7 +145,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
             setNQuestion((prevNQuestion) => prevNQuestion + 1);
             if (gameMode === "classic" || gameMode === "category") {
                 handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, 
-                            MAX_TIME, sonido, goTo, setGameFinished);
+                            sonido, goTo, setGameFinished);
             }
         } catch (error) {
             console.error('Error fetching question:', error);
@@ -167,19 +178,21 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
         if (isCorrect(option)) {
             setNumberCorrect(numberCorrect + 1);
             if (sonido) { correctAudio.play(); }
-            if (gameMode === 'onlyOneLife') {
+            if (gameMode === 'threeLife') {
                 setTimeout(() => {
                     fetchQuestion();
-                }, 2000);
+                }, 1000);
             }
-        } else if (sonido) { 
-            incorrectAudio.play();
+        } else {
+            if (sonido) { incorrectAudio.play(); }
             setNumberIncorrect(numberIncorrect + 1);
             setTimeout(() => {
-                if (gameMode === 'onlyOneLife') {
-                    handleOOLGameFinish(nQuestion, segundosInfinite, goTo, setGameFinished);
+                if (gameMode === 'threeLife') {
+                    setVidas(vidas - 1);
+                    if (vidas === 1) { handleOOLGameFinish(numberCorrect, segundosInfinite, goTo, setGameFinished, vidas); }
+                    else { fetchQuestion(); }
                 }
-            }, 2000);
+            }, 1500);
         }
     };
 
@@ -216,9 +229,11 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
                     </button>
                         <Typography sx={{ display: 'inline-block', textAlign: 'left' }}>Question: {nQuestion}</Typography>
                     </div>
-                    { (gameMode !== "infinite" && gameMode !== "onlyOneLife") ?
+                    { (gameMode !== "infinite" && gameMode !== "threeLife") ?
                     <Typography sx={{ display: 'inline-block', textAlign: 'right' }}> Time: {formatTiempo(segundos)}</Typography>
                     : ""}
+                    { gameMode === "threeLife" ?
+                    <div> {images} </div> :""}
                 </div>
                 <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }}>
                     <Typography variant='h4' sx={{ padding: '10px 40px 30px 40px', color: '#8f95fd', fontSize: '2em' }}>
@@ -238,7 +253,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
                     </List>
                 </Card>
                 <div className='botoneraPreguntas'>
-                { gameMode !== "onlyOneLife" ?
+                { gameMode !== "threeLife" ?
                 <ListItemButton onClick={isSelected ? () => fetchQuestion() : null}
                     sx={{ justifyContent: 'center', marginTop: 2 }}
                     className={isSelected ? '' : 'isNotSelected'} >

@@ -28,7 +28,7 @@ export const PostGame = ({ gameMode }) => {
                             <TableCell sx={{ fontSize:'1.2em' }} align="right">{localStorage.getItem("pAcertadas")}</TableCell>
                         </TableRow>
 
-                        { gameMode !== "onlyOneLife" ?
+                        { gameMode !== "threeLife" ?
                         <TableRow key={"Preguntas falladas"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                             <TableCell sx={{ fontSize:'1.2em' }}>Preguntas falladas</TableCell>
                             <TableCell sx={{ fontSize:'1.2em' }} align="right">{localStorage.getItem("pFalladas")}</TableCell>

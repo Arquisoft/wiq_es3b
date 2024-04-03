@@ -20,7 +20,7 @@ function App() {
       {menuState === 1 && <Start goTo={(x) => goTo(x)}/>}
       {menuState === 2 && <Game gameMode="classic"/>}
       {menuState === 3 && <Game gameMode="infinite"/>}
-      {menuState === 4 && <Game gameMode="onlyOneLife"/>}
+      {menuState === 4 && <Game gameMode="threeLife"/>}
       {menuState === 5 && <Game gameMode="category"/>}
       {menuState === 6 && <Participation goTo={(x) => goTo(x)}/>}
     </>

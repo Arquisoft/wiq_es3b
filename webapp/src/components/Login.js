@@ -30,7 +30,6 @@ const Login = ({ goTo }) => {
       setCreatedAt(userCreatedAt);
       setLoginSuccess(true);
       saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, profileImage: profileImage });
-      console.log(profileImage+'\n\n\n');
       setOpenSnackbar(true);
     } catch (error) {
       setError(error.response.data.error);

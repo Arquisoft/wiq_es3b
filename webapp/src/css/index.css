@@ -125,6 +125,7 @@ button:focus-visible {
 
 .questionTime {
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 
@@ -177,6 +178,11 @@ button:focus-visible {
   vertical-align: middle;
 }
 
+.vidaImg {
+  width: 1.6em;
+  vertical-align: middle;
+}
+
 #fotosPerfil {
   display: grid;
   justify-content: center;
@@ -208,6 +214,7 @@ button:focus-visible {
 }
 
 .questionCategory {
+  flex-wrap: wrap;
   display: flex;
   justify-content: center;
   margin-bottom: 2em;

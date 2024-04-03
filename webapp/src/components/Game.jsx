@@ -30,10 +30,12 @@ export const Game = ({ gameMode }) => {
         <>
             <main className='preguntas'>
                 { gameState === 0 && gameMode === "category" ?
-                    <Typography sx={{ fontSize:'1.6em', marginBottom:'0.3em !important' }}>Restart game with a new category</Typography>
+                    <Typography sx={{ fontSize:'1.6em', marginBottom:'0.3em !important', paddingTop:'1em', textAlign:'center' }}>
+                        Restart game with a new category</Typography>
                 :""}
                 { gameState === 1 && gameMode === "category" ?
-                    <Typography sx={{ fontSize:'1.6em', marginBottom:'0.3em !important' }}>Choose a category for a new game</Typography>
+                    <Typography sx={{ fontSize:'1.6em', marginBottom:'0.3em !important' }}>
+                        Choose a category for a new game</Typography>
                 :""}
             { gameMode === "category" ?
                 <div className='questionCategory'>
