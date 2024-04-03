@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
-import Question, { finishByQuestions, finishByTime, 
+import Question, { finishByQuestions, finishByTime, reloadF,
   handleClassicGameFinish, handleOOLGameFinish, handelInfiniteGameFinish } from '../components/Question';
 import { SessionProvider } from '../SessionContext';
 
@@ -335,5 +335,38 @@ describe('handleGameFinish function', () => {
     const goTo = jest.fn();
 
     handelInfiniteGameFinish(numberCorrect, numberIncorrect, segundosInfinite, goTo, setGameFinished);
+  });
+
+  it('should call handleClassicGameFinish with the correct arguments', () => {
+    
+    const MAX_TIME = 240;
+    const mockSetState = jest.fn();
+    const mockContext = {
+      setSegundos: mockSetState,
+      setSegundosInfinite: mockSetState,
+      setNQuestion: mockSetState,
+      setNumberCorrect: mockSetState,
+      setNumberIncorrect: mockSetState,
+      setReload: mockSetState
+    };
+    
+    render(<SessionProvider><Question /></SessionProvider>);
+    
+    reloadF(
+      mockContext.setSegundos,
+      mockContext.setSegundosInfinite,
+      mockContext.setNQuestion,
+      mockContext.setNumberCorrect,
+      mockContext.setNumberIncorrect,
+      mockContext.setReload
+    );
+
+    // Verifica que todas las funciones setState hayan sido llamadas con los valores correctos
+    expect(mockContext.setSegundos).toHaveBeenCalledWith(MAX_TIME);
+    expect(mockContext.setSegundosInfinite).toHaveBeenCalledWith(0);
+    expect(mockContext.setNQuestion).toHaveBeenCalledWith(-1);
+    expect(mockContext.setNumberCorrect).toHaveBeenCalledWith(0);
+    expect(mockContext.setNumberIncorrect).toHaveBeenCalledWith(0);
+    expect(mockContext.setReload).toHaveBeenCalledWith(false);
   });
 });

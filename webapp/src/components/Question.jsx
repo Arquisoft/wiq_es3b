@@ -8,7 +8,6 @@ import activateSound from '../audio/activate.mp3';
 import soundOnImage from '../assets/sonidoON.png';
 import soundOffImage from '../assets/sonidoOFF.png';
 import vidaImg from '../assets/vida.png';
-import PropTypes from 'prop-types';
 
 const N_QUESTIONS = 10;
 const MAX_TIME = 240;
