@@ -3,6 +3,7 @@ import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import AddUser from '../components/AddUser';
+import { SessionContext } from '../SessionContext'; 
 
 const mockAxios = new MockAdapter(axios);
 const handleImageClick = jest.fn();
@@ -13,7 +14,11 @@ describe('AddUser component', () => {
   });
 
   it('should add user successfully', async () => {
-    render(<AddUser />);
+    render(
+      <SessionContext.Provider value={{ saveSessionData: jest.fn() }}> {/* Proporciona el contexto con saveSessionData */}
+        <AddUser />
+      </SessionContext.Provider>
+    );
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText("Password");
