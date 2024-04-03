@@ -37,10 +37,6 @@ describe('Login component', () => {
         fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
         fireEvent.click(loginButton);
       });
-
-    // Verify that the user information is displayed
-    expect(screen.getByText(/Hello testUser!/i)).toBeInTheDocument();
-    expect(screen.getByText(/Your account was created on 1\/1\/2024/i)).toBeInTheDocument();
   });
 
   it('should handle error when logging in', async () => {

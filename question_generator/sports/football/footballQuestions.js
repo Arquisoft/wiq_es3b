@@ -1,6 +1,8 @@
+const console = require('console')
 const queryExecutor=require("../../queryExecutor")
+const QuestionsUtils = require("../../questions-utils");
 class FootballQuestions{
-    #tennisQuestions=null;
+    #footballQuestions=null;
     static getInstance(){
         if (!this.questions) {
             this.questions = new FootballQuestions();
@@ -8,63 +10,81 @@ class FootballQuestions{
           return this.questions;
     }
     constructor(){
-        this.teams={}
+        this.data={}
     }
-    async loadData(){
-        if (Object.keys(this.teams).length === 0) {//Se obtienen 100 ciudades relevantes
-            const query=
+    async loadValues(){
+        let result={};
+        const queries=[
             `
-            SELECT DISTINCT ?equipo ?paisLabel ?equipoLabel ?entrenadorLabel ?followers ?estadioLabel
-                WHERE {
-                    ?equipo wdt:P31 wd:Q476028;  # Instancia de equipo de fútbol 
-                    OPTIONAL {?equipo wdt:P17 ?pais }
-                    OPTIONAL {?equipo wdt:P286 ?entrenador }
-                    OPTIONAL {?equipo wdt:P8687 ?followers }
-                    OPTIONAL {?equipo wdt:P115 ?estadio }
-                    FILTER (BOUND(?entrenador))
-                    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-                }
-                ORDER BY DESC(?followers)
-                LIMIT 250
+            SELECT DISTINCT ?equipo ?equipoLabel ?followers
+            WHERE {
+                ?equipo wdt:P31 wd:Q476028;  
+                        wdt:P17 wd:Q29;
+                OPTIONAL {?equipo wdt:P8687 ?followers }
+                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+            }
+            ORDER BY DESC(?followers)
+            LIMIT 50 
             `
+        ];
+        for(let i = 0; i <queries.length; i++) {
+            let query = queries[i];
             let teams = await queryExecutor.execute(query);
-            teams.forEach(tenista => {
-                const playerId = tenista.tenista.value;
-                const playerName = tenista.tenistaLabel.value;
-                const followers = tenista.followers.value;
-                const country = tenista.paisLabel.value;
-                const record = tenista.victorias.value;
-
-                const recordAux = record ? record.split("-") : ['', ''];
-                const wins = recordAux[0];
-                const looses = recordAux[1];
-
-                if (!this.teams[playerId]) {
-                    this.teams[playerId] = {
-                        playerId: playerId,
-                        playerName: playerName,
+            teams.forEach(team=>{
+                const teamId = team.equipo.value.match(/Q\d+/)[0];
+                const teamName = team.equipoLabel.value;
+                const followers = team.followers.value;
+                if (!result[teamId]) {
+                    result[teamId] = {
+                        teamId: teamId,
+                        name: teamName,
                         followers: followers,
-                        country: country,
-                        wins: wins,
-                        looses: looses
-                    };
+                    }
                 }
             });
         }
+        return result;
+    
     }
-    async getRandomPlayer(number){
-        await this.loadData();
-        const array = Object.values(this.data);
-        const randomResults = array.sort(() => Math.random() - 0.5).slice(0, number);
-        return randomResults
-    }
-    async getPlayerWithMoreGrandSlams() {
-        const results=await this.getRandomPlayer(4);
-        //...
-        return {
-            correct: "Rafa Nadal",
-            incorrects: ["Persona 2", "Persona 3"]
+
+    async loadData(){
+        let newResults = await this.loadValues();
+        const propertiesToLoad=[
+            {
+                name:'country',
+                id: 'P17'
+            },
+            {
+                name:'coach',
+                id: 'P286'
+            },
+            {
+                name:'stadium',
+                id: 'P115'
+            },
+            {
+                name:'inception',
+                id: 'P571'
+            }
+        ]
+        for(let i = 0; i <Object.keys(newResults).length; i++) {
+            let id = Object.keys(newResults)[i];
+            let  r= await queryExecutor.executeQueryForEntityAndProperty(id, propertiesToLoad);
+            if(r.length>0){
+                for(let j=0;j<propertiesToLoad.length;j++){
+                    if(r[0][propertiesToLoad[j].name]!==undefined){
+                        newResults[id][propertiesToLoad[j].name] = r[0][propertiesToLoad[j].name].value;
+                    }
+                }
+            }
         }
+        this.data=newResults;
+    }
+    async doQuestion(property,nValues){
+        if(Object.keys(this.data).length==0){
+            await this.loadData();
+        }
+        return QuestionsUtils.getValuesFromDataAndProperty(this.data, property, nValues);
     }
 
 }

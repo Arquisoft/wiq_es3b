@@ -28,5 +28,27 @@
 	"Who has more followers? (Tennis)": "Who has more followers? (Tennis)",
 	"Who has more looses? (Tennis)": "Who has more looses? (Tennis)",
 	"Who has more wins? (Tennis)": "Who has more wins? (Tennis)",
-	"Which tennis player is from?" : "Which tennis player is from %s?"
+	"Which tennis player is from?" : "Which tennis player is from %s?",
+
+	"Which team plays in?": "Which team plays in %s?",
+	"Which team trains?": "Which team trains %s?",
+	"Which football team was founded in?": "Which football team was founded in %s?",
+
+	"Which f1 driver was born in?": "Which f1 driver was born in %s?",
+	"Which f1 driver has more podiums?": "Which f1 driver has more podiums?",
+	"Which f1 driver has more wins?": "Which f1 driver has more wins?",
+
+	"Which song is song by?": "Which song is sing by %s?",
+	"Which song was released in?": "Which song was released in %s?",
+	"Which song belongs to?": "Which song belongs to %s?",
+
+	"Which serie has episodes?": "Which serie has %s episodes?",
+	"Which serie has seasons?": "Which serie has %s seasons?",
+
+	"Which movie was realeased in?": "Which movie was realeased in %s?",
+	"Which movie was directed by?": "Which movie was directed by %s?",
+
+	"Which videogames has sold more units?": "Which videogames has sold more units?",
+	"Which videogame was released in?": "Which videogame was released in %s?"
+
 }

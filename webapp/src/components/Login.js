@@ -10,12 +10,12 @@ const Login = ({ goTo }) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [profileImage, setProfileImage] = useState('');
   const [error, setError] = useState('');
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [createdAt, setCreatedAt] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [timeStart, setTimeStart] = useState(0);
-  const [timeElapsed, setTimeElapsed] = useState(0);
 
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -24,21 +24,13 @@ const Login = ({ goTo }) => {
       const response = await axios.post(`${apiEndpoint}/login`, { username, password });
 
       // Extract data from the response
-      const { createdAt: userCreatedAt, username: loggedInUsername, userId: id } = response.data;
+      const { createdAt: userCreatedAt, username: loggedInUsername, token:token, profileImage: profileImage, userId: id } = response.data;
       
       setTimeStart(Date.now());
       setCreatedAt(userCreatedAt);
       setLoginSuccess(true);
-      saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, userId: id });
+      saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, token: token, profileImage: profileImage, userId: id });
       setOpenSnackbar(true);
-    } catch (error) {
-      setError(error.response.data.error);
-    }
-  };
-
-  const calculateTime = async () => {
-    try {
-      setTimeElapsed((Date.now() - timeStart) / 1000);
     } catch (error) {
       setError(error.response.data.error);
     }
@@ -55,24 +47,7 @@ const Login = ({ goTo }) => {
   }, [loginSuccess, goTo]);
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
-      {loginSuccess ? (
-        
-        <div>
-          <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
-            Hello {username}!
-          </Typography>
-          <Typography component="p" variant="body1" sx={{ textAlign: 'center', marginTop: 2 }}>
-            Your account was created on {new Date(createdAt).toLocaleDateString()}.
-          </Typography>
-          <Typography component="p" variant="body1" sx={{ textAlign: 'center', marginTop: 2 }}>
-            Han pasado {timeElapsed} segundos.
-          </Typography>
-          <Button variant="contained" color="primary" onClick={calculateTime}>
-            Calcular tiempo
-          </Button>
-        </div>
-      ) : (
+    <Container component="div" maxWidth="xs" sx={{ marginTop: 4 }}>
         <div>
           <Typography component="h1" variant="h5">
             Login :D
@@ -100,7 +75,6 @@ const Login = ({ goTo }) => {
             <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
           )}
         </div>
-      )}
     </Container>
   );
 };
