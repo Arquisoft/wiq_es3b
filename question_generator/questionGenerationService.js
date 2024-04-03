@@ -2,10 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const i18n = require('i18n');
 
-const geographyTemplate=require('./geography/geographyTemplate');
-const planetTemplate=require('./planets/planetsTemplates');
-const sportTemplate=require('./sports/sportTemplate');
-const generalTemplate=require('./questionTemplate');
+const geographyTemplate = require('./geography/geographyTemplate');
+const planetTemplate = require('./planets/planetsTemplates');
+const sportTemplate = require('./sports/sportTemplate');
+const generalTemplate = require('./questionTemplate');
 const axios = require('axios');
 const questionServiceUrl = process.env.QUESTIONS_SERVICE_URL || 'http://localhost:8004';
 const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
@@ -23,26 +23,22 @@ i18n.configure({
 app.use(bodyParser.json());
 app.use(i18n.init);
 
-//i18n middleware
-app.use(
-  (req, res, next) => {
-    const userLocale = req.query.lang;
-    const localeToSet = userLocale || i18n.getLocale();
-    i18n.setLocale(localeToSet);
-    next();
-  }
-)
-
+app.use((req, res, next) => {
+  const userLocale = req.query.lang;
+  const localeToSet = userLocale || i18n.getLocale();
+  i18n.setLocale(localeToSet);
+  next();
+});
 
 app.get('/api/questions/create', async (req, res) => {
   try {
     let category = req.query.category;
-    let user=null;
+    let user = null;
     if (req.headers.authorization) {
       const response = await axios.get(`${authServiceUrl}/verify`, {
-      headers: {
-        Authorization: req.headers.authorization
-      }
+        headers: {
+          Authorization: req.headers.authorization
+        }
       });
       user = response.data.username;
     }
@@ -64,14 +60,14 @@ app.get('/api/questions/create', async (req, res) => {
     }
     randomQuestion.question = i18n.__(randomQuestion.question, randomQuestion.question_param);
     const saveQuestion = async (question) => {
-      const url = questionServiceUrl+'/addquestion';
+      const url = `${questionServiceUrl}/addquestion`;
       try {
         await axios.post(url, question);
       } catch (error) {
         console.error(error);
       }
     };
-    saveQuestion({
+    await saveQuestion({
       question: randomQuestion.question,
       correct: randomQuestion.correct,
       incorrects: randomQuestion.incorrects,
@@ -79,28 +75,28 @@ app.get('/api/questions/create', async (req, res) => {
       category: category
     });
 
-
-    res.status(200).json(
-      {
-        question: randomQuestion.question,
-        correct: randomQuestion.correct,
-        incorrects: randomQuestion.incorrects
-      }
-    );
+    res.status(200).json({
+      question: randomQuestion.question,
+      correct: randomQuestion.correct,
+      incorrects: randomQuestion.incorrects
+    });
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error'});
+    console.error('Error en el servicio de generación de preguntas:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
 
 function loadData() {
   generalTemplate.loadData();
 }
+
 loadData();
+
 // Ejecuta loadData cada hora (60 minutos * 60 segundos * 1000 milisegundos)
 setInterval(loadData, 60 * 60 * 1000);
 
 const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}`);
+  console.log(`Escuchando en http://localhost:${port}`);
 });
+
 module.exports = server;
