@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
 import { SessionContext } from '../SessionContext';
 
@@ -25,38 +24,16 @@ export const Participation = ({ goTo }) => {
     }
   }, [sessionData]);
 
-  //Gráfica
-  const data = {
-    labels: ['Preguntas Acertadas', 'Preguntas Falladas'],
-    datasets: [
-      {
-        label: 'Número de preguntas',
-        data: [participationData?.correctAnswers || 0, participationData?.incorrectAnswers || 0],
-        backgroundColor: ['green', 'red'],
-      },
-    ],
-  };
-
-  const options = {
-    scales: {
-      y: {
-        beginAtZero: true,
-        max: Math.max(participationData?.correctAnswers || 0, participationData?.incorrectAnswers || 0) + 1,
-      },
-    },
-  };
-
   return (
     <main>
       <div>
-        <h1>Participation</h1>
+        <h1>Participación</h1>
         {participationData !== null ? (
           <div>
             <p>Número de partidas jugadas: {participationData.totalGames}</p>
             <p>Preguntas acertadas: {participationData.correctAnswers}</p>
             <p>Preguntas falladas: {participationData.incorrectAnswers}</p>
             <p>Tiempo total jugando: {participationData.totalTime} segundos</p>
-            <Bar data={data} options={options} />
           </div>
         ) : (
           <p>Cargando datos de participación...</p>
