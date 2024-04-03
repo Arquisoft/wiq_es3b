@@ -272,9 +272,4 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
     );
 }
 
-Question.propTypes = {
-    goTo: PropTypes.func.isRequired, // Asegura que goTo sea una función y es requerida
-    setGameFinished: PropTypes.func.isRequired,
-};
-
 export default Question;

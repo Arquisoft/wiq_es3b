@@ -7,23 +7,23 @@ describe('PostGame component', () => {
     render(<PostGame />);
 
     // Verifica que el texto "Fin del juego" se renderice correctamente
-    expect(screen.getByText('Fin del juego')).toBeInTheDocument();
+    expect(screen.getByText('Game Over')).toBeInTheDocument();
   });
 
   test('renders text correctly', () => {
-    render(<PostGame />);
+    render(<PostGame gameMode="classic"/>);
 
     // Verifica que el texto "Preguntas acertadas" se renderice correctamente
-    expect(screen.getByText('Preguntas acertadas')).toBeInTheDocument();
+    expect(screen.getByText('Correct answers')).toBeInTheDocument();
 
     // Verifica que el texto "Preguntas falladas" se renderice correctamente
-    expect(screen.getByText('Preguntas falladas')).toBeInTheDocument();
+    expect(screen.getByText('Incorrect answers')).toBeInTheDocument();
 
     // Verifica que el texto "Tiempo usado" se renderice correctamente
-    expect(screen.getByText('Tiempo usado')).toBeInTheDocument();
+    expect(screen.getByText('Elapsed time')).toBeInTheDocument();
 
     // Verifica que el texto "Tiempo restante" se renderice correctamente
-    expect(screen.getByText('Tiempo restante')).toBeInTheDocument();
+    expect(screen.getByText('Time remaining')).toBeInTheDocument();
   });
 
   test('formatTiempo devuelve el formato de tiempo correcto', () => {
@@ -35,7 +35,7 @@ describe('PostGame component', () => {
     render(<PostGame />);
   
     // Obtener el componente que muestra el tiempo usado
-    const tiempoUsadoCell = screen.getByText('Tiempo usado').closest('tr').querySelector('td:last-child');
+    const tiempoUsadoCell = screen.getByText('Elapsed time').closest('tr').querySelector('td:last-child');
   
     // Verificar si el texto del componente coincide con el tiempo esperado
     expect(tiempoUsadoCell.textContent).toBe(tiempoEsperado);

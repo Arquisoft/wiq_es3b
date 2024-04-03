@@ -2,7 +2,8 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
-import Question, { finishByQuestions, finishByTime, handleGameFinish } from '../components/Question';
+import Question, { finishByQuestions, finishByTime, 
+  handleClassicGameFinish, handleOOLGameFinish, handelInfiniteGameFinish } from '../components/Question';
 import { SessionProvider } from '../SessionContext';
 
 // Mock para la respuesta del servicio de preguntas
@@ -296,16 +297,43 @@ describe('handleGameFinish function', () => {
     //expect(finishByTime).toHaveBeenCalledWith(true, goToMock, true); // Verifica si se llamó con los argumentos correctos
   });
 
-  it('should call handleGameFinish with the correct arguments', () => {
+  it('should call handleClassicGameFinish with the correct arguments', () => {
     render(<SessionProvider><Question /></SessionProvider>);
     
     // Simula que se alcanza el final del juego
     const nQuestion = 10; // Número de preguntas igual al máximo
     const numberCorrect = 8; // Supongamos que el jugador acierta 8 preguntas
+    const numberIncorrect = 2;
     const segundos = 1; // Simula que se acaba el tiempo
-    const MAX_TIME = 120;
     const sonido = true; // Supongamos que el sonido está activado
+    const setGameFinished = jest.fn();
+    const goTo = jest.fn();
 
-    handleGameFinish(nQuestion, numberCorrect, segundos, MAX_TIME, sonido);
+    handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, sonido, goTo, setGameFinished);
+  });
+
+  it('should call handleOOLGameFinish with the correct arguments', () => {
+    render(<SessionProvider><Question /></SessionProvider>);
+    
+    // Simula que se alcanza el final del juego
+    const numberCorrect = 8; // Supongamos que el jugador acierta 8 preguntas
+    const setGameFinished = jest.fn();
+    const segundosInfinite = 100;
+    const goTo = jest.fn();
+
+    handleOOLGameFinish(numberCorrect, segundosInfinite, goTo, setGameFinished);
+  });
+
+  it('should call handleClassicGameFinish with the correct arguments', () => {
+    render(<SessionProvider><Question /></SessionProvider>);
+    
+    // Simula que se alcanza el final del juego
+    const numberCorrect = 8; // Supongamos que el jugador acierta 8 preguntas
+    const numberIncorrect = 2;
+    const segundosInfinite = 100;
+    const setGameFinished = jest.fn();
+    const goTo = jest.fn();
+
+    handelInfiniteGameFinish(numberCorrect, numberIncorrect, segundosInfinite, goTo, setGameFinished);
   });
 });
