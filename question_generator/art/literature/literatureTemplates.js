@@ -14,17 +14,7 @@ const templates=[
             "correct":results.correct,
             "incorrects":results.incorrects
         }
-    }/*,
-    async ()=>
-    {
-        const results = await literatureQuery.getLanguageOfBook();
-        return{
-            "question":"Which is the original language of?",
-            "question_param":results.question_param,
-            "correct":results.correct,
-            "incorrects":results.incorrects
-        }
-    }*/,
+    },
     async ()=>
     {
         const results = await literatureQuery.doQuestion('language', 4);

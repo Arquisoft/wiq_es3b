@@ -95,29 +95,8 @@ class LiteratureQuestions{
         let i=1;
         while(i<numberOfBooks){
             let book=(await this.getRandomBook(1))[0];
-            if(book.author!=correct){
+            if(book.author!=correct && book.author.trim() !== "" && !/^Q\d+/.test(book.author)){
                 incorrects.push(book.author);
-                i++;
-            }
-        }
-        return {
-            question_param:name,
-            correct:correct,
-            incorrects:incorrects
-        }
-    }
-    async getLanguageOfBook() {
-        let numberOfBooks=4;
-        let result =(await this.getRandomBook(1))[0];
-        let name = result.name;
-        
-        let correct = result.language;
-        let incorrects = []
-        let i=1;
-        while(i<numberOfBooks){
-            let book=(await this.getRandomBook(1))[0];
-            if(book.language!=correct){
-                incorrects.push(book.language);
                 i++;
             }
         }

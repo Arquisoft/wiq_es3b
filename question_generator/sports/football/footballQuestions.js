@@ -104,7 +104,7 @@ class FootballQuestions{
         let i=1;
         while(i<numberOfTeams){
             let team=(await this.getRandomTeam(1))[0];
-            if(team.coach!=correct){
+            if(team.coach!=correct && team.coach.trim() !== "" && !/^Q\d+/.test(team.coach)){
                 incorrects.push(team.coach);
                 i++;
             }
@@ -125,7 +125,7 @@ class FootballQuestions{
         let i=1;
         while(i<numberOfTeams){
             let team=(await this.getRandomTeam(1))[0];
-            if(team.stadium!=correct){
+            if(team.stadium!=correct && team.stadium.trim() !== "" && !/^Q\d+/.test(team.stadium)){
                 incorrects.push(team.stadium);
                 i++;
             }

@@ -1,3 +1,4 @@
+const console = require('console')
 class QuestionsUtils{
     static getValuesFromDataAndProperty(data, property, nValues){
         const result = {
@@ -19,8 +20,8 @@ class QuestionsUtils{
         const random = dataArray.sort(() => Math.random() - 0.5);
         for (let i = 0; i < random.length; i++) {
             const value = random[i];
-            if(result.correct==null && value[property]!=undefined && !/^Q\d+/.test(value.name)
-                && value.name.trim() !== ""){
+            if(result.correct==null && value[property]!=undefined && !/^Q\d+/.test(value[property])
+                && value[property].trim() !== ""){
                 result.propertyResult=value[property];
                 result.correct=value.name;
                 break;
