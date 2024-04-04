@@ -5,7 +5,6 @@ import { Start } from './components/Start'
 import { Game } from './components/Game'
 import { Participation } from './components/Participation'
 import User from './components/User'
-import { UserProvider } from './components/UserContext';
 
 function App() {
   const [menuState, setMenuState] = useState(0)
@@ -15,15 +14,13 @@ function App() {
   }
 
   return (
-    <UserProvider>
-      <>
-        {menuState === 0 && <User goTo={(x) => goTo(x)}/>}
-        {menuState > 0 && <Nav goTo={(x) => goTo(x)}/>}
-        {menuState === 1 && <Start goTo={(x) => goTo(x)}/>}
-        {menuState === 2 && <Game />}
-        {menuState === 3 && <Participation goTo={(x) => goTo(x)}/>}
-      </>
-    </UserProvider>
+    <>
+      {menuState === 0 && <User goTo={(x) => goTo(x)}/>}
+      {menuState > 0 && <Nav goTo={(x) => goTo(x)}/>}
+      {menuState === 1 && <Start goTo={(x) => goTo(x)}/>}
+      {menuState === 2 && <Game />}
+      {menuState === 3 && <Participation goTo={(x) => goTo(x)}/>}
+    </>
   )
 }
 
