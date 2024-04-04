@@ -68,29 +68,6 @@ app --> user: Show final score
 
 deactivate app
 ----
-=== Ranking
-In this view, the user can watch different rankings:
-
-- Ordered by accuracy percentage
-- Ordered by number of questions answered correctly
-- Ordered by quantity of game rounds
-
-[plantuml,"sequencediagram-ranking",png]
-----
-actor User as user
-participant RankingMS as MS
-participant MongoDB as db
-
-activate MS
-
-user -> MS: Request ranking
-MS -> db: Asks for the ranking
-db -> MS: Gives the ranking with the best
-MS -> user: Shows the ranking
-
-
-deactivate MS
-----
 === History
 In this view, the user can watch this options about his past games:
 
