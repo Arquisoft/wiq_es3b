@@ -38,7 +38,7 @@ describe('Question component', () => {
 
     // Esperar a que se cargue la pregunta
     await waitFor(() => {
-      expect(getByText('What is the capital of France?')).toBeInTheDocument();
+      expect(getByText(text => text.includes(mockQuestions[0].question))).toBeInTheDocument();
     });
 
     // Esperar a que se muestren las opciones
@@ -59,7 +59,7 @@ describe('Question component', () => {
 
     // Esperar a que se cargue la pregunta
     await waitFor(() => {
-      expect(getByText('What is the capital of France?')).toBeInTheDocument();
+      expect(getByText(text => text.includes(mockQuestions[0].question))).toBeInTheDocument();
     });
 
     // Seleccionar la opción correcta
@@ -80,7 +80,7 @@ describe('Question component', () => {
 
     // Esperar a que se cargue la pregunta
     await waitFor(() => {
-      expect(getByText('What is the capital of France?')).toBeInTheDocument();
+      expect(getByText(text => text.includes(mockQuestions[0].question))).toBeInTheDocument();
     });
 
     // Hacer clic en el botón "Next"
@@ -90,7 +90,7 @@ describe('Question component', () => {
 
     // Esperar a que se cargue la siguiente pregunta (en este caso, se simula la carga)
     await waitFor(() => {
-      expect(getByText('What is the capital of France?')).toBeInTheDocument();
+      expect(getByText(text => text.includes(mockQuestions[0].question))).toBeInTheDocument();
     });
   });
 
