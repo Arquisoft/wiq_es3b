@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Question, { finishByQuestions, finishByTime, handleGameFinish } from '../components/Question';
 import { SessionProvider } from '../SessionContext';
@@ -62,7 +62,9 @@ describe('Question component', () => {
     });
 
     // Seleccionar la opción correcta
-    fireEvent.click(getByText('Paris'));
+    act(() => {
+      fireEvent.click(getByText('Paris'));
+    });
 
     // Verificar que la opción seleccionada tenga estilo verde
     expect(getByText('Paris').parentElement).toBeInTheDocument;
@@ -81,7 +83,9 @@ describe('Question component', () => {
     });
 
     // Hacer clic en el botón "Next"
-    fireEvent.click(getByText('Next'));
+    act(() => {
+      fireEvent.click(getByText('Next'));
+    });
 
     // Esperar a que se cargue la siguiente pregunta (en este caso, se simula la carga)
     await waitFor(() => {
@@ -122,7 +126,9 @@ describe('Question component', () => {
     expect(mockGoTo).not.toHaveBeenCalled();
 
     // Simular que se responde a todas las preguntas
-    fireEvent.click(getByText('Next'));
+    act(() => {
+      fireEvent.click(getByText('Next'));
+    });
 
     // Verificar que las funciones auxiliares se hayan llamado correctamente
     expect(localStorage.getItem('pAcertadas')).toBe('5'); // 5 preguntas correctas
@@ -159,7 +165,9 @@ describe('Question component', () => {
     expect(localStorage.getItem('sonido')).toBe(undefined);
 
     // Simular hacer clic en la imagen de audio para desactivar el sonido
-    fireEvent.click(getByRole('img'));
+    act(() => {
+      fireEvent.click(getByRole('img'));
+    });
 
     // Verificar que el estado de sonido se haya actualizado correctamente
     expect(localStorage.getItem('sonido')).toBe(undefined);
@@ -171,13 +179,17 @@ describe('Question component', () => {
     </SessionProvider>);
 
     // Simular hacer clic en el botón
-    fireEvent.click(getByText('Next'));
+    act(() => {
+      fireEvent.click(getByText('Next'));
+    });
 
     // Verificar si el estado isSelected ha cambiado correctamente a true
     expect(localStorage.getItem('isSelected')).toBe(undefined);
 
     // Simular hacer clic en el botón nuevamente
-    fireEvent.click(getByText('Next'));
+    act(() => {
+      fireEvent.click(getByText('Next'));
+    });
 
     // Verificar si el estado isSelected ha cambiado correctamente a false
     expect(localStorage.getItem('isSelected')).toBe(undefined);
@@ -211,7 +223,9 @@ describe('handleGameFinish function', () => {
 
     // Simulate answering all questions
     for (let i = 0; i < 10; i++) {
-      fireEvent.click(getByText('Next'));
+      act(() => {
+        fireEvent.click(getByText('Next'));
+      });
       await waitFor(() => {
         expect(localStorage.getItem('pAcertadas') == 5);
         expect(localStorage.getItem('pFalladas') == 5);
