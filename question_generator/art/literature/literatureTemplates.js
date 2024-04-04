@@ -1,32 +1,15 @@
-const f1Questions=require('./f1Questions');
-const f1Query=f1Questions.getInstance();
+const moment = require('moment');
+const literatureQuestions=require('./literatureQuestions');
+const literatureQuery=literatureQuestions.getInstance();
 function loadData(){
-    f1Query.loadData();
+    literatureQuery.loadData();
 }
 const templates=[
     async ()=>
     {
-        const results = await f1Query.getDriverWithMoreWins();
+        const results = await literatureQuery.getAuthorOfBook();
         return{
-            "question":"Which f1 driver has more wins?",
-            "correct":results.correct,
-            "incorrects":results.incorrects
-        }
-    },
-    async ()=>
-    {
-        const results = await f1Query.getDriverWithMorePodiums();
-        return{
-            "question":"Which f1 driver has more podiums?",
-            "correct":results.correct,
-            "incorrects":results.incorrects
-        }
-    },
-    async ()=>
-    {
-        const results = await f1Query.doQuestion('birthPlace', 4);
-        return{
-            "question":"Which f1 driver was born in?",
+            "question":"Which author wrote?",
             "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects
@@ -34,9 +17,29 @@ const templates=[
     },
     async ()=>
     {
-        const results = await f1Query.getDriverByWins();
+        const results = await literatureQuery.doQuestion('language', 4);
         return{
-            "question":"Which f1 driver has wins?",
+            "question":"Which book is written in?",
+            "question_param":results.question_param,
+            "correct":results.correct,
+            "incorrects":results.incorrects
+        }
+    },
+    async ()=>
+    {
+        const results = await literatureQuery.doQuestion('author', 4);
+        return{
+            "question":"Which book was written by?",
+            "question_param":results.question_param,
+            "correct":results.correct,
+            "incorrects":results.incorrects
+        }
+    },
+    async ()=>
+    {
+        const results = await literatureQuery.doQuestion('genre', 4);
+        return{
+            "question":"Which book belongs to genre?",
             "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects

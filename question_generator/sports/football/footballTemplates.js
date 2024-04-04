@@ -34,7 +34,28 @@ const templates=[
             "correct":results.correct,
             "incorrects":results.incorrects
         }
+    },
+    async ()=>
+    {
+        const results = await footballQuery.getCoachOfTeam();
+        return{
+            "question":"Which coach trains?",
+            "question_param":results.question_param,
+            "correct":results.correct,
+            "incorrects":results.incorrects
+        }
+    },
+    async ()=>
+    {
+        const results = await footballQuery.getStadiumOfTeam();
+        return{
+            "question":"Which is the stadium of?",
+            "question_param":results.question_param,
+            "correct":results.correct,
+            "incorrects":results.incorrects
+        }
     }
+
 ]
 module.exports.getRandomQuestion = () => templates[Math.floor(Math.random()*templates.length)]();
 module.exports.loadData = ()=>loadData();

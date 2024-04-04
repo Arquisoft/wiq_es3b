@@ -148,6 +148,48 @@ class TennisQuestions{
         }
         return finalResults
     }
+    async getPlayerByWins() {
+        let numberOfPlayers=4;
+        let result =(await this.getRandomTeam(1))[0];
+        let name = result.playerName;
+        
+        let correct = result.wins;
+        let incorrects = []
+        let i=1;
+        while(i<numberOfPlayers){
+            let player=(await this.getRandomTeam(1))[0];
+            if(player.wins!=correct){
+                incorrects.push(player.wins);
+                i++;
+            }
+        }
+        return {
+            question_param:name,
+            correct:correct,
+            incorrects:incorrects
+        }
+    }
+    async getPlayerByCountry() {
+        let numberOfPlayers=4;
+        let result =(await this.getRandomTeam(1))[0];
+        let name = result.playerName;
+        
+        let correct = result.country;
+        let incorrects = []
+        let i=1;
+        while(i<numberOfPlayers){
+            let player=(await this.getRandomTeam(1))[0];
+            if(player.country!=correct){
+                incorrects.push(player.country);
+                i++;
+            }
+        }
+        return {
+            question_param:name,
+            correct:correct,
+            incorrects:incorrects
+        }
+    }
 
 }
 module.exports = TennisQuestions;

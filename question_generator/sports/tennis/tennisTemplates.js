@@ -41,7 +41,28 @@ const templates=[
             "correct":results.correct,
             "incorrects":results.incorrects
         }
+    },
+    async ()=>
+    {
+        const results = await tennisQuery.getPlayerByCountry();
+        return{
+            "question":"What country is from?",
+            "question_param":results.question_param,
+            "correct":results.correct,
+            "incorrects":results.incorrects
+        }
+    },
+    async ()=>
+    {
+        const results = await tennisQuery.getPlayerByWins();
+        return{
+            "question":"Which tennis player has wins?",
+            "question_param":results.question_param,
+            "correct":results.correct,
+            "incorrects":results.incorrects
+        }
     }
+
 ]
 module.exports.getRandomQuestion = () => templates[Math.floor(Math.random()*templates.length)]();
 module.exports.loadData = ()=>loadData();

@@ -5,6 +5,7 @@ const i18n = require('i18n');
 const geographyTemplate=require('./geography/geographyTemplate');
 const planetTemplate=require('./planets/planetsTemplates');
 const sportTemplate=require('./sports/sportTemplate');
+const artTemplate=require('./art/artTemplate');
 const generalTemplate=require('./questionTemplate');
 const axios = require('axios');
 const questionServiceUrl = process.env.QUESTIONS_SERVICE_URL || 'http://localhost:8004';
@@ -57,6 +58,12 @@ app.get('/api/questions/create', async (req, res) => {
         break;
       case 'sports':
         randomQuestion = await sportTemplate.getRandomQuestion();
+        break;
+      case 'art':
+        randomQuestion = await artTemplate.getRandomQuestion();
+        break;
+      case 'entertainment':
+        randomQuestion = await entertainmentTemplate.getRandomQuestion();
         break;
       default:
         randomQuestion = await generalTemplate.getRandomQuestion();
