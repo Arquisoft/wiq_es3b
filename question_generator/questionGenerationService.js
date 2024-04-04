@@ -48,27 +48,36 @@ app.get('/api/questions/create', async (req, res) => {
       });
       user = response.data.username;
     }
-    let randomQuestion;
+    let randomQuestionFunc;
 
     switch (category) {
       case 'planets':
-        randomQuestion = await planetTemplate.getRandomQuestion();
+        randomQuestionFunc = planetTemplate.getRandomQuestion;
         break;
       case 'geography':
-        randomQuestion = await geographyTemplate.getRandomQuestion();
+        randomQuestionFunc = geographyTemplate.getRandomQuestion;
         break;
       case 'sports':
-        randomQuestion = await sportTemplate.getRandomQuestion();
+        randomQuestionFunc = sportTemplate.getRandomQuestion;
         break;
       case 'art':
-        randomQuestion = await artTemplate.getRandomQuestion();
+        randomQuestionFunc = artTemplate.getRandomQuestion;
         break;
       case 'entertainment':
-        randomQuestion = await entertainmentTemplate.getRandomQuestion();
+        randomQuestionFunc = entertainmentTemplate.getRandomQuestion;
         break;
       default:
-        randomQuestion = await generalTemplate.getRandomQuestion();
+        randomQuestionFunc = generalTemplate.getRandomQuestion;
         category = 'general';
+    }
+    let randomQuestion;
+    while(true){
+      try{
+        randomQuestion = await randomQuestionFunc();
+        break;
+      }catch(err){
+
+      }
     }
     randomQuestion.question = i18n.__(randomQuestion.question, randomQuestion.question_param);
     const saveQuestion = async (question) => {
