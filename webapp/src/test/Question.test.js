@@ -20,7 +20,7 @@ jest.mock('axios', () => ({
 
 describe('Question component', () => {
   beforeEach(() => {
-    jest.spyOn(global, 'fetch').mockResolvedValue({
+    jest.spyOn(window, 'fetch').mockResolvedValue({
       json: jest.fn().mockResolvedValue(mockQuestionResponse)
     });
   });

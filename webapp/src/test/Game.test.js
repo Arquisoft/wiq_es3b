@@ -34,7 +34,7 @@ jest.useFakeTimers();
 
 describe('Game component', () => {
   beforeEach(() => {
-    jest.spyOn(global, 'fetch').mockResolvedValue({
+    jest.spyOn(window, 'fetch').mockResolvedValue({
       json: jest.fn().mockResolvedValue(mockQuestions[0])
     });
   });
