@@ -32,7 +32,7 @@ describe('Question component', () => {
   it('renders question and options correctly', async () => {
     const { getByText } = render(
       <SessionProvider>
-        <Question goTo={mockGoTo} />
+        <Question goTo={mockGoTo} setGameFinished={mockSetGameFinished}/>
       </SessionProvider>
     );
 
@@ -148,7 +148,7 @@ describe('Question component', () => {
     const setSegundos = jest.fn();
     render(
       <SessionProvider>
-        <Question goTo={mockGoTo} />
+        <Question goTo={mockGoTo} setGameFinished={mockSetGameFinished}/>
       </SessionProvider>
       );
 

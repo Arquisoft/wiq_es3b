@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { SessionProvider, SessionContext } from '../SessionContext';
 
@@ -37,7 +37,9 @@ describe('SessionProvider Component', () => {
       </SessionProvider>
     );
 
-    fireEvent.click(getByText('Save Data'));
+    act(() => {
+      fireEvent.click(getByText('Save Data'));
+    });
 
     const storedData = JSON.parse(localStorage.getItem('sessionData'));
     expect(storedData.username).toEqual('newUser');
@@ -60,8 +62,10 @@ describe('SessionProvider Component', () => {
       </SessionProvider>
     );
 
-    fireEvent.click(getByText('Clear Data'));
-
+    act(() => {
+      fireEvent.click(getByText('Clear Data'));
+    });
+    
     const storedData = localStorage.getItem('sessionData');
     expect(storedData).toBeNull();
   });
