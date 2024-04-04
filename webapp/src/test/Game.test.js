@@ -54,8 +54,9 @@ describe('Game component', () => {
       await waitFor(() => {
         expect(screen.getByText(/Question/i)).toBeInTheDocument();
       });
-
-      expect(screen.getAllByText(/./i)).toHaveLength(4); // Verifica que haya 4 opciones
+  
+      // Verifica que haya cuatro opciones presentes
+      expect(screen.getAllByRole('button')).toHaveLength(4);
     });
   });
   

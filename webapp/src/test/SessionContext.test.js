@@ -6,7 +6,9 @@ import { SessionProvider, SessionContext } from '../SessionContext';
 describe('SessionProvider Component', () => {
   test('sets initial session data from localStorage if available', () => {
     const storedData = { username: 'testUser' };
+    act(() => {
     localStorage.setItem('sessionData', JSON.stringify(storedData));
+    });
 
     const TestComponent = () => {
       const { sessionData } = React.useContext(SessionContext);
@@ -54,7 +56,9 @@ describe('SessionProvider Component', () => {
       return <button onClick={handleClick}>Clear Data</button>;
     };
 
-    localStorage.setItem('sessionData', JSON.stringify({ username: 'testUser' }));
+    act(() => {
+      localStorage.setItem('sessionData', JSON.stringify({ username: 'testUser' }));
+    });
 
     const { getByText } = render(
       <SessionProvider>

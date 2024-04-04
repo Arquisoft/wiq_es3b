@@ -37,8 +37,9 @@ describe('Question component', () => {
     );
 
     // Esperar a que se cargue la pregunta
-    await waitFor(() => {
-      expect(getByText(text => text.includes(mockQuestions[0].question))).toBeInTheDocument();
+    await act(async () => {
+      await waitFor(() => {
+        expect(getByText(text => text.includes(mockQuestions[0].question))).toBeInTheDocument();
     });
 
     // Esperar a que se muestren las opciones
