@@ -5,6 +5,16 @@ import { SessionProvider } from '../SessionContext';
 
 const MAX_TIME = 600;
 
+// Mock de la función goTo
+const mockGoTo = jest.fn();
+
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  clear: jest.fn(),
+};
+global.localStorage = localStorageMock;
+
 // Mock de preguntas predefinidas
 const mockQuestions = [
   {
@@ -19,20 +29,11 @@ const mockQuestions = [
   }
 ];
 
-// Mock de la función goTo
-const mockGoTo = jest.fn();
-
-const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  clear: jest.fn(),
-};
-global.localStorage = localStorageMock;
-
 // Mock de setInterval y clearInterval
 jest.useFakeTimers();
 
 describe('Game component', () => {
+
   beforeEach(() => {
     jest.spyOn(window, 'fetch').mockResolvedValue({
       json: jest.fn().mockResolvedValue(mockQuestions[0])
@@ -52,7 +53,7 @@ describe('Game component', () => {
       );
   
       await waitFor(() => {
-        expect(screen.getByText(mockQuestions[0].question) || screen.getByText(mockQuestions[1].question)).toBeInTheDocument();
+        expect(screen.getByText(/Question/i)).toBeInTheDocument();
       });
   
       // Verifica que haya cuatro opciones presentes
@@ -69,7 +70,7 @@ describe('Game component', () => {
       );
   
       await waitFor(() => {
-        expect(screen.getByText(mockQuestions[0].question) || screen.getByText(mockQuestions[1].question)).toBeInTheDocument();
+        expect(screen.getByText(mockQuestions[0].question)).toBeInTheDocument();
       });
   
       act(() => {

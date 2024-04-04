@@ -54,7 +54,7 @@ const Question = ({ goTo, setGameFinished }) => {
     const [isSelected, setIsSelected] = useState(false);
     const [correct, setCorrect] = useState('');
     const [numberCorrect, setNumberCorrect] = useState(0);
-    const [nQuestion, setNQuestion] = useState(-1);
+    const [nQuestion, setNQuestion] = useState(0);
     const [segundos, setSegundos] = useState(MAX_TIME);
     const [sonido, setSonido] = useState(true);
 

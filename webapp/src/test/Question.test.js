@@ -7,6 +7,14 @@ import { SessionProvider } from '../SessionContext';
 const mockGoTo = jest.fn();
 const mockSetGameFinished = jest.fn();
 
+jest.mock('../audio/correct.mp3', () => ({
+  play: jest.fn()
+}));
+
+jest.mock('../audio/incorrect.mp3', () => ({
+  play: jest.fn()
+}));
+
 // Mock para la respuesta del servicio de preguntas
 const mockQuestionResponse = {
   question: 'What is the capital of France?',
@@ -39,7 +47,7 @@ describe('Question component', () => {
     // Esperar a que se cargue la pregunta
     await act(async () => {
       await waitFor(() => {
-        expect(getByText(text => text.includes(mockQuestions[0].question))).toBeInTheDocument();
+        expect(getByText(text => text.includes(mockQuestionResponse.question))).toBeInTheDocument();
       })
     });
 
@@ -61,7 +69,7 @@ describe('Question component', () => {
 
     // Esperar a que se cargue la pregunta
     await waitFor(() => {
-      expect(getByText(text => text.includes(mockQuestions[0].question))).toBeInTheDocument();
+      expect(getByText(text => text.includes(mockQuestionResponse.question))).toBeInTheDocument();
     });
 
     // Seleccionar la opción correcta
@@ -82,7 +90,7 @@ describe('Question component', () => {
 
     // Esperar a que se cargue la pregunta
     await waitFor(() => {
-      expect(getByText(text => text.includes(mockQuestions[0].question))).toBeInTheDocument();
+      expect(getByText(text => text.includes(mockQuestionResponse.question))).toBeInTheDocument();
     });
 
     // Hacer clic en el botón "Next"
@@ -92,7 +100,7 @@ describe('Question component', () => {
 
     // Esperar a que se cargue la siguiente pregunta (en este caso, se simula la carga)
     await waitFor(() => {
-      expect(getByText(text => text.includes(mockQuestions[0].question))).toBeInTheDocument();
+      expect(getByText(text => text.includes(mockQuestionResponse.question))).toBeInTheDocument();
     });
   });
 
@@ -154,7 +162,9 @@ describe('Question component', () => {
       </SessionProvider>
       );
 
-    jest.advanceTimersByTime(5000);
+      act(() => {
+        jest.advanceTimersByTime(5000);
+      });
 
     expect(setSegundos).toHaveBeenCalledTimes(0);
   });
@@ -299,7 +309,9 @@ describe('handleGameFinish function', () => {
     const MAX_TIME = 120;
     // Simula que se agota el tiempo
     jest.useFakeTimers();
-    jest.advanceTimersByTime((MAX_TIME + 1) * 1000); // Asegúrate de que el tiempo se agote
+    act(() => {
+      jest.advanceTimersByTime((MAX_TIME + 1) * 1000); // Asegúrate de que el tiempo se agote
+    });
     
     finishByTime(true);
     finishByTime(true);
@@ -318,6 +330,8 @@ describe('handleGameFinish function', () => {
     const MAX_TIME = 120;
     const sonido = true; // Supongamos que el sonido está activado
 
-    handleGameFinish(nQuestion, numberCorrect, segundos, MAX_TIME, sonido);
+    act(() => {
+      handleGameFinish(nQuestion, numberCorrect, segundos, MAX_TIME, sonido);
+    });
   });
 });
