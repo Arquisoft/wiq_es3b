@@ -103,7 +103,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            if (gameMode !== "infinite" & gameMode !== "threeLife") {
+            if (gameMode !== "infinite" && gameMode !== "threeLife") {
                 setSegundos(segundos => {
                     if (segundos === 1 ) { clearInterval(intervalId); finishGameByTime(segundos); }
                     return segundos - 1;
@@ -192,7 +192,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
             setTimeout(() => {
                 if (gameMode === 'threeLife') {
                     setVidas(vidas - 1);
-                    if (vidas === 1) { handleOOLGameFinish(numberCorrect, segundosInfinite, goTo, setGameFinished, vidas); }
+                    if (vidas === 1) { handleOOLGameFinish(numberCorrect, segundosInfinite, goTo, setGameFinished); }
                     else { fetchQuestion(); }
                 }
             }, 1500);
