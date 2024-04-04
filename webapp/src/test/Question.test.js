@@ -291,7 +291,7 @@ describe('handleGameFinish function', () => {
 
   it('should call finishByTime when game finishes by time', () => {
 
-    render(<SessionProvider><Question /></SessionProvider>);
+    render(<SessionProvider><Question  goTo={mockGoTo}/></SessionProvider>);
     
     const MAX_TIME = 120;
     // Simula que se agota el tiempo
@@ -306,7 +306,7 @@ describe('handleGameFinish function', () => {
   });
 
   it('should call handleGameFinish with the correct arguments', () => {
-    render(<SessionProvider><Question /></SessionProvider>);
+    render(<SessionProvider><Question  goTo={mockGoTo}/></SessionProvider>);
     
     // Simula que se alcanza el final del juego
     const nQuestion = 10; // Número de preguntas igual al máximo
