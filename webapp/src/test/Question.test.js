@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 import Question, { finishByQuestions, finishByTime, handleGameFinish } from '../components/Question';
 import { SessionProvider } from '../SessionContext';
@@ -63,9 +62,7 @@ describe('Question component', () => {
     });
 
     // Seleccionar la opción correcta
-    act(() => {
-      fireEvent.click(getByText('Paris'));
-    });
+    fireEvent.click(getByText('Paris'));
 
     // Verificar que la opción seleccionada tenga estilo verde
     expect(getByText('Paris').parentElement).toBeInTheDocument;
@@ -115,21 +112,17 @@ describe('Question component', () => {
     const { getByText } = render(questionComponent);
 
     // Establecer valores iniciales
-    act(() => {
-      localStorage.setItem('pAcertadas', '5');
-      localStorage.setItem('pFalladas', '5');
-      localStorage.setItem('tiempoUsado', '60');
-      localStorage.setItem('tiempoRestante', '60');
-    });
+    localStorage.setItem('pAcertadas', '5');
+    localStorage.setItem('pFalladas', '5');
+    localStorage.setItem('tiempoUsado', '60');
+    localStorage.setItem('tiempoRestante', '60');
 
     // Verificar que las funciones auxiliares no se hayan llamado aún
     expect(mockSetGameFinished).not.toHaveBeenCalled();
     expect(mockGoTo).not.toHaveBeenCalled();
 
     // Simular que se responde a todas las preguntas
-    act(() => {
-      fireEvent.click(getByText('Next'));
-    });
+    fireEvent.click(getByText('Next'));
 
     // Verificar que las funciones auxiliares se hayan llamado correctamente
     expect(localStorage.getItem('pAcertadas')).toBe('5'); // 5 preguntas correctas

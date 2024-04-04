@@ -1,6 +1,5 @@
 // Question.js
 import React, { useState, useEffect, useContext } from 'react';
-import { act } from 'react-dom/test-utils';
 import { Card, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 import { SessionContext } from '../SessionContext';
 import correctSound from '../audio/correct.mp3';
@@ -86,17 +85,16 @@ const Question = ({ goTo, setGameFinished }) => {
             });
             const data = await response.json();
 
-            act(() => {
-                setQuestion(data.question);
-                setCorrect(data.correct);
-                setOptions(shuffleOptions([data.correct, ...data.incorrects]));
-                setSelectedOption(null);
-                setIsSelected(false);
-                setNQuestion((prevNQuestion) => prevNQuestion + 1);
-                handleGameFinish(nQuestion, numberCorrect, segundos, MAX_TIME, sonido);
-                if (nQuestion === N_QUESTIONS) { setGameFinished(true); goTo(1);}
-                if (segundos === 1) {setGameFinished(true); goTo(1);}
-            });
+            setQuestion(data.question);
+            setCorrect(data.correct);
+            setOptions(shuffleOptions([data.correct, ...data.incorrects]));
+
+            setSelectedOption(null);
+            setIsSelected(false);
+            setNQuestion((prevNQuestion) => prevNQuestion + 1);
+            handleGameFinish(nQuestion, numberCorrect, segundos, MAX_TIME, sonido);
+            if (nQuestion === N_QUESTIONS) { setGameFinished(true); goTo(1);}
+            if (segundos === 1) {setGameFinished(true); goTo(1);}
         } catch (error) {
             console.error('Error fetching question:', error);
         }
