@@ -258,7 +258,10 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
                 </Card>
                 <div className='botoneraPreguntas'>
                 { gameMode !== "threeLife" ?
-                <ListItemButton onClick={isSelected ? () => fetchQuestion() : null}
+                <ListItemButton onClick={isSelected ? () => {
+                    setIsSelected(false);
+                    fetchQuestion();
+                 } : null}
                     sx={{ justifyContent: 'center', marginTop: 2 }}
                     className={isSelected ? '' : 'isNotSelected'} >
                     Next
