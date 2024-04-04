@@ -39,12 +39,12 @@ class QuestionsUtils{
         async function loadDataWithDelayHelper(index) {
             if (index < loadFunctions.length) {
                 // Ejecutar la función actual
-                await loadFunctions[index]();
+                loadFunctions[index]();
     
                 // Llamar a la próxima función después de un tiempo de espera (en milisegundos)
                 setTimeout(async () => {
                     loadDataWithDelayHelper(index + 1);
-                }, 1000); // Espera entre llamadas
+                }, 5000); // Espera entre llamadas
             }
         }
     

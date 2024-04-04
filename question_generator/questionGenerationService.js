@@ -76,6 +76,7 @@ app.get('/api/questions/create', async (req, res) => {
         randomQuestion = await randomQuestionFunc();
         break;
       }catch(err){
+        console.log(err.message);
 
       }
     }
