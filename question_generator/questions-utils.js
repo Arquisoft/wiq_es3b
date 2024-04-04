@@ -19,12 +19,14 @@ class QuestionsUtils{
         const random = dataArray.sort(() => Math.random() - 0.5);
         for (let i = 0; i < random.length; i++) {
             const value = random[i];
-            if(result.correct==null && value[property]!=undefined){
+            if(result.correct==null && value[property]!=undefined && !/^Q\d+/.test(value[property])
+                && value[property].trim() !== ""){
                 result.propertyResult=value[property];
                 result.correct=value.name;
                 break;
             }
-            else if ((!(result.incorrects.includes(value.name)||result.propertyResult==value[property]))&& value[property]!=undefined) {
+            else if ((!(result.incorrects.includes(value.name)||result.propertyResult==value[property]))&& value[property]!=undefined
+            && !/^Q\d+/.test(value[property]) && value[property].trim() !== "") {
                 result.incorrects.push(value.name);
                 break;
             }
