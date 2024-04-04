@@ -21,7 +21,7 @@ function loadData() {
             // Llamar a la próxima función después de un tiempo de espera (en milisegundos)
             setTimeout(() => {
                 loadDataWithDelayHelper(index + 1);
-            }, 1000); // Esperar 1 segundo entre cada llamada
+            }, 5000); // Esperar 5 segundos entre cada llamada
         }
     }
 
