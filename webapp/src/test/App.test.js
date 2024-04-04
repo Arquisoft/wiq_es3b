@@ -37,7 +37,7 @@ it('cambia de estado de menú al hacer clic en los botones', async () => {
   fireEvent.click(nav);
 
   // Encuentra los botones de navegación
-  const gameButton = getByText('Play');
+  const gameButton = getByText('Classic Game');
   const participationButton = getByText('Participation');
 
   // Comprueba que solo el componente User está visible inicialmente

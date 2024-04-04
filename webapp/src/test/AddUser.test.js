@@ -18,7 +18,7 @@ describe('AddUser component', () => {
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText("Password");
     const passwordConfirmInput = screen.getByLabelText(/Confirm/i);
-    const addUserButton = screen.getByRole('button', { name: /Add User/i });
+    const addUserButton = screen.getByRole('button', { name: /SIGN UP/i });
 
     // Mock the axios.post request to simulate a successful response
     mockAxios.onPost('http://localhost:8000/adduser').reply(200);
@@ -54,7 +54,7 @@ describe('AddUser component', () => {
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText("Password");
     const passwordConfirmInput = screen.getByLabelText(/Confirm/i);
-    const addUserButton = screen.getByRole('button', { name: /Add User/i });
+    const addUserButton = screen.getByRole('button', { name: /SIGN UP/i });
 
     // Mock the axios.post request to simulate a successful response
     mockAxios.onPost('http://localhost:8000/adduser').reply(200);
@@ -79,7 +79,7 @@ describe('AddUser component', () => {
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText("Password");
     const passwordConfirmInput = screen.getByLabelText(/Confirm/i);
-    const addUserButton = screen.getByRole('button', { name: /Add User/i });
+    const addUserButton = screen.getByRole('button', { name: /SIGN UP/i });
 
     // Mock the axios.post request to simulate an error response
     mockAxios.onPost('http://localhost:8000/adduser').reply(500, { error: 'Internal Server Error' });

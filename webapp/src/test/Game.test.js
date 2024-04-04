@@ -86,4 +86,55 @@ describe('Game component', () => {
       jest.advanceTimersByTime(MAX_TIME * 1000);
     });
   });
+
+  test('renders Game component with default category', () => {
+    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    expect(getByText(/Restart game with a new category/i)).toBeInTheDocument();
+  });
+
+  test('renders Game component with category buttons', () => {
+    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    expect(getByText(/All Categories/i)).toBeInTheDocument();
+    expect(getByText("Art")).toBeInTheDocument();
+    expect(getByText(/Sports/i)).toBeInTheDocument();
+    expect(getByText(/Entertainment/i)).toBeInTheDocument();
+    expect(getByText(/Geography/i)).toBeInTheDocument();
+    expect(getByText(/Planets/i)).toBeInTheDocument();
+  });
+
+  test('changes category when All Categories category button is clicked', () => {
+    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    fireEvent.click(getByText(/All Categories/i));
+    expect(getByText(/Restart game with a new category/i)).toBeInTheDocument();
+  });
+
+  test('changes category when Art category button is clicked', () => {
+    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    fireEvent.click(getByText("Art"));
+    expect(getByText(/Restart game with a new category/i)).toBeInTheDocument();
+  });
+
+  test('changes category when Sports category button is clicked', () => {
+    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    fireEvent.click(getByText(/Sports/i));
+    expect(getByText(/Restart game with a new category/i)).toBeInTheDocument();
+  });
+
+  test('changes category when Entertainment category button is clicked', () => {
+    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    fireEvent.click(getByText(/Entertainment/i));
+    expect(getByText(/Restart game with a new category/i)).toBeInTheDocument();
+  });
+
+  test('changes category when Geography category button is clicked', () => {
+    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    fireEvent.click(getByText(/Geography/i));
+    expect(getByText(/Restart game with a new category/i)).toBeInTheDocument();
+  });
+
+  test('changes category when Planets category button is clicked', () => {
+    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    fireEvent.click(getByText(/Planets/i));
+    expect(getByText(/Restart game with a new category/i)).toBeInTheDocument();
+  });
 });

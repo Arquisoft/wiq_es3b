@@ -11,11 +11,11 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 
 import { useContext } from 'react';
 import { SessionContext } from '../SessionContext';
 import defaultProfileImg from '../assets/defaultImgProfile.jpg';
+import iconImg from '../assets/icon.png';
 
 function Nav({ goTo }) {
 
@@ -57,7 +57,7 @@ function Nav({ goTo }) {
     <AppBar className='nav' position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+        <img className="icono" src={iconImg} />
           <Typography
             variant="h6"
             noWrap
@@ -74,6 +74,8 @@ function Nav({ goTo }) {
           >
             ASW WIQ
           </Typography>
+
+          <Typography sx={{ marginRight:'1em' }}>|</Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -143,9 +145,6 @@ function Nav({ goTo }) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem className='menu'>
-                <Typography textAlign="center">Profile</Typography>
-              </MenuItem>
               <MenuItem className='menu' onClick={logoutClic}>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
