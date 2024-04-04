@@ -22,16 +22,6 @@ const templates=[
             "correct":result.correct,
             "incorrects":result.incorrects
         }
-    },
-    async ()=>
-    {
-        const result= await planetsQuery.doQuestion('area',4);
-        return{
-            "question":	"Which planet has an area of x?",
-            "question_param":result.question_param,
-            "correct":result.correct,
-            "incorrects":result.incorrects
-        }
     }
 
 
