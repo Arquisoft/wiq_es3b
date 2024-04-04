@@ -23,13 +23,14 @@ class QueryExecutor{
             console.error('La consulta a Wikidata no devolvió ningún resultado');
             return;
           }
-    
+        await new Promise(resolve => setTimeout(resolve, 200));
         return response.data.results.bindings;
     
         
     
         } catch (error) {
-        console.error('Error al realizar la consulta a Wikidata:', error.message);
+            console.log(query)
+            console.error('Error al realizar la consulta a Wikidata:', error.message);
         }
     }
     static async executeQueryForEntityAndProperty(entity, properties){

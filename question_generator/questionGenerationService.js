@@ -6,6 +6,7 @@ const geographyTemplate=require('./geography/geographyTemplate');
 const planetTemplate=require('./planets/planetsTemplates');
 const sportTemplate=require('./sports/sportTemplate');
 const artTemplate=require('./art/artTemplate');
+const entertainmentTemplate=require('./entertainment/entertainmentTemplate');
 const generalTemplate=require('./questionTemplate');
 const axios = require('axios');
 const questionServiceUrl = process.env.QUESTIONS_SERVICE_URL || 'http://localhost:8004';

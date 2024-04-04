@@ -3,31 +3,15 @@ const geographyTemplates=require('./geography/geographyTemplate')
 const sportTemplates=require('./sports/sportTemplate')
 const artTemplates=require('./art/artTemplate')
 const entertainmentTemplates=require('./entertainment/entertainmentTemplate')
-function loadData() {
-    const loadFunctions = [
-        geographyTemplates.loadData,
-        planetsTemplates.loadData,
-        sportTemplates.loadData,
-        artTemplates.loadData,
-        entertainmentTemplates.loadData
-    ];
+const QuestionsUtils=require('./questions-utils')
+const loadFunctions = [
+    entertainmentTemplates.loadData,
+    geographyTemplates.loadData,
+    planetsTemplates.loadData,
+    sportTemplates.loadData,
+    artTemplates.loadData,
 
-    // Función recursiva para ejecutar cada función con un retraso
-    function loadDataWithDelayHelper(index) {
-        if (index < loadFunctions.length) {
-            // Ejecutar la función actual
-            loadFunctions[index]();
-
-            // Llamar a la próxima función después de un tiempo de espera (en milisegundos)
-            setTimeout(() => {
-                loadDataWithDelayHelper(index + 1);
-            }, 5000); // Esperar 5 segundos entre cada llamada
-        }
-    }
-
-    // Comenzar la llamada recursiva con el primer índice
-    loadDataWithDelayHelper(0);
-}
+];
 const templates=[
     ...Array(1).fill(planetsTemplates.getRandomQuestion),
     ...Array(4).fill(geographyTemplates.getRandomQuestion),
@@ -36,4 +20,4 @@ const templates=[
     ...Array(4).fill(entertainmentTemplates.getRandomQuestion),
 ]
 module.exports.getRandomQuestion = () => templates[Math.floor(Math.random()*templates.length)]();
-module.exports.loadData = ()=>loadData();
+module.exports.loadData = ()=>QuestionsUtils.loadData(loadFunctions);
