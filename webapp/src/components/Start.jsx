@@ -5,13 +5,13 @@ export const Start = ({ goTo }) => {
 
         <>
         <main>
-            <h1>Quiz ASW</h1>
+            <h1 className="tituloStart">ASW Quiz - WIQ</h1>
             <div id="start">
                 <button onClick={ () => goTo(2) }>
-                    Jugar
+                    Play
                 </button>
                 <button onClick={ () => goTo(3) }>
-                    Participación
+                    Participation
                 </button>
             </div>
         </main>

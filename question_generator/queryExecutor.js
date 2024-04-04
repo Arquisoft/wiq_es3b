@@ -2,31 +2,52 @@ const axios = require('axios');
 class QueryExecutor{
     static async execute(query) {
         try {
-        const wikidataEndpoint = 'https://query.wikidata.org/sparql';
+            const wikidataEndpoint = 'https://query.wikidata.org/sparql';
     
-        // Configuración de la solicitud HTTP
-        const config = {
-            headers: {
-            'User-Agent': 'QueryExecutor/1.0 (uo287687@uniovi.es)',
-            'Accept': 'application/json',
-            },
-        };
+            // Configuración de la solicitud HTTP
+            const config = {
+                headers: {
+                    'User-Agent': 'QueryExecutor/1.0 (uo287687@uniovi.es)',
+                    'Accept': 'application/json',
+                },
+            };
     
-        const response = await axios.get(wikidataEndpoint, {
-            params: {
-            query: query,
-            format: 'json',
-            },
-            ...config,
-        });
+            const response = await axios.get(wikidataEndpoint, {
+                params: {
+                    query: query,
+                    format: 'json',
+                },
+                ...config,
+            });
     
-        return response.data.results.bindings;
+            if (!response || !response.data || !response.data.results || !response.data.results.bindings) {
+                console.error('La consulta a Wikidata no devolvió ningún resultado');
+                return []; // Return an empty array if no results are available
+            }
     
-        
+            return response.data.results.bindings;
     
         } catch (error) {
-        console.error('Error al realizar la consulta a Wikidata:', error.message);
+            console.error('Error al realizar la consulta a Wikidata:', error.message);
+            return []; // Return an empty array in case of error
         }
+    }    
+    static async executeQueryForEntityAndProperty(entity, properties){
+        if(!Array.isArray(properties) || properties.length==0){
+            return [];
+        }
+        const query=
+        `SELECT ${properties.map(property=>`?${property.name}Label`).join(' ')} WHERE {${properties.map(property=>`OPTIONAL {wd:${entity} wdt:${property.id} ?${property.name}.}`).join(' ')} SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }}LIMIT 1`
+        let results=await this.execute(query);
+        const editedResults = results.map(result => {
+            const editedResult = {};
+            for (const key in result) {
+                const newKey = key.replace(/Label$/, '');
+                editedResult[newKey] = result[key];
+            }
+            return editedResult;
+        });
+        return editedResults;
     }
 }
 module.exports=QueryExecutor
