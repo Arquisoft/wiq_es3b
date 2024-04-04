@@ -22,11 +22,12 @@
 	"Which planet has an area of x?" : "¿Qué planeta tiene un área de %s km2?",
 	"Which planet has a density of x?" : "¿Qué planeta tiene una densidad de %s kg/m3?",
 
-	"Who has more Grand Slams?": "¿Quién tiene más Grand Slams?",
 	"Who has more followers?": "¿Quién tiene más seguidores? (Tenis)",
 	"Who has more looses?": "¿Quién tiene más derrotas? (Tenis)",
 	"Who has more wins?": "¿Quién tiene más victorias? (Tenis)",
 	"Which tennis player is from?" : "¿Qué jugador es de %s?",
+	"Which tennis player has wins?": "¿Qué tenista tiene %s victorias?",
+	"What country is from?": "¿De qué país es %s? (Tenis)",
 
 	"Which football team was founded in?": "¿Qué equipo de fútbol fue fundado en %s?",
 	"Which team plays in?": "¿Qué equipo juega en %s?",
