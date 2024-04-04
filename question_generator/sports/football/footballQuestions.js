@@ -97,6 +97,9 @@ class FootballQuestions{
     async getCoachOfTeam() {
         let numberOfTeams=4;
         let result =(await this.getRandomTeam(1))[0];
+        while(result.coach.trim() == "" || /^Q\d+/.test(result.coach) ){
+            result =(await this.getRandomTeam(1))[0];
+        }
         let name = result.name;
         
         let correct = result.coach;
@@ -118,8 +121,10 @@ class FootballQuestions{
     async getStadiumOfTeam() {
         let numberOfTeams=4;
         let result =(await this.getRandomTeam(1))[0];
+        while(result.stadium.trim() == "" || /^Q\d+/.test(result.stadium) ){
+            result =(await this.getRandomTeam(1))[0];
+        }
         let name = result.name;
-        
         let correct = result.stadium;
         let incorrects = []
         let i=1;

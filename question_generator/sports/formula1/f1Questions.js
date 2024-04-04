@@ -1,11 +1,11 @@
 const console = require('console')
 const queryExecutor=require("../../queryExecutor")
 const QuestionsUtils = require("../../questions-utils");
-class FootballQuestions{
-    #footballQuestions=null;
+class F1Questions{
+    #f1Questions=null;
     static getInstance(){
         if (!this.questions) {
-            this.questions = new FootballQuestions();
+            this.questions = new F1Questions();
           }
           return this.questions;
     }
@@ -163,4 +163,4 @@ class FootballQuestions{
     }
 
 }
-module.exports = FootballQuestions;
+module.exports = F1Questions;

@@ -88,6 +88,9 @@ class LiteratureQuestions{
     async getAuthorOfBook() {
         let numberOfBooks=4;
         let result =(await this.getRandomBook(1))[0];
+        while(result.author.trim() == "" || /^Q\d+/.test(result.author) ){
+            result =(await this.getRandomBook(1))[0];
+        }
         let name = result.name;
         
         let correct = result.author;
