@@ -86,6 +86,56 @@ class FootballQuestions{
         }
         return QuestionsUtils.getValuesFromDataAndProperty(this.data, property, nValues);
     }
+    async getRandomTeam(numberOfTeams){
+        if(Object.keys(this.data).length==0){
+            await this.loadData();
+        }
+        const array = Object.values(this.data);
+        const randomResults = array.sort(() => Math.random() - 0.5).slice(0, numberOfTeams);
+        return randomResults
+    }
+    async getCoachOfTeam() {
+        let numberOfTeams=4;
+        let result =(await this.getRandomTeam(1))[0];
+        let name = result.name;
+        
+        let correct = result.coach;
+        let incorrects = []
+        let i=1;
+        while(i<numberOfTeams){
+            let team=(await this.getRandomTeam(1))[0];
+            if(team.coach!=correct){
+                incorrects.push(team.coach);
+                i++;
+            }
+        }
+        return {
+            question_param:name,
+            correct:correct,
+            incorrects:incorrects
+        }
+    }
+    async getStadiumOfTeam() {
+        let numberOfTeams=4;
+        let result =(await this.getRandomTeam(1))[0];
+        let name = result.name;
+        
+        let correct = result.stadium;
+        let incorrects = []
+        let i=1;
+        while(i<numberOfTeams){
+            let team=(await this.getRandomTeam(1))[0];
+            if(team.stadium!=correct){
+                incorrects.push(team.stadium);
+                i++;
+            }
+        }
+        return {
+            question_param:name,
+            correct:correct,
+            incorrects:incorrects
+        }
+    }
 
 }
 module.exports = FootballQuestions;
