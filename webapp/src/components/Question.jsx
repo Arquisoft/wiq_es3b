@@ -1,6 +1,5 @@
 // Question.js
 import React, { useState, useEffect, useContext } from 'react';
-import { act } from 'react-dom/test-utils';
 import { Card, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 import { SessionContext } from '../SessionContext';
 import correctSound from '../audio/correct.mp3';
@@ -140,7 +139,6 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
             });
             const data = await response.json();
 
-            act(() => {
                 setQuestion(data.question);
                 setCorrect(data.correct);
                 setOptions(shuffleOptions([data.correct, ...data.incorrects]));
@@ -153,7 +151,6 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
                 handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, 
                             sonido, goTo, setGameFinished);
             }
-            });
         } catch (error) {
             console.error('Error fetching question:', error);
         }
