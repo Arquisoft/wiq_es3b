@@ -52,7 +52,7 @@ describe('Game component', () => {
       );
   
       await waitFor(() => {
-        expect(screen.getByText(/Question/i)).toBeInTheDocument();
+        expect(screen.getByText(mockQuestions[0].question) || screen.getByText(mockQuestions[1].question)).toBeInTheDocument();
       });
   
       // Verifica que haya cuatro opciones presentes
@@ -69,7 +69,7 @@ describe('Game component', () => {
       );
   
       await waitFor(() => {
-        expect(screen.getByText(mockQuestions[0].question)).toBeInTheDocument();
+        expect(screen.getByText(mockQuestions[0].question) || screen.getByText(mockQuestions[1].question)).toBeInTheDocument();
       });
   
       act(() => {

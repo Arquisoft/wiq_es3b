@@ -40,6 +40,7 @@ describe('Question component', () => {
     await act(async () => {
       await waitFor(() => {
         expect(getByText(text => text.includes(mockQuestions[0].question))).toBeInTheDocument();
+      })
     });
 
     // Esperar a que se muestren las opciones
