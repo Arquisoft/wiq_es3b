@@ -83,7 +83,9 @@ describe('Question component', () => {
     });
 
     // Hacer clic en el botón "Next"
-    fireEvent.click(getByText('Next'));
+    act(() => {
+      fireEvent.click(getByText('Next'));
+    });
 
     // Esperar a que se cargue la siguiente pregunta (en este caso, se simula la carga)
     await waitFor(() => {
@@ -165,7 +167,9 @@ describe('Question component', () => {
     expect(localStorage.getItem('sonido')).toBe(undefined);
 
     // Simular hacer clic en la imagen de audio para desactivar el sonido
-    fireEvent.click(getByRole('img'));
+    act(() => {
+      fireEvent.click(getByRole('img'));
+    });
 
     // Verificar que el estado de sonido se haya actualizado correctamente
     expect(localStorage.getItem('sonido')).toBe(undefined);
@@ -177,13 +181,17 @@ describe('Question component', () => {
     </SessionProvider>);
 
     // Simular hacer clic en el botón
-    fireEvent.click(getByText('Next'));
+    act(() => {
+      fireEvent.click(getByText('Next'));
+    });
 
     // Verificar si el estado isSelected ha cambiado correctamente a true
     expect(localStorage.getItem('isSelected')).toBe(undefined);
 
     // Simular hacer clic en el botón nuevamente
-    fireEvent.click(getByText('Next'));
+    act(() => {
+      fireEvent.click(getByText('Next'));
+    });
 
     // Verificar si el estado isSelected ha cambiado correctamente a false
     expect(localStorage.getItem('isSelected')).toBe(undefined);
@@ -271,8 +279,8 @@ describe('handleGameFinish function', () => {
     finishByQuestions(segundos, MAX_TIME);
 
     // Verificamos que los valores correctos se hayan establecido en el local storage
-    expect(localStorage.getItem("tiempoUsado")).toBe(MAX_TIME - segundos);
-    expect(localStorage.getItem("tiempoRestante")).toBe(segundos);
+    expect(localStorage.getItem("tiempoUsado").toString()).toBe((MAX_TIME - segundos).toString());
+    expect(localStorage.getItem("tiempoRestante").toString()).toBe(segundos.toString());
     
     // Verificamos que setGameFinished haya sido llamado con true
     //expect(setGameFinished).toHaveBeenCalledWith(true);
@@ -288,10 +296,14 @@ describe('handleGameFinish function', () => {
     const MAX_TIME = 120;
     // Simula que se agota el tiempo
     jest.useFakeTimers();
-    jest.advanceTimersByTime((MAX_TIME + 1) * 1000); // Asegúrate de que el tiempo se agote
-    
-    finishByTime(true);
-    finishByTime(true);
+    act(() => {
+      jest.advanceTimersByTime((MAX_TIME + 1) * 1000); // Asegúrate de que el tiempo se agote
+    });
+
+    act(() => {
+      finishByTime(true);
+      finishByTime(false);
+    });
 
     // Verifica si finishByTime fue llamado
     //expect(finishByTime).toHaveBeenCalledWith(true, goToMock, true); // Verifica si se llamó con los argumentos correctos
@@ -309,7 +321,9 @@ describe('handleGameFinish function', () => {
     const setGameFinished = jest.fn();
     const goTo = jest.fn();
 
-    handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, sonido, goTo, setGameFinished);
+    act(() => {
+      handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, sonido, goTo, setGameFinished);
+    });
   });
 
   it('should call handleOOLGameFinish with the correct arguments', () => {
@@ -321,7 +335,9 @@ describe('handleGameFinish function', () => {
     const segundosInfinite = 100;
     const goTo = jest.fn();
 
-    handleOOLGameFinish(numberCorrect, segundosInfinite, goTo, setGameFinished);
+    act(() => {
+      handleOOLGameFinish(numberCorrect, segundosInfinite, goTo, setGameFinished);
+    });
   });
 
   it('should call handleClassicGameFinish with the correct arguments', () => {
@@ -334,7 +350,9 @@ describe('handleGameFinish function', () => {
     const setGameFinished = jest.fn();
     const goTo = jest.fn();
 
-    handelInfiniteGameFinish(numberCorrect, numberIncorrect, segundosInfinite, goTo, setGameFinished);
+    act(() => {
+      handelInfiniteGameFinish(numberCorrect, numberIncorrect, segundosInfinite, goTo, setGameFinished);
+    });
   });
 
   it('should call handleClassicGameFinish with the correct arguments', () => {
@@ -352,14 +370,16 @@ describe('handleGameFinish function', () => {
     
     render(<SessionProvider><Question /></SessionProvider>);
     
-    reloadF(
-      mockContext.setSegundos,
-      mockContext.setSegundosInfinite,
-      mockContext.setNQuestion,
-      mockContext.setNumberCorrect,
-      mockContext.setNumberIncorrect,
-      mockContext.setReload
-    );
+    act(() => {
+      reloadF(
+        mockContext.setSegundos,
+        mockContext.setSegundosInfinite,
+        mockContext.setNQuestion,
+        mockContext.setNumberCorrect,
+        mockContext.setNumberIncorrect,
+        mockContext.setReload
+      );
+    });
 
     // Verifica que todas las funciones setState hayan sido llamadas con los valores correctos
     expect(mockContext.setSegundos).toHaveBeenCalledWith(MAX_TIME);
