@@ -43,9 +43,9 @@ const AddUser = () => {
   }
 
   return (
-    <Container component="div" maxWidth="xs" sx={{ marginTop: 4 }}>
-      <Typography component="h1" variant="h5">
-        Add User
+    <Container component="div" maxWidth="xs" sx={{ marginTop: 8 }}>
+      <Typography component="h2" variant="h5">
+        &gt; Register a user
       </Typography>
       <TextField
         name="username"
@@ -53,6 +53,7 @@ const AddUser = () => {
         fullWidth
         label="Username"
         value={username}
+        className='inputAddUser'
         onChange={(e) => setUsername(e.target.value)}
       />
       <TextField
@@ -73,8 +74,8 @@ const AddUser = () => {
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
-      <Typography component="h2" variant="h5">
-        Select a profile image
+      <Typography component="h3" variant="h5" sx={{ marginTop: 4 }}>
+        Select a profile picture
       </Typography>
       <div id='fotosPerfil'>
         <IconButton className={`fotoPerfilBtn`} onClick={() => handleImageClick('defaultImgProfile.jpg')}>
@@ -98,8 +99,8 @@ const AddUser = () => {
                 src={profileImg5} alt='Imagen Perfil 5' />
         </IconButton>
       </div>
-      <Button variant="contained" color="primary" onClick={addUser}>
-        Add User
+      <Button className='buttonLoginRegister' variant="contained" color="primary" onClick={addUser} sx={{ marginTop: 4 }}>
+        Sign up
       </Button>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" />
       {error && (

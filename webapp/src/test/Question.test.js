@@ -2,7 +2,8 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
-import Question, { finishByQuestions, finishByTime, handleGameFinish } from '../components/Question';
+import Question, { finishByQuestions, finishByTime, reloadF,
+  handleClassicGameFinish, handleOOLGameFinish, handelInfiniteGameFinish } from '../components/Question';
 import { SessionProvider } from '../SessionContext';
 
 // Mock para la respuesta del servicio de preguntas
@@ -82,7 +83,9 @@ describe('Question component', () => {
     });
 
     // Hacer clic en el botón "Next"
-    fireEvent.click(getByText('Next'));
+    act(() => {
+      fireEvent.click(getByText('Next'));
+    });
 
     // Esperar a que se cargue la siguiente pregunta (en este caso, se simula la carga)
     await waitFor(() => {
@@ -164,7 +167,9 @@ describe('Question component', () => {
     expect(localStorage.getItem('sonido')).toBe(undefined);
 
     // Simular hacer clic en la imagen de audio para desactivar el sonido
-    fireEvent.click(getByRole('img'));
+    act(() => {
+      fireEvent.click(getByRole('img'));
+    });
 
     // Verificar que el estado de sonido se haya actualizado correctamente
     expect(localStorage.getItem('sonido')).toBe(undefined);
@@ -176,13 +181,17 @@ describe('Question component', () => {
     </SessionProvider>);
 
     // Simular hacer clic en el botón
-    fireEvent.click(getByText('Next'));
+    act(() => {
+      fireEvent.click(getByText('Next'));
+    });
 
     // Verificar si el estado isSelected ha cambiado correctamente a true
     expect(localStorage.getItem('isSelected')).toBe(undefined);
 
     // Simular hacer clic en el botón nuevamente
-    fireEvent.click(getByText('Next'));
+    act(() => {
+      fireEvent.click(getByText('Next'));
+    });
 
     // Verificar si el estado isSelected ha cambiado correctamente a false
     expect(localStorage.getItem('isSelected')).toBe(undefined);
@@ -270,8 +279,8 @@ describe('handleGameFinish function', () => {
     finishByQuestions(segundos, MAX_TIME);
 
     // Verificamos que los valores correctos se hayan establecido en el local storage
-    expect(localStorage.getItem("tiempoUsado")).toBe(MAX_TIME - segundos);
-    expect(localStorage.getItem("tiempoRestante")).toBe(segundos);
+    expect(localStorage.getItem("tiempoUsado").toString()).toBe((MAX_TIME - segundos).toString());
+    expect(localStorage.getItem("tiempoRestante").toString()).toBe(segundos.toString());
     
     // Verificamos que setGameFinished haya sido llamado con true
     //expect(setGameFinished).toHaveBeenCalledWith(true);
@@ -287,25 +296,97 @@ describe('handleGameFinish function', () => {
     const MAX_TIME = 120;
     // Simula que se agota el tiempo
     jest.useFakeTimers();
-    jest.advanceTimersByTime((MAX_TIME + 1) * 1000); // Asegúrate de que el tiempo se agote
-    
-    finishByTime(true);
-    finishByTime(true);
+    act(() => {
+      jest.advanceTimersByTime((MAX_TIME + 1) * 1000); // Asegúrate de que el tiempo se agote
+    });
+
+    act(() => {
+      finishByTime(true);
+      finishByTime(false);
+    });
 
     // Verifica si finishByTime fue llamado
     //expect(finishByTime).toHaveBeenCalledWith(true, goToMock, true); // Verifica si se llamó con los argumentos correctos
   });
 
-  it('should call handleGameFinish with the correct arguments', () => {
+  it('should call handleClassicGameFinish with the correct arguments', () => {
     render(<SessionProvider><Question /></SessionProvider>);
     
     // Simula que se alcanza el final del juego
     const nQuestion = 10; // Número de preguntas igual al máximo
     const numberCorrect = 8; // Supongamos que el jugador acierta 8 preguntas
+    const numberIncorrect = 2;
     const segundos = 1; // Simula que se acaba el tiempo
-    const MAX_TIME = 120;
     const sonido = true; // Supongamos que el sonido está activado
+    const setGameFinished = jest.fn();
+    const goTo = jest.fn();
 
-    handleGameFinish(nQuestion, numberCorrect, segundos, MAX_TIME, sonido);
+    act(() => {
+      handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, sonido, goTo, setGameFinished);
+    });
+  });
+
+  it('should call handleOOLGameFinish with the correct arguments', () => {
+    render(<SessionProvider><Question /></SessionProvider>);
+    
+    // Simula que se alcanza el final del juego
+    const numberCorrect = 8; // Supongamos que el jugador acierta 8 preguntas
+    const setGameFinished = jest.fn();
+    const segundosInfinite = 100;
+    const goTo = jest.fn();
+
+    act(() => {
+      handleOOLGameFinish(numberCorrect, segundosInfinite, goTo, setGameFinished);
+    });
+  });
+
+  it('should call handleClassicGameFinish with the correct arguments', () => {
+    render(<SessionProvider><Question /></SessionProvider>);
+    
+    // Simula que se alcanza el final del juego
+    const numberCorrect = 8; // Supongamos que el jugador acierta 8 preguntas
+    const numberIncorrect = 2;
+    const segundosInfinite = 100;
+    const setGameFinished = jest.fn();
+    const goTo = jest.fn();
+
+    act(() => {
+      handelInfiniteGameFinish(numberCorrect, numberIncorrect, segundosInfinite, goTo, setGameFinished);
+    });
+  });
+
+  it('should call handleClassicGameFinish with the correct arguments', () => {
+    
+    const MAX_TIME = 240;
+    const mockSetState = jest.fn();
+    const mockContext = {
+      setSegundos: mockSetState,
+      setSegundosInfinite: mockSetState,
+      setNQuestion: mockSetState,
+      setNumberCorrect: mockSetState,
+      setNumberIncorrect: mockSetState,
+      setReload: mockSetState
+    };
+    
+    render(<SessionProvider><Question /></SessionProvider>);
+    
+    act(() => {
+      reloadF(
+        mockContext.setSegundos,
+        mockContext.setSegundosInfinite,
+        mockContext.setNQuestion,
+        mockContext.setNumberCorrect,
+        mockContext.setNumberIncorrect,
+        mockContext.setReload
+      );
+    });
+
+    // Verifica que todas las funciones setState hayan sido llamadas con los valores correctos
+    expect(mockContext.setSegundos).toHaveBeenCalledWith(MAX_TIME);
+    expect(mockContext.setSegundosInfinite).toHaveBeenCalledWith(0);
+    expect(mockContext.setNQuestion).toHaveBeenCalledWith(-1);
+    expect(mockContext.setNumberCorrect).toHaveBeenCalledWith(0);
+    expect(mockContext.setNumberIncorrect).toHaveBeenCalledWith(0);
+    expect(mockContext.setReload).toHaveBeenCalledWith(false);
   });
 });

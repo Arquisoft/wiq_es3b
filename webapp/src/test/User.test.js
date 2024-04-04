@@ -15,7 +15,7 @@ describe('User component', () => {
     const welcomeText = screen.getByText(/ASW - WIQ Quiz/i);
     expect(welcomeText).toBeInTheDocument();
 
-    const welcomeText2 = screen.getByText(/Login :D/i);
+    const welcomeText2 = screen.getByText(/> Login/i);
     expect(welcomeText2).toBeInTheDocument();
 
     // Verificar que el formulario de inicio de sesión se muestra por defecto
