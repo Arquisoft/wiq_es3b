@@ -62,7 +62,7 @@ export const reloadF = (setSegundos, setSegundosInfinite, setNQuestion, setNumbe
 
     setSegundos(MAX_TIME);
     setSegundosInfinite(0);
-    setNQuestion(-1);
+    setNQuestion(0);
     setNumberCorrect(0);
     setNumberIncorrect(0);
     setReload(false);
@@ -87,7 +87,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
     const [correct, setCorrect] = useState('');
     const [numberCorrect, setNumberCorrect] = useState(0);
     const [numberIncorrect, setNumberIncorrect] = useState(0);
-    const [nQuestion, setNQuestion] = useState(-1);
+    const [nQuestion, setNQuestion] = useState(0);
     const [segundos, setSegundos] = useState(MAX_TIME);
     const [segundosInfinite, setSegundosInfinite] = useState(0);
     const [sonido, setSonido] = useState(true);
