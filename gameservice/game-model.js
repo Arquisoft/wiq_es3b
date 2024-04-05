@@ -1,18 +1,16 @@
 const mongoose = require('mongoose');
 
-//usuario, preguntas[], respuestas[<String, bool>], tiempo
-
 const gameSchema = new mongoose.Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId, 
+    type: String, 
     ref: 'User',
     required: true,
   },
-  questions: { 
-    type: [mongoose.Schema.Types.ObjectId],
+  questions: [{ 
+    type: String,
     ref: 'Question',
     required: true,
-  },
+  }],
   answers: [
     {
       response: {

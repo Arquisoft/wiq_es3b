@@ -24,12 +24,12 @@ const Login = ({ goTo }) => {
       const response = await axios.post(`${apiEndpoint}/login`, { username, password });
 
       // Extract data from the response
-      const { createdAt: userCreatedAt, username: loggedInUsername, token:token, profileImage: profileImage } = response.data;
+      const { createdAt: userCreatedAt, username: loggedInUsername, token:token, profileImage: profileImage, userId: id } = response.data;
       
       setTimeStart(Date.now());
       setCreatedAt(userCreatedAt);
       setLoginSuccess(true);
-      saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, token: token, profileImage: profileImage });
+      saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, token: token, profileImage: profileImage, userId: id });
       setOpenSnackbar(true);
     } catch (error) {
       setError(error.response.data.error);

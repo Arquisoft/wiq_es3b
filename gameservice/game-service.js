@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Game = require('./game-model'); // Importa el modelo de juegos
+const Game = require('./game-model'); 
 
 const app = express();
 const port = 8005; // Puerto para el servicio de juegos
@@ -29,8 +29,8 @@ app.post('/addgame', async (req, res) => {
 
     // Crea una nueva instancia del modelo de juegos
     const newGame = new Game({
-      user,
-      questions,
+      user: user, 
+      questions: questions,
       answers,
       totalTime,
     });
@@ -48,14 +48,23 @@ app.post('/addgame', async (req, res) => {
 app.get('/getParticipation/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
+    console.log('User ID:', userId);
 
+    if (!userId) {
+      // Si no se encuentra el usuario, responder con un error
+      console.log('User not found');
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+    
     // Consulta para obtener los datos de participación del usuario
+    console.log('Querying participation data...');
     const participationData = await Game.aggregate([
-      { $match: { user: mongoose.Types.ObjectId(userId) } },
+      { $match: { user: userId } },
       {
         $group: {
           _id: null,
-          totalGames: { $sum: 1 }, //$sum -> Returns a sum of numerical values
+          totalGames: { $sum: 1 }, //$sum -> Retorna la suma de los valores numéricos
           correctAnswers: { $sum: { $size: { 
             $filter: {
                input: "$answers", as: "answer", cond: "$$answer.isCorrect" } 
@@ -70,10 +79,12 @@ app.get('/getParticipation/:userId', async (req, res) => {
 
     if (participationData.length === 0) {
       // No se encontraron datos para el usuario
+      console.log('No participation data found for the user.');
       res.status(404).json({ error: 'No participation data found for the user.' });
       return;
     }
 
+    console.log('Sending participation data:', participationData[0]);
     res.status(200).json(participationData[0]);
   } catch (error) {
     console.error('Error al obtener datos de participación:', error);
