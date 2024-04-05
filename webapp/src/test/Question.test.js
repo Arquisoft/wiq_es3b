@@ -6,6 +6,9 @@ import Question, { finishByQuestions, finishByTime, reloadF,
   handleClassicGameFinish, handleOOLGameFinish, handelInfiniteGameFinish } from '../components/Question';
 import { SessionProvider } from '../SessionContext';
 
+const mockPlay = jest.fn();
+HTMLMediaElement.prototype.play = mockPlay;
+
 // Mock para la respuesta del servicio de preguntas
 const mockQuestionResponse = {
   question: 'What is the capital of France?',
@@ -65,6 +68,8 @@ describe('Question component', () => {
     act(() => {
       fireEvent.click(getByText('Paris'));
     });
+
+    expect(mockPlay).toHaveBeenCalled();
 
     // Verificar que la opción seleccionada tenga estilo verde
     expect(getByText('Paris').parentElement).toBeInTheDocument;
@@ -384,7 +389,7 @@ describe('handleGameFinish function', () => {
     // Verifica que todas las funciones setState hayan sido llamadas con los valores correctos
     expect(mockContext.setSegundos).toHaveBeenCalledWith(MAX_TIME);
     expect(mockContext.setSegundosInfinite).toHaveBeenCalledWith(0);
-    expect(mockContext.setNQuestion).toHaveBeenCalledWith(-1);
+    expect(mockContext.setNQuestion).toHaveBeenCalledWith(0);
     expect(mockContext.setNumberCorrect).toHaveBeenCalledWith(0);
     expect(mockContext.setNumberIncorrect).toHaveBeenCalledWith(0);
     expect(mockContext.setReload).toHaveBeenCalledWith(false);

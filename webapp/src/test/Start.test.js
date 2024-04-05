@@ -11,7 +11,7 @@ describe('Start component', () => {
     expect(titleText).toBeInTheDocument();
 
     // Verificar que el botón "Jugar" se muestra correctamente
-    const playButton = screen.getByRole('button', { name: /Play/i });
+    const playButton = screen.getByRole('button', { name: /Classic Game/i });
     expect(playButton).toBeInTheDocument();
 
     // Verificar que el botón "Participacion" se muestra correctamente
@@ -24,7 +24,7 @@ describe('Start component', () => {
     render(<Start goTo={goToMock} />); // Renderizar el componente Start con la función simulada
     
     // Simular clic en el botón "Jugar"
-    fireEvent.click(screen.getByText('Play'));
+    fireEvent.click(screen.getByText('Classic Game'));
 
     // Verificar que la función goTo se llamó con el argumento correcto (en este caso, 2)
     expect(goToMock).toHaveBeenCalledWith(2);
@@ -37,7 +37,24 @@ describe('Start component', () => {
     // Simular clic en el botón "Participación"
     fireEvent.click(screen.getByText('Participation'));
 
-    // Verificar que la función goTo se llamó con el argumento correcto (en este caso, 3)
+    // Verificar que la función goTo se llamó con el argumento correcto (en este caso, 6)
+    expect(goToMock).toHaveBeenCalledWith(6);
+  });
+
+  it('should trigger the correct function when a button is clicked', () => {
+    const goToMock = jest.fn();
+    const { getByText } = render(<Start goTo={goToMock} />);
+    
+    // Simular clic en el botón "Infinite Mode"
+    fireEvent.click(getByText('Infinite Mode'));
     expect(goToMock).toHaveBeenCalledWith(3);
+    
+    // Simular clic en el botón "Three Lifes Classic"
+    fireEvent.click(getByText('Three Lifes Classic'));
+    expect(goToMock).toHaveBeenCalledWith(4);
+    
+    // Simular clic en el botón "Category Mode"
+    fireEvent.click(getByText('Category Mode'));
+    expect(goToMock).toHaveBeenCalledWith(5);
   });
 });

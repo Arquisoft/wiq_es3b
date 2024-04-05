@@ -1,10 +1,11 @@
+require('console');
 const queryExecutor=require("../../queryExecutor")
 const QuestionsUtils = require("../../questions-utils");
-class MoviesQuestions{
-    #moviesQuestions=null;
+class LiteratureQuestions{
+    #literatureQuestions=null;
     static getInstance(){
         if (!this.questions) {
-            this.questions = new MoviesQuestions();
+            this.questions = new LiteratureQuestions();
           }
           return this.questions;
     }
@@ -15,28 +16,24 @@ class MoviesQuestions{
         let result={};
         const queries=[
             `
-            SELECT DISTINCT ?movie ?movieLabel ?attendance
+            SELECT DISTINCT ?libro ?libroLabel
             WHERE {
-                ?movie wdt:P31 wd:Q11424. 
-                ?movie wdt:P2142 ?attendance .
+                ?libro wdt:P31 wd:Q7725634. 
                 SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             }
-            ORDER BY DESC(?attendance)
-            LIMIT 30
+            LIMIT 150
             `
         ];
-        for(let i = 0; i < queries.length; i++) {
+        for(let i = 0; i <queries.length; i++) {
             let query = queries[i];
-            let movies = await queryExecutor.execute(query);
-            movies.forEach(movie=>{
-                const movieId = movie.movie.value.match(/Q\d+/)[0];
-                const movieName = movie.movieLabel.value;
-                const attendance = movie.attendance.value;
-                if (!result[movieId]) {
-                    result[movieId] = {
-                        movieId: movieId,
-                        name: movieName,
-                        attendance: attendance,
+            let books = await queryExecutor.execute(query);
+            books.forEach(book=>{
+                const bookId = book.libro.value.match(/Q\d+/)[0];
+                const bookName = book.libroLabel.value;
+                if (!result[bookId]) {
+                    result[bookId] = {
+                        bookId: bookId,
+                        name: bookName,
                     }
                 }
             });
@@ -49,12 +46,16 @@ class MoviesQuestions{
         let newResults = await this.loadValues();
         const propertiesToLoad=[
             {
-                name:'year',
-                id: 'P577'
+                name:'language',
+                id: 'P407'
             }, 
             {
-                name: 'director',
-                id: 'P57'
+                name: 'genre',
+                id: 'P7937'
+            },
+            {
+                name: 'author',
+                id: 'P50'
             }
         ]
         for(let i = 0; i <Object.keys(newResults).length; i++) {
@@ -76,35 +77,38 @@ class MoviesQuestions{
         }
         return QuestionsUtils.getValuesFromDataAndProperty(this.data, property, nValues);
     }
-    async getRandomMovie(numberOfMovies){
+    async getRandomBook(numberOfBooks){
         if(Object.keys(this.data).length==0){
             await this.loadData();
         }
         const array = Object.values(this.data);
-        const randomResults = array.sort(() => Math.random() - 0.5).slice(0, numberOfMovies);
+        const randomResults = array.sort(() => Math.random() - 0.5).slice(0, numberOfBooks);
         return randomResults
     }
-    async getSongByPerformers() {
-        let numberOfSeries=4;
-        let result =(await this.getRandomMovie(1))[0];
-        let performers = result.performers.join(', ');
+    async getAuthorOfBook() {
+        let numberOfBooks=4;
+        let result =(await this.getRandomBook(1))[0];
+        while(result.author.trim() == "" || /^Q\d+/.test(result.author) ){
+            result =(await this.getRandomBook(1))[0];
+        }
+        let name = result.name;
         
-        let correct = result.name;
+        let correct = result.author;
         let incorrects = []
         let i=1;
-        while(i<numberOfSeries){
-            let song=(await this.getRandomMovie(1))[0];
-            if(song.performers.join(', ')!=performers){
-                incorrects.push(song.name);
+        while(i<numberOfBooks){
+            let book=(await this.getRandomBook(1))[0];
+            if(book.author!=correct && book.author.trim() !== "" && !/^Q\d+/.test(book.author)){
+                incorrects.push(book.author);
                 i++;
             }
         }
         return {
-            performers:performers,
+            question_param:name,
             correct:correct,
             incorrects:incorrects
         }
     }
 
 }
-module.exports = MoviesQuestions;
+module.exports = LiteratureQuestions;

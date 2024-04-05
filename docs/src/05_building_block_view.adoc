@@ -73,20 +73,16 @@ Detailed structure of the system. Focused on the components of the _User Interfa
 | *_Game_* 
 | Game screen where the user can play the game.
 
-| *_Ranking_* 
-| It contains the best scores recorded in the game, including the user's highest score and the scores of other users belonging to their group.
-
-| *_History_* 
+| *_Game Service_* 
 | Contains all user participations with the number of games played, correct/incorrect answers, and times.
-
-| *_About_*
-| Contains important information about the project, like the development method, the developers and how to contact them.
 
 | *_Users Service_* 
 | Allows the client to create a new account for the application, log in and log out.
 
-| *_Question service_* 
+| *_Question Generator Service_* 
 | Allows to ask him questions and receive the answers of them.
 
+| *_Question Service_* 
+| Saves the questions.
 
 |=== 

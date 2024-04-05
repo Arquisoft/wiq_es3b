@@ -1,12 +1,16 @@
 const musicTemplates=require('./music/musicTemplates');
-//const paintTemplates=require('./paint/paintTemplates');
-function loadData(){
-    musicTemplates.loadData()
-    //paintTemplates.loadData()
-}
+const paintTemplates=require('./paints/paintsTemplates');
+const literatureTemplates=require('./literature/literatureTemplates');
+const QuestionsUtils=require('../questions-utils')
+const loadFunctions=[
+    musicTemplates.loadData,
+    paintTemplates.loadData,
+    literatureTemplates.loadData
+]
 const templates=[
-    musicTemplates.getRandomQuestion//,
-    //paintTemplates.getRandomQuestion,
+    musicTemplates.getRandomQuestion,
+    paintTemplates.getRandomQuestion,
+    literatureTemplates.getRandomQuestion,
 ]
 module.exports.getRandomQuestion = () => templates[Math.floor(Math.random()*templates.length)]();
-module.exports.loadData = ()=>loadData();
+module.exports.loadData = ()=>QuestionsUtils.loadData(loadFunctions);

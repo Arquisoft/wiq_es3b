@@ -62,7 +62,7 @@ export const reloadF = (setSegundos, setSegundosInfinite, setNQuestion, setNumbe
 
     setSegundos(MAX_TIME);
     setSegundosInfinite(0);
-    setNQuestion(-1);
+    setNQuestion(0);
     setNumberCorrect(0);
     setNumberIncorrect(0);
     setReload(false);

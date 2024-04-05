@@ -1,11 +1,11 @@
 const console = require('console')
 const queryExecutor=require("../../queryExecutor")
 const QuestionsUtils = require("../../questions-utils");
-class FootballQuestions{
-    #footballQuestions=null;
+class F1Questions{
+    #f1Questions=null;
     static getInstance(){
         if (!this.questions) {
-            this.questions = new FootballQuestions();
+            this.questions = new F1Questions();
           }
           return this.questions;
     }
@@ -140,6 +140,27 @@ class FootballQuestions{
         }
         return finalResults
     }
+    async getDriverByWins() {
+        let numberOfDrivers=4;
+        let result =(await this.getRandomTeam(1))[0];
+        let name = result.name;
+        
+        let correct = result.wins;
+        let incorrects = []
+        let i=1;
+        while(i<numberOfDrivers){
+            let driver=(await this.getRandomTeam(1))[0];
+            if(driver.wins!=correct){
+                incorrects.push(driver.wins);
+                i++;
+            }
+        }
+        return {
+            question_param:name,
+            correct:correct,
+            incorrects:incorrects
+        }
+    }
 
 }
-module.exports = FootballQuestions;
+module.exports = F1Questions;

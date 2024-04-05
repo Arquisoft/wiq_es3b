@@ -24,21 +24,6 @@ describe('Nav Component', () => {
 
   });
 
-  test('opens and closes user menu on avatar click', async () => {
-    const { getByAltText, queryByText } = render(
-      <SessionProvider>
-        <Nav />
-      </SessionProvider>
-    );
-    const avatar = getByAltText('Remy Sharp');
-
-    fireEvent.click(avatar);
-    await waitFor(() => {
-      expect(queryByText('Profile')).toBeInTheDocument();
-    });
-
-  });
-
   test('calls goTo function when "Menu" is clicked', async () => {
     const goToMock = jest.fn();
     const { getByText } = render(

@@ -1,14 +1,15 @@
-const instance=require('./autonomousCommunitiesSpainQuestions');
-const Query=instance.getInstance();
+const moment = require('moment');
+const literatureQuestions=require('./literatureQuestions');
+const literatureQuery=literatureQuestions.getInstance();
 function loadData(){
-    Query.loadData();
+    literatureQuery.loadData();
 }
 const templates=[
     async ()=>
     {
-        const results= await Query.doQuestion('population',4);
+        const results = await literatureQuery.getAuthorOfBook();
         return{
-            "question":"Which autonomous community of Spain has a population of?",
+            "question":"Which author wrote?",
             "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects
@@ -16,9 +17,9 @@ const templates=[
     },
     async ()=>
     {
-        const results= await Query.doQuestion('capital',4);
+        const results = await literatureQuery.doQuestion('language', 4);
         return{
-            "question":"Which autonomous community of Spain has a capital called?",
+            "question":"Which book is written in?",
             "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects
@@ -26,9 +27,9 @@ const templates=[
     },
     async ()=>
     {
-        const results= await Query.doQuestion('head_of_government',4);
+        const results = await literatureQuery.doQuestion('author', 4);
         return{
-            "question":"Which autonomous community of Spain has a president called?",
+            "question":"Which book was written by?",
             "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects
@@ -36,9 +37,9 @@ const templates=[
     },
     async ()=>
     {
-        const results= await Query.doQuestion('highest_point',4);
+        const results = await literatureQuery.doQuestion('genre', 4);
         return{
-            "question":"Which autonomous community of Spain has x as the highest point?",
+            "question":"Which book belongs to genre?",
             "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects
@@ -46,4 +47,4 @@ const templates=[
     }
 ]
 module.exports.getRandomQuestion = () => templates[Math.floor(Math.random()*templates.length)]();
-module.exports.loadData = () =>loadData();
+module.exports.loadData = ()=>loadData();
