@@ -1,4 +1,5 @@
-import { Card, Typography } from "@mui/material"
+import React from 'react';
+import { Card, Typography } from "@mui/material";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -15,7 +16,6 @@ export const PostGame = ({ gameMode }) => {
     };
 
     return (
-
         <div>
             <Typography sx={{ textAlign: 'center', fontSize:'2em', margin:'2em 0 0.3em 0 !important' }}>Game Over</Typography>
             <Card>
@@ -53,3 +53,5 @@ export const PostGame = ({ gameMode }) => {
         </div>
     )
 }
+
+export default PostGame;

@@ -2,15 +2,15 @@ const axios = require('axios');
 class QueryExecutor{
     static async execute(query) {
         try {
-        const wikidataEndpoint = 'https://query.wikidata.org/sparql';
+            const wikidataEndpoint = 'https://query.wikidata.org/sparql';
     
-        // Configuración de la solicitud HTTP
-        const config = {
-            headers: {
-            'User-Agent': 'QueryExecutor/1.0 (uo287687@uniovi.es)',
-            'Accept': 'application/json',
-            },
-        };
+            // Configuración de la solicitud HTTP
+            const config = {
+                headers: {
+                    'User-Agent': 'QueryExecutor/1.0 (uo287687@uniovi.es)',
+                    'Accept': 'application/json',
+                },
+            };
     
         const response = await axios.get(wikidataEndpoint, {
             params: {
@@ -25,12 +25,11 @@ class QueryExecutor{
           }
         return response.data.results.bindings;
     
-        
-    
         } catch (error) {
-            console.error('Error al realizar la consulta a Wikidata:', error.message, query);
+            console.error('Error al realizar la consulta a Wikidata:', error.message);
+            return []; // Return an empty array in case of error
         }
-    }
+    }    
     static async executeQueryForEntityAndProperty(entity, properties){
         if(!Array.isArray(properties) || properties.length==0){
             return [];
