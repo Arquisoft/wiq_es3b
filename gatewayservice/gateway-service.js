@@ -77,6 +77,19 @@ app.get('/api/info/questions', async function (req, res) {
     res.status(error.response.status).json({ error: error.response.data.error });
   }
 });
+app.get('/api/info/users', async (req, res) => {
+  try {
+    const username=req.query.user;
+    let url = gameServiceUrl + '/api/info/users';
+    if(username){
+      url += '?user=' + username;
+    }
+    const infoResponse = await axios.get(url);
+    res.json(infoResponse.data);
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.response.data.error });
+  }
+});
 
 // Ruta para agregar una nueva pregunta
 app.post('/addquestion', async (req, res) => {

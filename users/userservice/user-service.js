@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
-const User = require('./user-model')
+
 
 const app = express();
 const port = 8001;
@@ -13,7 +13,8 @@ app.use(bodyParser.json());
 
 // Connect to MongoDB
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
-mongoose.connect(mongoUri);
+const connection = mongoose.createConnection(mongoUri);
+const User = require('./user-model')(connection)
 
 
 
@@ -44,7 +45,28 @@ app.post('/adduser', async (req, res) => {
         res.json(newUser);
     } catch (error) {
         res.status(400).json({ error: error.message }); 
-    }});
+    }
+  });
+  app.get('/getUserId/:username', async (req, res) => {
+    try {
+      const username = req.params.username;
+      const user = await User.findOne({ username },{ _id: 1, username: 1, createdAt: 1 });
+      if (!user) {
+        res.status(400).json({ error: 'User not found' });
+      }
+      res.json(user);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  });
+  app.get('/getAllUsers', async (req, res) => {
+    try {
+      const users = await User.find({}, { _id: 1, username: 1, createdAt: 1 });
+      res.json(users);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  });
 
 const server = app.listen(port, () => {
   console.log(`User Service listening at http://localhost:${port}`);
