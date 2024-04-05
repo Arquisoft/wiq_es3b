@@ -88,6 +88,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
     const [numberCorrect, setNumberCorrect] = useState(0);
     const [numberIncorrect, setNumberIncorrect] = useState(0);
     const [nQuestion, setNQuestion] = useState(0);
+
     const [segundos, setSegundos] = useState(MAX_TIME);
     const [segundosInfinite, setSegundosInfinite] = useState(0);
     const [sonido, setSonido] = useState(true);
