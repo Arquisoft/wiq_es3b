@@ -33,7 +33,7 @@ app.post('/login', async (req, res) => {
     const authResponse = await axios.post(authServiceUrl+'/login', req.body);
     res.json(authResponse.data);
   } catch (error) {
-    res.status(500).json({ error: "Service down" });
+    res.status(error.response.status).json({ error: error.response.data.error });
   }
 });
 
@@ -43,7 +43,7 @@ app.post('/adduser', async (req, res) => {
     const userResponse = await axios.post(userServiceUrl+'/adduser', req.body);
     res.json(userResponse.data);
   } catch (error) {
-    res.status(500).json({ error: "Service down" });
+    res.status(error.response.status).json({ error: error.response.data.error });
   }
 });
 
@@ -61,7 +61,7 @@ app.get('/api/questions/create', async (req, res) => {
     });
     res.json(userResponse.data);
   } catch (error) {
-    res.status(500).json({ error: "Service down" });
+    res.status(error.response.status).json({ error: error.response.data.error });
   }
 });
 
@@ -74,7 +74,7 @@ app.get('/api/info/questions', async function (req, res) {
     const infoResponse = await axios.get(url);
     res.json(infoResponse.data);
   } catch (error) {
-    res.status(500).json({ error: "Service down" });
+    res.status(error.response.status).json({ error: error.response.data.error });
   }
 });
 
@@ -85,7 +85,7 @@ app.post('/addquestion', async (req, res) => {
     const questionResponse = await axios.post(questionServiceUrl + '/addquestion', req.body);
     res.json(questionResponse.data);
   } catch (error) {
-    res.status(500).json({ error: "Service down" });
+    res.status(error.response.status).json({ error: error.response.data.error });
   }
 });
 
@@ -96,7 +96,24 @@ app.post('/addgame', async (req, res) => {
     const gameResponse = await axios.post(gameServiceUrl + '/addgame', req.body);
     res.json(gameResponse.data);
   } catch (error) {
-    res.status(500).json({ error: "Service down" });
+    res.status(error.response.status).json({ error: error.response.data.error });
+  }
+});
+
+// Ruta para obtener la participación del usuario
+app.get('/getParticipation/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    if (!userId) {
+      res.status(404).json({ error: 'User ID not provided' });
+      return;
+    }
+
+    const gameResponse = await axios.get(`${gameServiceUrl}/getParticipation/${userId}`);
+    res.json(gameResponse.data);
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.response.data.error });
   }
 });
 
