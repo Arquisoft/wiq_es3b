@@ -37,7 +37,7 @@ export const handleClassicGameFinish = (nQuestion, numberCorrect, numberIncorrec
         finishByQuestions(segundos, MAX_TIME);
         setGameFinished(true); goTo(1);
     }
-    if (segundos === 1) {
+    if (segundos <= 1) {
         localStorage.setItem("pAcertadas", numberCorrect);
         localStorage.setItem("pFalladas", numberIncorrect);
         finishByTime(sonido);
@@ -82,6 +82,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState();
     const [isSelected, setIsSelected] = useState(false);
+    const [nextButtonEnabled, setNextButtonEnabled] = useState(false);
     
     const [correct, setCorrect] = useState('');
     const [numberCorrect, setNumberCorrect] = useState(0);
@@ -138,7 +139,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
                 }
             });
             const data = await response.json();
-
+            if(data.question && data.correct && data.incorrects){
                 setQuestion(data.question);
                 setCorrect(data.correct);
                 setOptions(shuffleOptions([data.correct, ...data.incorrects]));
@@ -146,6 +147,10 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
                 setSelectedOption(null);
                 setIsSelected(false);
                 setNQuestion((prevNQuestion) => prevNQuestion + 1);
+            }
+            else{
+                setNextButtonEnabled(true);
+            }
             
             if (gameMode === "classic" || gameMode === "category") {
                 handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, 
@@ -178,7 +183,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
         setSelectedOption(option);
         setSelectedIndex(index);
         setIsSelected(true);
-
+        setNextButtonEnabled(true)
         if (isCorrect(option)) {
             setNumberCorrect(numberCorrect + 1);
             if (sonido) { correctAudio.play(); }
@@ -258,9 +263,12 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
                 </Card>
                 <div className='botoneraPreguntas'>
                 { gameMode !== "threeLife" ?
-                <ListItemButton onClick={isSelected ? () => fetchQuestion() : null}
+                <ListItemButton onClick={nextButtonEnabled ? () => {
+                    setNextButtonEnabled(false);
+                    fetchQuestion();
+                 } : null}
                     sx={{ justifyContent: 'center', marginTop: 2 }}
-                    className={isSelected ? '' : 'isNotSelected'} >
+                    className={nextButtonEnabled ? '' : 'isNotSelected'} >
                     Next
                 </ListItemButton>
                 : ""}

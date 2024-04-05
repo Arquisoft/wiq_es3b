@@ -22,7 +22,7 @@ class VideogamesQuestions{
                 SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             }
             ORDER BY DESC(?unitsSold)
-            LIMIT 150
+            LIMIT 30
             `
         ];
         for(let i = 0; i < queries.length; i++) {

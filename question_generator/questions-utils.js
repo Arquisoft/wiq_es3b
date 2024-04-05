@@ -33,6 +33,24 @@ class QuestionsUtils{
             }
         }
     }
+    static async loadData(loadFunctions) {
+    
+        // Función recursiva para ejecutar cada función con un retraso
+        async function loadDataWithDelayHelper(index) {
+            if (index < loadFunctions.length) {
+                // Ejecutar la función actual
+                loadFunctions[index]();
+    
+                // Llamar a la próxima función después de un tiempo de espera (en milisegundos)
+                setTimeout(async () => {
+                    loadDataWithDelayHelper(index + 1);
+                }, 5000); // Espera entre llamadas
+            }
+        }
+    
+        // Comenzar la llamada recursiva con el primer índice
+        loadDataWithDelayHelper(0);
+    }
 }
 
 module.exports=QuestionsUtils;

@@ -6,16 +6,6 @@ function loadData(){
 const templates=[
     async ()=>
     {
-        const results= await Query.doQuestion('area',4);
-        return{
-            "question":"Which autonomous community of Spain has an area of?",
-            "question_param":results.question_param,
-            "correct":results.correct,
-            "incorrects":results.incorrects
-        }
-    },
-    async ()=>
-    {
         const results= await Query.doQuestion('population',4);
         return{
             "question":"Which autonomous community of Spain has a population of?",

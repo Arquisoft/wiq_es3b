@@ -25,20 +25,11 @@ const templates=[
     },
     async ()=>
     {
-        const results= await citiesQuery.doQuestion('elevation_above_sea_level',4);
+        const results= await citiesQuery.getHigherCity();
         return{
             "question":"Which city is higher above sea level?",
             "correct":results.correct,
             "incorrects":results.incorrects
-        }
-    },
-    async () => {
-        const results = await citiesQuery.doQuestion('area', 4);
-        return {
-            "question": "Which city has an area of?",
-            "question_param": results.question_param,
-            "correct": results.correct,
-            "incorrects": results.incorrects
         }
     },
     async () => {
