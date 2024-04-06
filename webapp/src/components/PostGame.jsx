@@ -48,12 +48,6 @@ export const PostGame = ({ gameMode }) => {
         }
     }, [sessionData]); // Ejecuta saveGame cada vez que sessionData cambie
 
-    const formatTiempo = (segundos) => {
-        const minutos = Math.floor((segundos % 3600) / 60);
-        const segs = segundos % 60;
-        return `${minutos < 10 ? '0' : ''}${minutos}:${segs < 10 ? '0' : ''}${segs}`;
-    };
-
     return (
         <div>
             <Typography sx={{ textAlign: 'center', fontSize:'2em', margin:'2em 0 0.3em 0 !important' }}>Game Over</Typography>
@@ -92,5 +86,11 @@ export const PostGame = ({ gameMode }) => {
         </div>
     )
 }
+
+export const formatTiempo = (segundos) => {
+    const minutos = Math.floor((segundos % 3600) / 60);
+    const segs = segundos % 60;
+    return `${minutos < 10 ? '0' : ''}${minutos}:${segs < 10 ? '0' : ''}${segs}`;
+};
 
 export default PostGame;

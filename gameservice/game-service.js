@@ -31,8 +31,8 @@ app.post('/addgame', async (req, res) => {
     const newGame = new Game({
       user: user, 
       questions: questions,
-      answers,
-      totalTime,
+      answers: answers,
+      totalTime: totalTime
     });
 
     // Guarda el nuevo juego en la base de datos

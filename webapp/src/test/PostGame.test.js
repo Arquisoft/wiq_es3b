@@ -1,96 +1,75 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { PostGame } from '../components/PostGame';
+import { SessionContext } from '../SessionContext';
 import axios from 'axios';
 
-// Mock the Typography component
-jest.mock('@mui/material/Typography', () => {
-  return {
-    __esModule: true,
-    default: jest.fn().mockImplementation(({ children }) => {
-      return <span>{children}</span>;
-    }),
-  };
-});
-
-// Mock the Card component
-jest.mock('@mui/material/Card', () => {
-  return {
-    __esModule: true,
-    default: jest.fn().mockImplementation(({ children }) => {
-      return <div>{children}</div>;
-    }),
-  };
-});
-
-// Mock the useContext hook
-jest.mock('react', () => ({
-  ...jest.requireActual('react'),
-  useContext: jest.fn(),
-}));
-
+// Mock axios
 jest.mock('axios');
 
 describe('PostGame component', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    localStorage.clear();
-  });
-
-  test('renders "FIN" text correctly', () => {
+  test('renders "Game Over" text correctly', () => {
     // Mock the SessionContext value
-    const mockSessionData = { userId: 'mockUserId' };
-    React.useContext.mockReturnValue({ sessionData: mockSessionData });
+    const sessionData = {
+      userId: 'mockedUserId',
+    };
 
-    axios.post.mockResolvedValue({ data: 'Mock response data' });
-
-    render(<PostGame />);
-
-    // Verifies that the text "Game Over" is rendered correctly
-    expect(screen.getByText('Game Over')).toBeInTheDocument();
-
-    expect(axios.post).toHaveBeenCalledWith(
-      'http://localhost:8000/addgame',
-      expect.any(Object)
+    render(
+      <SessionContext.Provider value={{ sessionData }}>
+        <PostGame />
+      </SessionContext.Provider>
     );
+
+    // Verificar que el texto "Game Over" se muestra correctamente
+    const gameOverText = screen.getAllByText(/Game Over/i);
+    expect(gameOverText.length).toBeGreaterThan(0);
   });
 
   test('renders text correctly', () => {
     // Mock the SessionContext value
-    const mockSessionData = { userId: 'mockUserId' };
-    React.useContext.mockReturnValue({ sessionData: mockSessionData });
+    const sessionData = {
+      userId: 'mockedUserId',
+    };
 
-    render(<PostGame gameMode="classic" />);
+    render(
+      <SessionContext.Provider value={{ sessionData }}>
+        <PostGame gameMode="classic" />
+      </SessionContext.Provider>
+    );
 
-    // Verifies that the text "Correct answers" is rendered correctly
+    // Verificar que los textos esperados se muestran correctamente
     expect(screen.getByText('Correct answers')).toBeInTheDocument();
-
-    // Verifies that the text "Incorrect answers" is rendered correctly
     expect(screen.getByText('Incorrect answers')).toBeInTheDocument();
-
-    // Verifies that the text "Elapsed time" is rendered correctly
     expect(screen.getByText('Elapsed time')).toBeInTheDocument();
-
-    // Verifies that the text "Time remaining" is rendered correctly
-    expect(screen.getByText('Time remaining')).toBeInTheDocument();
+    expect(screen.queryByText('Time remaining')).toBeInTheDocument();
   });
 
-  test('formatTiempo returns the correct time format', () => {
-    // Example input data and expected output
-    const seconds = 0; // 0 seconds
-    const expectedTime = '00:00';
-
+  test('saves game data correctly', async () => {
     // Mock the SessionContext value
-    const mockSessionData = { userId: 'mockUserId' };
-    React.useContext.mockReturnValue({ sessionData: mockSessionData });
+    const mockSessionData = { userId: 'mockUserId'};
+    const mockResponse = { data: 'Mock response data' };
 
-    // Render the PostGame component containing the formatTiempo function
-    render(<PostGame />);
+    axios.post.mockResolvedValue(mockResponse);
 
-    // Get the component that displays the elapsed time
-    const elapsedTimeCell = screen.getByText('Elapsed time').closest('tr').querySelector('td:last-child');
+    act(() => {
+      localStorage.setItem('tiempoUsado', '120');
+    });
 
-    // Check if the component's text matches the expected time
-    expect(elapsedTimeCell.textContent).toBe(expectedTime);
+    render(
+      <SessionContext.Provider value={{ sessionData: mockSessionData }}>
+        <PostGame />
+      </SessionContext.Provider>
+    );
+
+    // Check if saveGame function is called correctly
+    expect(axios.post).toHaveBeenCalledWith(
+      'http://localhost:8000/addgame',
+      {
+        user: mockSessionData.userId,
+        questions: [], 
+        answers: [],
+        totalTime: localStorage.getItem('tiempoUsado')
+      }
+    );
   });
 });
