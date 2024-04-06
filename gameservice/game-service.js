@@ -40,7 +40,6 @@ app.post('/addgame', async (req, res) => {
 
     // Guarda el nuevo juego en la base de datos
     const savedGame = await newGame.save();
-
     res.status(200).json(savedGame);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -49,10 +48,9 @@ app.post('/addgame', async (req, res) => {
 
 app.get('/api/info/games', async (req, res) => {
   try {
-    const { id, user} = req.query;
+    const {user} = req.query;
     let query = {};
 
-    if (id) query._id = id;
     if (user !== undefined) query.user = user === '' ? null : user;
     const game = await Game.find(query);
     if (!game) {
@@ -94,14 +92,24 @@ app.get('/api/info/users', async (req, res) => {
     }
     let data=usersData;
     for (let i = 0; i < usersData.length; i++) {
-      let game = await Game.find({ user: data[i]._id });
-      if (game.data) {
-        console.log(data[i]);
-        if (!data[i]) {
-          data[i] = [];
-        }
-        data[i].push(game.data);
-      }
+      let games = await Game.find({ user: data[i]._id });
+      let correctAnswers=0;
+      let incorrectAnswers=0;
+      let totalTime=0;
+      let totalGames=0;
+      games.forEach(game => {
+        if(game.pAcertadas)
+          correctAnswers += game.pAcertadas;
+        if(game.pFalladas)
+          incorrectAnswers += game.pFalladas;
+        if(game.totalTime)
+          totalTime += game.totalTime;
+        totalGames++;
+      });
+      data[i].correctAnswers = correctAnswers;
+      data[i].incorrectAnswers = incorrectAnswers;
+      data[i].totalTime = totalTime;
+      data[i].totalGames = totalGames;
     }
     res.status(200).json(data);
     return;
