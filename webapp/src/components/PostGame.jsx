@@ -24,6 +24,10 @@ export const PostGame = ({ gameMode }) => {
                 pFalladas: localStorage.getItem("pFalladas"),
                 totalTime: localStorage.getItem("tiempoUsado"),
                 gameMode: gameMode,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${sessionData.token}`
+                }
             });
             console.log('Juego guardado exitosamente:', response.data);
         } catch (error) {
