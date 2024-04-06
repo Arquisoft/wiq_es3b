@@ -73,12 +73,14 @@ app.get('/api/info/users', async (req, res) => {
         const user = await axios.get(`${USER_SERVICE_URL}/getUserInfo/${username}`)
         if (!user.data) {
           res.status(400).json({ error: 'User not found' });
+          return;
         }
         else{
           usersData.push(user.data);
         }
       }catch(error){
         res.status(400).json({ error: error.message });
+        return;
       }
     }else{
       try {
@@ -87,6 +89,7 @@ app.get('/api/info/users', async (req, res) => {
           users.data.forEach(user => {usersData.push(user)});
       } catch (error) {
         res.status(400).json({ error: error.message });
+        return;
       }
     }
     let data=usersData;
@@ -101,6 +104,7 @@ app.get('/api/info/users', async (req, res) => {
       }
     }
     res.status(200).json(data);
+    return;
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
