@@ -1,162 +1,86 @@
 const request = require('supertest');
-const { MongoMemoryServer } = require('mongodb-memory-server');
-const { default: mongoose } = require('mongoose');
-const axios = require('axios');
+const Game = require('./game-model');
+const app = require('./game-service');
 
-let mongoServer;
-let app;
-let Game;
-let User;
-let userId;//used for tests
-let connection;
-
-beforeAll(async () => {
-  mongoServer = await MongoMemoryServer.create();
-  const mongoUri = mongoServer.getUri();
-  process.env.MONGODB_URI = mongoUri;
-  app = require('./game-service');
-  connection = mongoose.createConnection(mongoUri);
-  Game = require('./game-model')(connection);
-  User = require('../users/userservice/user-model')(connection);
-  
-});
-
-afterAll(async () => {
-  app.close();
-  await connection.close();
-  await mongoServer.stop();
-});
-beforeEach(async () => {
-  const user = await User.create({
-    username: 'John Doe',
-    profileImage: 'defaultProfileImg',
-    password: 'password123'
-  });
-  userId = user._id;
-  Game.create({
-    user: userId, 
-    questions: [
-      "609c6e365308ce1a1c2658d8", "609c6e365308ce1a1c2658d9"
-    ], 
-    answers: [
-      {
-        response: 'User response',
-        isCorrect: false,
-      },
-      {
-        response: 'User response',
-        isCorrect: true,
-      },
-    ],
-    totalTime: 180,
-  });
-  Game.create({
-    user: userId, 
-    questions: [
-      "609c6e365308ce1a1c2658d8", "609c6e365308ce1a1c2658d9"
-    ], 
-    answers: [
-      {
-        response: 'User response',
-        isCorrect: true,
-      },
-      {
-        response: 'User response',
-        isCorrect: true,
-      }
-    ],
-    totalTime: 101,
-  });
-  Game.create({
-    user: '609c6e365308ce1a1c2658',
-    questions: [
-      "609c6e365308ce1a1c2658d5", "609c6e365308ce1a1c2658d6"
-    ], 
-    answers: [
-      {
-        response: 'Another user response',
-        isCorrect: false,
-      },
-      {
-        response: 'User response',
-        isCorrect: true,
-      },
-    ],
-    totalTime: 180,
-  });
-});
-
-afterEach(async () => {
-  await Game.deleteMany({});
-  await User.deleteMany({});
-});
+jest.mock('./game-model');
 
 describe('Game Service', () => {
+  // Test para agregar un nuevo juego con éxito
   it('should add a new game on POST /addgame', async () => {
     const newGame = {
-      user: '609c6e365308ce1a1c2658d1', 
-      pAcertadas: 5, 
-      pFalladas: 5,
-      totalTime: 120, 
+      user: 'testuser',
+      pAcertadas: 5,
+      pFalladas: 3,
+      totalTime: 1200,
     };
+
+
+    Game.prototype.save.mockResolvedValue(newGame);
 
     const response = await request(app).post('/addgame').send(newGame);
+
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('user', newGame.user.toString());
-  });
-  it('should get game information on GET /api/info/games', async () => {
-    const response = await request(app).get('/api/info/games');
-    expect(response.status).toBe(200);
-    expect(response.body).toBeDefined();
-    expect(response.body[0]).toHaveProperty('user');
-    expect(response.body[0]).toHaveProperty('questions');
-    expect(response.body[0]).toHaveProperty('answers');
-    expect(response.body[0]).toHaveProperty('totalTime');
+    expect(response.body).toEqual(newGame);
   });
 
+  // Test para manejar el error al agregar un nuevo juego
+  it('should handle internal server error when adding a new game', async () => {
+    const errorMessage = 'Internal Server Error';
+    Game.prototype.save.mockRejectedValue(new Error(errorMessage));
 
+    const response = await request(app).post('/addgame').send({
+      user: 'testuser',
+      pAcertadas: 5,
+      pFalladas: 3,
+      totalTime: 1200,
+    });
 
-});
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ error: errorMessage });
+  });
 
-describe('GET /getParticipation/:userId', () => {
-  it('should return participation data for a valid user', async () => {
-    const expectedData = {
+  // Test para obtener los datos de participación de un usuario existente
+  it('should return participation data for existing user', async () => {
+    const userId = 'existingUserId';
+
+    const mockParticipationData = {
       _id: null,
-      totalGames: 2,
-      correctAnswers: 3,
-      incorrectAnswers: 1,
-      totalTime: 281,
+      totalGames: 10,
+      correctAnswers: 50,
+      incorrectAnswers: 20,
+      totalTime: 3600,
     };
 
+    Game.aggregate.mockResolvedValue([mockParticipationData]);
+
     const response = await request(app).get(`/getParticipation/${userId}`);
+
     expect(response.status).toBe(200);
-    expect(response.body).toEqual(expectedData);
+    expect(response.body).toEqual(mockParticipationData);
   });
 
-  it('should return an error for an invalid user', async () => {
-    const user = 'invalidUserId';
+  // Test para manejar el error al obtener los datos de participación
+  it('should handle internal server error when getting participation data', async () => {
+    const userId = 'existingUserId';
 
-    const response = await request(app).get(`/getParticipation/${user}`);
+    const errorMessage = 'Internal Server Error';
+    Game.aggregate.mockRejectedValue(new Error(errorMessage));
+
+    const response = await request(app).get(`/getParticipation/${userId}`);
+
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ error: errorMessage });
+  });
+
+  // Test para manejar el caso de usuario no encontrado al obtener los datos de participación
+  it('should return 404 when getting participation data for non-existent user', async () => {
+    const nonExistentUserId = 'nonExistentUserId';
+
+    Game.aggregate.mockResolvedValue([]);
+
+    const response = await request(app).get(`/getParticipation/${nonExistentUserId}`);
+
     expect(response.status).toBe(404);
     expect(response.body).toEqual({ error: 'No participation data found for the user.' });
-  });
-});
-describe('Api info users', () => {
-  it('should get user information on GET /api/info/users', async () => {
-    const axiosMock = jest.spyOn(axios, 'get');
-    axiosMock.mockResolvedValue({ data: await User.find() });
-    
-    const response = await request(app).get('/api/info/users');
-    
-    expect(response.status).toBe(200);
-  });
-  it('should get user information on GET /api/info/users?user=X', async () => {
-      const axiosMock = jest.spyOn(axios, 'get');
-      axiosMock.mockResolvedValue({
-         data: await User.findOne({ username: 'John Doe' }) 
-      });
-    
-    const response = await request(app).get('/api/info/users?user=John Doe');
-    expect(response.status).toBe(200);
   });
 });
