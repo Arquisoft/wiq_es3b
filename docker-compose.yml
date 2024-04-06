@@ -84,6 +84,7 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/gamesdb
+      USER_SERVICE_URL: http://userservice:8001
     restart: always
 
   gatewayservice:

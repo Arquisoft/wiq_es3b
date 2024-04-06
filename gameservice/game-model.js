@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-
+const mongoose  = require("mongoose");
 const gameSchema = new mongoose.Schema({
   user: {
     type: String, 
@@ -19,7 +18,6 @@ const gameSchema = new mongoose.Schema({
     required: true,
   },
 });
-
-const Game = mongoose.model('Game', gameSchema);
-
-module.exports = Game;
+module.exports = (connection) => {
+  return connection.model('Game', gameSchema);
+};

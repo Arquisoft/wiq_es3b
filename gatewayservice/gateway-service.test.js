@@ -151,20 +151,91 @@ describe('Gateway Service', () => {
     axios.get = originalGet;
   });
 
+  
+});
+describe('GET /getParticipation/:userId', () => {
+  it('should return the participation of the user', async () => {
+    const mockedUserId = 'mockedUserId';
+    const mockedGameResponse = { participation: 10 };
 
+    axios.get.mockResolvedValueOnce({ data: mockedGameResponse });
 
+    const response = await request(app).get(`/getParticipation/${mockedUserId}`);
 
-  // Test /addquestion endpoint
-  it('should add a new question', async () => {
-    const response = await request(app)
-      .post('/addquestion')
-      .send({
-        question: 'Mocked Question',
-        correct: 'Mocked Correct Answer',
-        incorrects: ['Mocked Option 1', 'Mocked Option 2']
-      });
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(mockedGameResponse);
+  });
 
-    expect(response.statusCode).toBe(200); 
-    expect(response.body).toHaveProperty('question', 'Mocked Question');
+  it('should return an error when the game service returns an error', async () => {
+    const mockedUserId = 'mockedUserId';
+    const mockedError = { error: 'Service down' };
+
+    axios.get.mockRejectedValueOnce({ response: { status: 500, data: mockedError } });
+
+    const response = await request(app).get(`/getParticipation/${mockedUserId}`);
+
+    expect(response.statusCode).toBe(500);
+    expect(response.body).toEqual(mockedError);
   });
 });
+describe('GET /api/info/users', () => {
+  it('should return user information', async () => {
+    const mockedUsername = 'mockedUser';
+    const mockedInfoResponse = { 
+      id: 'mockedUserId',
+      username: 'mockedUser',
+      createdAt: '2022-01-01',
+      questions: ['Mocked Question 1', 'Mocked Question 2'],
+      answers: ['Mocked Answer 1', 'Mocked Answer 2']
+    };
+
+    axios.get.mockResolvedValueOnce({ data: mockedInfoResponse });
+
+    const response = await request(app).get(`/api/info/users?user=${mockedUsername}`);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(mockedInfoResponse);
+  });
+
+  it('should return an error when the user service is down', async () => {
+    const mockedUsername = 'mockedUser';
+    const mockedError = { error: 'Service down' };
+
+    axios.get.mockRejectedValueOnce({ response: { status: 500, data: mockedError } });
+
+    const response = await request(app).get(`/api/info/users?user=${mockedUsername}`);
+
+    expect(response.statusCode).toBe(500);
+    expect(response.body).toEqual(mockedError);
+  });
+});
+describe('GET /api/info/games', () => {
+  it('should return game information', async () => {
+    const mockedUsername = 'mockedUser';
+    const mockedInfoResponse = { 
+      id: 'mockedGameId',
+      totalTime: 135,
+      answers: ['User 1', 'User 2'],
+      questions: ['Question 1', 'Question 2']
+    };
+    axios.get.mockResolvedValueOnce({ data: mockedInfoResponse });
+
+    const response = await request(app).get(`/api/info/games?user=${mockedUsername}`);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(mockedInfoResponse);
+  });
+
+  it('should return an error when the game service is down', async () => {
+    const mockedUsername = 'mockedUser';
+    const mockedError = { error: 'Service down' };
+
+    axios.get.mockRejectedValueOnce({ response: { status: 500, data: mockedError } });
+
+    const response = await request(app).get(`/api/info/games?user=${mockedUsername}`);
+
+    expect(response.statusCode).toBe(500);
+    expect(response.body).toEqual(mockedError);
+  });
+});
+

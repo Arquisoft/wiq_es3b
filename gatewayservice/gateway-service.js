@@ -22,6 +22,26 @@ app.use(express.json());
 const metricsMiddleware = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
+// Security middleware
+app.post('/addgame', async (req, res, next) => {
+  if (req.headers.authorization) {
+    try{
+      const response = await axios.get(`${authServiceUrl}/verify`, {
+        headers: {
+          Authorization: req.headers.authorization
+        }
+      });
+      if(response.status===200){
+        next();
+      }
+    }catch(error){
+      res.status(401).json({ error: 'Unauthorized' });
+    }
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+});
+
 // Health check endpoint
 app.get('/health', (_req, res) => {
   res.json({ status: 'OK' });
@@ -33,7 +53,7 @@ app.post('/login', async (req, res) => {
     const authResponse = await axios.post(authServiceUrl+'/login', req.body);
     res.json(authResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res.status(500).json({ error: "Service down" });
   }
 });
 
@@ -43,7 +63,7 @@ app.post('/adduser', async (req, res) => {
     const userResponse = await axios.post(userServiceUrl+'/adduser', req.body);
     res.json(userResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res.status(500).json({ error: "Service down" });
   }
 });
 
@@ -61,7 +81,7 @@ app.get('/api/questions/create', async (req, res) => {
     });
     res.json(userResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res.status(500).json({ error: "Service down" });
   }
 });
 
@@ -74,18 +94,33 @@ app.get('/api/info/questions', async function (req, res) {
     const infoResponse = await axios.get(url);
     res.json(infoResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res.status(500).json({ error: "Service down" });
   }
 });
-
-// Ruta para agregar una nueva pregunta
-app.post('/addquestion', async (req, res) => {
+app.get('/api/info/users', async (req, res) => {
   try {
-    // Forward the add question request to the questions service
-    const questionResponse = await axios.post(questionServiceUrl + '/addquestion', req.body);
-    res.json(questionResponse.data);
+    const username=req.query.user;
+    let url = gameServiceUrl + '/api/info/users';
+    if(username){
+      url += '?user=' + username;
+    }
+    const infoResponse = await axios.get(url);
+    res.json(infoResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res.status(500).json({ error: "Service down" });
+  }
+});
+app.get('/api/info/games', async (req, res) => {
+  try {
+    const username=req.query.user;
+    let url = gameServiceUrl + '/api/info/games';
+    if(username){
+      url += '?user=' + username;
+    }
+    const infoResponse = await axios.get(url);
+    res.json(infoResponse.data);
+  } catch (error) {
+    res.status(500).json({ error: "Service down" });
   }
 });
 
@@ -96,7 +131,7 @@ app.post('/addgame', async (req, res) => {
     const gameResponse = await axios.post(gameServiceUrl + '/addgame', req.body);
     res.json(gameResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res.status(500).json({ error: "Service down" });
   }
 });
 
@@ -113,7 +148,7 @@ app.get('/getParticipation/:userId', async (req, res) => {
 
     res.json(gameResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res.status(500).json({ error: "Service down" });
   }
 });
 
