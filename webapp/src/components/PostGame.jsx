@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Card, Typography } from "@mui/material";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -6,14 +6,35 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import axios from 'axios';
+import { SessionContext } from '../SessionContext';
+
+const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 export const PostGame = ({ gameMode }) => {
+    const { sessionData } = useContext(SessionContext);
 
-    const formatTiempo = (segundos) => {
-        const minutos = Math.floor((segundos % 3600) / 60);
-        const segs = segundos % 60;
-        return `${minutos < 10 ? '0' : ''}${minutos}:${segs < 10 ? '0' : ''}${segs}`;
+    // Función para guardar el juego en la BD
+    const saveGame = async () => {
+        try {
+            // Guardar el juego en la base de datos
+            const response = await axios.post(`${gatewayUrl}/addgame`, {
+                user: sessionData.userId,
+                pAcertadas: localStorage.getItem("pAcertadas"),
+                pFalladas: localStorage.getItem("pFalladas"),
+                totalTime: localStorage.getItem("tiempoUsado")
+            });
+            console.log('Juego guardado exitosamente:', response.data);
+        } catch (error) {
+            console.error('Error al guardar el juego:', error);
+        }
     };
+
+    useEffect(() => {
+        if (sessionData && sessionData.userId) {
+            saveGame();
+        }
+    }, [sessionData]); // Ejecuta saveGame cada vez que sessionData cambie
 
     return (
         <div>
@@ -53,5 +74,11 @@ export const PostGame = ({ gameMode }) => {
         </div>
     )
 }
+
+export const formatTiempo = (segundos) => {
+    const minutos = Math.floor((segundos % 3600) / 60);
+    const segs = segundos % 60;
+    return `${minutos < 10 ? '0' : ''}${minutos}:${segs < 10 ? '0' : ''}${segs}`;
+};
 
 export default PostGame;

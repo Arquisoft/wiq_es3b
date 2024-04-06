@@ -26,16 +26,16 @@ const validateRequiredFields = (req, fields) => {
 // Ruta para agregar un nuevo juego
 app.post('/addgame', async (req, res) => {
   try {
-    validateRequiredFields(req, ['user', 'questions', 'answers', 'totalTime']);
+    validateRequiredFields(req, ['user', 'pAcertadas', 'pFalladas', 'totalTime']);
 
-    const { user, questions, answers, totalTime } = req.body;
+    const { user, pAcertadas, pFalladas, totalTime } = req.body;
 
     // Crea una nueva instancia del modelo de juegos
     const newGame = new Game({
       user: user, 
-      questions: questions,
-      answers,
-      totalTime,
+      pAcertadas: pAcertadas,
+      pFalladas: pFalladas,
+      totalTime: totalTime
     });
 
     // Guarda el nuevo juego en la base de datos
@@ -132,13 +132,8 @@ app.get('/getParticipation/:userId', async (req, res) => {
         $group: {
           _id: null,
           totalGames: { $sum: 1 }, //$sum -> Retorna la suma de los valores numéricos
-          correctAnswers: { $sum: { $size: { 
-            $filter: {
-               input: "$answers", as: "answer", cond: "$$answer.isCorrect" } 
-          } } },
-          incorrectAnswers: { $sum: { $size: {
-            $filter: { input: "$answers", as: "answer", cond: { $eq: ["$$answer.isCorrect", false] } } 
-          } } },
+          correctAnswers: { $sum: "$pAcertadas" },
+          incorrectAnswers: { $sum: "$pFalladas" },
           totalTime: { $sum: "$totalTime" },
         },
       },

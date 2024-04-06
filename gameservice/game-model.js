@@ -5,23 +5,14 @@ const gameSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  questions: [{ 
-    type: String,
-    ref: 'Question',
+  pAcertadas: {
+    type: Number, 
     required: true,
-  }],
-  answers: [
-    {
-      response: {
-        type: String,
-        required:  true,
-      },
-      isCorrect: {
-        type: Boolean,
-        required: true,
-      },
-    }
-  ],
+  },
+  pFalladas: {
+    type: Number, 
+    required: true,
+  },
   totalTime: {
     type: Number, 
     required: true,

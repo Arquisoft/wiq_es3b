@@ -94,21 +94,10 @@ afterEach(async () => {
 describe('Game Service', () => {
   it('should add a new game on POST /addgame', async () => {
     const newGame = {
-      user: userId, 
-      questions: [
-        "609c6e365308ce1a1c2658d2", "609c6e365308ce1a1c2658d3"
-      ], 
-       answers: [
-        {
-          response: 'User response',
-          isCorrect: true,
-        },
-        {
-          response: 'User response2',
-          isCorrect: true,
-        }
-      ],
-      totalTime: 120, // Tiempo total de la partida en segundos
+      user: '609c6e365308ce1a1c2658d1', 
+      pAcertadas: 5, 
+      pFalladas: 5,
+      totalTime: 120, 
     };
 
     const response = await request(app).post('/addgame').send(newGame);

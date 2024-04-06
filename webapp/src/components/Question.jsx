@@ -9,7 +9,7 @@ import soundOnImage from '../assets/sonidoON.png';
 import soundOffImage from '../assets/sonidoOFF.png';
 import vidaImg from '../assets/vida.png';
 
-const N_QUESTIONS = 10;
+export const N_QUESTIONS = 10;
 const MAX_TIME = 240;
 
 const correctAudio = new Audio(correctSound);
