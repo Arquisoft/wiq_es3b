@@ -53,7 +53,7 @@ app.post('/login', async (req, res) => {
     const authResponse = await axios.post(authServiceUrl+'/login', req.body);
     res.json(authResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res.status(500).json({ error: "Service down" });
   }
 });
 
@@ -63,7 +63,7 @@ app.post('/adduser', async (req, res) => {
     const userResponse = await axios.post(userServiceUrl+'/adduser', req.body);
     res.json(userResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res.status(500).json({ error: "Service down" });
   }
 });
 
@@ -81,7 +81,7 @@ app.get('/api/questions/create', async (req, res) => {
     });
     res.json(userResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res.status(500).json({ error: "Service down" });
   }
 });
 
@@ -94,7 +94,7 @@ app.get('/api/info/questions', async function (req, res) {
     const infoResponse = await axios.get(url);
     res.json(infoResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res.status(500).json({ error: "Service down" });
   }
 });
 app.get('/api/info/users', async (req, res) => {
@@ -107,7 +107,7 @@ app.get('/api/info/users', async (req, res) => {
     const infoResponse = await axios.get(url);
     res.json(infoResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res.status(500).json({ error: "Service down" });
   }
 });
 app.get('/api/info/games', async (req, res) => {
@@ -120,7 +120,7 @@ app.get('/api/info/games', async (req, res) => {
     const infoResponse = await axios.get(url);
     res.json(infoResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res.status(500).json({ error: "Service down" });
   }
 });
 
@@ -131,7 +131,7 @@ app.post('/addgame', async (req, res) => {
     const gameResponse = await axios.post(gameServiceUrl + '/addgame', req.body);
     res.json(gameResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res.status(500).json({ error: "Service down" });
   }
 });
 
@@ -148,7 +148,7 @@ app.get('/getParticipation/:userId', async (req, res) => {
 
     res.json(gameResponse.data);
   } catch (error) {
-    res.status(error.response.status).json({ error: error.response.data.error });
+    res.status(500).json({ error: "Service down" });
   }
 });
 
