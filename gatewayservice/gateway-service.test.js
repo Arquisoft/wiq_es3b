@@ -150,21 +150,4 @@ describe('Gateway Service', () => {
 
     axios.get = originalGet;
   });
-
-
-
-
-  // Test /addquestion endpoint
-  it('should add a new question', async () => {
-    const response = await request(app)
-      .post('/addquestion')
-      .send({
-        question: 'Mocked Question',
-        correct: 'Mocked Correct Answer',
-        incorrects: ['Mocked Option 1', 'Mocked Option 2']
-      });
-
-    expect(response.statusCode).toBe(200); 
-    expect(response.body).toHaveProperty('question', 'Mocked Question');
-  });
 });

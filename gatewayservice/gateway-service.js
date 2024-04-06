@@ -22,6 +22,26 @@ app.use(express.json());
 const metricsMiddleware = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
+// Security middleware
+app.post('/addgame', async (req, res, next) => {
+  if (req.headers.authorization) {
+    try{
+      const response = await axios.get(`${authServiceUrl}/verify`, {
+        headers: {
+          Authorization: req.headers.authorization
+        }
+      });
+      if(response.status===200){
+        next();
+      }
+    }catch(error){
+      res.status(401).json({ error: 'Unauthorized' });
+    }
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+});
+
 // Health check endpoint
 app.get('/health', (_req, res) => {
   res.json({ status: 'OK' });
@@ -90,13 +110,15 @@ app.get('/api/info/users', async (req, res) => {
     res.status(error.response.status).json({ error: error.response.data.error });
   }
 });
-
-// Ruta para agregar una nueva pregunta
-app.post('/addquestion', async (req, res) => {
+app.get('/api/info/games', async (req, res) => {
   try {
-    // Forward the add question request to the questions service
-    const questionResponse = await axios.post(questionServiceUrl + '/addquestion', req.body);
-    res.json(questionResponse.data);
+    const username=req.query.user;
+    let url = gameServiceUrl + '/api/info/games';
+    if(username){
+      url += '?user=' + username;
+    }
+    const infoResponse = await axios.get(url);
+    res.json(infoResponse.data);
   } catch (error) {
     res.status(error.response.status).json({ error: error.response.data.error });
   }
