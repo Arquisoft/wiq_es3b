@@ -22,7 +22,8 @@ export const PostGame = ({ gameMode }) => {
                 user: sessionData.userId,
                 pAcertadas: localStorage.getItem("pAcertadas"),
                 pFalladas: localStorage.getItem("pFalladas"),
-                totalTime: localStorage.getItem("tiempoUsado")
+                totalTime: localStorage.getItem("tiempoUsado"),
+                gameMode: gameMode,
             });
             console.log('Juego guardado exitosamente:', response.data);
         } catch (error) {

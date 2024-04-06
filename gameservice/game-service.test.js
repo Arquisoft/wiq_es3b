@@ -37,6 +37,7 @@ beforeEach(async () => {
     pAcertadas: 5,
     pFalladas: 3,
     totalTime: 1200,
+    gameMode: 'normal'
   });
 
 });
@@ -54,6 +55,7 @@ describe('Game Service', () => {
       pAcertadas: 5,
       pFalladas: 3,
       totalTime: 1200,
+      gameMode: 'normal'
     };
 
     const response = await request(app).post('/addgame').send(newGame);
@@ -64,6 +66,8 @@ describe('Game Service', () => {
     expect(data).toHaveProperty('pAcertadas', newGame.pAcertadas);
     expect(data).toHaveProperty('pFalladas', newGame.pFalladas);
     expect(data).toHaveProperty('totalTime', newGame.totalTime);
+    expect(data).toHaveProperty('gameMode', newGame.gameMode);
+    expect(data).toHaveProperty('gameMode', newGame.date);
   });
 
 
