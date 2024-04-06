@@ -8,13 +8,14 @@ let app;
 let Game;
 let User;
 let userId;//used for tests
+let connection;
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri;
   app = require('./game-service');
-  const connection = mongoose.createConnection(mongoUri);
+  connection = mongoose.createConnection(mongoUri);
   Game = require('./game-model')(connection);
   User = require('../users/userservice/user-model')(connection);
   
@@ -24,7 +25,6 @@ afterAll(async () => {
   app.close();
   await connection.close();
   await mongoServer.stop();
-  process.exit(0);
 });
 beforeEach(async () => {
   const user = await User.create({
@@ -98,7 +98,7 @@ describe('Game Service', () => {
       questions: [
         "609c6e365308ce1a1c2658d2", "609c6e365308ce1a1c2658d3"
       ], 
-      answers: [
+       answers: [
         {
           response: 'User response',
           isCorrect: true,

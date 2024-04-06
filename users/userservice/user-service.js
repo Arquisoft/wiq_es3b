@@ -76,7 +76,9 @@ const server = app.listen(port, () => {
 // Listen for the 'close' event on the Express.js server
 server.on('close', () => {
     // Close the Mongoose connection
-    mongoose.connection.close();
+    mongoose.connections.forEach(connection => {
+      connection.close();
+    });
   });
 
 module.exports = server
