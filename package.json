@@ -1,10 +1,10 @@
 {
   "dependencies": {
     "chart.js": "^4.4.1",
+    "node": "^18.20.1",
     "react-chartjs-2": "^5.2.0"
   },
   "devDependencies": {
     "serve": "^14.2.1"
   }
 }
-
