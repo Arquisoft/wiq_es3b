@@ -52,12 +52,23 @@ app.get('/api/info/games', async (req, res) => {
     const {user} = req.query;
     let query = {};
 
-    if (user !== undefined) query.user = user === '' ? null : user;
+    if (user !== undefined) {//filtra por el id del usuario
+      query.user = user === '' ? null : user;
+    }
+
     const game = await Game.find(query);
     if (!game) {
       return res.status(404).json({ error: 'No information for games found' });
     }
-    res.status(200).json(game);
+    const modifiedGame = game.map(g => {
+      const { pAcertadas, pFalladas, ...rest } = g._doc;
+      return {
+      ...rest,
+      correctAnswers: pAcertadas,
+      incorrectAnswers: pFalladas
+      };
+    });
+    res.status(200).json(modifiedGame);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
