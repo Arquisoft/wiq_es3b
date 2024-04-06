@@ -11,48 +11,49 @@ class TennisQuestions{
         this.players={}
     }
     async loadData(){
-        if (Object.keys(this.players).length === 0) {//Se obtienen 100 ciudades relevantes
-            const query=`
-            SELECT DISTINCT ?tenista ?tenistaLabel ?pais ?paisLabel ?victorias ?followers
-                WHERE {
-                    ?tenista wdt:P106 wd:Q10833314. 
+        let newResults={};
+        const query=`
+        SELECT DISTINCT ?tenista ?tenistaLabel ?pais ?paisLabel ?victorias ?followers
+            WHERE {
+                ?tenista wdt:P106 wd:Q10833314. 
+                OPTIONAL { ?tenista wdt:P1532 ?pais. } 
+                OPTIONAL { ?tenista wdt:P564 ?victorias. } 
+                OPTIONAL { ?tenista wdt:P8687 ?followers. }
+                FILTER (BOUND(?victorias) && BOUND(?pais) && BOUND(?followers)) 
+                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+            }
+            ORDER BY DESC(?followers)
+            LIMIT 100
+        `
+        let players = await queryExecutor.execute(query);
+        players.forEach(tenista => {
+            const playerId = tenista.tenista.value;
+            const playerName = tenista.tenistaLabel.value;
+            const followers = tenista.followers.value;
+            const country = tenista.paisLabel.value;
+            const record = tenista.victorias.value;
+            const recordAux = record ? record.split("-") : ['', ''];
+            const wins = recordAux[0];
+            const looses = recordAux[1];
 
-                    OPTIONAL { ?tenista wdt:P1532 ?pais. } 
-                    OPTIONAL { ?tenista wdt:P564 ?victorias. } 
-                    OPTIONAL { ?tenista wdt:P8687 ?followers. }
-                    FILTER (BOUND(?victorias) && BOUND(?pais) && BOUND(?followers)) 
-                    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-                }
-                ORDER BY DESC(?followers)
-                LIMIT 200
-            `
-            let players = await queryExecutor.execute(query);
-            players.forEach(tenista => {
-                const playerId = tenista.tenista.value;
-                const playerName = tenista.tenistaLabel.value;
-                const followers = tenista.followers.value;
-                const country = tenista.paisLabel.value;
-                const record = tenista.victorias.value;
-
-                const recordAux = record ? record.split("-") : ['', ''];
-                const wins = recordAux[0];
-                const looses = recordAux[1];
-
-                if (!this.players[playerId]) {
-                    this.players[playerId] = {
-                        playerId: playerId,
-                        playerName: playerName,
-                        followers: followers,
-                        country: country,
-                        wins: wins,
-                        looses: looses
-                    };
-                }
-            });
-        }
+            if (!newResults[playerId]) {
+                newResults[playerId] = {
+                    playerId: playerId,
+                    playerName: playerName,
+                    followers: followers,
+                    country: country,
+                    wins: wins,
+                    looses: looses
+                };
+            }
+        });
+        this.players=newResults;
+        
     }
     async getRandomPlayers(numberOfPlayers){
-        await this.loadData();
+        if(Object.keys(this.players).length==0){
+            await this.loadData();
+        }
         const array = Object.values(this.players);
         const randomResults = array.sort(() => Math.random() - 0.5).slice(0, numberOfPlayers);
         return randomResults
@@ -146,6 +147,48 @@ class TennisQuestions{
             }
         }
         return finalResults
+    }
+    async getPlayerByWins() {
+        let numberOfPlayers=4;
+        let result =(await this.getRandomTeam(1))[0];
+        let name = result.playerName;
+        
+        let correct = result.wins;
+        let incorrects = []
+        let i=1;
+        while(i<numberOfPlayers){
+            let player=(await this.getRandomTeam(1))[0];
+            if(player.wins!=correct){
+                incorrects.push(player.wins);
+                i++;
+            }
+        }
+        return {
+            question_param:name,
+            correct:correct,
+            incorrects:incorrects
+        }
+    }
+    async getPlayerByCountry() {
+        let numberOfPlayers=4;
+        let result =(await this.getRandomTeam(1))[0];
+        let name = result.playerName;
+        
+        let correct = result.country;
+        let incorrects = []
+        let i=1;
+        while(i<numberOfPlayers){
+            let player=(await this.getRandomTeam(1))[0];
+            if(player.country!=correct){
+                incorrects.push(player.country);
+                i++;
+            }
+        }
+        return {
+            question_param:name,
+            correct:correct,
+            incorrects:incorrects
+        }
     }
 
 }

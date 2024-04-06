@@ -12,6 +12,16 @@ const templates=[
             "correct":planets.correct,
             "incorrects":planets.incorrects
         }
+    },
+    async ()=>
+    {
+        const result= await planetsQuery.doQuestion('radius',4);
+        return{
+            "question":"Which planet has a radius of?",
+            "question_param":result.question_param,
+            "correct":result.correct,
+            "incorrects":result.incorrects
+        }
     }
 
 

@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Game = require('./game-model'); // Importa el modelo de juegos
+const axios = require('axios');
+const USER_SERVICE_URL=process.env.USER_SERVICE_URL || 'http://localhost:8001';
+
 
 const app = express();
 const port = 8005; // Puerto para el servicio de juegos
@@ -9,7 +11,8 @@ app.use(express.json());
 
 // Connect to MongoDB
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/gamesdb';
-mongoose.connect(mongoUri);
+const gameConnection=mongoose.createConnection(mongoUri);
+const Game = require('./game-model')(gameConnection); 
 
 // Función para validar campos requeridos
 const validateRequiredFields = (req, fields) => {
@@ -23,25 +26,109 @@ const validateRequiredFields = (req, fields) => {
 // Ruta para agregar un nuevo juego
 app.post('/addgame', async (req, res) => {
   try {
-    validateRequiredFields(req, ['user', 'questions', 'answers', 'totalTime']);
+    validateRequiredFields(req, ['user', 'pAcertadas', 'pFalladas', 'totalTime', 'gameMode']);
 
-    const { user, questions, answers, totalTime } = req.body;
+    const { user, pAcertadas, pFalladas, totalTime, gameMode } = req.body;
 
     // Crea una nueva instancia del modelo de juegos
     const newGame = new Game({
-      user,
-      questions,
-      answers,
-      totalTime,
+      user: user, 
+      pAcertadas: pAcertadas,
+      pFalladas: pFalladas,
+      totalTime: totalTime,
+      gameMode: gameMode
     });
 
     // Guarda el nuevo juego en la base de datos
     const savedGame = await newGame.save();
-
     res.status(200).json(savedGame);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+app.get('/api/info/games', async (req, res) => {
+  try {
+    const {user} = req.query;
+    let query = {};
+
+    if (user !== undefined) {//filtra por el id del usuario
+      query.user = user === '' ? null : user;
+    }
+
+    const game = await Game.find(query);
+    if (!game) {
+      return res.status(404).json({ error: 'No information for games found' });
+    }
+    const modifiedGame = game.map(g => {
+      const { pAcertadas, pFalladas, ...rest } = g._doc;
+      return {
+      ...rest,
+      correctAnswers: pAcertadas,
+      incorrectAnswers: pFalladas
+      };
+    });
+    res.status(200).json(modifiedGame);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/info/users', async (req, res) => {
+  try {
+    const username=req.query.user;
+    let usersData=[];
+    if(username!=undefined){
+      try{
+        const user = await axios.get(`${USER_SERVICE_URL}/getUserInfo/${username}`)
+        if (!user.data) {
+          res.status(400).json({ error: 'User not found' });
+          return;
+        }
+        else{
+          usersData.push(user.data);
+        }
+      }catch(error){
+        res.status(400).json({ error: error.message });
+        return;
+      }
+    }else{
+      try {
+        const users = await axios.get(`${USER_SERVICE_URL}/getAllUsers`);
+        if(users.data)
+          users.data.forEach(user => {usersData.push(user)});
+      } catch (error) {
+        res.status(400).json({ error: error.message });
+        return;
+      }
+    }
+    let data=usersData;
+    for (let i = 0; i < usersData.length; i++) {
+      let games = await Game.find({ user: data[i]._id });
+      let correctAnswers=0;
+      let incorrectAnswers=0;
+      let totalTime=0;
+      let totalGames=0;
+      games.forEach(game => {
+        if(game.pAcertadas)
+          correctAnswers += game.pAcertadas;
+        if(game.pFalladas)
+          incorrectAnswers += game.pFalladas;
+        if(game.totalTime)
+          totalTime += game.totalTime;
+        totalGames++;
+      });
+      data[i].correctAnswers = correctAnswers;
+      data[i].incorrectAnswers = incorrectAnswers;
+      data[i].totalTime = totalTime;
+      data[i].totalGames = totalGames;
+    }
+    res.status(200).json(data);
+    return;
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+
 });
 
 // Ruta para obtener datos de participación del usuario
@@ -49,20 +136,21 @@ app.get('/getParticipation/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
 
+    if (!userId) {
+      // Si no se encuentra el usuario, responder con un error
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+    
     // Consulta para obtener los datos de participación del usuario
     const participationData = await Game.aggregate([
-      { $match: { user: mongoose.Types.ObjectId(userId) } },
+      { $match: { user: userId } },
       {
         $group: {
           _id: null,
-          totalGames: { $sum: 1 }, //$sum -> Returns a sum of numerical values
-          correctAnswers: { $sum: { $size: { 
-            $filter: {
-               input: "$answers", as: "answer", cond: "$$answer.isCorrect" } 
-          } } },
-          incorrectAnswers: { $sum: { $size: {
-            $filter: { input: "$answers", as: "answer", cond: { $eq: ["$$answer.isCorrect", false] } } 
-          } } },
+          totalGames: { $sum: 1 }, //$sum -> Retorna la suma de los valores numéricos
+          correctAnswers: { $sum: "$pAcertadas" },
+          incorrectAnswers: { $sum: "$pFalladas" },
           totalTime: { $sum: "$totalTime" },
         },
       },
@@ -86,8 +174,9 @@ const server = app.listen(port, () => {
 });
 
 server.on('close', () => {
-  // Close the Mongoose connection
-  mongoose.connection.close();
+  mongoose.connections.forEach(connection => {
+    connection.close();
+  });
 });
 
 module.exports = server;

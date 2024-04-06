@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { SessionProvider } from './SessionContext';
 
 const darkTheme = createTheme({
   palette: {
@@ -23,10 +24,12 @@ const darkTheme = createTheme({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <SessionProvider>
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <App />
     </ThemeProvider>
+    </SessionProvider>
   </React.StrictMode>
 );
 

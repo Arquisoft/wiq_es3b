@@ -15,10 +15,10 @@ const templates=[
     },
     async ()=>
     {
-        const results= await citiesQuery.getCityForCountry();
+        const results= await citiesQuery.doQuestion('country',4);
         return{
             "question":"Which city is in?",
-            "question_param":results.country,
+            "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects
         }
@@ -31,8 +31,34 @@ const templates=[
             "correct":results.correct,
             "incorrects":results.incorrects
         }
+    },
+    async () => {
+        const results = await citiesQuery.doQuestion('continent', 4);
+        return {
+            "question": "Which city is in?",
+            "question_param": results.question_param,
+            "correct": results.correct,
+            "incorrects": results.incorrects
+        }
+    },
+    async () => {
+        const results = await citiesQuery.doQuestion('head_of_government', 4);
+        return {
+            "question": "Which city is governed by?",
+            "question_param": results.question_param,
+            "correct": results.correct,
+            "incorrects": results.incorrects
+        }
+    },
+    async () => {
+        const results = await citiesQuery.doQuestion('located_in_time_zone', 4);
+        return {
+            "question": "Which city is in the time zone?",
+            "question_param": results.question_param,
+            "correct": results.correct,
+            "incorrects": results.incorrects
+        }
     }
-
 
 ]
 module.exports.getRandomQuestion = () => templates[Math.floor(Math.random()*templates.length)]();

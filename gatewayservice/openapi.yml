@@ -1,0 +1,325 @@
+openapi: 3.0.0
+info:
+  title: Gateway Service
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8000'
+    description: Development server
+  - url: http://SOMEIP:8000
+    description: Production server
+paths:
+  /login:
+    post:
+      summary: Forward the login request to the authentication service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+        '500':
+          description: Error occurred while forwarding the login request
+  /adduser:
+    post:
+      summary: Forward the add user request to the user service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User added successfully
+        '500':
+          description: Error occurred while forwarding the add user request
+  /addquestion:
+    post:
+      summary: Add a new question
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+      responses:
+        '200':
+          description: Question added successfully
+        '500':
+          description: Error occurred while adding question
+  /addgame:
+    post:
+      summary: Add a new game
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+      responses:
+        '200':
+          description: Game added successfully
+        '500':
+          description: Error occurred while adding game
+      security:
+        - bearerAuth: []
+      
+          
+  /api/questions/create:
+    get:
+      summary: Create a question
+      parameters:
+        - in: query
+          name: lang
+          schema:
+            type: string
+          description: The language for the question
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: The category for the question
+      responses:
+        '200':
+          description: Question created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  question:
+                    type: string
+                  correct:
+                    type: string
+                  incorrects:
+                    type: array
+                    items:
+                      type: string
+        '500':
+          description: Error occurred while creating question
+  /api/info/questions:
+    get:
+      summary: Get information about questions
+      parameters:
+        - in: query
+          name: user
+          schema:
+            type: string
+          description: Filter questions by username
+      responses:
+        '200':
+          description: Information about questions retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  questions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Question'
+                    example:
+                      - id: 1
+                        user: john_doe
+                        category: science
+                        question: What is the capital of France?
+                        correct: Paris
+                        incorrects:
+                          - London
+                          - Berlin
+                        generationDate: '2022-10-01T10:00:00Z'
+                      - id: 2
+                        user: john_doe
+                        category: history
+                        question: Who was the first president of the United States?
+                        correct: George Washington
+                        incorrects:
+                          - Abraham Lincoln
+                          - Thomas Jefferson
+                        generationDate: '2022-10-02T14:30:00Z'
+        '400':
+          description: No questions found
+        '500':
+          description: Error occurred while retrieving information about questions
+  /api/info/games:
+      get:
+        summary: Get information about games
+        parameters:
+          - in: query
+            name: user
+            schema:
+              type: string
+            description: Filter games by user id
+        responses:
+          '200':
+            description: Information about games retrieved successfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    games:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Game'
+                      example:
+                        - _id: '6611905d159f818f669c3a5b'
+                          user: '660a5e0d084133274d96383b'
+                          correctAnswers: 5
+                          incorrectsAnswers: 5
+                          totalTime: 18
+                          gameMode: 'classic'
+                          date: '2022-10-01T10:00:00Z'
+                        - _id: '609c4e9e0a3e4c001f2e8e2a'
+                          user: '660a5e0d084133274d96383b'
+                          correctAnswers: 2
+                          incorrectsAnswers: 8
+                          totalTime: 30
+                          gameMode: 'classic'
+                          date: '2022-10-02T14:30:00Z'
+          '404':
+            description: No information for games found
+          '500':
+            description: Error occurred while retrieving information about games
+  /api/info/users:
+    get:
+      summary: Get information about games
+      parameters:
+        - in: query
+          name: user
+          schema:
+            type: string
+          description: Filter games by username
+      responses:
+        '200':
+          description: Information about games retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+              example:
+                - _id: '660a5e0d084133274d96383b'
+                  username: 'test'
+                  createdAt: '2024-04-01T07:11:09.282Z'
+                  correctAnswers: 10
+                  incorrectAnswers: 20
+                  totalTime: 60
+                  totalGames: 5
+                - _id: '66108339728d008fa6d64845'
+                  username: 'user'
+                  createdAt: '2024-04-05T23:03:21.221Z'
+                  correctAnswers: 2
+                  incorrectAnswers: 4
+                  totalTime: 15
+                  totalGames: 1
+        '400':
+          description: User not found
+        '500':
+          description: Error occurred while retrieving information about games
+  /getParticipation/{userId}:
+    get:
+      summary: Get participation of a user
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: The ID of the user
+      responses:
+        '200':
+          description: Participation retrieved successfully
+          content:
+            application/json:
+              example:
+                _id: null
+                totalGames: 3
+                correctAnswers: 6
+                incorrectAnswers: 16
+                totalTime: 51
+        '404':
+          description: No participation data found for the user.
+        '500':
+          description: Error occurred while retrieving participation
+components:
+  securitySchemes:
+    bearerAuth: # Define un esquema de seguridad 'bearerAuth' para JWT
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Question:
+      type: object
+      properties:
+        id:
+          type: string
+        user:
+          type: string
+        category:
+          type: string
+        question:
+          type: string
+          required:
+            - 'true'
+        correct:
+          type: string
+          required: 
+            - 'true'
+        incorrects:
+          type: array
+          items:
+            type: string
+          required: 
+            - 'true'
+          minItems: 2
+          maxItems: 4
+        generationDate:
+          type: string
+          format: date-time
+          default: now
+          required: 
+            - 'true'
+    Game:
+      type: object
+      properties:
+        _id:
+          type: string
+        user:
+          type: string
+        pAcertadas:
+          type: number
+        pFalladas:
+          type: number
+        totalTime:
+          type: number
+        date:
+          type: string
+          format: date-time
+        gameMode:
+          type: string
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        password:
+          type: string        
+        profileImage:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
