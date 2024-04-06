@@ -8,7 +8,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import { SessionContext } from '../SessionContext';
-import { N_QUESTIONS } from './Question';
 
 const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
@@ -18,22 +17,11 @@ export const PostGame = ({ gameMode }) => {
     // Función para guardar el juego en la BD
     const saveGame = async () => {
         try {
-            // Obtener las preguntas y respuestas del localStorage
-            const storedQuestions = [];
-            const storedAnswers = [];
-            for (let i = 0; i < N_QUESTIONS; i++) {
-                storedQuestions.push(localStorage.getItem(`question_id_${i}`));
-                storedAnswers.push({
-                    response: localStorage.getItem(`answer_${i}`),
-                    isCorrect: localStorage.getItem(`isCorrect_${i}`) === "true"
-                });
-            }
-
             // Guardar el juego en la base de datos
             const response = await axios.post(`${gatewayUrl}/addgame`, {
                 user: sessionData.userId,
-                questions: storedQuestions,
-                answers: storedAnswers,
+                pAcertadas: localStorage.getItem("pAcertadas"),
+                pFalladas: localStorage.getItem("pFalladas"),
                 totalTime: localStorage.getItem("tiempoUsado")
             });
             console.log('Juego guardado exitosamente:', response.data);

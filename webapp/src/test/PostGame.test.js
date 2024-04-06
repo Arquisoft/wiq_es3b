@@ -52,7 +52,9 @@ describe('PostGame component', () => {
     axios.post.mockResolvedValue(mockResponse);
 
     act(() => {
-      localStorage.setItem('tiempoUsado', '120');
+      localStorage.setItem('pAcertadas', 5);
+      localStorage.setItem('pFalladas', 5);
+      localStorage.setItem('tiempoUsado', 120);
     });
 
     render(
@@ -66,8 +68,8 @@ describe('PostGame component', () => {
       'http://localhost:8000/addgame',
       {
         user: mockSessionData.userId,
-        questions: [], 
-        answers: [],
+        pAcertadas: localStorage.getItem('pAcertadas'), 
+        pFalladas: localStorage.getItem('pFalladas'),
         totalTime: localStorage.getItem('tiempoUsado')
       }
     );
