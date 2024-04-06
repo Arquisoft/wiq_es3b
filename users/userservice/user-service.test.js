@@ -5,20 +5,23 @@ const mongoose = require('mongoose');
 let mongoServer;
 let app;
 let User;
+let connection;
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri;
   app = require('./user-service'); 
-  const connection = mongoose.createConnection(mongoUri);
+  connection = mongoose.createConnection(mongoUri);
   User = require('./user-model')(connection);
 
 });
 
 afterAll(async () => {
-    app.close();
+
+    await connection.close();
     await mongoServer.stop();
+    app.close();
 });
 beforeEach(async () => {
   await User.create({
