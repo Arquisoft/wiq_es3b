@@ -70,7 +70,7 @@ app.get('/api/info/users', async (req, res) => {
     let usersData=[];
     if(username!=undefined){
       try{
-        const user = await axios.get(`${USER_SERVICE_URL}/getUserId/${username}`)
+        const user = await axios.get(`${USER_SERVICE_URL}/getUserInfo/${username}`)
         if (!user.data) {
           res.status(400).json({ error: 'User not found' });
         }
