@@ -26,16 +26,17 @@ const validateRequiredFields = (req, fields) => {
 // Ruta para agregar un nuevo juego
 app.post('/addgame', async (req, res) => {
   try {
-    validateRequiredFields(req, ['user', 'pAcertadas', 'pFalladas', 'totalTime']);
+    validateRequiredFields(req, ['user', 'pAcertadas', 'pFalladas', 'totalTime', 'gameMode']);
 
-    const { user, pAcertadas, pFalladas, totalTime } = req.body;
+    const { user, pAcertadas, pFalladas, totalTime, gameMode } = req.body;
 
     // Crea una nueva instancia del modelo de juegos
     const newGame = new Game({
       user: user, 
       pAcertadas: pAcertadas,
       pFalladas: pFalladas,
-      totalTime: totalTime
+      totalTime: totalTime,
+      gameMode: gameMode
     });
 
     // Guarda el nuevo juego en la base de datos
@@ -51,12 +52,23 @@ app.get('/api/info/games', async (req, res) => {
     const {user} = req.query;
     let query = {};
 
-    if (user !== undefined) query.user = user === '' ? null : user;
+    if (user !== undefined) {//filtra por el id del usuario
+      query.user = user === '' ? null : user;
+    }
+
     const game = await Game.find(query);
     if (!game) {
       return res.status(404).json({ error: 'No information for games found' });
     }
-    res.status(200).json(game);
+    const modifiedGame = game.map(g => {
+      const { pAcertadas, pFalladas, ...rest } = g._doc;
+      return {
+      ...rest,
+      correctAnswers: pAcertadas,
+      incorrectAnswers: pFalladas
+      };
+    });
+    res.status(200).json(modifiedGame);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -123,17 +135,14 @@ app.get('/api/info/users', async (req, res) => {
 app.get('/getParticipation/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
-    console.log('User ID:', userId);
 
     if (!userId) {
       // Si no se encuentra el usuario, responder con un error
-      console.log('User not found');
       res.status(404).json({ error: 'User not found' });
       return;
     }
     
     // Consulta para obtener los datos de participación del usuario
-    console.log('Querying participation data...');
     const participationData = await Game.aggregate([
       { $match: { user: userId } },
       {
@@ -149,12 +158,10 @@ app.get('/getParticipation/:userId', async (req, res) => {
 
     if (participationData.length === 0) {
       // No se encontraron datos para el usuario
-      console.log('No participation data found for the user.');
       res.status(404).json({ error: 'No participation data found for the user.' });
       return;
     }
 
-    console.log('Sending participation data:', participationData[0]);
     res.status(200).json(participationData[0]);
   } catch (error) {
     console.error('Error al obtener datos de participación:', error);

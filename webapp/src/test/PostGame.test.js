@@ -12,6 +12,7 @@ describe('PostGame component', () => {
     // Mock the SessionContext value
     const sessionData = {
       userId: 'mockedUserId',
+      token: 'mockedToken'
     };
 
     render(
@@ -29,6 +30,7 @@ describe('PostGame component', () => {
     // Mock the SessionContext value
     const sessionData = {
       userId: 'mockedUserId',
+      token: 'mockedToken'
     };
 
     render(
@@ -46,7 +48,7 @@ describe('PostGame component', () => {
 
   test('saves game data correctly', async () => {
     // Mock the SessionContext value
-    const mockSessionData = { userId: 'mockUserId'};
+    const mockSessionData = { userId: 'mockUserId', token: 'mockToken'};
     const mockResponse = { data: 'Mock response data' };
 
     axios.post.mockResolvedValue(mockResponse);
@@ -70,7 +72,14 @@ describe('PostGame component', () => {
         user: mockSessionData.userId,
         pAcertadas: localStorage.getItem('pAcertadas'), 
         pFalladas: localStorage.getItem('pFalladas'),
-        totalTime: localStorage.getItem('tiempoUsado')
+        totalTime: localStorage.getItem('tiempoUsado'),
+        gameMode: undefined,
+ 
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${mockSessionData.token}`
+          }
       }
     );
   });

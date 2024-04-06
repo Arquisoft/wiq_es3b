@@ -17,6 +17,14 @@ const gameSchema = new mongoose.Schema({
     type: Number, 
     required: true,
   },
+  date: {
+    type: Date, 
+    default: Date.now,
+  },
+  gameMode:{
+    type: String,
+    required: true,
+  }
 });
 module.exports = (connection) => {
   return connection.model('Game', gameSchema);
