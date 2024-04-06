@@ -67,7 +67,7 @@ describe('Game Service', () => {
     expect(data).toHaveProperty('pFalladas', newGame.pFalladas);
     expect(data).toHaveProperty('totalTime', newGame.totalTime);
     expect(data).toHaveProperty('gameMode', newGame.gameMode);
-    expect(data).toHaveProperty('gameMode', newGame.date);
+    expect(data).toHaveProperty('date');
   });
 
 
