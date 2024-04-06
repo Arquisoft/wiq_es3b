@@ -1,43 +1,96 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { PostGame } from '../components/PostGame';
+import axios from 'axios';
+
+// Mock the Typography component
+jest.mock('@mui/material/Typography', () => {
+  return {
+    __esModule: true,
+    default: jest.fn().mockImplementation(({ children }) => {
+      return <span>{children}</span>;
+    }),
+  };
+});
+
+// Mock the Card component
+jest.mock('@mui/material/Card', () => {
+  return {
+    __esModule: true,
+    default: jest.fn().mockImplementation(({ children }) => {
+      return <div>{children}</div>;
+    }),
+  };
+});
+
+// Mock the useContext hook
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useContext: jest.fn(),
+}));
+
+jest.mock('axios');
 
 describe('PostGame component', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    localStorage.clear();
+  });
+
   test('renders "FIN" text correctly', () => {
+    // Mock the SessionContext value
+    const mockSessionData = { userId: 'mockUserId' };
+    React.useContext.mockReturnValue({ sessionData: mockSessionData });
+
+    axios.post.mockResolvedValue({ data: 'Mock response data' });
+
     render(<PostGame />);
 
-    // Verifica que el texto "Fin del juego" se renderice correctamente
+    // Verifies that the text "Game Over" is rendered correctly
     expect(screen.getByText('Game Over')).toBeInTheDocument();
+
+    expect(axios.post).toHaveBeenCalledWith(
+      'http://localhost:8000/addgame',
+      expect.any(Object)
+    );
   });
 
   test('renders text correctly', () => {
-    render(<PostGame gameMode="classic"/>);
+    // Mock the SessionContext value
+    const mockSessionData = { userId: 'mockUserId' };
+    React.useContext.mockReturnValue({ sessionData: mockSessionData });
 
-    // Verifica que el texto "Preguntas acertadas" se renderice correctamente
+    render(<PostGame gameMode="classic" />);
+
+    // Verifies that the text "Correct answers" is rendered correctly
     expect(screen.getByText('Correct answers')).toBeInTheDocument();
 
-    // Verifica que el texto "Preguntas falladas" se renderice correctamente
+    // Verifies that the text "Incorrect answers" is rendered correctly
     expect(screen.getByText('Incorrect answers')).toBeInTheDocument();
 
-    // Verifica que el texto "Tiempo usado" se renderice correctamente
+    // Verifies that the text "Elapsed time" is rendered correctly
     expect(screen.getByText('Elapsed time')).toBeInTheDocument();
 
-    // Verifica que el texto "Tiempo restante" se renderice correctamente
+    // Verifies that the text "Time remaining" is rendered correctly
     expect(screen.getByText('Time remaining')).toBeInTheDocument();
   });
 
-  test('formatTiempo devuelve el formato de tiempo correcto', () => {
-    // Ejemplo de datos de entrada y salida esperada
-    const segundos = 0; // 0 segundos
-    const tiempoEsperado = '00:00';
-  
-    // Renderizar el componente PostGame que contiene la función formatTiempo
+  test('formatTiempo returns the correct time format', () => {
+    // Example input data and expected output
+    const seconds = 0; // 0 seconds
+    const expectedTime = '00:00';
+
+    // Mock the SessionContext value
+    const mockSessionData = { userId: 'mockUserId' };
+    React.useContext.mockReturnValue({ sessionData: mockSessionData });
+
+    // Render the PostGame component containing the formatTiempo function
     render(<PostGame />);
-  
-    // Obtener el componente que muestra el tiempo usado
-    const tiempoUsadoCell = screen.getByText('Elapsed time').closest('tr').querySelector('td:last-child');
-  
-    // Verificar si el texto del componente coincide con el tiempo esperado
-    expect(tiempoUsadoCell.textContent).toBe(tiempoEsperado);
+
+    // Get the component that displays the elapsed time
+    const elapsedTimeCell = screen.getByText('Elapsed time').closest('tr').querySelector('td:last-child');
+
+    // Check if the component's text matches the expected time
+    expect(elapsedTimeCell.textContent).toBe(expectedTime);
   });
 });
