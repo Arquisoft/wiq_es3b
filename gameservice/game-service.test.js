@@ -22,7 +22,9 @@ beforeAll(async () => {
 
 afterAll(async () => {
   app.close();
+  await connection.close();
   await mongoServer.stop();
+  process.exit(0);
 });
 beforeEach(async () => {
   const user = await User.create({
