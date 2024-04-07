@@ -6,7 +6,7 @@ import { SessionContext } from '../SessionContext';
 
 const Login = ({ goTo }) => {
 
-  const { saveSessionData } = useContext(SessionContext);
+  const { saveSessionData, sessionData } = useContext(SessionContext);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -36,10 +36,29 @@ const Login = ({ goTo }) => {
       setError(error.response.data.error);
     }
   };
+  const autologin = async () => {
+    try {
+      const response = await axios.get(`${apiEndpoint}/verify`, {
+        headers: {
+          Authorization: 'Bearer '+sessionData.token
+        }
+      });
+      if(response.status && response.status===200){
+        goTo(1);
+      }
+    } catch (error) {
+    }
+  };
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
+  useEffect(() => {
+    if (sessionData && sessionData.token) {
+      autologin();
+    }
+    //eslint-disable-next-line
+  }, []);
   
   useEffect(() => {
     if (loginSuccess) {

@@ -60,6 +60,27 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Service down' });
   }
 });
+app.get('/verify', async (req, res) => {
+  try {
+    if (req.headers.authorization) {
+      try{
+        const authResponse = await axios.get(authServiceUrl+'/verify', {
+          headers: {
+            Authorization: req.headers.authorization
+          }
+        });
+        res.json(authResponse.data);
+      } catch (error) {
+        res.status(error.response.status).json(error.response.data);
+      }
+    } else {
+      res.status(401).json({ error: 'Unauthorized' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Service down' });
+  }
+});
+
 
 app.post('/adduser', async (req, res) => {
   try {

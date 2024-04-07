@@ -20,7 +20,7 @@ const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000"
 
 function Nav({ goTo }) {
 
-  const { sessionData } = useContext(SessionContext);
+  const { sessionData, clearSessionData } = useContext(SessionContext);
   const username = sessionData ? sessionData.username : 'noUser';
   const profileImgSrc = sessionData && sessionData.profileImage ? 
         require(`../assets/${sessionData.profileImage}`) : defaultProfileImg;
@@ -49,7 +49,8 @@ function Nav({ goTo }) {
     handleCloseUserMenu();
   }
 
-  const logoutClic = () => {
+  const logoutClic = async() => {
+    clearSessionData();
     goTo(0);
     handleCloseUserMenu();
   }
