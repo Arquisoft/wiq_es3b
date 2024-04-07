@@ -35,6 +35,7 @@ app.post('/adduser', async (req, res) => {
         const existingUser = await User.findOne({ username: req.body.username });
         if (existingUser) {
           res.status(400).json({ error: "User already exist" }); 
+          return;
         }
         // Encrypt the password before saving it
         const hashedPassword = await bcrypt.hash(req.body.password, 10);

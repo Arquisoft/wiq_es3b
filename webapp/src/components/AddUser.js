@@ -1,5 +1,5 @@
 // src/components/AddUser.js
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Button, Snackbar, IconButton } from '@mui/material';
 
@@ -8,14 +8,17 @@ import profileImg2 from '../assets/perfil2.jpg';
 import profileImg3 from '../assets/perfil3.jpg';
 import profileImg4 from '../assets/perfil4.jpg';
 import profileImg5 from '../assets/perfil5.jpg';
+import { SessionContext } from '../SessionContext';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
-const AddUser = () => {
+const AddUser = ({goTo}) => {
+  const { saveSessionData } = useContext(SessionContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [profileImage, setProfileImage] = useState('defaultImgProfile.jpg');
+  const [loginSuccess, setLoginSuccess] = useState(false);
 
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -26,13 +29,25 @@ const AddUser = () => {
         setError('Passwords do not match');
         return;
       }
-
       await axios.post(`${apiEndpoint}/adduser`, { username, password, profileImage });
       setOpenSnackbar(true);
+      try{
+        const response = await axios.post(`${apiEndpoint}/login`, { username, password });
+        const { createdAt: userCreatedAt, username: loggedInUsername, token, profileImage, userId: id } = response.data;
+        setLoginSuccess(true);
+        saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, token: token, profileImage: profileImage, userId: id });
+      } catch (error) {
+      }
     } catch (error) {
       setError(error.response.data.error);
     }
   };
+
+  useEffect(() => {
+    if (loginSuccess) {
+      goTo(1);
+    }
+  }, [loginSuccess, goTo]);
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
