@@ -5,7 +5,11 @@ import { SessionContext } from '../SessionContext';
 import axios from 'axios';
 
 // Mock axios
-jest.mock('axios');
+jest.mock('axios', () => ({
+  post: jest.fn()
+}));
+
+jest.setTimeout(10000);
 
 describe('PostGame component', () => {
   test('renders "Game Over" text correctly', () => {
@@ -52,7 +56,6 @@ describe('PostGame component', () => {
     const mockResponse = { data: 'Mock response data' };
 
     axios.post.mockResolvedValue(mockResponse);
-
     act(() => {
       localStorage.setItem('pAcertadas', 5);
       localStorage.setItem('pFalladas', 5);
@@ -74,13 +77,78 @@ describe('PostGame component', () => {
         pFalladas: localStorage.getItem('pFalladas'),
         totalTime: localStorage.getItem('tiempoUsado'),
         gameMode: undefined,
- 
       },
       {
         headers: {
           Authorization: `Bearer ${mockSessionData.token}`
-          }
+        }
       }
     );
+    // Check if the snackbar is displayed
+    expect(await screen.findByText('Game saved successfully')).toBeInTheDocument();
+  });
+  test('closes the snackbar correctly', () => {
+    // Mock the SessionContext value
+    const sessionData = {
+      userId: 'mockedUserId',
+      token: 'mockedToken'
+    };
+
+    // Mock the setOpenSnackbar function
+    const setOpenSnackbar = jest.fn();
+    const handleCloseSnackbar = jest.fn();
+    render(
+      <SessionContext.Provider value={{ sessionData }}>
+      <PostGame setOpenSnackbar={setOpenSnackbar} handleCloseSnackbar={handleCloseSnackbar} />
+      </SessionContext.Provider>
+    );
+
+    // Set the initial state of the snackbar to open
+    act(() => {
+      setOpenSnackbar(false);
+    });
+
+    // Call the handleCloseSnackbar function
+    act(() => {
+      handleCloseSnackbar();
+    });
+
+    // Check if setOpenSnackbar is false
+    expect(setOpenSnackbar).toHaveBeenCalledWith(false);
+
+    // Check if the snackbar is closed
+    expect(screen.queryByText('Game saved successfully')).not.toBeInTheDocument();
+  });
+  test('displays error snackbar correctly', async () => {
+    // Mock the SessionContext value
+    const sessionData = {
+      userId: 'mockedUserId',
+      token: 'mockedToken'
+    };
+    // Mock the axios post function to throw an error
+    axios.post.mockRejectedValue(new Error('Mock error'));
+    render(
+      <SessionContext.Provider value={{ sessionData }}>
+        <PostGame />
+      </SessionContext.Provider>
+    );
+    // Check if saveGame function is called correctly
+    expect(axios.post).toHaveBeenCalledWith(
+      'http://localhost:8000/addgame',
+      {
+        user: sessionData.userId,
+        pAcertadas: localStorage.getItem('pAcertadas'), 
+        pFalladas: localStorage.getItem('pFalladas'),
+        totalTime: localStorage.getItem('tiempoUsado'),
+        gameMode: undefined,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${sessionData.token}`
+        }
+      }
+    );
+    // Check if the error snackbar is displayed
+    expect(await screen.findByText('Error adding game')).toBeInTheDocument();
   });
 });

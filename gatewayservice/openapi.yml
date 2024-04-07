@@ -67,7 +67,46 @@ paths:
       security:
         - bearerAuth: []
       
-          
+  /verify:
+    get:
+      summary: Verify the authorization token
+      responses:
+        '200':
+          description: Authorization token verified successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Error occurred while verifying authorization token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+      security:
+        - bearerAuth: []
+
   /api/questions/create:
     get:
       summary: Create a question

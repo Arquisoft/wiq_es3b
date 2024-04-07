@@ -50,9 +50,9 @@
     "jest-cucumber": "^3.0.1",
     "jest-environment-node": "^29.7.0",
     "mongodb-memory-server": "^9.1.4",
+    "mongoose": "^8.3.0",
     "puppeteer": "^21.7.0",
     "serve": "^14.2.1",
-    "start-server-and-test": "^2.0.3",
-    "mongoose": "^8.3.0"
+    "start-server-and-test": "^2.0.3"
   }
 }

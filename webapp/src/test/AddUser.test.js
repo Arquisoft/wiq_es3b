@@ -3,7 +3,7 @@ import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import AddUser from '../components/AddUser';
-import { SessionContext } from '../SessionContext'; 
+import { SessionContext } from '../SessionContext';
 
 const mockAxios = new MockAdapter(axios);
 const handleImageClick = jest.fn();
@@ -15,8 +15,8 @@ describe('AddUser component', () => {
 
   it('should add user successfully', async () => {
     render(
-      <SessionContext.Provider value={{ saveSessionData: jest.fn(), clearSessionData: jest.fn() }}> 
-        <AddUser />
+      <SessionContext.Provider value={{ saveSessionData: () => {},clearSessionData: jest.fn() }}> 
+        <AddUser goTo={(parameter) => {}}/>
       </SessionContext.Provider>
     );
 
@@ -27,7 +27,6 @@ describe('AddUser component', () => {
 
     // Mock the axios.post request to simulate a successful response
     mockAxios.onPost('http://localhost:8000/adduser').reply(200);
-
     // Simulate user input
     fireEvent.change(usernameInput, { target: { value: 'testUser' } });
     fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
@@ -43,7 +42,11 @@ describe('AddUser component', () => {
   });
 
   it('passwords dont match', async () => {
-    render(<AddUser />);
+    render(
+      <SessionContext.Provider value={{ saveSessionData: () => {},clearSessionData: jest.fn() }}> 
+        <AddUser goTo={(parameter) => {}}/>
+      </SessionContext.Provider>
+    );
 
     await waitFor(() => {
       //const imageDiv = screen.getByTestId('fotosPerfil');
@@ -63,6 +66,7 @@ describe('AddUser component', () => {
 
     // Mock the axios.post request to simulate a successful response
     mockAxios.onPost('http://localhost:8000/adduser').reply(200);
+    mockAxios.onPost('http://localhost:8000/login').reply(200);
 
     // Simulate user input
     fireEvent.change(usernameInput, { target: { value: 'testUser' } });
@@ -78,8 +82,13 @@ describe('AddUser component', () => {
     });
   });
 
+  
   it('should handle error when adding user', async () => {
-    render(<AddUser />);
+    render(
+      <SessionContext.Provider value={{ saveSessionData: () => {},clearSessionData: jest.fn() }}> 
+        <AddUser goTo={(parameter) => {}}/>
+      </SessionContext.Provider>
+    );
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText("Password");
@@ -88,6 +97,7 @@ describe('AddUser component', () => {
 
     // Mock the axios.post request to simulate an error response
     mockAxios.onPost('http://localhost:8000/adduser').reply(500, { error: 'Internal Server Error' });
+    mockAxios.onPost('http://localhost:8000/login').reply(500, { error: 'Internal Server Error' });
 
     // Simulate user input
     fireEvent.change(usernameInput, { target: { value: 'testUser' } });
@@ -104,7 +114,11 @@ describe('AddUser component', () => {
   });
 
   test('selección de imagen de perfil', async () => {
-    const { getByAltText } = render(<AddUser />);
+    const { getByAltText } =     render(
+      <SessionContext.Provider value={{ saveSessionData: () => {},clearSessionData: jest.fn() }}> 
+        <AddUser goTo={(parameter) => {}}/>
+      </SessionContext.Provider>
+    );
 
     // Encuentra los botones de imagen de perfil
     const button1 = getByAltText('Imagen Perfil 1');
@@ -121,4 +135,53 @@ describe('AddUser component', () => {
     fireEvent.click(button5);
 
   });
+  it('should handle successful user registration and login', async () => {
+    // Mock the response for successful user registration
+    mockAxios.onPost('http://localhost:8000/adduser').reply(200);
+  
+    // Mock the response for successful user login
+    mockAxios.onPost('http://localhost:8000/login').reply(200, {
+      createdAt: '2022-01-01',
+      username: 'testUser',
+      token: 'testToken',
+      profileImage: 'testProfileImage',
+      userId: 'testUserId',
+    });
+  
+    const goToMock = jest.fn();
+  
+    // Render the component with mocked goTo function
+    render(
+      <SessionContext.Provider value={{ saveSessionData: () => {}, clearSessionData: jest.fn() }}> 
+        <AddUser goTo={goToMock} />
+      </SessionContext.Provider>
+    );
+  
+    // Find input fields and submit button
+    const usernameInput = screen.getByLabelText(/Username/i);
+    const passwordInput = screen.getByLabelText('Password');
+    const confirmPasswordInput = screen.getByLabelText(/Confirm/i);
+    const addUserButton = screen.getByRole('button', { name: /SIGN UP/i });
+  
+    // Simulate user input
+    fireEvent.change(usernameInput, { target: { value: 'testUser' } });
+    fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
+    fireEvent.change(confirmPasswordInput, { target: { value: 'testPassword' } });
+  
+    // Trigger the add user button click
+    fireEvent.click(addUserButton);
+  
+    // Wait for the Snackbar to be open
+    await waitFor(() => {
+      expect(screen.queryByText(/Passwords do not match/i)).toBeNull();
+    });
+  
+    // Ensure that loginSuccess is set to true
+    await waitFor(() => {
+      expect(screen.getByText(/User added successfully/i)).toBeInTheDocument();
+    });
+  
+    // Verify that the goTo function is called with 1
+    expect(goToMock).toHaveBeenCalledWith(1);
+  });  
 });

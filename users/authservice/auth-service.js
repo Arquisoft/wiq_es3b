@@ -40,8 +40,10 @@ app.post('/login', async (req, res) => {
       const token = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
       // Respond with the token and user information
       res.json({ token: token, username: username, createdAt: user.createdAt, userId: user._id });
+      return;
     } else {
       res.status(401).json({ error: 'Invalid credentials' });
+      return;
     }
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -55,6 +57,7 @@ app.get('/verify', async (req, res) => {
     const user = await User.findById(userId);
     if (user) {
       res.json({ username: user.username, createdAt: user.createdAt });
+      return;
     } else {
       res.status(404).json({ error: 'User not found' });
     }
