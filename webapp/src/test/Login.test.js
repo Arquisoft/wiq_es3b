@@ -70,4 +70,37 @@ describe('Login component', () => {
     expect(screen.queryByText(/Hello testUser!/i)).toBeNull();
     expect(screen.queryByText(/Your account was created on/i)).toBeNull();
   });
+  it('should call autologin function when sessionData has token', async () => {
+    const goToMock = jest.fn();
+    const sessionData = { token: 'testToken' };
+
+    render(
+      <SessionContext.Provider value={{ ...mockValue, sessionData }}>
+        <Login goTo={goToMock} />
+      </SessionContext.Provider>
+    );
+
+    await waitFor(() => {
+      expect(mockAxios.history.get.length).toBe(1);
+      expect(mockAxios.history.get[0].url).toBe('http://localhost:8000/verify');
+      expect(mockAxios.history.get[0].headers.Authorization).toBe('Bearer testToken');
+    });
+  });
+
+  it('should not call autologin function when sessionData does not have token', async () => {
+    const goToMock = jest.fn();
+    const sessionData = {};
+
+    render(
+      <SessionContext.Provider value={{ ...mockValue, sessionData }}>
+        <Login goTo={goToMock} />
+      </SessionContext.Provider>
+    );
+
+    await waitFor(() => {
+      expect(mockAxios.history.get.length).toBe(0);
+    });
+
+    expect(goToMock).not.toHaveBeenCalled();
+  });
 });
