@@ -17,10 +17,9 @@ describe('Login component', () => {
   });
 
   it('should log in successfully', async () => {
-
     render(
       <SessionContext.Provider value={mockValue}>
-        <Login goTo={(parameter) => {}} />
+        <Login goTo={() => {}} />
       </SessionContext.Provider>
     );
 
@@ -37,13 +36,17 @@ describe('Login component', () => {
         fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
         fireEvent.click(loginButton);
       });
+
+    // Verify that login was successful
+    await waitFor(() => {
+      expect(screen.getByText(/Login successful/i)).toBeInTheDocument();
+    });
   });
 
   it('should handle error when logging in', async () => {
-
     render(
       <SessionContext.Provider value={mockValue}>
-        <Login goTo={(parameter) => {}} />
+        <Login goTo={() => {}} />
       </SessionContext.Provider>
     );
 
@@ -54,7 +57,7 @@ describe('Login component', () => {
     // Mock the axios.post request to simulate an error response
     mockAxios.onPost('http://localhost:8000/login').reply(401, { error: 'Unauthorized' });
 
-    // Simulate user input
+    // Simulate user input and login button click
     fireEvent.change(usernameInput, { target: { value: 'testUser' } });
     fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
 
@@ -70,6 +73,7 @@ describe('Login component', () => {
     expect(screen.queryByText(/Hello testUser!/i)).toBeNull();
     expect(screen.queryByText(/Your account was created on/i)).toBeNull();
   });
+
   it('should call autologin function when sessionData has token', async () => {
     const goToMock = jest.fn();
     const sessionData = { token: 'testToken' };
@@ -103,4 +107,33 @@ describe('Login component', () => {
 
     expect(goToMock).not.toHaveBeenCalled();
   });
+
+  it('should call goTo function when response status is 200', async () => {
+    const goToMock = jest.fn();
+  
+    render(
+      <SessionContext.Provider value={mockValue}>
+        <Login goTo={goToMock} />
+      </SessionContext.Provider>
+    );
+  
+    const usernameInput = screen.getByLabelText(/Username/i);
+    const passwordInput = screen.getByLabelText(/Password/i);
+    const loginButton = screen.getByRole('button', { name: /Login/i });
+  
+    // Mock the axios.post request to simulate a successful response
+    mockAxios.onPost('http://localhost:8000/login').reply(200, { createdAt: '2024-01-01T12:34:56Z' });
+  
+    // Simulate user input and login button click
+    await act(async () => {
+      fireEvent.change(usernameInput, { target: { value: 'testUser' } });
+      fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
+      fireEvent.click(loginButton);
+    });
+  
+    // Wait for the goTo function to be called
+    await waitFor(() => {
+      expect(goToMock).toHaveBeenCalledWith(1);
+    });
+  });  
 });

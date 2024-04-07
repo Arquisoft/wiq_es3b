@@ -136,39 +136,52 @@ describe('AddUser component', () => {
 
   });
   it('should handle successful user registration and login', async () => {
-    render(
-      <SessionContext.Provider value={{ saveSessionData: () => {},clearSessionData: jest.fn() }}> 
-        <AddUser goTo={(parameter) => {}}/>
-      </SessionContext.Provider>
-    );
-
-    const usernameInput = screen.getByLabelText(/Username/i);
-    const passwordInput = screen.getByLabelText('Password');
-    const confirmPasswordInput = screen.getByLabelText(/Confirm/i);
-    const addUserButton = screen.getByRole('button', { name: /SIGN UP/i });
-
-    // Simulate user input
-    fireEvent.change(usernameInput, { target: { value: 'testUser' } });
-    fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
-    fireEvent.change(confirmPasswordInput, { target: { value: 'testPassword' } });
-
-    // Mock the axios.post request to simulate a successful response
+    // Mock the response for successful user registration
     mockAxios.onPost('http://localhost:8000/adduser').reply(200);
-    mockAxios.onPost(`http://localhost:8000/login`).reply(200, {
+  
+    // Mock the response for successful user login
+    mockAxios.onPost('http://localhost:8000/login').reply(200, {
       createdAt: '2022-01-01',
       username: 'testUser',
       token: 'testToken',
       profileImage: 'testProfileImage',
       userId: 'testUserId',
     });
-
+  
+    const goToMock = jest.fn();
+  
+    // Render the component with mocked goTo function
+    render(
+      <SessionContext.Provider value={{ saveSessionData: () => {}, clearSessionData: jest.fn() }}> 
+        <AddUser goTo={goToMock} />
+      </SessionContext.Provider>
+    );
+  
+    // Find input fields and submit button
+    const usernameInput = screen.getByLabelText(/Username/i);
+    const passwordInput = screen.getByLabelText('Password');
+    const confirmPasswordInput = screen.getByLabelText(/Confirm/i);
+    const addUserButton = screen.getByRole('button', { name: /SIGN UP/i });
+  
+    // Simulate user input
+    fireEvent.change(usernameInput, { target: { value: 'testUser' } });
+    fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
+    fireEvent.change(confirmPasswordInput, { target: { value: 'testPassword' } });
+  
     // Trigger the add user button click
     fireEvent.click(addUserButton);
-
+  
     // Wait for the Snackbar to be open
     await waitFor(() => {
       expect(screen.queryByText(/Passwords do not match/i)).toBeNull();
     });
-  });
-
+  
+    // Ensure that loginSuccess is set to true
+    await waitFor(() => {
+      expect(screen.getByText(/User added successfully/i)).toBeInTheDocument();
+    });
+  
+    // Verify that the goTo function is called with 1
+    expect(goToMock).toHaveBeenCalledWith(1);
+  });  
 });

@@ -54,12 +54,9 @@ const Login = ({ goTo }) => {
     setOpenSnackbar(false);
   };
   useEffect(() => {
-    if (sessionData && sessionData.token) {
-      autologin();
-    }
+    sessionData?.token && autologin();
     //eslint-disable-next-line
-  }, []);
-  
+  }, []);  
   useEffect(() => {
     if (loginSuccess) {
       goTo(1);
