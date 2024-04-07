@@ -12,6 +12,7 @@ This page contains a short summary and explanation of the fundamental decisions 
 Below, all the technologies to be used in the development of the application are listed:
 
 * *JavaScript / React:* A JavaScript library designed to facilitate the development of web applications.
+* *Material UI:* Set of user interface components for web applications.
 * *JavaScript / NodeJS:* An asynchronous runtime environment based on JavaScript.
 * *MongoDB:* A document-oriented NoSQL database system.
 * *Docker:* Used for deploying applications locally.
@@ -76,9 +77,8 @@ This section addresses the fundamental decisions for the project's architecture.
 
 |===
 
-| *Data Management* |
-| *Deployment* |
-| *Security* |
-| *Monitoring* |
+| *Deployment* | Use of Azure for application deployment
+| *Security* | User access control
+| *Monitoring* | Prometheus and Grafana for monitoring
 
 |===
