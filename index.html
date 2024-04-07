@@ -493,10 +493,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_mapping_of_building_blocks_to_infrastructure">7.4. Mapping of Building Blocks to Infrastructure::</a></li>
 </ul>
 </li>
-<li><a href="#section-concepts">8. First Designs</a>
+<li><a href="#section-concepts">8. 1.0 Designs</a>
 <ul class="sectlevel2">
-<li><a href="#_home_page">8.1. Home Page</a></li>
-<li><a href="#_game_page">8.2. Game page</a></li>
+<li><a href="#_user_page">8.1. User Page</a></li>
+<li><a href="#_home_page">8.2. Home Page</a></li>
+<li><a href="#_game_page">8.3. Game page</a></li>
 </ul>
 </li>
 <li><a href="#_cross_cutting_concepts">9. Cross-cutting Concepts</a>
@@ -906,6 +907,9 @@ The main constraints are developing the game as a web app and using Wikidata to 
 <p><strong>JavaScript / React:</strong> A JavaScript library designed to facilitate the development of web applications.</p>
 </li>
 <li>
+<p><strong>Material UI:</strong> Set of user interface components for web applications.</p>
+</li>
+<li>
 <p><strong>JavaScript / NodeJS:</strong> An asynchronous runtime environment based on JavaScript.</p>
 </li>
 <li>
@@ -1038,20 +1042,16 @@ The main constraints are developing the game as a web app and using Wikidata to 
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Data Management</strong></p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Deployment</strong></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use of Azure for application deployment</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Security</strong></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User access control</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Monitoring</strong></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Prometheus and Grafana for monitoring</p></td>
 </tr>
 </tbody>
 </table>
@@ -1255,7 +1255,7 @@ In case the login isn&#8217;t succesfully, a warning message is shown.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/sequencediagram-history.png" alt="sequencediagram history" width="390" height="297">
+<img src="./images/06_history.png" alt="Game">
 </div>
 </div>
 <div style="page-break-after: always;"></div>
@@ -1348,10 +1348,19 @@ The availability and efficiency of the application will be affected by the avail
 </div>
 </div>
 <div class="sect1">
-<h2 id="section-concepts">8. First Designs</h2>
+<h2 id="section-concepts">8. 1.0 Designs</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_home_page">8.1. Home Page</h3>
+<h3 id="_user_page">8.1. User Page</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/UserView.png" alt="User View">
+</div>
+</div>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_home_page">8.2. Home Page</h3>
 <div class="imageblock">
 <div class="content">
 <img src="./images/HomeView.png" alt="Home Menu View">
@@ -1360,7 +1369,7 @@ The availability and efficiency of the application will be affected by the avail
 <hr>
 </div>
 <div class="sect2">
-<h3 id="_game_page">8.2. Game page</h3>
+<h3 id="_game_page">8.3. Game page</h3>
 <div class="imageblock">
 <div class="content">
 <img src="./images/GameView.png" alt="Game View">
