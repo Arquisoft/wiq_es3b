@@ -131,6 +131,28 @@ describe('Gateway Service', () => {
     expect(response.statusCode).toBe(401);
     expect(response.body).toEqual({ error: "Unauthorized" });
   });
+  // Test /verify endpoint when auth service is down
+  it('should return an error when the auth service is down', async () => {
+    const mockedToken = 'mockedToken';
+    axios.get.mockRejectedValueOnce({ response: { status: 500, data: { error: 'Service down' } } });
+    const response = await request(app)
+      .get('/verify')
+      .set('Authorization', `Bearer ${mockedToken}`);
+    expect(response.statusCode).toBe(500);
+    expect(response.body).toEqual({ error: 'Service down' });
+  });
+
+  // Test /verify endpoint when auth service returns an error
+  it('should return an error when the auth service returns an error', async () => {
+    const mockedToken = 'mockedToken';
+    const mockedError = { error: 'Unauthorized' };
+    axios.get.mockRejectedValueOnce({ response: { status: 401, data: mockedError } });
+    const response = await request(app)
+      .get('/verify')
+      .set('Authorization', `Bearer ${mockedToken}`);
+    expect(response.statusCode).toBe(401);
+    expect(response.body).toEqual(mockedError);
+  });
 
 
 
