@@ -1,15 +1,22 @@
 // src/components/Login.js
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import { SessionContext } from '../SessionContext';
 
-const Login = () => {
+const Login = ({ goTo }) => {
+
+  const { saveSessionData } = useContext(SessionContext);
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loginSuccess, setLoginSuccess] = useState(false);
+  // eslint-disable-next-line
   const [createdAt, setCreatedAt] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  // eslint-disable-next-line
+  const [timeStart, setTimeStart] = useState(0);
 
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -18,11 +25,12 @@ const Login = () => {
       const response = await axios.post(`${apiEndpoint}/login`, { username, password });
 
       // Extract data from the response
-      const { createdAt: userCreatedAt } = response.data;
-
+      const { createdAt: userCreatedAt, username: loggedInUsername, token, profileImage, userId: id } = response.data;
+      
+      setTimeStart(Date.now());
       setCreatedAt(userCreatedAt);
       setLoginSuccess(true);
-
+      saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, token: token, profileImage: profileImage, userId: id });
       setOpenSnackbar(true);
     } catch (error) {
       setError(error.response.data.error);
@@ -32,24 +40,21 @@ const Login = () => {
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
+  
+  useEffect(() => {
+    if (loginSuccess) {
+      goTo(1);
+    }
+  }, [loginSuccess, goTo]);
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
-      {loginSuccess ? (
+    <Container component="div" maxWidth="xs" sx={{ marginTop: 8 }}>
         <div>
-          <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
-            Hello {username}!
-          </Typography>
-          <Typography component="p" variant="body1" sx={{ textAlign: 'center', marginTop: 2 }}>
-            Your account was created on {new Date(createdAt).toLocaleDateString()}.
-          </Typography>
-        </div>
-      ) : (
-        <div>
-          <Typography component="h1" variant="h5">
-            Login
+          <Typography component="h2" variant="h5">
+            &gt; Login
           </Typography>
           <TextField
+            name="username"
             margin="normal"
             fullWidth
             label="Username"
@@ -57,6 +62,7 @@ const Login = () => {
             onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
+            name="password"
             margin="normal"
             fullWidth
             label="Password"
@@ -64,7 +70,7 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button variant="contained" color="primary" onClick={loginUser}>
+          <Button className='buttonLoginRegister' variant="contained" color="primary" onClick={loginUser}>
             Login
           </Button>
           <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
@@ -72,7 +78,6 @@ const Login = () => {
             <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
           )}
         </div>
-      )}
     </Container>
   );
 };

@@ -2,9 +2,14 @@ import React from 'react';
 import { render, fireEvent, screen, waitFor, act } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import Login from './Login';
+import Login from '../components/Login';
+import { SessionContext } from '../SessionContext';
 
 const mockAxios = new MockAdapter(axios);
+
+const mockValue = {
+  saveSessionData: () => {}
+};
 
 describe('Login component', () => {
   beforeEach(() => {
@@ -12,7 +17,12 @@ describe('Login component', () => {
   });
 
   it('should log in successfully', async () => {
-    render(<Login />);
+
+    render(
+      <SessionContext.Provider value={mockValue}>
+        <Login goTo={(parameter) => {}} />
+      </SessionContext.Provider>
+    );
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
@@ -27,14 +37,15 @@ describe('Login component', () => {
         fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
         fireEvent.click(loginButton);
       });
-
-    // Verify that the user information is displayed
-    expect(screen.getByText(/Hello testUser!/i)).toBeInTheDocument();
-    expect(screen.getByText(/Your account was created on 1\/1\/2024/i)).toBeInTheDocument();
   });
 
   it('should handle error when logging in', async () => {
-    render(<Login />);
+
+    render(
+      <SessionContext.Provider value={mockValue}>
+        <Login goTo={(parameter) => {}} />
+      </SessionContext.Provider>
+    );
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);

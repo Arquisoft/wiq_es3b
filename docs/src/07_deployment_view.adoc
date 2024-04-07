@@ -1,19 +1,18 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
-[[section-deployment-view]]
-
-
 == Deployment View
+
 === Infrastructure Level 1
-image::Diag_Comp.jpg[align="center",title="Deployment Diagram",link="Diag_Comp.jpg]
+image::deployment_diagram.svg[align="center",title="Deployment Diagram"]
 
 === Motivation:
 
-The system is based in microservices architecture with three independent services, each responsible for a specific aspect of the functionality. One service is the Graphic interface, this service handles the presentation layer of a web application. Another service is tasked with managing user-related functionalities. MongoDB, a NoSQL database, is used to store and manage user data efficiently. The third service utilizes Wikidata, a free open base, to automatically generate questions.
+The system is based on a microservices architecture with six independent services, each responsible for a specific aspect of functionality. One service is the graphical interface (WebApp), which is responsible for the presentation layer of a web application. The user service is responsible for managing user-related functionalities, while the auth service is responsible for authenticating users. The question generation service uses Wikidata, a free and open database, to generate questions automatically. Finally, the question service allows to save and retrieve information from the generated questions and the game service does the same for game-related data and statistics. MongoDB, a NoSQL database, is used to store the information.
 
 === Quality and/or Performance Features::
 
-The main reason we have chosen a microservices architecture is to achieve a fast and efficient application.. The availability and efficiency of the application will be affected by Wikidata's availability, but just in the question generation moment.
+The main reason we have chosen a microservices architecture is to achieve a fast and efficient application, while allowing changes to be made to certain parts of the application without the need to bring it to a complete halt. The application is deployed in an Azure virtual machine and each of the application components is in a separate container thanks to the use of Docker.
+The availability and efficiency of the application will be affected by the availability of Wikidata, but only at the time of question generation.
 
 === Mapping of Building Blocks to Infrastructure::
 [cols="1,2" options="header"]
@@ -22,11 +21,11 @@ The main reason we have chosen a microservices architecture is to achieve a fast
 | _Browser_ | _The browser on the user's device where they can access to the application._
 | _WebApp_ | _The graphical interface  through which users can interact._
 | _API Gateway_ | _The API that comunicates the rest of the microservices with the graphical interface._
-| _Question_Generator_ | _The microservice responsible for generating questions through Wikidata._
+| _Question generation service_ | _The microservice responsible for generating questions through Wikidata._
 | _Wikidata_ | _The Wikidata API that allows us to access its information._
-| _Users_ | _The microservice responsible for managing users._
+| _Question service_  | _The microservice responsible for saving and getting information about the questions._
+| _Game service_ | _The microservice responsible for saving and getting information about the games._
+| _User service_ | _The microservice responsible for managing users._
+| _Auth service_ | _The microservice responsible for managing the authentication of the users._
 | _MongoDB_ | _A NoSQL based database where we can save the user's data._
 |===
-
-
-

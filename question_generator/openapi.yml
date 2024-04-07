@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: Question Generation Service
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8003'
+    description: Development server
+  - url: http://SOMEIP:8003
+    description: Production server
+paths:
+  /api/questions/create:
+    get:
+      summary: Create a question
+      parameters:
+        - in: query
+          name: lang
+          schema:
+            type: string
+          description: The language for the question
+      responses:
+        '200':
+          description: Question created successfully
+        '500':
+          description: Error occurred while creating question
+components:
+  schemas:
+    Question:
+      type: object
+      properties:
+        id:
+          type: string
+        user:
+          type: string
+        category:
+          type: string

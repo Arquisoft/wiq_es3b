@@ -1,0 +1,66 @@
+{
+	"Which city is higher above sea level?": "¿Qué ciudad está a mayor altitud?",
+	"Which city has more population?": "¿Qué ciudad tiene más población?",
+	"Which city is in?": "¿Qué ciudad se encuentra %s?",
+	"Which city has an area of?": "¿Qué ciudad tiene un área de %s km2?",
+	"Which city is governed by?": "¿Qué ciudad es gobernada por %s?",
+	"Which city is in the time zone?": "¿Qué ciudad está en la zona horaria %s?",
+
+	"Which autonomous community of Spain has an area of?": "¿Qué comunidad autónoma de España tiene un área de %s km2?",
+	"Which autonomous community of Spain has a population of?": "¿Qué comunidad autónoma de España tiene una población de %s?",
+	"Which autonomous community of Spain has a capital called?": "¿Qué comunidad autónoma de España tiene una capital llamada %s?",
+	"Which autonomous community of Spain has a president called?": "¿Qué comunidad autónoma de España tiene un presidente llamado %s?",
+	"Which autonomous community of Spain has x as the highest point?" : "¿Qué comunidad autónoma de España tiene %s como el punto más alto?",
+	
+
+	"Which planet is bigger?": "¿Qué planeta es más grande?",
+	"Which planet has a mass of?": "¿Qué planeta tiene una masa de %s kg?",
+	"Which planet has a radius of?": "¿Qué planeta tiene un radio de %s km?",
+	"Which planet has an orbital period of?" : "¿Qué planeta tiene un período orbital de %s días?",
+	"Which planet has x as the lowest point?" : "¿Qué planeta tiene %s como el punto más bajo?",
+	"Which planet has x as the highest point?" : "¿Qué planeta tiene %s como el punto más alto?",
+	"Which planet has an area of x?" : "¿Qué planeta tiene un área de %s km2?",
+	"Which planet has a density of x?" : "¿Qué planeta tiene una densidad de %s kg/m3?",
+
+	"Who has more followers?": "¿Quién tiene más seguidores? (Tenis)",
+	"Who has more looses?": "¿Quién tiene más derrotas? (Tenis)",
+	"Who has more wins?": "¿Quién tiene más victorias? (Tenis)",
+	"Which tennis player is from?" : "¿Qué jugador es de %s?",
+	"Which tennis player has wins?": "¿Qué tenista tiene %s victorias?",
+	"What country is from?": "¿De qué país es %s? (Tenis)",
+
+	"Which football team was founded in?": "¿Qué equipo de fútbol fue fundado en %s?",
+	"Which team plays in?": "¿Qué equipo juega en %s?",
+	"Which team trains?": "¿Qué equipo entrena %s?",
+	"Which coach trains?": "¿Qué entrenador entrena al %s?",
+	"Which is the stadium of?": "¿Cuál es el estadio del %s?",
+
+	"Which f1 driver was born in?": "¿Qué piloto de F1 nació en %s?",
+	"Which f1 driver has more podiums?": "¿Qué piloto de F1 tiene más podiums?",
+	"Which f1 driver has more wins?": "¿Qué pilto de F1 tiene más victorias?",
+	"Which f1 driver has wins?": "¿Qué piloto de F1 tiene %s victorias?",
+	
+	"Which song is song by?": "¿Qué canción canta %s?",
+	"Which song was released in?": "¿Qué canción fue lanzada en %s?",
+	"Which song belongs to?": "¿Qué canción pertenece a %s?",
+
+	"Which serie has episodes?": "¿Qué serie tiene %s episodios?",
+	"Which serie has seasons?": "¿Qué serie tiene %s temporadas?",
+
+	"Which movie was realeased in?": "¿Qué película fue lanzada en %s?",
+	"Which movie was directed by?": "¿Qué película fue dirigida por %s?",
+
+	"Which videogames has sold more units?": "¿Qué videojuego ha vendido más unidades?",
+	"Which videogame was released in?": "¿Qué videojuego fue lanzado el %s?",
+
+	"Which paint belongs to genre?": "¿Qué pintura pertenece al género %s?",
+	"Which paint was painted in?": "¿Qué pintura fue pintada en %s?",
+
+	"Which author wrote?": "¿Qué autor escribió %s?",
+	"Which is the original language of?": "¿Cuál es el idioma original de %s?",
+	"Which book is written in?": "¿Qué libro está escrito originalmente en %s?",
+	"Which book was written by?": "¿Qué libro fue escrito por %s?",
+	"Which book belongs to genre?": "¿Qué libro pertenece al género %s?"
+
+	
+}

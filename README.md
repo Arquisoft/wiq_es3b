@@ -15,6 +15,8 @@ This repo is a basic application composed of several components.
 
 Both the user and auth service share a Mongo database that is accessed with mongoose. 
 
+App Link: http://172.187.201.54:3000/
+
 ## Quick start guide
 
 ### Using docker
@@ -91,7 +93,7 @@ The deploy action is the following:
 deploy:
     name: Deploy over SSH
     runs-on: ubuntu-latest
-    needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp]
+    needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp,docker-push-questiongenerationservice, docker-push-questionservice]
     steps:
     - name: Deploy over SSH
       uses: fifsky/ssh-action@master

@@ -10,6 +10,7 @@ services:
       - "27017:27017"
     networks:
       - mynetwork
+    restart: always
 
   authservice:
     container_name: authservice-${teamname:-defaultASW}
@@ -24,6 +25,7 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
+    restart: always
 
   userservice:
     container_name: userservice-${teamname:-defaultASW}
@@ -38,6 +40,52 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
+    restart: always
+
+  questiongenerationservice:
+      container_name: questiongenerationservice-${teamname:-defaultASW}
+      image: ghcr.io/arquisoft/wiq_es3b/questiongenerationservice:latest
+      profiles: ["dev", "prod"]
+      build: ./question_generator
+      ports:
+        - "8003:8003"
+      networks:
+        - mynetwork
+      environment:
+        QUESTIONS_SERVICE_URL: http://questionservice:8004
+        AUTH_SERVICE_URL: http://authservice:8002
+      restart: always
+  
+  questionservice:
+    container_name: questionservice-${teamname:-defaultASW}
+    image: ghcr.io/arquisoft/wiq_es3b/questionservice:latest
+    profiles: ["dev", "prod"]
+    build: ./questionservice
+    depends_on:
+      - mongodb
+    ports:
+      - "8004:8004"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/questionsdb
+    restart: always
+
+  gameservice:
+    container_name: gameservice-${teamname:-defaultASW}
+    image: ghcr.io/arquisoft/wiq_es3b/gameservice:latest
+    profiles: ["dev", "prod"]
+    build: ./gameservice
+    depends_on:
+      - mongodb
+    ports:
+      - "8005:8005"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/gamesdb
+      USER_SERVICE_URL: http://userservice:8001
+    restart: always
 
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
@@ -48,6 +96,9 @@ services:
       - mongodb
       - userservice
       - authservice
+      - questiongenerationservice
+      - questionservice
+      - gameservice
     ports:
       - "8000:8000"
     networks:
@@ -55,6 +106,10 @@ services:
     environment:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
+      QUESTION_GENERATION_SERVICE_URL: http://questiongenerationservice:8003
+      QUESTIONS_SERVICE_URL: http://questionservice:8004
+      GAME_SERVICE_URL: http://gameservice:8005
+    restart: always
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}
@@ -64,7 +119,13 @@ services:
     depends_on:
       - gatewayservice
     ports:
-      - "3000:3000" 
+      - "3000:3000"
+    environment:
+      GATEWAY_SERVICE_URL: http://gatewayservice:8000
+    restart: always
+    #volumes:
+      #- ./webapp:/app
+    
 
   prometheus:
     image: prom/prometheus
