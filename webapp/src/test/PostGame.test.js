@@ -87,4 +87,36 @@ describe('PostGame component', () => {
     // Check if the snackbar is displayed
     expect(await screen.findByText('Game saved successfully')).toBeInTheDocument();
   });
+  test('closes the snackbar correctly', () => {
+    // Mock the SessionContext value
+    const sessionData = {
+      userId: 'mockedUserId',
+      token: 'mockedToken'
+    };
+
+    // Mock the setOpenSnackbar function
+    const setOpenSnackbar = jest.fn();
+    const handleCloseSnackbar = jest.fn();
+    render(
+      <SessionContext.Provider value={{ sessionData }}>
+      <PostGame setOpenSnackbar={setOpenSnackbar} handleCloseSnackbar={handleCloseSnackbar} />
+      </SessionContext.Provider>
+    );
+
+    // Set the initial state of the snackbar to open
+    act(() => {
+      setOpenSnackbar(false);
+    });
+
+    // Call the handleCloseSnackbar function
+    act(() => {
+      handleCloseSnackbar();
+    });
+
+    // Check if setOpenSnackbar is false
+    expect(setOpenSnackbar).toHaveBeenCalledWith(false);
+
+    // Check if the snackbar is closed
+    expect(screen.queryByText('Game saved successfully')).not.toBeInTheDocument();
+  });
 });

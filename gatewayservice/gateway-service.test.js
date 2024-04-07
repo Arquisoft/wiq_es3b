@@ -26,6 +26,17 @@ describe('Gateway Service', () => {
         }
       });
     }
+    else if (url.endsWith('/addgame')) {
+      return Promise.resolve({
+        data: {
+          user: userId,
+          pAcertadas: 5,
+          pFalladas: 3,
+          totalTime: 1200,
+          gameMode: 'normal'
+        }
+      });
+    }
   });
   axios.get.mockImplementation((url) => {
     if (url.endsWith('/api/questions/create')) {
@@ -69,6 +80,23 @@ describe('Gateway Service', () => {
       return Promise.resolve({ data: { username: 'testuser' } });
     }
   });
+
+
+  it('should return 401 Unauthorized if authorization token is missing', async () => {
+    const response = await request(app).post('/addgame');
+    expect(response.statusCode).toBe(401);
+    expect(response.body).toEqual({ error: 'Unauthorized' });
+  });
+
+  it('should return 401 Unauthorized if authorization token is invalid', async () => {
+    const mockedToken = 'invalidToken';
+    axios.get.mockRejectedValueOnce({ response: { status: 401 } });
+    const response = await request(app)
+      .post('/addgame')
+      .set('Authorization', `Bearer ${mockedToken}`);
+    expect(response.statusCode).toBe(401);
+    expect(response.body).toEqual({ error: 'Unauthorized' });
+  });
    // Test /health endpoint
    it('should give information of the status', async () => {
     const response = await request(app)
@@ -89,12 +117,23 @@ describe('Gateway Service', () => {
   });
   // Test /verify endpoint
   it('should verify authorization token with auth service', async () => {
+    const mockedToken = 'mockedToken';
+    const authResponse = { username: 'testuser' };
+    axios.get.mockResolvedValueOnce({ data: authResponse });
     const response = await request(app)
       .get('/verify')
-      .set('Authorization', 'Bearer mockedToken');
+      .set('Authorization', `Bearer ${mockedToken}`);
     expect(response.statusCode).toBe(200);
-    expect(response.body).toHaveProperty('username', 'testuser');
+    expect(response.body).toEqual(authResponse);
   });
+  it("should return 401 Unauthorized for unauthorized request", async () => {
+    const response = await request(app).get("/verify");
+    expect(response.statusCode).toBe(401);
+    expect(response.body).toEqual({ error: "Unauthorized" });
+  });
+
+
+
 
   // Test /adduser endpoint
   it('should forward add user request to user service', async () => {

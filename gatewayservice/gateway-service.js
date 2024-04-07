@@ -188,10 +188,6 @@ app.post('/addgame', async (req, res) => {
 app.get('/getParticipation/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
-    if (!userId) {
-      res.status(404).json({ error: 'User ID not provided' });
-      return;
-    }
     const apiUrl = `${gameServiceUrl}/getParticipation/${userId}`;
     try{
       const gameResponse = await axios.get(apiUrl);
