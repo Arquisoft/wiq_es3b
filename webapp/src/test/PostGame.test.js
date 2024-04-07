@@ -119,4 +119,36 @@ describe('PostGame component', () => {
     // Check if the snackbar is closed
     expect(screen.queryByText('Game saved successfully')).not.toBeInTheDocument();
   });
+  test('displays error snackbar correctly', async () => {
+    // Mock the SessionContext value
+    const sessionData = {
+      userId: 'mockedUserId',
+      token: 'mockedToken'
+    };
+    // Mock the axios post function to throw an error
+    axios.post.mockRejectedValue(new Error('Mock error'));
+    render(
+      <SessionContext.Provider value={{ sessionData }}>
+        <PostGame />
+      </SessionContext.Provider>
+    );
+    // Check if saveGame function is called correctly
+    expect(axios.post).toHaveBeenCalledWith(
+      'http://localhost:8000/addgame',
+      {
+        user: sessionData.userId,
+        pAcertadas: localStorage.getItem('pAcertadas'), 
+        pFalladas: localStorage.getItem('pFalladas'),
+        totalTime: localStorage.getItem('tiempoUsado'),
+        gameMode: undefined,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${sessionData.token}`
+        }
+      }
+    );
+    // Check if the error snackbar is displayed
+    expect(await screen.findByText('Error adding game')).toBeInTheDocument();
+  });
 });
