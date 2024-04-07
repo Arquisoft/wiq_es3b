@@ -101,7 +101,6 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
     }
 
     if (reload) { reloadF(setSegundos, setSegundosInfinite, setNQuestion, setNumberCorrect, setNumberIncorrect, setReload); }
-
     useEffect(() => {
         const intervalId = setInterval(() => {
             if (gameMode !== "infinite" && gameMode !== "threeLife") {
@@ -117,6 +116,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
         }, 1000);
 
         return () => clearInterval(intervalId);
+    // eslint-disable-next-line
     }, []);
 
     const finishGameByTime = (segundos) => {
@@ -216,6 +216,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
 
     useEffect(() => {
         fetchQuestion();
+    // eslint-disable-next-line
     }, []);
 
     // @SONAR_STOP@

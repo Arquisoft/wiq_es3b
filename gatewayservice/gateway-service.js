@@ -53,7 +53,7 @@ app.post('/login', async (req, res) => {
     const authResponse = await axios.post(authServiceUrl+'/login', req.body);
     res.json(authResponse.data);
   } catch (error) {
-    res.status(500).json({ error: "Service down" });
+    res.status(500).json({ error: error.message||'Service down' });
   }
 });
 
@@ -63,7 +63,7 @@ app.post('/adduser', async (req, res) => {
     const userResponse = await axios.post(userServiceUrl+'/adduser', req.body);
     res.json(userResponse.data);
   } catch (error) {
-    res.status(500).json({ error: "Service down" });
+    res.status(500).json({ error: error.message||'Service down' });
   }
 });
 

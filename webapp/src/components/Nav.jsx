@@ -57,7 +57,7 @@ function Nav({ goTo }) {
     <AppBar className='nav' position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-        <img className="icono" src={iconImg} />
+        <img className="icono" src={iconImg} alt='icon'/>
           <Typography
             variant="h6"
             noWrap

@@ -35,10 +35,12 @@ export const PostGame = ({ gameMode }) => {
         }
     };
 
+
     useEffect(() => {
         if (sessionData && sessionData.userId) {
             saveGame();
         }
+    // eslint-disable-next-line
     }, [sessionData]); // Ejecuta saveGame cada vez que sessionData cambie
 
     return (
