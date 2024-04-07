@@ -5,7 +5,11 @@ import { SessionContext } from '../SessionContext';
 import axios from 'axios';
 
 // Mock axios
-jest.mock('axios');
+jest.mock('axios', () => ({
+  post: jest.fn()
+}));
+
+jest.setTimeout(10000);
 
 describe('PostGame component', () => {
   test('renders "Game Over" text correctly', () => {
@@ -52,7 +56,6 @@ describe('PostGame component', () => {
     const mockResponse = { data: 'Mock response data' };
 
     axios.post.mockResolvedValue(mockResponse);
-
     act(() => {
       localStorage.setItem('pAcertadas', 5);
       localStorage.setItem('pFalladas', 5);
@@ -74,13 +77,14 @@ describe('PostGame component', () => {
         pFalladas: localStorage.getItem('pFalladas'),
         totalTime: localStorage.getItem('tiempoUsado'),
         gameMode: undefined,
- 
       },
       {
         headers: {
           Authorization: `Bearer ${mockSessionData.token}`
-          }
+        }
       }
     );
+    // Check if the snackbar is displayed
+    expect(await screen.findByText('Game saved successfully')).toBeInTheDocument();
   });
 });

@@ -1,5 +1,5 @@
-import React, { useEffect, useContext } from 'react';
-import { Card, Typography } from "@mui/material";
+import React, { useState, useEffect, useContext } from 'react';
+import { Card, Typography, Snackbar } from "@mui/material";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,8 +11,11 @@ import { SessionContext } from '../SessionContext';
 
 const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
+
 export const PostGame = ({ gameMode }) => {
     const { sessionData } = useContext(SessionContext);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [error, setError] = useState('');
 
     // Función para guardar el juego en la BD
     const saveGame = async () => {
@@ -30,10 +33,15 @@ export const PostGame = ({ gameMode }) => {
                 }
             });
             console.log('Juego guardado exitosamente:', response.data);
+            setOpenSnackbar(true);
         } catch (error) {
             console.error('Error al guardar el juego:', error);
+            setError(error);
         }
     };
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+      };
 
 
     useEffect(() => {
@@ -78,6 +86,10 @@ export const PostGame = ({ gameMode }) => {
                 </Table>
             </TableContainer>
             </Card>
+            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Game saved successfully" />
+          {error && (
+            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error adding game`} />
+          )}
         </div>
     )
 }
