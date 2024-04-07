@@ -1,5 +1,4 @@
 import React from 'react';
-import { useContext } from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Nav from '../components/Nav';
@@ -37,6 +36,19 @@ describe('Nav Component', () => {
     });
   });
 
+  test('checks the value of href when "API-DOC" button is clicked', async () => {
+    const { getByText } = render(
+      <SessionProvider>
+        <Nav />
+      </SessionProvider>
+    );
+    const button = getByText('API-DOC');
+    expect(button.getAttribute('href')).toContain('/api-doc');
+  });
+
+
+
+  
   test('calls goTo function when "Logout" is clicked', async () => {
     const goToMock = jest.fn();
     const { getByText } = render(

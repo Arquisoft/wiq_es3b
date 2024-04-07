@@ -16,6 +16,7 @@ import { useContext } from 'react';
 import { SessionContext } from '../SessionContext';
 import defaultProfileImg from '../assets/defaultImgProfile.jpg';
 import iconImg from '../assets/icon.png';
+const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 function Nav({ goTo }) {
 
@@ -119,6 +120,12 @@ function Nav({ goTo }) {
                 sx={{ my: 2, color: 'white', display: 'block' }} className='navButton'
               >
                 Menu
+              </Button>
+              <Button
+                href={gatewayUrl + '/api-doc'}
+                sx={{ my: 2, color: 'white', display: 'block' }} className='navButton'
+              >
+                API-DOC
               </Button>
           </Box>
 
