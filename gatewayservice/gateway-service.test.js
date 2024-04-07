@@ -4,6 +4,10 @@ let app;
 beforeAll(async () => {
   app = require('./gateway-service'); 
 });
+const fs = require('fs');
+const YAML = require('yaml');
+const swaggerUi = require('swagger-ui-express');
+
 afterAll(async () => {
     app.close();
 });
@@ -13,9 +17,7 @@ jest.mock('axios');
 describe('Gateway Service', () => {
   // Mock responses from external services
   axios.post.mockImplementation((url, data) => {
-    if (url.endsWith('/login')) {
-      return Promise.resolve({ data: { token: 'mockedToken' } });
-    } else if (url.endsWith('/adduser')) {
+    if (url.endsWith('/adduser')) {
       return Promise.resolve({ data: { userId: 'mockedUserId' } });
     }else if (url.endsWith('/addquestion')) {
       return Promise.resolve({
@@ -23,17 +25,6 @@ describe('Gateway Service', () => {
           question: 'Mocked Question',
           correct: 'Mocked Correct Answer',
           incorrects: ['Mocked Option 1', 'Mocked Option 2']
-        }
-      });
-    }
-    else if (url.endsWith('/addgame')) {
-      return Promise.resolve({
-        data: {
-          user: userId,
-          pAcertadas: 5,
-          pFalladas: 3,
-          totalTime: 1200,
-          gameMode: 'normal'
         }
       });
     }
@@ -108,12 +99,21 @@ describe('Gateway Service', () => {
 
   // Test /login endpoint
   it('should forward login request to auth service', async () => {
+    axios.post.mockResolvedValueOnce({ data: { token: 'mockedToken' } });
     const response = await request(app)
       .post('/login')
       .send({ username: 'testuser', password: 'testpassword' });
 
     expect(response.statusCode).toBe(200);
     expect(response.body.token).toBe('mockedToken');
+  });
+  it('should return an error when the user service is down', async () => {
+    jest.spyOn(axios, 'post').mockRejectedValueOnce({ response: { status: 500, data: { error: 'Service down' } } });
+    const response = await request(app)
+      .post('/login')
+      .send({ username: 'testuser', password: 'testpassword' });
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ error: 'Service down' });
   });
   // Test /verify endpoint
   it('should verify authorization token with auth service', async () => {
@@ -166,6 +166,14 @@ describe('Gateway Service', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.userId).toBe('mockedUserId');
   });
+  it('should return an error when the user service is down', async () => {
+    axios.post.mockRejectedValueOnce({ response: { status: 500, data: { error: 'Service down' } } });
+    const response = await request(app)
+    .post('/adduser')
+    .send({ username: 'testuser', password: 'testpassword' });
+    expect(response.statusCode).toBe(500);
+    expect(response.body).toEqual({ error: 'Service down' });
+  });
 
   // Test /api/info/questions endpoint
   it('should forward info request with id to question service', async () => {
@@ -198,6 +206,13 @@ describe('Gateway Service', () => {
     expect(response.body).toHaveProperty('correct');
     expect(response.body).toHaveProperty('incorrects');
   },10000);
+  it('should return an error when the user service is down', async () => {
+    axios.get.mockRejectedValueOnce({ response: { status: 500, data: { error: 'Service down' } } });
+    const response = await request(app)
+    .get('/api/questions/create')
+    expect(response.statusCode).toBe(500);
+    expect(response.body).toEqual({ error: 'Service down' });
+  });
 
   it('should forward create question request to question generation service', async () => {
     const response = await request(app)
@@ -309,4 +324,3 @@ describe('GET /api/info/games', () => {
     expect(response.body).toEqual(mockedError);
   });
 });
-
