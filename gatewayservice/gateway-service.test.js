@@ -65,6 +65,8 @@ describe('Gateway Service', () => {
         }
       ]
       });
+    }else if(url.endsWith('/verify')){
+      return Promise.resolve({ data: { username: 'testuser' } });
     }
   });
    // Test /health endpoint
@@ -84,6 +86,14 @@ describe('Gateway Service', () => {
 
     expect(response.statusCode).toBe(200);
     expect(response.body.token).toBe('mockedToken');
+  });
+  // Test /verify endpoint
+  it('should verify authorization token with auth service', async () => {
+    const response = await request(app)
+      .get('/verify')
+      .set('Authorization', 'Bearer mockedToken');
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty('username', 'testuser');
   });
 
   // Test /adduser endpoint
