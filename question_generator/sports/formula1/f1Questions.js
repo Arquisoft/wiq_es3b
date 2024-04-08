@@ -142,14 +142,14 @@ class F1Questions{
     }
     async getDriverByWins() {
         let numberOfDrivers=4;
-        let result =(await this.getRandomTeam(1))[0];
+        let result =(await this.getRandomDriver(1))[0];
         let name = result.name;
         
         let correct = result.wins;
         let incorrects = []
         let i=1;
         while(i<numberOfDrivers){
-            let driver=(await this.getRandomTeam(1))[0];
+            let driver=(await this.getRandomDriver(1))[0];
             if(driver.wins!=correct){
                 incorrects.push(driver.wins);
                 i++;

@@ -97,7 +97,7 @@ class FootballQuestions{
     async getCoachOfTeam() {
         let numberOfTeams=4;
         let result =(await this.getRandomTeam(1))[0];
-        while(result.coach.trim() == "" || /^Q\d+/.test(result.coach) ){
+        while(result.coach == undefined || result.coach.trim() == "" || /^Q\d+/.test(result.coach) ){
             result =(await this.getRandomTeam(1))[0];
         }
         let name = result.name;
@@ -107,7 +107,7 @@ class FootballQuestions{
         let i=1;
         while(i<numberOfTeams){
             let team=(await this.getRandomTeam(1))[0];
-            if(team.coach!=correct && team.coach.trim() !== "" && !/^Q\d+/.test(team.coach)){
+            if(team.coach == undefined && team.coach!=correct && team.coach.trim() !== "" && !/^Q\d+/.test(team.coach)){
                 incorrects.push(team.coach);
                 i++;
             }
@@ -121,7 +121,7 @@ class FootballQuestions{
     async getStadiumOfTeam() {
         let numberOfTeams=4;
         let result =(await this.getRandomTeam(1))[0];
-        while(result.stadium.trim() == "" || /^Q\d+/.test(result.stadium) ){
+        while(result.stadium == undefined || result.stadium.trim() == "" || /^Q\d+/.test(result.stadium) ){
             result =(await this.getRandomTeam(1))[0];
         }
         let name = result.name;
@@ -130,7 +130,7 @@ class FootballQuestions{
         let i=1;
         while(i<numberOfTeams){
             let team=(await this.getRandomTeam(1))[0];
-            if(team.stadium!=correct && team.stadium.trim() !== "" && !/^Q\d+/.test(team.stadium)){
+            if(team.stadium == undefined && team.stadium!=correct && team.stadium.trim() !== "" && !/^Q\d+/.test(team.stadium)){
                 incorrects.push(team.stadium);
                 i++;
             }

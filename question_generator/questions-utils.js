@@ -1,4 +1,3 @@
-const console = require('console')
 class QuestionsUtils{
     static getValuesFromDataAndProperty(data, property, nValues){
         const result = {
