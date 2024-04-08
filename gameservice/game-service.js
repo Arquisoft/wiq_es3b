@@ -156,9 +156,9 @@ app.get('/getParticipation/:userId', async (req, res) => {
       },
     ]);
 
-    if (participationData.length === 0) {
+    if (participationData.length === 0 || (participationData.length > 0 && participationData[0].totalGames === 0)) {
       // No se encontraron datos para el usuario
-      res.status(404).json({ error: 'No participation data found for the user.' });
+      res.status(204).send();
       return;
     }
 
