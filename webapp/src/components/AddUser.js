@@ -33,7 +33,7 @@ const AddUser = ({goTo}) => {
       setOpenSnackbar(true);
       try{
         const response = await axios.post(`${apiEndpoint}/login`, { username, password });
-        const { createdAt: userCreatedAt, username: loggedInUsername, token, profileImage, userId: id } = response.data;
+        const { createdAt: userCreatedAt, username: loggedInUsername, token: token, profileImage: profileImage, userId: id } = response.data;
         setLoginSuccess(true);
         saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, token: token, profileImage: profileImage, userId: id });
       } catch (error) {
