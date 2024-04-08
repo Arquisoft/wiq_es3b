@@ -6,15 +6,16 @@ import { SessionContext } from '../SessionContext';
 
 const Login = ({ goTo }) => {
 
-  const { saveSessionData } = useContext(SessionContext);
+  const { saveSessionData, sessionData } = useContext(SessionContext);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [profileImage, setProfileImage] = useState('');
   const [error, setError] = useState('');
   const [loginSuccess, setLoginSuccess] = useState(false);
+  // eslint-disable-next-line
   const [createdAt, setCreatedAt] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  // eslint-disable-next-line
   const [timeStart, setTimeStart] = useState(0);
 
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
@@ -24,22 +25,38 @@ const Login = ({ goTo }) => {
       const response = await axios.post(`${apiEndpoint}/login`, { username, password });
 
       // Extract data from the response
-      const { createdAt: userCreatedAt, username: loggedInUsername, token:token, profileImage: profileImage } = response.data;
+      const { createdAt: userCreatedAt, username: loggedInUsername, token: token, profileImage: profileImage, userId: id } = response.data;
       
       setTimeStart(Date.now());
       setCreatedAt(userCreatedAt);
       setLoginSuccess(true);
-      saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, token: token, profileImage: profileImage });
+      saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, token: token, profileImage: profileImage, userId: id });
       setOpenSnackbar(true);
     } catch (error) {
       setError(error.response.data.error);
+    }
+  };
+  const autologin = async () => {
+    try {
+      const response = await axios.get(`${apiEndpoint}/verify`, {
+        headers: {
+          Authorization: 'Bearer '+sessionData.token
+        }
+      });
+      if(response.status && response.status===200){
+        goTo(1);
+      }
+    } catch (error) {
     }
   };
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
-  
+  useEffect(() => {
+    sessionData?.token && autologin();
+    //eslint-disable-next-line
+  }, []);  
   useEffect(() => {
     if (loginSuccess) {
       goTo(1);
@@ -53,6 +70,7 @@ const Login = ({ goTo }) => {
             &gt; Login
           </Typography>
           <TextField
+            name="username"
             margin="normal"
             fullWidth
             label="Username"
@@ -60,6 +78,7 @@ const Login = ({ goTo }) => {
             onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
+            name="password"
             margin="normal"
             fullWidth
             label="Password"

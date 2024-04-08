@@ -1,10 +1,14 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-concepts]]
-## First Designs
 
-### Home Page
+## 1.0 Designs
+
+### User Page
 :imagesdir: ../images
+image::UserView.png[User View]
+---
+### Home Page
 image::HomeView.png[Home Menu View]
 ---
 ### Game page

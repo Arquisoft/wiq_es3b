@@ -1,36 +1,31 @@
-const mongoose = require('mongoose');
-
-//usuario, preguntas[], respuestas[<String, bool>], tiempo
-
+const mongoose  = require("mongoose");
 const gameSchema = new mongoose.Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId, 
+    type: String, 
     ref: 'User',
     required: true,
   },
-  questions: { 
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Question',
+  pAcertadas: {
+    type: Number, 
     required: true,
   },
-  answers: [
-    {
-      response: {
-        type: String,
-        required:  true,
-      },
-      isCorrect: {
-        type: Boolean,
-        required: true,
-      },
-    }
-  ],
+  pFalladas: {
+    type: Number, 
+    required: true,
+  },
   totalTime: {
     type: Number, 
     required: true,
   },
+  date: {
+    type: Date, 
+    default: Date.now,
+  },
+  gameMode:{
+    type: String,
+    required: true,
+  }
 });
-
-const Game = mongoose.model('Game', gameSchema);
-
-module.exports = Game;
+module.exports = (connection) => {
+  return connection.model('Game', gameSchema);
+};

@@ -1,12 +1,14 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { SessionProvider, SessionContext } from '../SessionContext';
 
 describe('SessionProvider Component', () => {
   test('sets initial session data from localStorage if available', () => {
     const storedData = { username: 'testUser' };
+    act(() => {
     localStorage.setItem('sessionData', JSON.stringify(storedData));
+    });
 
     const TestComponent = () => {
       const { sessionData } = React.useContext(SessionContext);
@@ -37,10 +39,12 @@ describe('SessionProvider Component', () => {
       </SessionProvider>
     );
 
-    fireEvent.click(getByText('Save Data'));
+    act(() => {
+      fireEvent.click(getByText('Save Data'));
+    });
 
-    const storedData = localStorage.getItem('sessionData');
-    expect(JSON.parse(storedData).username).toEqual('newUser');
+    const storedData = JSON.parse(localStorage.getItem('sessionData'));
+    expect(storedData.username).toEqual('newUser');
   });
 
   test('clears session data from localStorage when cleared', () => {
@@ -52,7 +56,9 @@ describe('SessionProvider Component', () => {
       return <button onClick={handleClick}>Clear Data</button>;
     };
 
-    localStorage.setItem('sessionData', JSON.stringify({ username: 'testUser' }));
+    act(() => {
+      localStorage.setItem('sessionData', JSON.stringify({ username: 'testUser' }));
+    });
 
     const { getByText } = render(
       <SessionProvider>
@@ -60,8 +66,10 @@ describe('SessionProvider Component', () => {
       </SessionProvider>
     );
 
-    fireEvent.click(getByText('Clear Data'));
-
+    act(() => {
+      fireEvent.click(getByText('Clear Data'));
+    });
+    
     const storedData = localStorage.getItem('sessionData');
     expect(storedData).toBeNull();
   });

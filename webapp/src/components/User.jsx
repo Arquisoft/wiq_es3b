@@ -21,7 +21,7 @@ function User({ goTo }) {
       <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2, fontSize: '3em', color: '#8f95fd' }}>
         ASW - WIQ Quiz
       </Typography>
-      {showLogin ? <Login goTo={(x) => goTo(x)} /> : <AddUser />}
+      {showLogin ? <Login goTo={(x) => goTo(x)} /> : <AddUser goTo={(x) => goTo(x)}/>}
       <Typography component="div" align="center" sx={{ marginTop: 2 }}>
         {showLogin ? (
           <Link name="gotoregister" component="button" variant="body2" onClick={handleToggleView}>

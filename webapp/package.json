@@ -14,7 +14,7 @@
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "web-vitals": "^3.5.1"
   },
   "scripts": {
@@ -50,6 +50,7 @@
     "jest-cucumber": "^3.0.1",
     "jest-environment-node": "^29.7.0",
     "mongodb-memory-server": "^9.1.4",
+    "mongoose": "^8.3.0",
     "puppeteer": "^21.7.0",
     "serve": "^14.2.1",
     "start-server-and-test": "^2.0.3"

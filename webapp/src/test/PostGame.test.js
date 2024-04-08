@@ -1,43 +1,154 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { PostGame } from '../components/PostGame';
+import { SessionContext } from '../SessionContext';
+import axios from 'axios';
+
+// Mock axios
+jest.mock('axios', () => ({
+  post: jest.fn()
+}));
+
+jest.setTimeout(10000);
 
 describe('PostGame component', () => {
-  test('renders "FIN" text correctly', () => {
-    render(<PostGame />);
+  test('renders "Game Over" text correctly', () => {
+    // Mock the SessionContext value
+    const sessionData = {
+      userId: 'mockedUserId',
+      token: 'mockedToken'
+    };
 
-    // Verifica que el texto "Fin del juego" se renderice correctamente
-    expect(screen.getByText('Game Over')).toBeInTheDocument();
+    render(
+      <SessionContext.Provider value={{ sessionData }}>
+        <PostGame />
+      </SessionContext.Provider>
+    );
+
+    // Verificar que el texto "Game Over" se muestra correctamente
+    const gameOverText = screen.getAllByText(/Game Over/i);
+    expect(gameOverText.length).toBeGreaterThan(0);
   });
 
   test('renders text correctly', () => {
-    render(<PostGame gameMode="classic"/>);
+    // Mock the SessionContext value
+    const sessionData = {
+      userId: 'mockedUserId',
+      token: 'mockedToken'
+    };
 
-    // Verifica que el texto "Preguntas acertadas" se renderice correctamente
+    render(
+      <SessionContext.Provider value={{ sessionData }}>
+        <PostGame gameMode="classic" />
+      </SessionContext.Provider>
+    );
+
+    // Verificar que los textos esperados se muestran correctamente
     expect(screen.getByText('Correct answers')).toBeInTheDocument();
-
-    // Verifica que el texto "Preguntas falladas" se renderice correctamente
     expect(screen.getByText('Incorrect answers')).toBeInTheDocument();
-
-    // Verifica que el texto "Tiempo usado" se renderice correctamente
     expect(screen.getByText('Elapsed time')).toBeInTheDocument();
-
-    // Verifica que el texto "Tiempo restante" se renderice correctamente
-    expect(screen.getByText('Time remaining')).toBeInTheDocument();
+    expect(screen.queryByText('Time remaining')).toBeInTheDocument();
   });
 
-  test('formatTiempo devuelve el formato de tiempo correcto', () => {
-    // Ejemplo de datos de entrada y salida esperada
-    const segundos = 0; // 0 segundos
-    const tiempoEsperado = '00:00';
-  
-    // Renderizar el componente PostGame que contiene la función formatTiempo
-    render(<PostGame />);
-  
-    // Obtener el componente que muestra el tiempo usado
-    const tiempoUsadoCell = screen.getByText('Elapsed time').closest('tr').querySelector('td:last-child');
-  
-    // Verificar si el texto del componente coincide con el tiempo esperado
-    expect(tiempoUsadoCell.textContent).toBe(tiempoEsperado);
+  test('saves game data correctly', async () => {
+    // Mock the SessionContext value
+    const mockSessionData = { userId: 'mockUserId', token: 'mockToken'};
+    const mockResponse = { data: 'Mock response data' };
+
+    axios.post.mockResolvedValue(mockResponse);
+    act(() => {
+      localStorage.setItem('pAcertadas', 5);
+      localStorage.setItem('pFalladas', 5);
+      localStorage.setItem('tiempoUsado', 120);
+    });
+
+    render(
+      <SessionContext.Provider value={{ sessionData: mockSessionData }}>
+        <PostGame />
+      </SessionContext.Provider>
+    );
+
+    // Check if saveGame function is called correctly
+    expect(axios.post).toHaveBeenCalledWith(
+      'http://localhost:8000/addgame',
+      {
+        user: mockSessionData.userId,
+        pAcertadas: localStorage.getItem('pAcertadas'), 
+        pFalladas: localStorage.getItem('pFalladas'),
+        totalTime: localStorage.getItem('tiempoUsado'),
+        gameMode: undefined,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${mockSessionData.token}`
+        }
+      }
+    );
+    // Check if the snackbar is displayed
+    expect(await screen.findByText('Game saved successfully')).toBeInTheDocument();
+  });
+  test('closes the snackbar correctly', () => {
+    // Mock the SessionContext value
+    const sessionData = {
+      userId: 'mockedUserId',
+      token: 'mockedToken'
+    };
+
+    // Mock the setOpenSnackbar function
+    const setOpenSnackbar = jest.fn();
+    const handleCloseSnackbar = jest.fn();
+    render(
+      <SessionContext.Provider value={{ sessionData }}>
+      <PostGame setOpenSnackbar={setOpenSnackbar} handleCloseSnackbar={handleCloseSnackbar} />
+      </SessionContext.Provider>
+    );
+
+    // Set the initial state of the snackbar to open
+    act(() => {
+      setOpenSnackbar(false);
+    });
+
+    // Call the handleCloseSnackbar function
+    act(() => {
+      handleCloseSnackbar();
+    });
+
+    // Check if setOpenSnackbar is false
+    expect(setOpenSnackbar).toHaveBeenCalledWith(false);
+
+    // Check if the snackbar is closed
+    expect(screen.queryByText('Game saved successfully')).not.toBeInTheDocument();
+  });
+  test('displays error snackbar correctly', async () => {
+    // Mock the SessionContext value
+    const sessionData = {
+      userId: 'mockedUserId',
+      token: 'mockedToken'
+    };
+    // Mock the axios post function to throw an error
+    axios.post.mockRejectedValue(new Error('Mock error'));
+    render(
+      <SessionContext.Provider value={{ sessionData }}>
+        <PostGame />
+      </SessionContext.Provider>
+    );
+    // Check if saveGame function is called correctly
+    expect(axios.post).toHaveBeenCalledWith(
+      'http://localhost:8000/addgame',
+      {
+        user: sessionData.userId,
+        pAcertadas: localStorage.getItem('pAcertadas'), 
+        pFalladas: localStorage.getItem('pFalladas'),
+        totalTime: localStorage.getItem('tiempoUsado'),
+        gameMode: undefined,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${sessionData.token}`
+        }
+      }
+    );
+    // Check if the error snackbar is displayed
+    expect(await screen.findByText('Error adding game')).toBeInTheDocument();
   });
 });

@@ -16,10 +16,11 @@ import { useContext } from 'react';
 import { SessionContext } from '../SessionContext';
 import defaultProfileImg from '../assets/defaultImgProfile.jpg';
 import iconImg from '../assets/icon.png';
+const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 function Nav({ goTo }) {
 
-  const { sessionData } = useContext(SessionContext);
+  const { sessionData, clearSessionData } = useContext(SessionContext);
   const username = sessionData ? sessionData.username : 'noUser';
   const profileImgSrc = sessionData && sessionData.profileImage ? 
         require(`../assets/${sessionData.profileImage}`) : defaultProfileImg;
@@ -48,7 +49,8 @@ function Nav({ goTo }) {
     handleCloseUserMenu();
   }
 
-  const logoutClic = () => {
+  const logoutClic = async() => {
+    clearSessionData();
     goTo(0);
     handleCloseUserMenu();
   }
@@ -57,7 +59,7 @@ function Nav({ goTo }) {
     <AppBar className='nav' position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-        <img className="icono" src={iconImg} />
+        <img className="icono" src={iconImg} alt='icon'/>
           <Typography
             variant="h6"
             noWrap
@@ -119,6 +121,12 @@ function Nav({ goTo }) {
                 sx={{ my: 2, color: 'white', display: 'block' }} className='navButton'
               >
                 Menu
+              </Button>
+              <Button
+                href={gatewayUrl + '/api-doc'}
+                sx={{ my: 2, color: 'white', display: 'block' }} className='navButton'
+              >
+                API-DOC
               </Button>
           </Box>
 

@@ -9,7 +9,7 @@ import soundOnImage from '../assets/sonidoON.png';
 import soundOffImage from '../assets/sonidoOFF.png';
 import vidaImg from '../assets/vida.png';
 
-const N_QUESTIONS = 10;
+export const N_QUESTIONS = 10;
 const MAX_TIME = 240;
 
 const correctAudio = new Audio(correctSound);
@@ -37,7 +37,7 @@ export const handleClassicGameFinish = (nQuestion, numberCorrect, numberIncorrec
         finishByQuestions(segundos, MAX_TIME);
         setGameFinished(true); goTo(1);
     }
-    if (segundos === 1) {
+    if (segundos <= 1) {
         localStorage.setItem("pAcertadas", numberCorrect);
         localStorage.setItem("pFalladas", numberIncorrect);
         finishByTime(sonido);
@@ -62,7 +62,7 @@ export const reloadF = (setSegundos, setSegundosInfinite, setNQuestion, setNumbe
 
     setSegundos(MAX_TIME);
     setSegundosInfinite(0);
-    setNQuestion(-1);
+    setNQuestion(0);
     setNumberCorrect(0);
     setNumberIncorrect(0);
     setReload(false);
@@ -82,11 +82,12 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState();
     const [isSelected, setIsSelected] = useState(false);
+    const [nextButtonEnabled, setNextButtonEnabled] = useState(false);
     
     const [correct, setCorrect] = useState('');
     const [numberCorrect, setNumberCorrect] = useState(0);
     const [numberIncorrect, setNumberIncorrect] = useState(0);
-    const [nQuestion, setNQuestion] = useState(-1);
+    const [nQuestion, setNQuestion] = useState(0);
 
     const [segundos, setSegundos] = useState(MAX_TIME);
     const [segundosInfinite, setSegundosInfinite] = useState(0);
@@ -100,7 +101,6 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
     }
 
     if (reload) { reloadF(setSegundos, setSegundosInfinite, setNQuestion, setNumberCorrect, setNumberIncorrect, setReload); }
-
     useEffect(() => {
         const intervalId = setInterval(() => {
             if (gameMode !== "infinite" && gameMode !== "threeLife") {
@@ -116,6 +116,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
         }, 1000);
 
         return () => clearInterval(intervalId);
+    // eslint-disable-next-line
     }, []);
 
     const finishGameByTime = (segundos) => {
@@ -138,7 +139,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
                 }
             });
             const data = await response.json();
-
+            if(data.question && data.correct && data.incorrects){
                 setQuestion(data.question);
                 setCorrect(data.correct);
                 setOptions(shuffleOptions([data.correct, ...data.incorrects]));
@@ -146,6 +147,10 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
                 setSelectedOption(null);
                 setIsSelected(false);
                 setNQuestion((prevNQuestion) => prevNQuestion + 1);
+            }
+            else{
+                setNextButtonEnabled(true);
+            }
             
             if (gameMode === "classic" || gameMode === "category") {
                 handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, 
@@ -178,7 +183,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
         setSelectedOption(option);
         setSelectedIndex(index);
         setIsSelected(true);
-
+        setNextButtonEnabled(true)
         if (isCorrect(option)) {
             setNumberCorrect(numberCorrect + 1);
             if (sonido) { correctAudio.play(); }
@@ -211,6 +216,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
 
     useEffect(() => {
         fetchQuestion();
+    // eslint-disable-next-line
     }, []);
 
     // @SONAR_STOP@
@@ -258,9 +264,12 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
                 </Card>
                 <div className='botoneraPreguntas'>
                 { gameMode !== "threeLife" ?
-                <ListItemButton onClick={isSelected ? () => fetchQuestion() : null}
+                <ListItemButton onClick={nextButtonEnabled ? () => {
+                    setNextButtonEnabled(false);
+                    fetchQuestion();
+                 } : null}
                     sx={{ justifyContent: 'center', marginTop: 2 }}
-                    className={isSelected ? '' : 'isNotSelected'} >
+                    className={nextButtonEnabled ? '' : 'isNotSelected'} >
                     Next
                 </ListItemButton>
                 : ""}

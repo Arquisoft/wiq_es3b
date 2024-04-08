@@ -1,21 +1,57 @@
-import { Card, Typography } from "@mui/material"
+import React, { useState, useEffect, useContext } from 'react';
+import { Card, Typography, Snackbar } from "@mui/material";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import axios from 'axios';
+import { SessionContext } from '../SessionContext';
+
+const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
+
 
 export const PostGame = ({ gameMode }) => {
+    const { sessionData } = useContext(SessionContext);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [error, setError] = useState('');
 
-    const formatTiempo = (segundos) => {
-        const minutos = Math.floor((segundos % 3600) / 60);
-        const segs = segundos % 60;
-        return `${minutos < 10 ? '0' : ''}${minutos}:${segs < 10 ? '0' : ''}${segs}`;
+    // Función para guardar el juego en la BD
+    const saveGame = async () => {
+        try {
+            // Guardar el juego en la base de datos
+            const response = await axios.post(`${gatewayUrl}/addgame`, {
+                user: sessionData.userId,
+                pAcertadas: localStorage.getItem("pAcertadas"),
+                pFalladas: localStorage.getItem("pFalladas"),
+                totalTime: localStorage.getItem("tiempoUsado"),
+                gameMode: gameMode,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${sessionData.token}`
+                }
+            });
+            console.log('Juego guardado exitosamente:', response.data);
+            setOpenSnackbar(true);
+        } catch (error) {
+            console.error('Error al guardar el juego:', error);
+            setError(error);
+        }
     };
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+      };
+
+
+    useEffect(() => {
+        if (sessionData && sessionData.userId) {
+            saveGame();
+        }
+    // eslint-disable-next-line
+    }, [sessionData]); // Ejecuta saveGame cada vez que sessionData cambie
 
     return (
-
         <div>
             <Typography sx={{ textAlign: 'center', fontSize:'2em', margin:'2em 0 0.3em 0 !important' }}>Game Over</Typography>
             <Card>
@@ -50,6 +86,18 @@ export const PostGame = ({ gameMode }) => {
                 </Table>
             </TableContainer>
             </Card>
+            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Game saved successfully" />
+          {error && (
+            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error adding game`} />
+          )}
         </div>
     )
 }
+
+export const formatTiempo = (segundos) => {
+    const minutos = Math.floor((segundos % 3600) / 60);
+    const segs = segundos % 60;
+    return `${minutos < 10 ? '0' : ''}${minutos}:${segs < 10 ? '0' : ''}${segs}`;
+};
+
+export default PostGame;
