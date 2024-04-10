@@ -10,7 +10,7 @@ import soundOffImage from '../assets/sonidoOFF.png';
 import vidaImg from '../assets/vida.png';
 
 export const N_QUESTIONS = 10;
-const MAX_TIME = 240;
+const MAX_TIME = 180;
 
 const correctAudio = new Audio(correctSound);
 const incorrectAudio = new Audio(incorrectSound);
@@ -106,7 +106,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
         const intervalId = setInterval(() => {
             if (gameMode !== "infinite" && gameMode !== "threeLife") {
                 setSegundos(segundos => {
-                    if (segundos === 1 ) { clearInterval(intervalId); finishGameByTime(segundos); }
+                    if (segundos === 1 ) { clearInterval(intervalId); finishGameByTime(segundos, numberCorrect, numberIncorrect); }
                     return segundos - 1;
                 })
             } else {
@@ -118,9 +118,9 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
 
         return () => clearInterval(intervalId);
     // eslint-disable-next-line
-    }, []);
+    }, [numberCorrect, numberIncorrect]);
 
-    const finishGameByTime = (segundos) => {
+    const finishGameByTime = (segundos, numberCorrect, numberIncorrect) => {
         handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, 
             segundos, sonido, goTo, setGameFinished);
     };
