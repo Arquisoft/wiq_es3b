@@ -101,6 +101,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
     }
 
     if (reload) { reloadF(setSegundos, setSegundosInfinite, setNQuestion, setNumberCorrect, setNumberIncorrect, setReload); }
+
     useEffect(() => {
         const intervalId = setInterval(() => {
             if (gameMode !== "infinite" && gameMode !== "threeLife") {
@@ -219,16 +220,6 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
     // eslint-disable-next-line
     }, []);
 
-    // @SONAR_STOP@
-    // sonarignore:start
-    const generateUniqueId = () => {
-        //NOSONAR
-        return Math.random().toString(36).substr(2, 9);//NOSONAR
-        //NOSONAR
-    };
-    // sonarignore:end
-    // @SONAR_START@
-
     return (
         
             <div className='divPreguntas'>
@@ -251,7 +242,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
                     </Typography>
                     <List sx={{ bgcolor: '#333' }} disablePadding>
                         {options.map((option, index) => (
-                            <ListItem onClick={() => handleSubmit(option, index)} key={generateUniqueId()}
+                            <ListItem onClick={() => handleSubmit(option, index)} key={index+option}
                                 sx={{ bgcolor: getBackgroundColor(option, index) }}>
                                 <ListItemButton className={isSelected ? 'disabledButton' : ''}>
                                     <ListItemText sx={{ textAlign: 'center', fontSize: '1em' }} >
