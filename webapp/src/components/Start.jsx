@@ -22,8 +22,11 @@ export const Start = ({ goTo }) => {
                 <button onClick={ () => goTo(5) }>
                     Category Mode
                 </button>
-                <Divider sx={{ border:'2px solid', marginTop:'0.8em' }} />
                 <button onClick={ () => goTo(6) }>
+                    Custom Mode
+                </button>
+                <Divider sx={{ border:'2px solid', marginTop:'0.8em' }} />
+                <button onClick={ () => goTo(7) }>
                     Participation
                 </button>
             </div>

@@ -22,7 +22,8 @@ function App() {
       {menuState === 3 && <Game gameMode="infinite"/>}
       {menuState === 4 && <Game gameMode="threeLife"/>}
       {menuState === 5 && <Game gameMode="category"/>}
-      {menuState === 6 && <Participation goTo={(x) => goTo(x)}/>}
+      {menuState === 6 && <Game gameMode="custom"/>}
+      {menuState === 7 && <Participation goTo={(x) => goTo(x)}/>}
     </>
   )
 }

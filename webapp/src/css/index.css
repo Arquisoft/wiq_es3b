@@ -241,6 +241,22 @@ button:focus-visible {
   background-color: #646cff;
 }
 
+.customOptions {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+}
+
+.customOptions h2 {
+  margin-bottom: 1em;
+  color: #646cff;
+}
+
+.customOptions button {
+  margin-top: 1em;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
