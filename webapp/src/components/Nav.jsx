@@ -71,13 +71,12 @@ function Nav({ goTo }) {
               display: { xs: 'none', md: 'flex' },
               fontWeight: 700,
               color: 'inherit',
-              textDecoration: 'none'
+              textDecoration: 'none',
+              marginLeft: '16px',
             }}
           >
             ASW WIQ
           </Typography>
-
-          <Typography sx={{ marginRight:'1em' }}>|</Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -110,12 +109,20 @@ function Nav({ goTo }) {
             >
               
               <MenuItem className='menu' onClick={() => goToMenuClic()}>
-                <Typography textAlign="center">Volver al menú</Typography>
+                <Typography textAlign="center">Back to menu</Typography>
               </MenuItem>
+              <Button
+                href={gatewayUrl + '/api-doc'}
+                sx={{ margin: '0 !important', padding:'6px 16px', fontWeight: '400', fontSize: '1rem',
+                my: 2, color: 'white', display: 'block' }}
+              >
+                API-DOC
+              </Button>
             </Menu>
           </Box>
           
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
+            <Typography sx={{ my: 2, color: 'white', display: 'block' }}>|</Typography>
             <Button
                 onClick={() => goToMenuClic()}
                 sx={{ my: 2, color: 'white', display: 'block' }} className='navButton'
