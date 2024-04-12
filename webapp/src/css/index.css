@@ -28,7 +28,7 @@
 }
 
 a {
-  color: #646cff;
+  color: #7c82fb;
   text-decoration: inherit;
 }
 a:hover {
@@ -93,7 +93,7 @@ button {
   vertical-align: bottom;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #7c82fb;
 }
 button:focus,
 button:focus-visible {
@@ -233,12 +233,12 @@ button:focus-visible {
 
 .questionCategory button:hover {
   color: #FFF;
-  background-color: #646cff;
+  background-color: #7c82fb;
 }
 
 .questionCategoryMarked {
   color: #FFF;
-  background-color: #646cff;
+  background-color: #7c82fb;
 }
 
 .customOptions {
@@ -246,11 +246,12 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   padding: 1em;
+  
 }
 
 .customOptions h2 {
   margin-bottom: 1em;
-  color: #646cff;
+  color: #7c82fb;
 }
 
 .customOptions button {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PostGame } from './PostGame';
 import Question from './Question';
-import { Select, MenuItem, FormControl, InputLabel, Typography, TextField, Button } from '@mui/material';
+import { Select, MenuItem, FormControl, InputLabel, Typography, TextField, Snackbar } from '@mui/material';
 
 export const Game = ({ gameMode }) => {
 
@@ -12,6 +12,10 @@ export const Game = ({ gameMode }) => {
     const [restart, setRestart] = useState(false);
 
     const [gMode, setGameMode] = useState(gameMode);
+
+    const [maxTime, setMaxTime] = useState('');
+    const [numberQ, setNumberQ] = useState('');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
 
     const changeCategory = (category) => {
         setCategory(category);
@@ -28,8 +32,24 @@ export const Game = ({ gameMode }) => {
     });
 
     const startCustomGame = () => {
-        setGameMode("customMode")
+
+        if (!validateInputs()) {
+            setSnackbarOpen(true);
+            return;
+        }
+        setCustomSettings(prevSettings => ({ ...prevSettings, maxTime:maxTime , numberQ:numberQ }))
+        setGameMode("customMode");
     }
+
+    const validateInputs = () => {
+        const maxTimeInt = parseInt(maxTime);
+        const numberQInt = parseInt(numberQ);
+        return Number.isInteger(maxTimeInt) && Number.isInteger(numberQInt) && maxTimeInt > 0 && numberQInt > 0;
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     const goTo = (parameter) => {
         setGameState(parameter);
@@ -71,12 +91,12 @@ export const Game = ({ gameMode }) => {
 
             { gMode === "custom" &&
                 <div className='customOptions'>
-                    <h2 className="tituloCustom">Select custom Settings (Empty = Default)</h2>
+                    <h2 className="tituloCustom">&lt;!-- Select custom Settings --&gt;</h2>
                     <TextField name="maxTime" margin="normal" fullWidth label="Max Time (minutes)"
-                        onChange={(e) => setCustomSettings(prevSettings => ({ ...prevSettings, maxTime: e.target.value }))}
+                        onChange={(e) => setMaxTime(e.target.value)}
                     />
                     <TextField name="numberQ" margin="normal" fullWidth label="Number of Questions"
-                        onChange={(e) => setCustomSettings(prevSettings => ({ ...prevSettings, numberQ: e.target.value }))}
+                        onChange={(e) => setNumberQ(e.target.value)}
                     />
                     <FormControl fullWidth margin="normal">
                         <InputLabel id="category-label">Category</InputLabel>
@@ -100,6 +120,14 @@ export const Game = ({ gameMode }) => {
                 settings={customSettings} key={restart.toString()} restart={restart}/> }
             { gameState === 1 && <PostGame gameMode={gMode}/> }
             </main>
+
+            <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+                message="Please enter valid integers greater than 0 for both Max Time and Number of Questions."
+            />
         </>
     );
 };
