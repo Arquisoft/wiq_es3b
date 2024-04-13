@@ -229,16 +229,18 @@ const Question = ({ goTo, setGameFinished, settings, restart }) => {
                     <button onClick={() => changeSound()} style={{ border: 'none', background: 'none', padding: 0 }}>
                         <img className='audioImg' src={sonido ? soundOnImage : soundOffImage} alt="Toggle Sound" />
                     </button>
-                        <Typography sx={{ display: 'inline-block', textAlign: 'left' }}>Question: {nQuestion}</Typography>
+                        <Typography component="a" sx={{ display: 'inline-block', textAlign: 'left', marginLeft:'0.6em', color:'#FFF' }}>
+                            Question: {nQuestion}</Typography>
                     </div>
                     { (settings.gMode !== "infinite" && settings.gMode !== "threeLife") ?
-                    <Typography sx={{ display: 'inline-block', textAlign: 'right' }}> Time: {formatTiempo(segundos)}</Typography>
+                        <Typography component="a" sx={{ display: 'inline-block', textAlign: 'right', color:'#FFF' }}>
+                            Time: {formatTiempo(segundos)}</Typography>
                     : ""}
                     { settings.gMode === "threeLife" ?
                     <div> {images} </div> :""}
                 </div>
                 <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }}>
-                    <Typography variant='h4' sx={{ padding: '10px 40px 30px 40px', color: '#8f95fd', fontSize: '2em' }}>
+                    <Typography className='titleQuestion' variant='h4' sx={{ padding: '10px 40px 30px 40px', color: '#8f95fd', fontSize: '2em' }}>
                         {question}
                     </Typography>
                     <List sx={{ bgcolor: '#333' }} disablePadding>

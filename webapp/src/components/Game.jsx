@@ -112,9 +112,9 @@ export const Game = ({ gameMode }) => {
                             <MenuItem value="planets">Planets</MenuItem>
                         </Select>
                     </FormControl>
-                    <button className='startCustom' variant="contained" color="primary" onClick={() => startCustomGame()}>
-                        Start Game
-                    </button>
+                    <div className='startCustom'>
+                        <button class="btn" onClick={() => startCustomGame()}><span>Start Game</span></button>
+                    </div>
                 </div> }    
 
             { gameState === 0 && gMode !== "custom" && <Question goTo={(x) => goTo(x)} setGameFinished={setGameFinished} 

@@ -1,6 +1,5 @@
-.preguntas {
-    justify-content: flex-start;
-    margin-top: 10vh;
+#root {
+    display: flex;
 }
   
 .preguntas span {
@@ -32,12 +31,12 @@
   
 .questionCategory button:hover {
     color: #FFF;
-    background-color: #7c82fb;
+    background-color: #8f95fd;
 }
   
 .questionCategoryMarked {
     color: #FFF;
-    background-color: #7c82fb;
+    background-color: #8f95fd;
 }
 
 .customOptions {
@@ -50,9 +49,15 @@
   
 .customOptions h2 {
     margin-bottom: 1em;
-    color: #7c82fb;
+    color: #8f95fd;
 }
   
 .customOptions button {
     margin-top: 1em;
+}
+
+.startCustom {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
 }

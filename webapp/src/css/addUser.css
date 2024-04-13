@@ -17,11 +17,11 @@
 }
 
 #fotosPerfil {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    grid-template-columns: repeat(5, 1fr);
     gap: 10px;
-    padding: 20px 0 20px 0;
+    padding: 20px 0;
 }
 
 .buttonLoginRegister {
@@ -30,6 +30,11 @@
     background-color: #8f95fd !important;
     font-weight: bold !important;
     margin: 20px auto 20px auto !important;
+}
+
+.btnRegister {
+    display: flex;
+    justify-content: center;
 }
   
 .buttonLoginRegister:hover {

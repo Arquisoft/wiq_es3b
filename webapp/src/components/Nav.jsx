@@ -75,6 +75,7 @@ function Nav({ goTo }) {
               textDecoration: 'none',
               marginLeft: '16px',
             }}
+            className='tituloNav'
           >
             ASW WIQ
           </Typography>
@@ -117,31 +118,31 @@ function Nav({ goTo }) {
                 sx={{ margin: '0 !important', padding:'6px 16px', fontWeight: '400', fontSize: '1rem',
                 my: 2, color: 'white', display: 'block' }}
               >
-                API-DOC
+                API DOC
               </Button>
             </Menu>
           </Box>
           
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
             <Typography sx={{ my: 2, color: 'white', display: 'block' }}>|</Typography>
-            <Button
-                onClick={() => goToMenuClic()}
-                sx={{ my: 2, color: 'white', display: 'block' }} className='navButton'
+            <Typography component="a"
+                onClick={() => goToMenuClic()} className='optionsNav'
+                sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 Menu
-              </Button>
-              <Button
-                href={gatewayUrl + '/api-doc'}
-                sx={{ my: 2, color: 'white', display: 'block' }} className='navButton'
+              </Typography>
+              <Typography component="a"
+                href={gatewayUrl + '/api-doc'} className='optionsNav' target="_blank"
+                sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 API-DOC
-              </Button>
+              </Typography>
           </Box>
 
           <Box sx={{ flexGrow: 0, flexDirection: 'row', display:'flex', alignItems: 'center', fontWeight: 'bold'}}>
-            <Typography sx={{ marginRight: 2, fontFamily: 'Roboto Slab'}} >{username}</Typography>
+            <Typography component="a" sx={{ marginRight: 2, fontFamily: 'Roboto Slab', color:'#FFF'}} >{username}</Typography>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, border: '2px solid #FFF' }}>
                 <Avatar alt="Remy Sharp" src={profileImgSrc}/>
               </IconButton>
             </Tooltip>
