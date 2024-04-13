@@ -1,0 +1,58 @@
+.preguntas {
+    justify-content: flex-start;
+    margin-top: 10vh;
+}
+  
+.preguntas span {
+    font-size: 1.4em;
+    font-family: 'Roboto slab';
+}
+  
+.preguntas h4 {
+    font-family: 'Roboto slab';
+}
+  
+.preguntas p {
+    font-family: 'Roboto slab';
+    margin: 1em;
+}
+
+.questionCategory {
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2em;
+}
+  
+.questionCategory button {
+    margin: 5px;
+    padding: 1px 3px;
+    font-size: 1em;
+}
+  
+.questionCategory button:hover {
+    color: #FFF;
+    background-color: #7c82fb;
+}
+  
+.questionCategoryMarked {
+    color: #FFF;
+    background-color: #7c82fb;
+}
+
+.customOptions {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    
+}
+  
+.customOptions h2 {
+    margin-bottom: 1em;
+    color: #7c82fb;
+}
+  
+.customOptions button {
+    margin-top: 1em;
+}

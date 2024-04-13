@@ -16,7 +16,7 @@ function User({ goTo }) {
   return (
     <main>
       <div>
-    <Container component="main" className='panelLoginRegister'>
+    <Container component="main">
       <CssBaseline />
       <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2, fontSize: '3em', color: '#8f95fd' }}>
         ASW - WIQ Quiz

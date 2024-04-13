@@ -1,0 +1,43 @@
+.vidaImg {
+    width: 1.6em;
+    vertical-align: middle;
+}
+
+.divPreguntas {
+    max-width: 80%;
+}
+
+.questionTime {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.audioQuestion {
+    margin: 1px;
+}
+  
+.audioQuestion button {
+    vertical-align: middle;
+}
+
+.audioImg {
+    width: 1.6em;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.isNotSelected {
+    color: #555 !important;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+  
+.disabledButton {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.botoneraPreguntas {
+    display: flex;
+}

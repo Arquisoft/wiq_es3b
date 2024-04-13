@@ -1,0 +1,13 @@
+.icono {
+    width: 2.5em;
+}
+
+.nav button,
+.nav a,
+.menu p {
+  font-family: 'Roboto slab';
+}
+
+.navButton:hover {
+  color: #747bff;
+}

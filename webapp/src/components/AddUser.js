@@ -9,6 +9,7 @@ import profileImg3 from '../assets/perfil3.jpg';
 import profileImg4 from '../assets/perfil4.jpg';
 import profileImg5 from '../assets/perfil5.jpg';
 import { SessionContext } from '../SessionContext';
+import '../css/addUser.css';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -68,7 +69,6 @@ const AddUser = ({goTo}) => {
         fullWidth
         label="Username"
         value={username}
-        className='inputAddUser'
         onChange={(e) => setUsername(e.target.value)}
       />
       <TextField

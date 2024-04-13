@@ -1,5 +1,5 @@
-
 import Divider from '@mui/material/Divider';
+import '../css/start.css';
 
 export const Start = ({ goTo }) => {
 

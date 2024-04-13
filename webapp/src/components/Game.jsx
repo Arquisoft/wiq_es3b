@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PostGame } from './PostGame';
 import Question from './Question';
 import { Select, MenuItem, FormControl, InputLabel, Typography, TextField, Snackbar } from '@mui/material';
+import '../css/game.css';
 
 export const Game = ({ gameMode }) => {
 

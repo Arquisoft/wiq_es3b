@@ -1,0 +1,12 @@
+#start {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+  
+.tituloStart {
+    color: #8f95fd;
+    padding: 0 1em;
+    text-align: center;
+}

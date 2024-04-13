@@ -8,6 +8,7 @@ import activateSound from '../audio/activate.mp3';
 import soundOnImage from '../assets/sonidoON.png';
 import soundOffImage from '../assets/sonidoOFF.png';
 import vidaImg from '../assets/vida.png';
+import '../css/question.css';
 
 const correctAudio = new Audio(correctSound);
 const incorrectAudio = new Audio(incorrectSound);
