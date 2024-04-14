@@ -239,15 +239,14 @@ const Question = ({ goTo, setGameFinished, settings, restart }) => {
                     { settings.gMode === "threeLife" ?
                     <div> {images} </div> :""}
                 </div>
-                <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }}>
+                <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }} className='questionBox'>
                     <Typography className='titleQuestion' variant='h4' sx={{ padding: '10px 40px 30px 40px', color: '#8f95fd', fontSize: '2em' }}>
                         {question}
                     </Typography>
                     <List sx={{ bgcolor: '#333' }} disablePadding>
                         {options.map((option, index) => (
-                            <ListItem onClick={() => handleSubmit(option, index)} key={index+option}
-                                sx={{ bgcolor: getBackgroundColor(option, index) }}>
-                                <ListItemButton className={isSelected ? 'disabledButton' : ''}>
+                            <ListItem onClick={() => handleSubmit(option, index)} key={index+option}>
+                                <ListItemButton className={isSelected ? 'disabledButton' : ''} sx={{ bgcolor: getBackgroundColor(option, index) }}>
                                     <ListItemText sx={{ textAlign: 'center', fontSize: '1em' }} >
                                         {option}
                                     </ListItemText>

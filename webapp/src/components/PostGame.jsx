@@ -53,7 +53,7 @@ export const PostGame = ({ gameMode }) => {
 
     return (
         <div>
-            <Typography sx={{ textAlign: 'center', fontSize:'2em', margin:'0 0 0.3em 0 !important' }}>Game Over</Typography>
+            <Typography sx={{ textAlign: 'center', fontSize:'2em', margin:'0 0 0.3em 0 !important', color:'#8f95fd' }}>Game Over</Typography>
             <Card>
             <TableContainer component={Paper}>
                 <Table className='tablePost' sx={{ minWidth: '30vw' }} aria-label="simple table">

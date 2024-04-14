@@ -60,7 +60,9 @@ function Nav({ goTo }) {
     <AppBar className='nav' position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-        <img className="icono" src={iconImg} alt='icon'/>
+          <a className='icono' href="https://github.com/Arquisoft/wiq_es3b" target="_blank">
+            <img src={iconImg} alt='icon'/>
+          </a>
           <Typography
             variant="h6"
             noWrap
@@ -71,7 +73,7 @@ function Nav({ goTo }) {
               mr: 2,
               display: { xs: 'none', md: 'flex' },
               fontWeight: 700,
-              color: 'inherit',
+              color:'#8f95fd',
               textDecoration: 'none',
               marginLeft: '16px',
             }}
@@ -120,6 +122,13 @@ function Nav({ goTo }) {
               >
                 API DOC
               </Button>
+              <Button
+                href={"https://github.com/Arquisoft/wiq_es3b"}
+                sx={{ margin: '0 !important', padding:'6px 16px', fontWeight: '400', fontSize: '1rem',
+                my: 2, color: 'white', display: 'block' }}
+              >
+                Github
+              </Button>
             </Menu>
           </Box>
           
@@ -136,6 +145,12 @@ function Nav({ goTo }) {
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 API-DOC
+              </Typography>
+              <Typography component="a"
+                href={"https://github.com/Arquisoft/wiq_es3b"} className='optionsNav' target="_blank"
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Github Repo
               </Typography>
           </Box>
 

@@ -4,6 +4,10 @@
 }
 
 .icono {
+  display: flex;
+}
+
+.icono img {
   width: 2.5em;
 }
 
@@ -47,4 +51,16 @@
 .optionsNav:hover::before,
 .tituloNav:hover::before {
   transform: scaleX(1);
+}
+
+@media screen and (min-width: 900px) {
+
+  .icono {
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .icono:hover {
+    transform: translateY(-5px);
+  }
 }

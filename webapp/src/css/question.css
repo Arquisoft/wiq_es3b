@@ -47,6 +47,18 @@
     text-align: center;
 }
 
+.questionBox {
+    border: 1px solid #8f95fd !important;
+    border-radius: 0.6em !important;
+}
+
+.questionBox ul,
+.questionBox > ul div,
+.botoneraPreguntas div {
+    border-radius: 1em;
+    
+}
+
 @media screen and (max-width: 630px) {
 
     .titleQuestion {
