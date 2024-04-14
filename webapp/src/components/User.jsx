@@ -23,13 +23,19 @@ function User({ goTo }) {
       {showLogin ? <Login goTo={(x) => goTo(x)} /> : <AddUser goTo={(x) => goTo(x)}/>}
       <Typography component="div" align="center" sx={{ marginTop: 2 }}>
         {showLogin ? (
-          <Link name="gotoregister" component="button" variant="body2" onClick={handleToggleView}>
-            Don't have an account? Register here.
-          </Link>
+          <div className='btnRegister'>
+            <Link className='link' name="gotoregister" component="button" variant="body2" onClick={handleToggleView}>
+              Don't have an account? Register here.
+            </Link>
+            <button class="btn sing" onClick={handleToggleView}><span>Sign in</span></button>
+          </div>
         ) : (
-          <Link component="button" variant="body2" onClick={handleToggleView}>
+          <div className='btnRegister'>
+            <Link className='link' component="button" variant="body2" onClick={handleToggleView}>
             Already have an account? Login here.
-          </Link>
+            </Link>
+          <button class="btn sing" onClick={handleToggleView}><span>Sign in</span></button>
+          </div>
         )}
       </Typography>
     </Container>

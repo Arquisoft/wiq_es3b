@@ -68,7 +68,7 @@ const Login = ({ goTo }) => {
   return (
     <Container component="div" maxWidth="xs" sx={{ marginTop: 4 }}>
       <div class="area" >
-        <div>
+        <div className='inputsRegister'>
           <Typography component="h2" variant="h5">
             &gt; Login
           </Typography>
@@ -79,6 +79,7 @@ const Login = ({ goTo }) => {
             label="Username"
             value={username}
             className='tf'
+            sx={{ color:'#8f95fd !important' }}
             onChange={(e) => setUsername(e.target.value)}
           />
           <TextField

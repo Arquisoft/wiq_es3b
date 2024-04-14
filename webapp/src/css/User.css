@@ -33,9 +33,30 @@
   margin-top: 1em !important;
 }
 
+.sing {
+  display: none;
+}
+
+.link {
+  margin-top: 1em !important;
+  color: #8f95fd !important;
+}
+
+input {
+  background-color: #080808 !important;
+}
+
 @media screen and (max-width: 425px) {
 
   .titleLoginRegister {
     font-size: 2em;
+  }
+
+  .sing {
+    display: flex;
+  }
+
+  .link {
+    display: none;
   }
 }

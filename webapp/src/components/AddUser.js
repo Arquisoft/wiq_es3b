@@ -61,7 +61,7 @@ const AddUser = ({goTo}) => {
 
   return (
     <Container component="div" maxWidth="xs" sx={{ marginTop: 4 }}>
-      <div> 
+      <div className='inputsRegister'> 
       <Typography component="h2" variant="h5">
         &gt; Register a user
       </Typography>
