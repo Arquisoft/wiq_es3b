@@ -61,3 +61,11 @@
     justify-content: center;
     margin-top: 2em;
 }
+
+.formCategory div {
+    background-color: #080808 !important;
+}
+
+.formCategory {
+    margin: 0 !important;
+}

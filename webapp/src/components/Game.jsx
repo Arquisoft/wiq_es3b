@@ -97,9 +97,9 @@ export const Game = ({ gameMode }) => {
                         onChange={(e) => setMaxTime(e.target.value)}
                     />
                     <TextField name="numberQ" margin="normal" fullWidth label="Number of Questions"
-                        onChange={(e) => setNumberQ(e.target.value)}
+                        onChange={(e) => setNumberQ(e.target.value)} sx={{ marginTop:'0.2em' }}
                     />
-                    <FormControl fullWidth margin="normal">
+                    <FormControl fullWidth margin="normal" sx={{ backgroundColor:'#080808', marginTop:'0.2em' }}>
                         <InputLabel id="category-label">Category</InputLabel>
                         <Select labelId="category-label" id="category-select" value={customSettings.category} label="Category"
                             onChange={(e) => setCustomSettings(prevSettings => ({ ...prevSettings, category: e.target.value }))}
