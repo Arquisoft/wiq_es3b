@@ -14,6 +14,7 @@ const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 const questionGenerationServiceUrl = process.env.QUESTION_GENERATION_SERVICE_URL || 'http://localhost:8003';
 const questionServiceUrl = process.env.QUESTIONS_SERVICE_URL || 'http://localhost:8004';
 const gameServiceUrl = process.env.GAME_SERVICE_URL || 'http://localhost:8005';
+const friendServiceUrl = process.env.FRIENDS_SERVICE_URL || 'http://localhost:8006';
 
 app.use(cors());
 app.use(express.json());
@@ -23,7 +24,7 @@ const metricsMiddleware = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
 // Security middleware
-app.post('/addgame', async (req, res, next) => {
+app.post(['/addgame','/addfriend'], async (req, res, next) => {
   if (req.headers.authorization) {
     try{
       const response = await axios.get(`${authServiceUrl}/verify`, {
@@ -175,6 +176,20 @@ app.post('/addgame', async (req, res) => {
     try{
       // Forward the add game request to the games service
       const gameResponse = await axios.post(gameServiceUrl + '/addgame', req.body);
+      res.json(gameResponse.data);
+    }catch(error){
+      res.status(error.response.status).json(error.response.data);
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Service down" });
+  }
+});
+// Ruta para agregar una nuevo game
+app.post('/addfriend', async (req, res) => {
+  try {
+    try{
+      // Forward the add game request to the games service
+      const gameResponse = await axios.post(friendServiceUrl + '/addfriend', req.body);
       res.json(gameResponse.data);
     }catch(error){
       res.status(error.response.status).json(error.response.data);
