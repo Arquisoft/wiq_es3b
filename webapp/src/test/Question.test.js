@@ -323,8 +323,8 @@ describe('handleGameFinish function', () => {
     });
 
     act(() => {
-      finishByTime(true);
-      finishByTime(false);
+      finishByTime(true, MAX_TIME);
+      finishByTime(false, MAX_TIME);
     });
 
     // Verifica si finishByTime fue llamado
@@ -345,7 +345,7 @@ describe('handleGameFinish function', () => {
     const goTo = jest.fn();
 
     act(() => {
-      handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, sonido, goTo, setGameFinished);
+      handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, sonido, goTo, setGameFinished, 10 , 120);
     });
   });
 
