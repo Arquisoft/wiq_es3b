@@ -39,7 +39,6 @@ beforeEach(async () => {
     totalTime: 1200,
     gameMode: 'normal'
   });
-
 });
 
 afterEach(async () => {
@@ -82,13 +81,33 @@ describe('Game Service', () => {
       totalTime: 1200,
     };
 
-
     const response = await request(app).get(`/getParticipation/${userId}`);
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(mockParticipationData);
   });
 
+  // Test para manejar el caso de usuario no encontrado al obtener los datos de participación
+  it('should return 404 when getting participation data for non-existent user', async () => {
+    const nonExistentUserId = 'nonExistentUserId';
+    const response = await request(app).get(`/getParticipation/${nonExistentUserId}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body).toEqual({ error: 'User not found.' });
+  });
+  it('should return 204 when getting participation data for user with totalGames equal to 0', async () => {
+    const userNoGames = await User.create({
+      username: 'noGames',
+      profileImage: 'defaultProfileImg',
+      password: 'password123'
+    });
+    userNGId = userNoGames._id;
+  
+    const response = await request(app).get(`/getParticipation/${userNGId}`);
+  
+    expect(response.status).toBe(204);
+  });
+});
 describe('Api info users', () => {
   it('should get user information on GET /api/info/users', async () => {
     const axiosMock = jest.spyOn(axios, 'get');
