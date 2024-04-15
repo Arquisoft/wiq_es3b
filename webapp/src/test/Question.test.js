@@ -39,6 +39,7 @@ describe('Question component', () => {
   });
 
   it('renders question and options correctly', async () => {
+
     const { getByText } = render(
       <SessionProvider>
         <Question settings={customSettings}/>
@@ -60,6 +61,7 @@ describe('Question component', () => {
   });
 
   it('selects correct option and handles click correctly', async () => {
+
     const { getByText } = render(
       <SessionProvider>
         <Question settings={customSettings}/>
@@ -83,6 +85,7 @@ describe('Question component', () => {
   });
 
   it('handles Next button click correctly', async () => {
+
     const { getByText } = render(
       <SessionProvider>
         <Question settings={customSettings}/>
@@ -120,6 +123,7 @@ describe('Question component', () => {
     // Mock para funciones auxiliares
     const mockSetGameFinished = jest.fn();
     const mockGoTo = jest.fn();
+ 
     const questionComponent = <SessionProvider>
        <Question setGameFinished={mockSetGameFinished} goTo={mockGoTo} settings={customSettings}/>
       </SessionProvider>;
@@ -159,18 +163,20 @@ describe('Question component', () => {
   test('El contador de segundos debe decrementar correctamente', () => {
     jest.useFakeTimers();
     const setSegundos = jest.fn();
+    act(() => {
     render(
       <SessionProvider>
         <Question settings={customSettings}/>
       </SessionProvider>
       );
-
+    });
     jest.advanceTimersByTime(5000);
 
     expect(setSegundos).toHaveBeenCalledTimes(0);
   });
 
   it('should toggle sound on and off when clicking audio image', () => {
+  
     const { getByRole } = render(<SessionProvider>
       <Question settings={customSettings}/>
     </SessionProvider>);
@@ -188,6 +194,7 @@ describe('Question component', () => {
   });
 
   it('should toggle isSelected state when clicking button', () => {
+  
     const { getByText } = render(<SessionProvider>
       <Question settings={customSettings}/>
     </SessionProvider>);
@@ -231,6 +238,7 @@ describe('handleGameFinish function', () => {
     Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
     // Render the Question component
+
     const { getByText } = render(<SessionProvider>
       <Question settings={customSettings}/>
     </SessionProvider>);
@@ -285,10 +293,11 @@ describe('handleGameFinish function', () => {
     const MAX_TIME = 120;
 
     // Renderizamos el componente
+
     const { getByText } = render(<SessionProvider><Question goTo={goToMock} settings={customSettings}/></SessionProvider>);
 
     // Llamamos directamente a finishByQuestions
-    finishByQuestions(segundos, MAX_TIME);
+    finishByQuestions(segundos, MAX_TIME); 
 
     // Verificamos que los valores correctos se hayan establecido en el local storage
     expect(localStorage.getItem("tiempoUsado").toString()).toBe((MAX_TIME - segundos).toString());
@@ -303,8 +312,9 @@ describe('handleGameFinish function', () => {
 
   it('should call finishByTime when game finishes by time', () => {
 
+    act(() => {
     render(<SessionProvider><Question settings={customSettings}/></SessionProvider>);
-    
+  });
     const MAX_TIME = 120;
     // Simula que se agota el tiempo
     jest.useFakeTimers();
@@ -322,8 +332,9 @@ describe('handleGameFinish function', () => {
   });
 
   it('should call handleClassicGameFinish with the correct arguments', () => {
+    act(() => {
     render(<SessionProvider><Question settings={customSettings}/></SessionProvider>);
-    
+  });
     // Simula que se alcanza el final del juego
     const nQuestion = 10; // Número de preguntas igual al máximo
     const numberCorrect = 8; // Supongamos que el jugador acierta 8 preguntas
@@ -345,8 +356,9 @@ describe('handleGameFinish function', () => {
       numberQ: 10,
       category: "general"
     };
+    act(() => {
     render(<SessionProvider><Question settings={TLSettings}/></SessionProvider>);
-    
+  });
     // Simula que se alcanza el final del juego
     const numberCorrect = 8; // Supongamos que el jugador acierta 8 preguntas
     const setGameFinished = jest.fn();
@@ -365,7 +377,9 @@ describe('handleGameFinish function', () => {
       numberQ: 10,
       category: "general"
     };
+    act(() => {
     render(<SessionProvider><Question settings={InfiniteSettings}/></SessionProvider>);
+    });
     
     // Simula que se alcanza el final del juego
     const numberCorrect = 8; // Supongamos que el jugador acierta 8 preguntas
@@ -391,8 +405,10 @@ describe('handleGameFinish function', () => {
       setReload: mockSetState
     };
     
+    act(() => {
     render(<SessionProvider><Question settings={customSettings}/></SessionProvider>);
-    
+    });
+
     act(() => {
       reloadF(
         mockContext.setSegundos,
