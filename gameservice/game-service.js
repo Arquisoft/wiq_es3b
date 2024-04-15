@@ -181,14 +181,18 @@ app.get('/api/ranking', async (req, res) => {
       { $sort: { totalGames: -1 } } // Ordenar en orden descendente por total de juegos
     ]);
 
-    // Obtener información de usuario para cada entrada en el ranking
     const rankedPlayers = [];
     for (const entry of ranking) {
-      const user = await axios.get(`${USER_SERVICE_URL}/getUserInfo/${entry._id}`);
-      rankedPlayers.push({
-        user: user.data.username, // Puedes usar el campo apropiado según tu esquema de usuario
-        totalGames: entry.totalGames
-      });
+      try {
+        const user = await axios.get(`${USER_SERVICE_URL}/getUserInfo/${entry._id}`);
+        rankedPlayers.push({
+          user: user.data.username, // Puedes usar el campo apropiado según tu esquema de usuario
+          totalGames: entry.totalGames
+        });
+      } catch (error) {
+        console.error(`Error al obtener información del usuario ${entry._id}:`, error.message);
+        // Puedes manejar el error de manera adecuada, por ejemplo, puedes continuar sin agregar este usuario al ranking
+      }
     }
 
     res.status(200).json(rankedPlayers);
@@ -197,6 +201,7 @@ app.get('/api/ranking', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 const server = app.listen(port, () => {
   console.log(`Games Service listening at http://localhost:${port}`);
