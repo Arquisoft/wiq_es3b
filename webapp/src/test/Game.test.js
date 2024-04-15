@@ -137,4 +137,16 @@ describe('Game component', () => {
     fireEvent.click(getByText(/Planets/i));
     expect(getByText(/Restart game with a new category/i)).toBeInTheDocument();
   });
+
+  test('sets snackbar open if inputs are not valid', () => {
+    const { getByText, getByLabelText } = render(<SessionProvider><Game gameMode="custom"/></SessionProvider>);
+
+    // Simular entradas inválidas
+    fireEvent.change(getByLabelText('Max Time (minutes)'), { target: { value: 'abc' } });
+    fireEvent.change(getByLabelText('Number of Questions'), { target: { value: 'def' } });
+
+    fireEvent.click(getByText('Start Game'));
+
+    expect(getByText('Please enter valid integers greater than 0 for both Max Time and Number of Questions.')).toBeInTheDocument();
+  });
 });
