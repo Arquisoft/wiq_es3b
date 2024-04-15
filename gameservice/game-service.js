@@ -136,9 +136,9 @@ app.get('/getParticipation/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
 
-    if (!userId) {
-      // Si no se encuentra el usuario, responder con un error
-      res.status(404).json({ error: 'User not found' });
+    // Verificar si el userId recibido es un string vacío o nulo
+    if (!userId || userId.trim() === '') {
+      res.status(404).json({ error: 'Invalid User ID' });
       return;
     }
     
@@ -158,7 +158,7 @@ app.get('/getParticipation/:userId', async (req, res) => {
 
     if (participationData.length === 0 || (participationData.length > 0 && participationData[0].totalGames === 0)) {
       // No se encontraron datos para el usuario
-      res.status(204).send();
+      res.status(204).json({ error: 'No participation data for the user' });
       return;
     }
 
