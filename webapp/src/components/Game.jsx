@@ -76,17 +76,17 @@ export const Game = ({ gameMode }) => {
 
             { gMode === "category" &&
                 <div className='questionCategory'>
-                    <button className={category === "general" ? 'questionCategoryMarked' : ''}
+                    <button className={category === "general" ? 'questionCategoryMarked categoryBtn' : 'categoryBtn'}
                         onClick={() => changeCategory("general")}> All Categories</button>
-                    <button className={category === "art" ? 'questionCategoryMarked' : ''}
+                    <button className={category === "art" ? 'questionCategoryMarked categoryBtn' : 'categoryBtn'}
                         onClick={() => changeCategory("art")}> Art</button>
-                    <button className={category === "sports" ? 'questionCategoryMarked' : ''}
+                    <button className={category === "sports" ? 'questionCategoryMarked categoryBtn' : 'categoryBtn'}
                         onClick={() => changeCategory("sports")}> Sports</button>
-                    <button className={category === "entertainment" ? 'questionCategoryMarked' : ''}
+                    <button className={category === "entertainment" ? 'questionCategoryMarked categoryBtn' : 'categoryBtn'}
                         onClick={() => changeCategory("entertainment")}> Entertainment</button>
-                    <button className={category === "geography" ? 'questionCategoryMarked' : ''}
+                    <button className={category === "geography" ? 'questionCategoryMarked categoryBtn' : 'categoryBtn'}
                         onClick={() => changeCategory("geography")}> Geography</button>
-                    <button className={category === "planets" ? 'questionCategoryMarked' : ''}
+                    <button className={category === "planets" ? 'questionCategoryMarked categoryBtn' : 'categoryBtn'}
                         onClick={() => changeCategory("planets")}> Planets</button>
                 </div> }
 

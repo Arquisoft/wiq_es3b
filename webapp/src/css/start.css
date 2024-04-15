@@ -13,7 +13,6 @@
 
 p {
   font-size: 8vw;
-  text-transform: uppercase;
   text-align: center;
   line-height: 1;
 }
@@ -47,5 +46,29 @@ p {
 
   .btn {
     padding: 10px 20px;
+  }
+
+  span {
+    font-size: 1em !important;
+  }
+
+  h4 {
+    font-size: 1.6em !important;
+  }
+
+  button {
+    font-size: 0.8em !important;
+  }
+
+  p {
+    font-size: 1.4em !important;
+  }
+
+  .questionCategory {
+    margin-bottom: 0.4em !important;
+  }
+
+  .botoneraPreguntas div {
+    margin-top: 0 !important;
   }
 }
