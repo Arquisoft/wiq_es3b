@@ -170,7 +170,7 @@ app.get('/api/info/games', async (req, res) => {
   }
 });
 
-// Ruta para agregar una nuevo game
+// Ruta para agregar una nuevo amigo
 app.post('/addgame', async (req, res) => {
   try {
     try{
@@ -184,13 +184,26 @@ app.post('/addgame', async (req, res) => {
     res.status(500).json({ error: "Service down" });
   }
 });
+
 // Ruta para agregar una nuevo game
 app.post('/addfriend', async (req, res) => {
   try {
     try{
       // Forward the add game request to the games service
-      const gameResponse = await axios.post(friendServiceUrl + '/addfriend', req.body);
-      res.json(gameResponse.data);
+      const friendsResponse = await axios.post(friendServiceUrl + '/addfriend', req.body);
+      res.json(friendsResponse.data);
+    }catch(error){
+      res.status(error.response.status).json(error.response.data);
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Service down" });
+  }
+});
+app.get('/getFriends/:username', async (req, res) => {
+  try {
+    try{
+      const friendsResponse = await axios.get(friendServiceUrl + '/getFriends/'+req.params.username);
+      res.json(friendsResponse.data);
     }catch(error){
       res.status(error.response.status).json(error.response.data);
     }
