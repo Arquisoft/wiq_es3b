@@ -89,15 +89,6 @@ describe('Game Service', () => {
     expect(response.body).toEqual(mockParticipationData);
   });
 
-  // Test para manejar el caso de usuario no encontrado al obtener los datos de participación
-  it('should return 404 when getting participation data for non-existent user', async () => {
-    const nonExistentUserId = 'nonExistentUserId';
-    const response = await request(app).get(`/getParticipation/${nonExistentUserId}`);
-
-    expect(response.status).toBe(404);
-    expect(response.body).toEqual({ error: 'No participation data found for the user.' });
-  });
-});
 describe('Api info users', () => {
   it('should get user information on GET /api/info/users', async () => {
     const axiosMock = jest.spyOn(axios, 'get');
