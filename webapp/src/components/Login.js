@@ -67,7 +67,7 @@ const Login = ({ goTo }) => {
 
   return (
     <Container component="div" maxWidth="xs" sx={{ marginTop: 4 }}>
-      <div class="area" >
+      <div className="area" >
         <div className='inputsRegister'>
           <Typography component="h2" variant="h5">
             &gt; Login
@@ -92,9 +92,9 @@ const Login = ({ goTo }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <div>
-            <button class="btn" onClick={loginUser}><span>Login</span></button>
+            <button className="btn" onClick={loginUser}><span>Login</span></button>
           </div>
-            <ul class="circles">
+            <ul className="circles">
               <li></li><li></li><li></li><li></li><li></li>
               <li></li><li></li><li></li><li></li><li></li>
             </ul>

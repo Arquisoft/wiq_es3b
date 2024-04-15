@@ -113,7 +113,7 @@ export const Game = ({ gameMode }) => {
                         </Select>
                     </FormControl>
                     <div className='startCustom'>
-                        <button class="btn" onClick={() => startCustomGame()}><span>Start Game</span></button>
+                        <button className="btn" onClick={() => startCustomGame()}><span>Start Game</span></button>
                     </div>
                 </div> }    
 

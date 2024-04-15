@@ -27,14 +27,14 @@ function User({ goTo }) {
             <Link className='link' name="gotoregister" component="button" variant="body2" onClick={handleToggleView}>
               Don't have an account? Register here.
             </Link>
-            <button class="btn sing" onClick={handleToggleView}><span>Sign in</span></button>
+            <button className="btn sing" onClick={handleToggleView}><span>Sign in</span></button>
           </div>
         ) : (
           <div className='btnRegister'>
             <Link className='link' component="button" variant="body2" onClick={handleToggleView}>
             Already have an account? Login here.
             </Link>
-          <button class="btn sing" onClick={handleToggleView}><span>Sign in</span></button>
+          <button className="btn sing" onClick={handleToggleView}><span>Sign in</span></button>
           </div>
         )}
       </Typography>

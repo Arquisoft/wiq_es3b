@@ -117,9 +117,9 @@ const AddUser = ({goTo}) => {
         </IconButton>
       </div>
       <div className='btnRegister'>
-        <button class="btn" onClick={addUser}><span>Sign up</span></button>
+        <button className="btn" onClick={addUser}><span>Sign up</span></button>
       </div>
-      <ul class="circles">
+      <ul className="circles">
               <li></li><li></li><li></li><li></li><li></li>
               <li></li><li></li><li></li><li></li><li></li>
             </ul>
