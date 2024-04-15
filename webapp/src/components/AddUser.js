@@ -1,7 +1,7 @@
 // src/components/AddUser.js
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar, IconButton } from '@mui/material';
+import { Container, Typography, TextField, Snackbar, IconButton } from '@mui/material';
 
 import profileImg1 from '../assets/defaultImgProfile.jpg';
 import profileImg2 from '../assets/perfil2.jpg';
@@ -9,6 +9,8 @@ import profileImg3 from '../assets/perfil3.jpg';
 import profileImg4 from '../assets/perfil4.jpg';
 import profileImg5 from '../assets/perfil5.jpg';
 import { SessionContext } from '../SessionContext';
+import '../css/addUser.css';
+import '../css/animatedBG.css';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -58,7 +60,8 @@ const AddUser = ({goTo}) => {
   }
 
   return (
-    <Container component="div" maxWidth="xs" sx={{ marginTop: 8 }}>
+    <Container component="div" maxWidth="xs" sx={{ marginTop: 4 }}>
+      <div className='inputsRegister'> 
       <Typography component="h2" variant="h5">
         &gt; Register a user
       </Typography>
@@ -68,7 +71,6 @@ const AddUser = ({goTo}) => {
         fullWidth
         label="Username"
         value={username}
-        className='inputAddUser'
         onChange={(e) => setUsername(e.target.value)}
       />
       <TextField
@@ -114,9 +116,14 @@ const AddUser = ({goTo}) => {
                 src={profileImg5} alt='Imagen Perfil 5' />
         </IconButton>
       </div>
-      <Button className='buttonLoginRegister' variant="contained" color="primary" onClick={addUser} sx={{ marginTop: 4 }}>
-        Sign up
-      </Button>
+      <div className='btnRegister'>
+        <button className="btn" onClick={addUser}><span>Sign up</span></button>
+      </div>
+      <ul className="circles">
+              <li></li><li></li><li></li><li></li><li></li>
+              <li></li><li></li><li></li><li></li><li></li>
+            </ul>
+        </div> 
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" />
       {error && (
         <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />

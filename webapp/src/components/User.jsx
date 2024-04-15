@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import '../css/users.css';
 
 function User({ goTo }) {
   const [showLogin, setShowLogin] = useState(true);
@@ -16,21 +17,25 @@ function User({ goTo }) {
   return (
     <main>
       <div>
-    <Container component="main" className='panelLoginRegister'>
+    <Container component="main">
       <CssBaseline />
-      <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2, fontSize: '3em', color: '#8f95fd' }}>
-        ASW - WIQ Quiz
-      </Typography>
+      <h1 className="titleLoginRegister">ASW - WIQ Quiz</h1>
       {showLogin ? <Login goTo={(x) => goTo(x)} /> : <AddUser goTo={(x) => goTo(x)}/>}
       <Typography component="div" align="center" sx={{ marginTop: 2 }}>
         {showLogin ? (
-          <Link name="gotoregister" component="button" variant="body2" onClick={handleToggleView}>
-            Don't have an account? Register here.
-          </Link>
+          <div className='btnRegister'>
+            <Link className='link' name="gotoregister" component="button" variant="body2" onClick={handleToggleView}>
+              Don't have an account? Register here.
+            </Link>
+            <button className="btn sing" onClick={handleToggleView}><span>Sign in</span></button>
+          </div>
         ) : (
-          <Link component="button" variant="body2" onClick={handleToggleView}>
+          <div className='btnRegister'>
+            <Link className='link' component="button" variant="body2" onClick={handleToggleView}>
             Already have an account? Login here.
-          </Link>
+            </Link>
+          <button className="btn sing" onClick={handleToggleView}><span>Sign in</span></button>
+          </div>
         )}
       </Typography>
     </Container>

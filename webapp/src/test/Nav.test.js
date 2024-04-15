@@ -18,7 +18,7 @@ describe('Nav Component', () => {
 
     fireEvent.click(menuIcon);
     await waitFor(() => {
-      expect(queryByText('Volver al menú')).toBeInTheDocument();
+      expect(queryByText('Back to menu')).toBeInTheDocument();
     });
 
   });
@@ -112,7 +112,7 @@ describe('Nav Component', () => {
         <Nav goTo={goToMock} />
       </SessionProvider>
       );
-    const button = getByText('Volver al menú');
+    const button = getByText('Back to menu');
 
     fireEvent.click(button);
 

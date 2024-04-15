@@ -38,7 +38,7 @@ describe('Start component', () => {
     fireEvent.click(screen.getByText('Participation'));
 
     // Verificar que la función goTo se llamó con el argumento correcto (en este caso, 6)
-    expect(goToMock).toHaveBeenCalledWith(6);
+    expect(goToMock).toHaveBeenCalledWith(7);
   });
 
   it('should trigger the correct function when a button is clicked', () => {

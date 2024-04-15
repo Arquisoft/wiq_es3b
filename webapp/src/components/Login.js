@@ -1,8 +1,10 @@
 // src/components/Login.js
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import { Container, Typography, TextField, Snackbar } from '@mui/material';
 import { SessionContext } from '../SessionContext';
+import '../css/login.css';
+import '../css/animatedBG.css';
 
 const Login = ({ goTo }) => {
 
@@ -64,8 +66,9 @@ const Login = ({ goTo }) => {
   }, [loginSuccess, goTo]);
 
   return (
-    <Container component="div" maxWidth="xs" sx={{ marginTop: 8 }}>
-        <div>
+    <Container component="div" maxWidth="xs" sx={{ marginTop: 4 }}>
+      <div className="area" >
+        <div className='inputsRegister'>
           <Typography component="h2" variant="h5">
             &gt; Login
           </Typography>
@@ -75,6 +78,8 @@ const Login = ({ goTo }) => {
             fullWidth
             label="Username"
             value={username}
+            className='tf'
+            sx={{ color:'#8f95fd !important' }}
             onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
@@ -86,9 +91,14 @@ const Login = ({ goTo }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button className='buttonLoginRegister' variant="contained" color="primary" onClick={loginUser}>
-            Login
-          </Button>
+          <div>
+            <button className="btn" onClick={loginUser}><span>Login</span></button>
+          </div>
+            <ul className="circles">
+              <li></li><li></li><li></li><li></li><li></li>
+              <li></li><li></li><li></li><li></li><li></li>
+            </ul>
+        </div> 
           <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
           {error && (
             <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />

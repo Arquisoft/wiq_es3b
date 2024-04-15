@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
+import '../css/nav.css';
 import { useContext } from 'react';
 import { SessionContext } from '../SessionContext';
 import defaultProfileImg from '../assets/defaultImgProfile.jpg';
@@ -59,7 +60,9 @@ function Nav({ goTo }) {
     <AppBar className='nav' position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-        <img className="icono" src={iconImg} alt='icon'/>
+          <a className='icono' href="https://github.com/Arquisoft/wiq_es3b" target="_blank" rel="noreferrer">
+            <img src={iconImg} alt='icon'/>
+          </a>
           <Typography
             variant="h6"
             noWrap
@@ -70,14 +73,14 @@ function Nav({ goTo }) {
               mr: 2,
               display: { xs: 'none', md: 'flex' },
               fontWeight: 700,
-              color: 'inherit',
-              textDecoration: 'none'
+              color:'#8f95fd',
+              textDecoration: 'none',
+              marginLeft: '16px',
             }}
+            className='tituloNav'
           >
             ASW WIQ
           </Typography>
-
-          <Typography sx={{ marginRight:'1em' }}>|</Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -110,30 +113,51 @@ function Nav({ goTo }) {
             >
               
               <MenuItem className='menu' onClick={() => goToMenuClic()}>
-                <Typography textAlign="center">Volver al menú</Typography>
+                <Typography textAlign="center">Back to menu</Typography>
               </MenuItem>
+              <Button
+                href={gatewayUrl + '/api-doc'}
+                sx={{ margin: '0 !important', padding:'6px 16px', fontWeight: '400', fontSize: '1rem',
+                my: 2, color: 'white', display: 'block' }}
+              >
+                API DOC
+              </Button>
+              <Button
+                href={"https://github.com/Arquisoft/wiq_es3b"}
+                sx={{ margin: '0 !important', padding:'6px 16px', fontWeight: '400', fontSize: '1rem',
+                my: 2, color: 'white', display: 'block' }}
+              >
+                Github
+              </Button>
             </Menu>
           </Box>
           
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Button
-                onClick={() => goToMenuClic()}
-                sx={{ my: 2, color: 'white', display: 'block' }} className='navButton'
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
+            <Typography sx={{ my: 2, color: 'white', display: 'block' }}>|</Typography>
+            <Typography component="a"
+                onClick={() => goToMenuClic()} className='optionsNav'
+                sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 Menu
-              </Button>
-              <Button
-                href={gatewayUrl + '/api-doc'}
-                sx={{ my: 2, color: 'white', display: 'block' }} className='navButton'
+              </Typography>
+              <Typography component="a"
+                href={gatewayUrl + '/api-doc'} className='optionsNav' target="_blank" rel="noreferrer"
+                sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 API-DOC
-              </Button>
+              </Typography>
+              <Typography component="a"
+                href={"https://github.com/Arquisoft/wiq_es3b"} className='optionsNav' target="_blank" rel="noreferrer"
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Github Repo
+              </Typography>
           </Box>
 
           <Box sx={{ flexGrow: 0, flexDirection: 'row', display:'flex', alignItems: 'center', fontWeight: 'bold'}}>
-            <Typography sx={{ marginRight: 2, fontFamily: 'Roboto Slab'}} >{username}</Typography>
+            <Typography component="a" sx={{ marginRight: 2, fontFamily: 'Roboto Slab', color:'#FFF'}} >{username}</Typography>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, border: '2px solid #FFF' }}>
                 <Avatar alt="Remy Sharp" src={profileImgSrc}/>
               </IconButton>
             </Tooltip>

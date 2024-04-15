@@ -1,0 +1,86 @@
+#root {
+    display: flex;
+}
+  
+.preguntas span {
+    font-size: 1.4em;
+    font-family: 'Roboto slab';
+}
+  
+.preguntas h4 {
+    font-family: 'Roboto slab';
+}
+  
+.preguntas p {
+    font-family: 'Roboto slab';
+    margin: 1em;
+}
+
+.questionCategory {
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2em;
+}
+  
+.questionCategory button {
+    margin: 5px;
+    padding: 1px 3px;
+    font-size: 1em;
+}
+  
+.questionCategory button:hover {
+    color: #FFF;
+    background-color: #8f95fd;
+}
+  
+.questionCategoryMarked {
+    color: #FFF !important;
+    background-color: #8f95fd !important;
+}
+
+.customOptions {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    
+}
+  
+.customOptions h2 {
+    margin-bottom: 1em;
+    color: #8f95fd;
+}
+  
+.customOptions button {
+    margin-top: 1em;
+}
+
+.startCustom {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+.formCategory div {
+    background-color: #080808 !important;
+}
+
+.formCategory {
+    margin: 0 !important;
+}
+
+.categoryBtn {
+  border-radius: 8px;
+  border: 4px solid transparent;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  color: #000000;
+  font-weight: 700;
+  background-color: #FFF;
+  padding: 8px 10px !important;
+  margin: 0.1em 0.2em !important;
+}
