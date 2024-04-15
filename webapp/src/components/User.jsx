@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import '../css/user.css';
+import '../css/users.css';
 
 function User({ goTo }) {
   const [showLogin, setShowLogin] = useState(true);
