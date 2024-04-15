@@ -3,6 +3,10 @@
   left: 0;
 }
 
+a {
+  white-space: nowrap;
+}
+
 .icono {
   display: flex;
 }
@@ -19,6 +23,14 @@
 
 .navButton:hover {
   color: #747bff;
+}
+
+.language {
+  margin: 0 1em 0 !important;
+}
+
+.language > div > div {
+  padding: 0.4em 1em;
 }
 
 .optionsNav {
@@ -51,6 +63,14 @@
 .optionsNav:hover::before,
 .tituloNav:hover::before {
   transform: scaleX(1);
+}
+
+.disable {
+  pointer-events: none;
+}
+
+.disable > div > div {
+  color: #5b5b5b !important;
 }
 
 @media screen and (min-width: 900px) {

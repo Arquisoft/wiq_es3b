@@ -1,12 +1,23 @@
-// src/components/Login.js
+ // src/components/Login.js
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Snackbar } from '@mui/material';
 import { SessionContext } from '../SessionContext';
 import '../css/login.css';
 import '../css/animatedBG.css';
+import { FormattedMessage } from 'react-intl';
+import { Select, FormControl, MenuItem } from '@mui/material';
 
-const Login = ({ goTo }) => {
+
+const Login = ({ goTo, changeLanguage, locale }) => {
+
+  const [language, setLang] = useState('');
+  const [langEnd, setLangEnd] = useState(locale);
+
+  useEffect(() => {
+    changeLanguage(langEnd);
+    setLang(<FormattedMessage id={"lang" + langEnd} />)
+  }, [locale, changeLanguage, langEnd]);
 
   const { saveSessionData, sessionData } = useContext(SessionContext);
 
@@ -69,14 +80,24 @@ const Login = ({ goTo }) => {
     <Container component="div" maxWidth="xs" sx={{ marginTop: 4 }}>
       <div className="area" >
         <div className='inputsRegister'>
-          <Typography component="h2" variant="h5">
-            &gt; Login
-          </Typography>
+          <div className='topLogin'>
+            <Typography component="h2" variant="h5">
+              &gt; {<FormattedMessage id="login"/>}
+            </Typography>
+            <FormControl className='language' fullWidth margin="normal" sx={{ display:'block', marginTop:'0.2em' }}>
+                <Select labelId="language-label" id="language-select" value={langEnd}
+                    onChange={(e) => {setLangEnd(e.target.value)}}>
+                  <MenuItem value="en"><FormattedMessage id="langen" /></MenuItem>
+                  <MenuItem value="es"><FormattedMessage id="langes" /></MenuItem>
+
+                </Select>
+            </FormControl>
+          </div>
           <TextField
             name="username"
             margin="normal"
             fullWidth
-            label="Username"
+            label= {<FormattedMessage id="username"/>}
             value={username}
             className='tf'
             sx={{ color:'#8f95fd !important' }}
@@ -86,22 +107,22 @@ const Login = ({ goTo }) => {
             name="password"
             margin="normal"
             fullWidth
-            label="Password"
+            label= {<FormattedMessage id="password"/>}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <div>
-            <button className="btn" onClick={loginUser}><span>Login</span></button>
+            <button className="btn" onClick={loginUser}><FormattedMessage id="login" tagName="span" /></button>
           </div>
             <ul className="circles">
               <li></li><li></li><li></li><li></li><li></li>
               <li></li><li></li><li></li><li></li><li></li>
             </ul>
         </div> 
-          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
+          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={<FormattedMessage id="loginSuccessfull" />} />
           {error && (
-            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
+            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={<FormattedMessage id="invalidCredentials" />} />
           )}
         </div>
     </Container>

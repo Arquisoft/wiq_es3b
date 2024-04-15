@@ -9,12 +9,24 @@ import profileImg3 from '../assets/perfil3.jpg';
 import profileImg4 from '../assets/perfil4.jpg';
 import profileImg5 from '../assets/perfil5.jpg';
 import { SessionContext } from '../SessionContext';
+import { FormattedMessage } from 'react-intl';
 import '../css/addUser.css';
 import '../css/animatedBG.css';
+import { Select, FormControl, MenuItem } from '@mui/material';
+
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
-const AddUser = ({goTo}) => {
+const AddUser = ({goTo, changeLanguage, locale}) => {
+
+  const [language, setLang] = useState('');
+  const [langEnd, setLangEnd] = useState(locale);
+
+  useEffect(() => {
+    changeLanguage(langEnd);
+    setLang(<FormattedMessage id={"lang" + langEnd} />)
+  }, [locale, changeLanguage, langEnd]);
+
   const { saveSessionData } = useContext(SessionContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -61,15 +73,25 @@ const AddUser = ({goTo}) => {
 
   return (
     <Container component="div" maxWidth="xs" sx={{ marginTop: 4 }}>
-      <div className='inputsRegister'> 
-      <Typography component="h2" variant="h5">
-        &gt; Register a user
-      </Typography>
+      <div className='inputsRegister'>
+        <div className='topLogin'>
+        <Typography component="h2" variant="h5">
+          &gt; {<FormattedMessage id="register" />}
+        </Typography>
+        <FormControl className='language' fullWidth margin="normal" sx={{ display:'block', marginTop:'0.2em' }}>
+          <Select labelId="language-label" id="language-select" value={langEnd}
+              onChange={(e) => {setLangEnd(e.target.value)}}>
+            <MenuItem value="en"><FormattedMessage id="langen" /></MenuItem>
+            <MenuItem value="es"><FormattedMessage id="langes" /></MenuItem>
+
+          </Select>
+        </FormControl>
+      </div>
       <TextField
         name="username"
         margin="normal"
         fullWidth
-        label="Username"
+        label= {<FormattedMessage id="username" />}
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
@@ -77,7 +99,7 @@ const AddUser = ({goTo}) => {
         name="password"
         margin="normal"
         fullWidth
-        label="Password"
+        label= {<FormattedMessage id="password" />}
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
@@ -86,13 +108,13 @@ const AddUser = ({goTo}) => {
         name="confirmPassword"
         margin="normal"
         fullWidth
-        label="Confirm Password"
+        label= {<FormattedMessage id="confirmPassword" />}
         type="password"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
       <Typography component="h3" variant="h5" sx={{ marginTop: 4 }}>
-        Select a profile picture
+        <FormattedMessage id="selectProfileImg" />
       </Typography>
       <div id='fotosPerfil'>
         <IconButton className={`fotoPerfilBtn`} onClick={() => handleImageClick('defaultImgProfile.jpg')}>
@@ -117,16 +139,16 @@ const AddUser = ({goTo}) => {
         </IconButton>
       </div>
       <div className='btnRegister'>
-        <button className="btn" onClick={addUser}><span>Sign up</span></button>
+        <button className="btn" onClick={addUser}><FormattedMessage id="signUp" tagName="span" /></button>
       </div>
       <ul className="circles">
               <li></li><li></li><li></li><li></li><li></li>
               <li></li><li></li><li></li><li></li><li></li>
             </ul>
         </div> 
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" />
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={<FormattedMessage id="userAdd" />} />
       {error && (
-        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
+        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={<FormattedMessage id="passwordNotMatch" />} />
       )}
     </Container>
   );

@@ -1,3 +1,12 @@
+
+h2 {
+  white-space: nowrap;
+}
+
+.topLogin .language {
+  display: flex;
+}
+
 .titleLoginRegister {
   color: #8f95fd;
   font-size: 3em;
@@ -59,4 +68,9 @@ input {
   .link {
     display: none;
   }
+}
+
+.topLogin {
+  display: flex;
+  justify-content: space-between;
 }
