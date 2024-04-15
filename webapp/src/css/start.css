@@ -42,3 +42,10 @@ p {
     font-size: 2em;
   }
 }
+
+@media screen and (max-height: 780px) {
+
+  .btn {
+    padding: 10px 20px;
+  }
+}
