@@ -101,7 +101,7 @@ export const Game = ({ gameMode, locale }) => {
                         onChange={(e) => setNumberQ(e.target.value)} sx={{ marginTop:'0.2em' }}
                     />
                     <FormControl fullWidth margin="normal" sx={{ backgroundColor:'#080808', marginTop:'0.2em' }}>
-                        <InputLabel id="category-label"><FormattedMessage id="Category" /></InputLabel>
+                        <InputLabel id="category-label"><FormattedMessage id="categoryOpt" /></InputLabel>
                         <Select labelId="category-label" id="category-select" value={customSettings.category} label="Category"
                             onChange={(e) => setCustomSettings(prevSettings => ({ ...prevSettings, category: e.target.value }))}
                             >
