@@ -6,17 +6,15 @@ import { SessionContext } from '../SessionContext';
 import '../css/login.css';
 import '../css/animatedBG.css';
 import { FormattedMessage } from 'react-intl';
-import { Select, FormControl, MenuItem } from '@mui/material';
+import LanguageSelect from './LanguageSelect';
 
 
 const Login = ({ goTo, changeLanguage, locale }) => {
 
-  const [language, setLang] = useState('');
   const [langEnd, setLangEnd] = useState(locale);
 
   useEffect(() => {
     changeLanguage(langEnd);
-    setLang(<FormattedMessage id={"lang" + langEnd} />)
   }, [locale, changeLanguage, langEnd]);
 
   const { saveSessionData, sessionData } = useContext(SessionContext);
@@ -84,14 +82,7 @@ const Login = ({ goTo, changeLanguage, locale }) => {
             <Typography component="h2" variant="h5">
               &gt; {<FormattedMessage id="login"/>}
             </Typography>
-            <FormControl className='language' fullWidth margin="normal" sx={{ display:'block', marginTop:'0.2em' }}>
-                <Select labelId="language-label" id="language-select" value={langEnd}
-                    onChange={(e) => {setLangEnd(e.target.value)}}>
-                  <MenuItem value="en"><FormattedMessage id="langen" /></MenuItem>
-                  <MenuItem value="es"><FormattedMessage id="langes" /></MenuItem>
-
-                </Select>
-            </FormControl>
+            <LanguageSelect value={langEnd} onChange={(e) => {setLangEnd(e.target.value)}}/>
           </div>
           <TextField
             name="username"

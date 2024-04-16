@@ -77,7 +77,7 @@ const Question = ({ goTo, setGameFinished, settings, restart, locale }) => {
     const userToken = sessionData ? sessionData.token : '';
 
     const [reload, setReload] = useState(restart);
-    const [lang, setLocale] = useState(locale);
+    const [lang] = useState(locale);
 
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState([]);

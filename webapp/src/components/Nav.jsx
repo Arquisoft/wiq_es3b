@@ -26,12 +26,10 @@ const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000"
 
 function Nav({ goTo, changeLanguage, locale, isInGame }) {
 
-  const [language, setLang] = useState('');
   const [langEnd, setLangEnd] = useState(locale);
 
   useEffect(() => {
     changeLanguage(langEnd);
-    setLang(<FormattedMessage id={"lang" + langEnd} />)
   }, [locale, changeLanguage, langEnd]);
 
   const { sessionData, clearSessionData } = useContext(SessionContext);
