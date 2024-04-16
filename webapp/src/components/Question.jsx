@@ -31,7 +31,7 @@ export const finishByTime = (sonido, time) => {
 export const handleClassicGameFinish = (nQuestion, numberCorrect, numberIncorrect, 
         segundos, sonido, goTo, setGameFinished, maxQuestions, time) => {
 
-    if (nQuestion.toString() === maxQuestions) {
+    if (nQuestion.toString() >= maxQuestions) {
         localStorage.setItem("pAcertadas", numberCorrect);
         localStorage.setItem("pFalladas", numberIncorrect);
         finishByQuestions(segundos, parseInt(time));
