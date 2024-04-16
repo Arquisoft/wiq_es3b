@@ -3,6 +3,8 @@ import { render, screen, act } from '@testing-library/react';
 import { PostGame } from '../components/PostGame';
 import { SessionContext } from '../SessionContext';
 import axios from 'axios';
+import { IntlProvider } from 'react-intl';
+import messages_en from '../messages/messages_en.json';
 
 // Mock axios
 jest.mock('axios', () => ({
@@ -20,9 +22,9 @@ describe('PostGame component', () => {
     };
 
     render(
-      <SessionContext.Provider value={{ sessionData }}>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionContext.Provider value={{ sessionData }}>
         <PostGame />
-      </SessionContext.Provider>
+      </SessionContext.Provider></IntlProvider>
     );
 
     // Verificar que el texto "Game Over" se muestra correctamente
@@ -38,9 +40,9 @@ describe('PostGame component', () => {
     };
 
     render(
-      <SessionContext.Provider value={{ sessionData }}>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionContext.Provider value={{ sessionData }}>
         <PostGame gameMode="classic" />
-      </SessionContext.Provider>
+      </SessionContext.Provider></IntlProvider>
     );
 
     // Verificar que los textos esperados se muestran correctamente
@@ -63,9 +65,9 @@ describe('PostGame component', () => {
     });
 
     render(
-      <SessionContext.Provider value={{ sessionData: mockSessionData }}>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionContext.Provider value={{ sessionData: mockSessionData }}>
         <PostGame />
-      </SessionContext.Provider>
+      </SessionContext.Provider></IntlProvider>
     );
 
     // Check if saveGame function is called correctly
@@ -98,9 +100,9 @@ describe('PostGame component', () => {
     const setOpenSnackbar = jest.fn();
     const handleCloseSnackbar = jest.fn();
     render(
-      <SessionContext.Provider value={{ sessionData }}>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionContext.Provider value={{ sessionData }}>
       <PostGame setOpenSnackbar={setOpenSnackbar} handleCloseSnackbar={handleCloseSnackbar} />
-      </SessionContext.Provider>
+      </SessionContext.Provider></IntlProvider>
     );
 
     // Set the initial state of the snackbar to open
@@ -128,9 +130,9 @@ describe('PostGame component', () => {
     // Mock the axios post function to throw an error
     axios.post.mockRejectedValue(new Error('Mock error'));
     render(
-      <SessionContext.Provider value={{ sessionData }}>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionContext.Provider value={{ sessionData }}>
         <PostGame />
-      </SessionContext.Provider>
+      </SessionContext.Provider></IntlProvider>
     );
     // Check if saveGame function is called correctly
     expect(axios.post).toHaveBeenCalledWith(
