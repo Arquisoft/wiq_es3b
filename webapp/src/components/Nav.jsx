@@ -11,15 +11,26 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { Select, FormControl } from '@mui/material';
+import { useState, useEffect } from 'react';
 
 import '../css/nav.css';
+import { FormattedMessage } from 'react-intl';
 import { useContext } from 'react';
 import { SessionContext } from '../SessionContext';
 import defaultProfileImg from '../assets/defaultImgProfile.jpg';
 import iconImg from '../assets/icon.png';
+
 const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
-function Nav({ goTo }) {
+
+function Nav({ goTo, changeLanguage, locale, isInGame }) {
+
+  const [langEnd, setLangEnd] = useState(locale);
+
+  useEffect(() => {
+    changeLanguage(langEnd);
+  }, [locale, changeLanguage, langEnd]);
 
   const { sessionData, clearSessionData } = useContext(SessionContext);
   const username = sessionData ? sessionData.username : 'noUser';
@@ -113,7 +124,7 @@ function Nav({ goTo }) {
             >
               
               <MenuItem className='menu' onClick={() => goToMenuClic()}>
-                <Typography textAlign="center">Back to menu</Typography>
+                <Typography textAlign="center"><FormattedMessage id="btm" /></Typography>
               </MenuItem>
               <Button
                 href={gatewayUrl + '/api-doc'}
@@ -129,6 +140,14 @@ function Nav({ goTo }) {
               >
                 Github
               </Button>
+              <FormControl className={isInGame? 'language disable':'language' } fullWidth margin="normal" sx={{ display:'block', marginTop:'0.2em' }}>
+                <Select labelId="language-label" id="language-select" value={langEnd}
+                    onChange={(e) => {setLangEnd(e.target.value)}}>
+                  <MenuItem value="en"><FormattedMessage id="langen" /></MenuItem>
+                  <MenuItem value="es"><FormattedMessage id="langes" /></MenuItem>
+
+                </Select>
+              </FormControl>
             </Menu>
           </Box>
           
@@ -152,10 +171,18 @@ function Nav({ goTo }) {
               >
                 Github Repo
               </Typography>
+              <FormControl className={isInGame? 'language disable':'language' } fullWidth margin="normal" sx={{ display:'block', marginTop:'0.2em' }}>
+                <Select labelId="language-label" id="language-select" value={langEnd}
+                    onChange={(e) => {setLangEnd(e.target.value)}}>
+                  <MenuItem value="en"><FormattedMessage id="langen" /></MenuItem>
+                  <MenuItem value="es"><FormattedMessage id="langes" /></MenuItem>
+
+                </Select>
+              </FormControl>
           </Box>
 
           <Box sx={{ flexGrow: 0, flexDirection: 'row', display:'flex', alignItems: 'center', fontWeight: 'bold'}}>
-            <Typography component="a" sx={{ marginRight: 2, fontFamily: 'Roboto Slab', color:'#FFF'}} >{username}</Typography>
+            <Typography component="a" sx={{ marginRight: 2, fontFamily: 'Roboto Slab', color:'#FFF', marginLeft:'1em'}} >{username}</Typography>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, border: '2px solid #FFF' }}>
                 <Avatar alt="Remy Sharp" src={profileImgSrc}/>
@@ -178,7 +205,7 @@ function Nav({ goTo }) {
               onClose={handleCloseUserMenu}
             >
               <MenuItem className='menu' onClick={logoutClic}>
-                <Typography textAlign="center">Logout</Typography>
+                <Typography textAlign="center"><FormattedMessage id="logout" /></Typography>
               </MenuItem>
 
             </Menu>

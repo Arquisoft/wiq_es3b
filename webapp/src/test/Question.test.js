@@ -5,6 +5,8 @@ import '@testing-library/jest-dom/extend-expect';
 import Question, { finishByQuestions, finishByTime, reloadF,
   handleClassicGameFinish, handleOOLGameFinish, handelInfiniteGameFinish } from '../components/Question';
 import { SessionProvider } from '../SessionContext';
+import { IntlProvider } from 'react-intl';
+import messages_en from '../messages/messages_en.json';
 
 const mockPlay = jest.fn();
 HTMLMediaElement.prototype.play = mockPlay;
@@ -41,9 +43,9 @@ describe('Question component', () => {
   it('renders question and options correctly', async () => {
 
     const { getByText } = render(
-      <SessionProvider>
-        <Question settings={customSettings}/>
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Question locale={'en'} settings={customSettings}/>
+      </SessionProvider></IntlProvider>
     );
 
     // Esperar a que se cargue la pregunta
@@ -63,9 +65,9 @@ describe('Question component', () => {
   it('selects correct option and handles click correctly', async () => {
 
     const { getByText } = render(
-      <SessionProvider>
-        <Question settings={customSettings}/>
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Question locale={'en'} settings={customSettings}/>
+      </SessionProvider></IntlProvider>
     );
 
     // Esperar a que se cargue la pregunta
@@ -87,9 +89,9 @@ describe('Question component', () => {
   it('handles Next button click correctly', async () => {
 
     const { getByText } = render(
-      <SessionProvider>
-        <Question settings={customSettings}/>
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Question locale={'en'} settings={customSettings}/>
+      </SessionProvider></IntlProvider>
     );
 
     // Esperar a que se cargue la pregunta
@@ -124,9 +126,9 @@ describe('Question component', () => {
     const mockSetGameFinished = jest.fn();
     const mockGoTo = jest.fn();
  
-    const questionComponent = <SessionProvider>
-       <Question setGameFinished={mockSetGameFinished} goTo={mockGoTo} settings={customSettings}/>
-      </SessionProvider>;
+    const questionComponent = <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+       <Question locale={'en'} setGameFinished={mockSetGameFinished} goTo={mockGoTo} settings={customSettings}/>
+      </SessionProvider></IntlProvider>;
 
     // Renderizar el componente
     const { getByText } = render(questionComponent);
@@ -165,9 +167,9 @@ describe('Question component', () => {
     const setSegundos = jest.fn();
     act(() => {
     render(
-      <SessionProvider>
-        <Question settings={customSettings}/>
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Question locale={'en'} settings={customSettings}/>
+      </SessionProvider></IntlProvider>
       );
     });
     jest.advanceTimersByTime(5000);
@@ -177,9 +179,9 @@ describe('Question component', () => {
 
   it('should toggle sound on and off when clicking audio image', () => {
   
-    const { getByRole } = render(<SessionProvider>
-      <Question settings={customSettings}/>
-    </SessionProvider>);
+    const { getByRole } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={customSettings}/>
+    </SessionProvider></IntlProvider>);
 
     // Verificar que el sonido está activado inicialmente
     expect(localStorage.getItem('sonido')).toBe(undefined);
@@ -195,9 +197,9 @@ describe('Question component', () => {
 
   it('should toggle isSelected state when clicking button', () => {
   
-    const { getByText } = render(<SessionProvider>
-      <Question settings={customSettings}/>
-    </SessionProvider>);
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={customSettings}/>
+    </SessionProvider></IntlProvider>);
 
     // Simular hacer clic en el botón
     act(() => {
@@ -239,9 +241,9 @@ describe('handleGameFinish function', () => {
 
     // Render the Question component
 
-    const { getByText } = render(<SessionProvider>
-      <Question settings={customSettings}/>
-    </SessionProvider>);
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={customSettings}/>
+    </SessionProvider></IntlProvider>);
 
     // Simulate answering all questions
     for (let i = 0; i < 10; i++) {
@@ -277,9 +279,9 @@ describe('handleGameFinish function', () => {
     Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
     // Render the Question component
-    const { getByText } = render(<SessionProvider>
-      <Question settings={customSettings}/>
-    </SessionProvider>);
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={customSettings}/>
+    </SessionProvider></IntlProvider>);
 
     // After time runs out, pAcertadas and pFalladas should be set in localStorage
     expect(localStorage.getItem('pAcertadas')).toBeDefined();
@@ -294,7 +296,8 @@ describe('handleGameFinish function', () => {
 
     // Renderizamos el componente
 
-    const { getByText } = render(<SessionProvider><Question goTo={goToMock} settings={customSettings}/></SessionProvider>);
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} goTo={goToMock} settings={customSettings}/></SessionProvider></IntlProvider>);
 
     // Llamamos directamente a finishByQuestions
     finishByQuestions(segundos, MAX_TIME); 
@@ -313,7 +316,8 @@ describe('handleGameFinish function', () => {
   it('should call finishByTime when game finishes by time', () => {
 
     act(() => {
-    render(<SessionProvider><Question settings={customSettings}/></SessionProvider>);
+    render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={customSettings}/></SessionProvider></IntlProvider>);
   });
     const MAX_TIME = 120;
     // Simula que se agota el tiempo
@@ -333,7 +337,8 @@ describe('handleGameFinish function', () => {
 
   it('should call handleClassicGameFinish with the correct arguments', () => {
     act(() => {
-    render(<SessionProvider><Question settings={customSettings}/></SessionProvider>);
+    render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={customSettings}/></SessionProvider></IntlProvider>);
   });
     // Simula que se alcanza el final del juego
     const nQuestion = 10; // Número de preguntas igual al máximo
@@ -357,7 +362,8 @@ describe('handleGameFinish function', () => {
       category: "general"
     };
     act(() => {
-    render(<SessionProvider><Question settings={TLSettings}/></SessionProvider>);
+    render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={TLSettings}/></SessionProvider></IntlProvider>);
   });
     // Simula que se alcanza el final del juego
     const numberCorrect = 8; // Supongamos que el jugador acierta 8 preguntas
@@ -378,7 +384,8 @@ describe('handleGameFinish function', () => {
       category: "general"
     };
     act(() => {
-    render(<SessionProvider><Question settings={InfiniteSettings}/></SessionProvider>);
+    render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={InfiniteSettings}/></SessionProvider></IntlProvider>);
     });
     
     // Simula que se alcanza el final del juego
@@ -406,7 +413,8 @@ describe('handleGameFinish function', () => {
     };
     
     act(() => {
-    render(<SessionProvider><Question settings={customSettings}/></SessionProvider>);
+    render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={customSettings}/></SessionProvider></IntlProvider>);
     });
 
     act(() => {

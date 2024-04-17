@@ -3,6 +3,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import { Participation } from '../components/Participation';
 import { SessionContext } from '../SessionContext';
+import { IntlProvider } from 'react-intl';
+import messages_en from '../messages/messages_en.json';
 
 jest.mock('axios');
 
@@ -18,9 +20,9 @@ describe('Participation component', () => {
   test('renders correctly', () => {
 
     render(
-      <SessionContext.Provider value={{ sessionData }}>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionContext.Provider value={{ sessionData }}>
         <Participation goTo={(parameter) => {}} />
-      </SessionContext.Provider>
+      </SessionContext.Provider></IntlProvider>
     );
 
     // Verificar que el texto "Participation" se muestra correctamente
@@ -38,7 +40,8 @@ describe('Participation component', () => {
 
     axios.get.mockResolvedValueOnce({ data: mockParticipationData }); // Mock para simular respuesta con datos de participación
 
-    const { getByText } = render(<SessionContext.Provider value={{ sessionData }}><Participation /></SessionContext.Provider>);
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionContext.Provider value={{ sessionData }}>
+      <Participation /></SessionContext.Provider></IntlProvider>);
 
     await waitFor(() => {
       expect(axios.get).toHaveBeenCalledTimes(1);

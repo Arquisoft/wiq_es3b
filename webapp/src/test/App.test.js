@@ -3,14 +3,16 @@ import App from '../App';
 import { SessionProvider } from '../SessionContext';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
+import { IntlProvider } from 'react-intl';
+import messages_en from '../messages/messages_en.json';
 
 const mockAxios = new MockAdapter(axios);
 
 test('renders learn react link', () => {
   render(
-    <SessionProvider>
+    <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
       <App />
-    </SessionProvider>
+    </SessionProvider></IntlProvider>
   );
 
   const linkElement = screen.getByText(/ASW - WIQ Quiz/i);
@@ -18,7 +20,8 @@ test('renders learn react link', () => {
 });
 
 it('cambia de estado de menú al hacer clic en los botones', async () => {
-  const { getByText } = render(<SessionProvider><App /></SessionProvider>);
+  const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+    <App /></SessionProvider></IntlProvider>);
 
   const usernameInput = screen.getByLabelText(/Username/i);
   const passwordInput = screen.getByLabelText(/Password/i);

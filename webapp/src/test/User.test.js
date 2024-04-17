@@ -2,13 +2,17 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import User from '../components/User';
 import { SessionProvider } from '../SessionContext';
+import { IntlProvider } from 'react-intl';
+import messages_en from '../messages/messages_en.json';
+
+const mockChangeLanguage = jest.fn();
 
 describe('User component', () => {
   test('renders login form by default', () => {
     render(
-      <SessionProvider>
-        <User goTo={(parameter) => {}} />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <User goTo={(parameter) => {}} changeLanguage={mockChangeLanguage} locale={'en'} />
+      </SessionProvider></IntlProvider>
     );
     
     // Verificar que el texto de bienvenida se muestra correctamente
@@ -29,9 +33,9 @@ describe('User component', () => {
 
   test('toggling between login and registration form works correctly', () => {
     render(
-      <SessionProvider>
-        <User goTo={(parameter) => {}} />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <User goTo={(parameter) => {}} changeLanguage={mockChangeLanguage} locale={'en'} />
+      </SessionProvider></IntlProvider>
     );
     
     // Verificar que el enlace para registrar está presente

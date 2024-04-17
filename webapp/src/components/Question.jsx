@@ -9,6 +9,7 @@ import soundOnImage from '../assets/sonidoON.png';
 import soundOffImage from '../assets/sonidoOFF.png';
 import vidaImg from '../assets/vida.png';
 import '../css/question.css';
+import { FormattedMessage } from 'react-intl';
 
 const correctAudio = new Audio(correctSound);
 const incorrectAudio = new Audio(incorrectSound);
@@ -30,7 +31,7 @@ export const finishByTime = (sonido, time) => {
 export const handleClassicGameFinish = (nQuestion, numberCorrect, numberIncorrect, 
         segundos, sonido, goTo, setGameFinished, maxQuestions, time) => {
 
-    if (nQuestion.toString() === maxQuestions) {
+    if (nQuestion.toString() >= maxQuestions) {
         localStorage.setItem("pAcertadas", numberCorrect);
         localStorage.setItem("pFalladas", numberIncorrect);
         finishByQuestions(segundos, parseInt(time));
@@ -68,7 +69,7 @@ export const reloadF = (setSegundos, setSegundosInfinite, setNQuestion, setNumbe
     setReload(false);
 };
 
-const Question = ({ goTo, setGameFinished, settings, restart }) => {
+const Question = ({ goTo, setGameFinished, settings, restart, locale }) => {
 
     localStorage.setItem("pAcertadas", 0);
     localStorage.setItem("pFalladas", 0);
@@ -76,6 +77,7 @@ const Question = ({ goTo, setGameFinished, settings, restart }) => {
     const userToken = sessionData ? sessionData.token : '';
 
     const [reload, setReload] = useState(restart);
+    const [lang] = useState(locale);
 
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState([]);
@@ -134,7 +136,7 @@ const Question = ({ goTo, setGameFinished, settings, restart }) => {
 
     const fetchQuestion = async () => {
         try {
-            const response = await fetch(`${gatewayUrl}/api/questions/create?category=${settings.category}&lang=en`, {
+            const response = await fetch(`${gatewayUrl}/api/questions/create?category=${settings.category}&lang=${lang}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${userToken}`
@@ -230,11 +232,11 @@ const Question = ({ goTo, setGameFinished, settings, restart }) => {
                         <img className='audioImg' src={sonido ? soundOnImage : soundOffImage} alt="Toggle Sound" />
                     </button>
                         <Typography component="a" sx={{ display: 'inline-block', textAlign: 'left', marginLeft:'0.6em', color:'#FFF' }}>
-                            Question: {nQuestion}</Typography>
+                        <FormattedMessage id="question" /> {nQuestion}</Typography>
                     </div>
                     { (settings.gMode !== "infinite" && settings.gMode !== "threeLife") ?
                         <Typography component="a" sx={{ display: 'inline-block', textAlign: 'right', color:'#FFF' }}>
-                            Time: {formatTiempo(segundos)}</Typography>
+                            <FormattedMessage id="time" /> {formatTiempo(segundos)}</Typography>
                     : ""}
                     { settings.gMode === "threeLife" ?
                     <div> {images} </div> :""}
@@ -245,8 +247,9 @@ const Question = ({ goTo, setGameFinished, settings, restart }) => {
                     </Typography>
                     <List sx={{ bgcolor: '#333' }} disablePadding>
                         {options.map((option, index) => (
-                            <ListItem onClick={() => handleSubmit(option, index)} key={index+option}>
-                                <ListItemButton className={isSelected ? 'disabledButton' : ''} sx={{ bgcolor: getBackgroundColor(option, index) }}>
+                            <ListItem key={index+option}>
+                                <ListItemButton className={isSelected ? 'disabledButton' : ''} onClick={() => handleSubmit(option, index)}
+                                    sx={{ bgcolor: getBackgroundColor(option, index) }}>
                                     <ListItemText sx={{ textAlign: 'center', fontSize: '1em' }} >
                                         {option}
                                     </ListItemText>
@@ -263,13 +266,13 @@ const Question = ({ goTo, setGameFinished, settings, restart }) => {
                  } : null}
                     sx={{ justifyContent: 'center', marginTop: 2 }}
                     className={nextButtonEnabled ? '' : 'isNotSelected'} >
-                    Next
+                    <FormattedMessage id="next" />
                 </ListItemButton>
                 : ""}
                 { settings.gMode === "infinite" ?
                     <ListItemButton onClick={ () => handelInfiniteGameFinish( numberCorrect, numberIncorrect, segundosInfinite, goTo, setGameFinished) }
                         sx={{ color: '#f35858', justifyContent: 'center', marginTop: 2 }}>
-                        End Game
+                        <FormattedMessage id="endGame" />
                     </ListItemButton>
                 : ""}
                 </div>

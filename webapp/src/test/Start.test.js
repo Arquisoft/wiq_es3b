@@ -1,10 +1,12 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Start } from '../components/Start';
+import { IntlProvider } from 'react-intl';
+import messages_en from '../messages/messages_en.json';
 
 describe('Start component', () => {
   test('renders correctly', () => {
-    render(<Start goTo={(parameter) => {}} />); // Renderizar el componente Start
+    render(<IntlProvider locale={"en"} messages={messages_en}><Start goTo={(parameter) => {}} /></IntlProvider>); // Renderizar el componente Start
     
     // Verificar que el texto "Quiz ASW" se muestra correctamente
     const titleText = screen.getByText(/ASW Quiz - WIQ/i);
@@ -21,7 +23,7 @@ describe('Start component', () => {
 
   test('clicking "Jugar" button calls goTo function with correct argument', () => {
     const goToMock = jest.fn(); // Crear una función simulada
-    render(<Start goTo={goToMock} />); // Renderizar el componente Start con la función simulada
+    render(<IntlProvider locale={"en"} messages={messages_en}><Start goTo={goToMock} /></IntlProvider>); // Renderizar el componente Start con la función simulada
     
     // Simular clic en el botón "Jugar"
     fireEvent.click(screen.getByText('Classic Game'));
@@ -32,7 +34,7 @@ describe('Start component', () => {
 
   test('clicking "Participación" button calls goTo function with correct argument', () => {
     const goToMock = jest.fn(); // Crear una función simulada
-    render(<Start goTo={goToMock} />); // Renderizar el componente Start con la función simulada
+    render(<IntlProvider locale={"en"} messages={messages_en}><Start goTo={goToMock} /></IntlProvider>); // Renderizar el componente Start con la función simulada
     
     // Simular clic en el botón "Participación"
     fireEvent.click(screen.getByText('Participation'));
@@ -43,7 +45,7 @@ describe('Start component', () => {
 
   it('should trigger the correct function when a button is clicked', () => {
     const goToMock = jest.fn();
-    const { getByText } = render(<Start goTo={goToMock} />);
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><Start goTo={goToMock} /></IntlProvider>);
     
     // Simular clic en el botón "Infinite Mode"
     fireEvent.click(getByText('Infinite Mode'));
