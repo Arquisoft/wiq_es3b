@@ -15,8 +15,10 @@
   "userAdd": "Usuario agregado exitosamente",
   "passwordNotMatch": "Las contraseñas no coinciden",
 
+  "menu": "Menú",
   "langen": "Inglés",
   "langes": "Español",
+  "daltonic": "Modo daltónico",
   "logout": "Cerrar sesión",
   "btm": "Volver al menú",
 

@@ -56,6 +56,10 @@ h3 {
     text-align: center;
 }
 
+.selectImgText {
+    opacity: 0;
+}
+
 @media screen and (max-width: 630px) {
     #fotosPerfil {
         flex-wrap: wrap;

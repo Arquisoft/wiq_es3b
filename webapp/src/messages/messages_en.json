@@ -15,8 +15,10 @@
     "userAdd": "User added successfully",
     "passwordNotMatch": "Passwords do not match",
 
+    "menu": "Menu",
     "langen": "English",
     "langes": "Spanish",
+    "daltonic": "Color blind Mode",
     "logout": "Logout",
     "btm": "Back to menu",
 
