@@ -16,7 +16,7 @@ export const Start = ({ goTo }) => {
                 </div>
                 <Divider sx={{ border:'2px solid', marginBottom:'0.8em' }} className='upEffect' />
                 <div className="button_container upEffect">
-                    <button className="btn" onClick={ () => goTo(3) }><FormattedMessage id="infinite" tagName="span" /></button>
+                    <button className="btn infiniteModeButton" onClick={ () => goTo(3) }><FormattedMessage id="infinite" tagName="span" /></button>
                 </div>
                 <div className="button_container upEffect">
                     <button className="btn" onClick={ () => goTo(4) }><FormattedMessage id="tlc" tagName="span" /></button>
