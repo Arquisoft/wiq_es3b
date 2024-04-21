@@ -13,11 +13,12 @@ import { FormattedMessage } from 'react-intl';
 import '../css/addUser.css';
 import '../css/animatedBG.css';
 import LanguageSelect from './LanguageSelect';
+import Link from '@mui/material/Link';
 
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
-const AddUser = ({goTo, changeLanguage, locale}) => {
+const AddUser = ({goTo, changeLanguage, locale, handleToggleView}) => {
 
   const [langEnd, setLangEnd] = useState(locale);
 
@@ -72,8 +73,9 @@ const AddUser = ({goTo, changeLanguage, locale}) => {
 
   return (
     <Container component="div" maxWidth="xs" sx={{ marginTop: 4 }}>
+      <h1 className="titleLoginRegister upEffect">ASW - WIQ Quiz</h1>
       <div className='inputsRegister'>
-        <div className='topLogin'>
+        <div className='topLogin upEffect'>
         <Typography component="h2" variant="h5">
           &gt; {<FormattedMessage id="register" />}
         </Typography>
@@ -87,6 +89,7 @@ const AddUser = ({goTo, changeLanguage, locale}) => {
         fullWidth
         label= {<FormattedMessage id="username" />}
         value={username}
+        className='upEffect'
         onChange={(e) => setUsername(e.target.value)}
       />
       <TextField
@@ -95,6 +98,7 @@ const AddUser = ({goTo, changeLanguage, locale}) => {
         fullWidth
         label= {<FormattedMessage id="password" />}
         type="password"
+        className='upEffect'
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
@@ -104,13 +108,14 @@ const AddUser = ({goTo, changeLanguage, locale}) => {
         fullWidth
         label= {<FormattedMessage id="confirmPassword" />}
         type="password"
+        className='upEffect'
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
-      <Typography component="h3" variant="h5" sx={{ marginTop: 4 }}>
+      <Typography className={`selectImgText upEffect`} component="h3" variant="h5" sx={{ marginTop: 4 }}>
         <FormattedMessage id="selectProfileImg" />
       </Typography>
-      <div id='fotosPerfil'>
+      <div id='fotosPerfil' className='upEffect'>
         <IconButton className={`fotoPerfilBtn`} onClick={() => handleImageClick('defaultImgProfile.jpg')}>
           <img className={`fotoPerfil ${profileImage === 'defaultImgProfile.jpg' ? 'selectedImg' : ''}`}
                 src={profileImg1} alt='Imagen Perfil 1' />
@@ -132,8 +137,14 @@ const AddUser = ({goTo, changeLanguage, locale}) => {
                 src={profileImg5} alt='Imagen Perfil 5' />
         </IconButton>
       </div>
-      <div className='btnRegister'>
+      <div className='btnRegister upEffect'>
         <button className="btn" onClick={addUser}><FormattedMessage id="signUp" tagName="span" /></button>
+      </div>
+      <div className='btnRegister upEffect'>
+            <Link className='link' component="button" variant="body2" onClick={handleToggleView}>
+              <FormattedMessage id='alreadyAccount'/>
+            </Link>
+          <button className="btn sing" onClick={handleToggleView}><FormattedMessage id="signIn" tagName="span" /></button>
       </div>
       <ul className="circles">
               <li></li><li></li><li></li><li></li><li></li>

@@ -3,13 +3,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Snackbar } from '@mui/material';
 import { SessionContext } from '../SessionContext';
+import Link from '@mui/material/Link';
 import '../css/login.css';
 import '../css/animatedBG.css';
 import { FormattedMessage } from 'react-intl';
 import LanguageSelect from './LanguageSelect';
 
 
-const Login = ({ goTo, changeLanguage, locale }) => {
+const Login = ({ goTo, changeLanguage, locale, handleToggleView }) => {
 
   const [langEnd, setLangEnd] = useState(locale);
 
@@ -76,9 +77,10 @@ const Login = ({ goTo, changeLanguage, locale }) => {
 
   return (
     <Container component="div" maxWidth="xs" sx={{ marginTop: 4 }}>
+      <h1 className="titleLoginRegister upEffect">ASW - WIQ Quiz</h1>
       <div className="area" >
         <div className='inputsRegister'>
-          <div className='topLogin'>
+          <div className='topLogin upEffect'>
             <Typography component="h2" variant="h5">
               &gt; {<FormattedMessage id="login"/>}
             </Typography>
@@ -90,7 +92,7 @@ const Login = ({ goTo, changeLanguage, locale }) => {
             fullWidth
             label= {<FormattedMessage id="username"/>}
             value={username}
-            className='tf'
+            className='tf upEffect'
             sx={{ color:'#8f95fd !important' }}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -101,10 +103,17 @@ const Login = ({ goTo, changeLanguage, locale }) => {
             label= {<FormattedMessage id="password"/>}
             type="password"
             value={password}
+            className='upEffect'
             onChange={(e) => setPassword(e.target.value)}
           />
-          <div>
+          <div className='upEffect'>
             <button className="btn" onClick={loginUser}><FormattedMessage id="login" tagName="span" /></button>
+          </div>
+          <div className='btnRegister upEffect'>
+            <Link className='link' name="gotoregister" component="button" variant="body2" onClick={() => {handleToggleView()}}>
+              <FormattedMessage id='noAccountRegister'/>
+            </Link>
+            <button className="btn sing" onClick={handleToggleView}><FormattedMessage id="signUp" tagName="span" /></button>
           </div>
             <ul className="circles">
               <li></li><li></li><li></li><li></li><li></li>

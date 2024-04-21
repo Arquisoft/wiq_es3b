@@ -5,7 +5,7 @@ import { Select, MenuItem, FormControl, InputLabel, Typography, TextField, Snack
 import '../css/game.css';
 import { FormattedMessage } from 'react-intl';
 
-export const Game = ({ gameMode, locale }) => {
+export const Game = ({ gameMode, locale, daltonicMode }) => {
 
     const [gameState, setGameState] = useState(0);
     const [gameFinished, setGameFinished] = useState(false);
@@ -65,7 +65,7 @@ export const Game = ({ gameMode, locale }) => {
 
     return (
         <>
-            <main className='preguntas'>
+            <main className='preguntas appearEffectFast'>
                 { gameState === 0 && gMode === "category" ?
                     <Typography sx={{ fontSize:'1.6em', marginBottom:'0.3em !important', paddingTop:'1em', textAlign:'center' }}>
                         <FormattedMessage id="restartCategory" /></Typography>
@@ -119,7 +119,7 @@ export const Game = ({ gameMode, locale }) => {
                 </div> }    
 
             { gameState === 0 && gMode !== "custom" && <Question goTo={(x) => goTo(x)} setGameFinished={setGameFinished} 
-                settings={customSettings} key={restart.toString()} restart={restart} locale={locale}/> }
+                settings={customSettings} key={restart.toString()} restart={restart} locale={locale} daltonicMode={daltonicMode} /> }
             { gameState === 1 && <PostGame gameMode={gMode}/> }
             </main>
 
