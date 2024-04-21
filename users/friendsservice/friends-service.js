@@ -64,6 +64,27 @@ app.post('/addfriend', async (req, res) => {
     }
 });
 
+app.delete('/deletefriend/:username/:friend', async (req, res) => {
+    try {
+        const username = req.params.username;
+        const friend = req.params.friend;
+        if (!username || !friend) {
+            throw new Error('User and friend are required'+username+friend);
+        }
+        const existingUser = await Friends.findOne({ username: username.toString() });
+        console.log(existingUser)
+        if (!existingUser || !existingUser.friends.includes(friend)) {
+            throw new Error('Friend not found');
+        }
+        existingUser.friends = existingUser.friends.filter(f => f !== friend);
+        await existingUser.save();
+        res.json({ username: existingUser.username, friends: existingUser.friends });
+    } catch (error) {
+        res.status(400).json({ error: error.message || "Error deleting friend" });
+    }
+});
+
+
 const server = app.listen(port, () => {
     console.log(`Friends Service listening at http://localhost:${port}`);
 });

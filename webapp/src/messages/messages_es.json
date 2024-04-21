@@ -63,6 +63,7 @@
   "friend_deleted": "Amigo eliminado exitosamente",
   "errorAddingFriend": "Error al agregar amigo",
   "User not found": "Usuario no encontrado",
+  "Friend not found": "Amigo no encontrado",
   "User and friend are required": "Se requiere usuario y amigo",
   "Friend already exists": "El amigo ya existe",
   "error_adding_friend": "Error al agregar amigo",

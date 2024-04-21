@@ -13,14 +13,16 @@ const Friends = ({goTo}) => {
     const [error, setError] = useState('');
     const [snackbarMessage, setSnackbarMessage] = useState('');
 
-
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${gatewayUrl}/getFriends/${sessionData.username}`);
+                const response = await axios.get(`${gatewayUrl}/getFriends/${sessionData.username}`, {
+                    headers: {
+                        Authorization: `Bearer ${sessionData.token}`
+                    }
+                });
                 if (response.status === 200) {
                     setFriends(response.data);
-
                 }
             } catch (e) {
                 setError(e);
@@ -29,7 +31,8 @@ const Friends = ({goTo}) => {
         };
 
         fetchData();
-    }, [sessionData.username]);
+        // eslint-disable-next-line
+    });
 
     const handleCloseSnackbar = () => {
         setOpenSnackbar(false);
@@ -50,6 +53,7 @@ const Friends = ({goTo}) => {
                     }
                 });
                 if (response.status === 200) {
+                    
                     setFriends(response.data);
                     setSearchQuery('');
                     setOpenSnackbar(true);
@@ -64,55 +68,76 @@ const Friends = ({goTo}) => {
         addFriend();
     };
     const handleSeeProfile = (username) => {
-        goTo(`/profile/${username}`);
+        //goTo(`/profile/${username}`);
     }
 
     const handleInputChange = event => {
         setSearchQuery(event.target.value);
     };
-    const handleDeleteFriend = (username) => {
-
+    const handleDeleteFriend = (friend) => {
+        const deletefriend = async (friend) => {
+            try {
+                const response = await axios.delete(`${gatewayUrl}/deletefriend/${sessionData.username}/${friend}`, {
+                    headers: {
+                        Authorization: `Bearer ${sessionData.token}`
+                    }
+                });
+                if (response.status === 200) {
+                    setFriends(response.data);
+                    setOpenSnackbar(true);
+                    setSnackbarMessage('friend_deleted');
+                }
+            } catch (e) {
+                setError(e);
+                setSnackbarMessage(e.response.data.error || 'error_deleting_friend');
+            }
+        };
+        deletefriend(friend);
     }
     return (
-        <main >
+        <main>
             <h1 id='friendsListTitle'><FormattedMessage id="friend_list" tagName="span" /></h1>
             <div className='searchForm'>
                 <input type="text" value={searchQuery} onChange={handleInputChange} />
                 <button className='btn' onClick={handleAddFriend}><FormattedMessage id="addFriend" tagName="span" /></button>
             </div>
             <div id='friends'>
-                <table className='tableFriends'>
-                    <thead>
-                        <tr>
-                            <th><FormattedMessage id="username" tagName="span" /></th>
-                            <th><FormattedMessage id="actions" tagName="span" /></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {friends.map(user => (
-                            user.friends.map(friend => (
-                            <tr key={friend}>
-                                <td>
-                                    <span className='friendName'>{friend}</span>
-                                </td>
-                                <td className='actions_container'>
-                                    <div className='button_container'>
-                                            <button className='btn' onClick={() => handleSeeProfile(friend)}><FormattedMessage id="seeProfile" tagName="span" /></button>
-                                        </div>
-                                    <div className='button_container'>
-                                        <button className='btn' onClick={() => handleDeleteFriend(friend)}><FormattedMessage id="delete_friend" tagName="span" /></button>
-                                    </div>
-                                </td>
+                {Array.isArray(friends) && friends.length>0 && friends[0].friends && friends[0].friends.length>0 ? (
+                    <table className='tableFriends'>
+                        <thead>
+                            <tr>
+                                <th><FormattedMessage id="username" tagName="span" /></th>
+                                <th><FormattedMessage id="actions" tagName="span" /></th>
                             </tr>
-                            ))
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {friends.map(user => (
+                                user.friends.map(friend => (
+                                    <tr key={friend}>
+                                        <td>
+                                            <span className='friendName'>{friend}</span>
+                                        </td>
+                                        <td className='actions_container'>
+                                            <div className='button_container'>
+                                                <button className='btn' onClick={() => handleSeeProfile(friend)}><FormattedMessage id="seeProfile" tagName="span" /></button>
+                                            </div>
+                                            <div className='button_container'>
+                                                <button className='btn' onClick={() => handleDeleteFriend(friend)}><FormattedMessage id="delete_friend" tagName="span" /></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <div><span>Todavia no hay amigos</span></div>
+                )}
             </div>
             <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={<FormattedMessage id={snackbarMessage} />} />
-          {error && (
-            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={<FormattedMessage id={snackbarMessage} />} />
-          )}
+            {error && (
+                <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={<FormattedMessage id={snackbarMessage} />} />
+            )}
         </main>
     );
 };
