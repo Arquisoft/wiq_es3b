@@ -3,22 +3,24 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Nav from '../components/Nav';
 import { SessionProvider, SessionContext } from '../SessionContext';
+import { IntlProvider } from 'react-intl';
+import messages_en from '../messages/messages_en.json';
 
-
+const mockChangeLanguage = jest.fn();
 
 describe('Nav Component', () => {
 
   test('opens and closes navigation menu on menu icon click', async () => {
     const { getByLabelText, queryByText } = render(
-      <SessionProvider>
-        <Nav />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Nav changeLanguage={mockChangeLanguage} locale={'en'} isInGame={true} />
+      </SessionProvider></IntlProvider>
     );
     const menuIcon = getByLabelText('account of current user');
 
     fireEvent.click(menuIcon);
     await waitFor(() => {
-      expect(queryByText('Volver al menú')).toBeInTheDocument();
+      expect(queryByText('Back to menu')).toBeInTheDocument();
     });
 
   });
@@ -26,9 +28,9 @@ describe('Nav Component', () => {
   test('calls goTo function when "Menu" is clicked', async () => {
     const goToMock = jest.fn();
     const { getByText } = render(
-      <SessionProvider>
-        <Nav goTo={goToMock} />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Nav goTo={goToMock} changeLanguage={mockChangeLanguage} locale={'en'} isInGame={true} />
+      </SessionProvider></IntlProvider>
     );
     fireEvent.click(getByText('Menu'));
     await waitFor(() => {
@@ -38,9 +40,9 @@ describe('Nav Component', () => {
 
   test('checks the value of href when "API-DOC" button is clicked', async () => {
     const { getByText } = render(
-      <SessionProvider>
-        <Nav />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Nav changeLanguage={mockChangeLanguage} locale={'en'} isInGame={true} />
+      </SessionProvider></IntlProvider>
     );
     const button = getByText('API-DOC');
     expect(button.getAttribute('href')).toContain('/api-doc');
@@ -52,9 +54,9 @@ describe('Nav Component', () => {
   test('calls goTo function when "Logout" is clicked', async () => {
     const goToMock = jest.fn();
     const { getByText } = render(
-      <SessionProvider>
-        <Nav goTo={goToMock} />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Nav goTo={goToMock} changeLanguage={mockChangeLanguage} locale={'en'} isInGame={true} />
+      </SessionProvider></IntlProvider>
     );
     fireEvent.click(getByText('Logout'));
     await waitFor(() => {
@@ -68,9 +70,9 @@ describe('Nav Component', () => {
   
     // Renderiza el componente Nav dentro del SessionProvider con el contexto de sesión simulado
     const { getByText } = render(
-      <SessionProvider value={{ sessionData: sessionDataMock }}>
-        <Nav />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider value={{ sessionData: sessionDataMock }}>
+        <Nav changeLanguage={mockChangeLanguage} locale={'en'} isInGame={true} />
+      </SessionProvider></IntlProvider>
     );
   
     // Verifica que el nombre de usuario se muestre correctamente en el componente
@@ -80,9 +82,9 @@ describe('Nav Component', () => {
   test('calls goToMenuClic when the button "Menu" is clicked', async () => {
     const goToMock = jest.fn();
     const { getByText } = render(
-      <SessionProvider>
-        <Nav goTo={goToMock} />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Nav goTo={goToMock} changeLanguage={mockChangeLanguage} locale={'en'} isInGame={true} />
+      </SessionProvider></IntlProvider>
       );
     const button = getByText('Menu');
 
@@ -94,9 +96,9 @@ describe('Nav Component', () => {
   test('calls goToMenuClic when the button "ASW WIQ" is clicked', async () => {
     const goToMock = jest.fn();
     const { getByText } = render(
-      <SessionProvider>
-        <Nav goTo={goToMock} />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Nav goTo={goToMock} changeLanguage={mockChangeLanguage} locale={'en'} isInGame={true} />
+      </SessionProvider></IntlProvider>
       );
     const button = getByText('ASW WIQ');
 
@@ -108,11 +110,11 @@ describe('Nav Component', () => {
   test('calls goToMenuClic when the button "Volver al menú" is clicked', async () => {
     const goToMock = jest.fn();
     const { getByText } = render(
-      <SessionProvider>
-        <Nav goTo={goToMock} />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Nav goTo={goToMock} changeLanguage={mockChangeLanguage} locale={'en'} isInGame={true} />
+      </SessionProvider></IntlProvider>
       );
-    const button = getByText('Volver al menú');
+    const button = getByText('Back to menu');
 
     fireEvent.click(button);
 
@@ -126,13 +128,13 @@ describe('Nav Component', () => {
 
     const TestComponent = () => {
       const { sessionData } = React.useContext(SessionContext);
-      return <Nav />
+      return <Nav changeLanguage={mockChangeLanguage} locale={'en'} isInGame={true} />
     };
 
     const { getByText } = render(
-      <SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
         <TestComponent />
-      </SessionProvider>
+      </SessionProvider></IntlProvider>
     );
 
     expect(getByText('testUser')).toBeInTheDocument();

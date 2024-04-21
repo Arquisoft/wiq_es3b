@@ -8,9 +8,8 @@ import activateSound from '../audio/activate.mp3';
 import soundOnImage from '../assets/sonidoON.png';
 import soundOffImage from '../assets/sonidoOFF.png';
 import vidaImg from '../assets/vida.png';
-
-export const N_QUESTIONS = 10;
-const MAX_TIME = 240;
+import '../css/question.css';
+import { FormattedMessage } from 'react-intl';
 
 const correctAudio = new Audio(correctSound);
 const incorrectAudio = new Audio(incorrectSound);
@@ -18,29 +17,30 @@ const activateAudio = new Audio(activateSound);
 
 const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
-export const finishByQuestions = (segundos, MAX_TIME) => {
-    localStorage.setItem("tiempoUsado", MAX_TIME - segundos);
+export const finishByQuestions = (segundos, time) => {
+    localStorage.setItem("tiempoUsado", time - segundos);
     localStorage.setItem("tiempoRestante", segundos);
 };
 
-export const finishByTime = (sonido) => {
-    localStorage.setItem("tiempoUsado", MAX_TIME);
+export const finishByTime = (sonido, time) => {
+    localStorage.setItem("tiempoUsado", time);
     localStorage.setItem("tiempoRestante", 0);
     if (sonido) { incorrectAudio.play(); }
 };
 
 export const handleClassicGameFinish = (nQuestion, numberCorrect, numberIncorrect, 
-        segundos, sonido, goTo, setGameFinished) => {
-    if (nQuestion === N_QUESTIONS) {
+        segundos, sonido, goTo, setGameFinished, maxQuestions, time) => {
+
+    if (nQuestion.toString() >= maxQuestions) {
         localStorage.setItem("pAcertadas", numberCorrect);
         localStorage.setItem("pFalladas", numberIncorrect);
-        finishByQuestions(segundos, MAX_TIME);
+        finishByQuestions(segundos, parseInt(time));
         setGameFinished(true); goTo(1);
     }
     if (segundos <= 1) {
         localStorage.setItem("pAcertadas", numberCorrect);
         localStorage.setItem("pFalladas", numberIncorrect);
-        finishByTime(sonido);
+        finishByTime(sonido, time);
         setGameFinished(true); goTo(1);
     }
 };
@@ -58,9 +58,10 @@ export const handelInfiniteGameFinish = (numberCorrect, numberIncorrect, segundo
     setGameFinished(true); goTo(1);
 };
 
-export const reloadF = (setSegundos, setSegundosInfinite, setNQuestion, setNumberCorrect, setNumberIncorrect, setReload) => {
+export const reloadF = (setSegundos, setSegundosInfinite, setNQuestion, setNumberCorrect, 
+    setNumberIncorrect, setReload, time) => {
 
-    setSegundos(MAX_TIME);
+    setSegundos(time);
     setSegundosInfinite(0);
     setNQuestion(0);
     setNumberCorrect(0);
@@ -68,7 +69,7 @@ export const reloadF = (setSegundos, setSegundosInfinite, setNQuestion, setNumbe
     setReload(false);
 };
 
-const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
+const Question = ({ goTo, setGameFinished, settings, restart, locale }) => {
 
     localStorage.setItem("pAcertadas", 0);
     localStorage.setItem("pFalladas", 0);
@@ -76,6 +77,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
     const userToken = sessionData ? sessionData.token : '';
 
     const [reload, setReload] = useState(restart);
+    const [lang] = useState(locale);
 
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState([]);
@@ -89,7 +91,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
     const [numberIncorrect, setNumberIncorrect] = useState(0);
     const [nQuestion, setNQuestion] = useState(0);
 
-    const [segundos, setSegundos] = useState(MAX_TIME);
+    const [segundos, setSegundos] = useState(settings.maxTime*60);
     const [segundosInfinite, setSegundosInfinite] = useState(0);
     const [sonido, setSonido] = useState(true);
 
@@ -100,12 +102,14 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
         images.push(<img className='vidaImg' key={i} src={ vidaImg } alt="Vida" />);
     }
 
-    if (reload) { reloadF(setSegundos, setSegundosInfinite, setNQuestion, setNumberCorrect, setNumberIncorrect, setReload); }
+    if (reload) { reloadF(setSegundos, setSegundosInfinite, setNQuestion, setNumberCorrect,
+        setNumberIncorrect, setReload, settings.maxTime*60); }
+
     useEffect(() => {
         const intervalId = setInterval(() => {
-            if (gameMode !== "infinite" && gameMode !== "threeLife") {
+            if (settings.gMode !== "infinite" && settings.gMode !== "threeLife") {
                 setSegundos(segundos => {
-                    if (segundos === 1 ) { clearInterval(intervalId); finishGameByTime(segundos); }
+                    if (segundos === 1 ) { clearInterval(intervalId); finishGameByTime(segundos, numberCorrect, numberIncorrect); }
                     return segundos - 1;
                 })
             } else {
@@ -117,11 +121,11 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
 
         return () => clearInterval(intervalId);
     // eslint-disable-next-line
-    }, []);
+    }, [numberCorrect, numberIncorrect]);
 
-    const finishGameByTime = (segundos) => {
+    const finishGameByTime = (segundos, numberCorrect, numberIncorrect) => {
         handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, 
-            segundos, sonido, goTo, setGameFinished);
+            segundos, sonido, goTo, setGameFinished, settings.numberQ, settings.maxTime*60);
     };
 
     const formatTiempo = (segundos) => {
@@ -132,7 +136,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
 
     const fetchQuestion = async () => {
         try {
-            const response = await fetch(`${gatewayUrl}/api/questions/create?category=${category}&lang=en`, {
+            const response = await fetch(`${gatewayUrl}/api/questions/create?category=${settings.category}&lang=${lang}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${userToken}`
@@ -152,9 +156,9 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
                 setNextButtonEnabled(true);
             }
             
-            if (gameMode === "classic" || gameMode === "category") {
+            if (settings.gMode === "classic" || settings.gMode === "category" || settings.gMode === "custom") {
                 handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, 
-                            sonido, goTo, setGameFinished);
+                            sonido, goTo, setGameFinished, settings.numberQ, settings.maxTime*60);
             }
         } catch (error) {
             console.error('Error fetching question:', error);
@@ -187,7 +191,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
         if (isCorrect(option)) {
             setNumberCorrect(numberCorrect + 1);
             if (sonido) { correctAudio.play(); }
-            if (gameMode === 'threeLife') {
+            if (settings.gMode === 'threeLife') {
                 setTimeout(() => {
                     fetchQuestion();
                 }, 1000);
@@ -196,7 +200,7 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
             if (sonido) { incorrectAudio.play(); }
             setNumberIncorrect(numberIncorrect + 1);
             setTimeout(() => {
-                if (gameMode === 'threeLife') {
+                if (settings.gMode === 'threeLife') {
                     setVidas(vidas - 1);
                     if (vidas === 1) { handleOOLGameFinish(numberCorrect, segundosInfinite, goTo, setGameFinished); }
                     else { fetchQuestion(); }
@@ -219,16 +223,6 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
     // eslint-disable-next-line
     }, []);
 
-    // @SONAR_STOP@
-    // sonarignore:start
-    const generateUniqueId = () => {
-        //NOSONAR
-        return Math.random().toString(36).substr(2, 9);//NOSONAR
-        //NOSONAR
-    };
-    // sonarignore:end
-    // @SONAR_START@
-
     return (
         
             <div className='divPreguntas'>
@@ -237,23 +231,25 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
                     <button onClick={() => changeSound()} style={{ border: 'none', background: 'none', padding: 0 }}>
                         <img className='audioImg' src={sonido ? soundOnImage : soundOffImage} alt="Toggle Sound" />
                     </button>
-                        <Typography sx={{ display: 'inline-block', textAlign: 'left' }}>Question: {nQuestion}</Typography>
+                        <Typography component="a" sx={{ display: 'inline-block', textAlign: 'left', marginLeft:'0.6em', color:'#FFF' }}>
+                        <FormattedMessage id="question" /> {nQuestion}</Typography>
                     </div>
-                    { (gameMode !== "infinite" && gameMode !== "threeLife") ?
-                    <Typography sx={{ display: 'inline-block', textAlign: 'right' }}> Time: {formatTiempo(segundos)}</Typography>
+                    { (settings.gMode !== "infinite" && settings.gMode !== "threeLife") ?
+                        <Typography component="a" sx={{ display: 'inline-block', textAlign: 'right', color:'#FFF' }}>
+                            <FormattedMessage id="time" /> {formatTiempo(segundos)}</Typography>
                     : ""}
-                    { gameMode === "threeLife" ?
+                    { settings.gMode === "threeLife" ?
                     <div> {images} </div> :""}
                 </div>
-                <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }}>
-                    <Typography variant='h4' sx={{ padding: '10px 40px 30px 40px', color: '#8f95fd', fontSize: '2em' }}>
+                <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }} className='questionBox'>
+                    <Typography className='titleQuestion' variant='h4' sx={{ padding: '10px 40px 30px 40px', color: '#8f95fd', fontSize: '2em' }}>
                         {question}
                     </Typography>
                     <List sx={{ bgcolor: '#333' }} disablePadding>
                         {options.map((option, index) => (
-                            <ListItem onClick={() => handleSubmit(option, index)} key={generateUniqueId()}
-                                sx={{ bgcolor: getBackgroundColor(option, index) }}>
-                                <ListItemButton className={isSelected ? 'disabledButton' : ''}>
+                            <ListItem key={index+option}>
+                                <ListItemButton className={isSelected ? 'disabledButton' : ''} onClick={() => handleSubmit(option, index)}
+                                    sx={{ bgcolor: getBackgroundColor(option, index) }}>
                                     <ListItemText sx={{ textAlign: 'center', fontSize: '1em' }} >
                                         {option}
                                     </ListItemText>
@@ -263,20 +259,20 @@ const Question = ({ goTo, setGameFinished, gameMode, category, restart }) => {
                     </List>
                 </Card>
                 <div className='botoneraPreguntas'>
-                { gameMode !== "threeLife" ?
+                { settings.gMode !== "threeLife" ?
                 <ListItemButton onClick={nextButtonEnabled ? () => {
                     setNextButtonEnabled(false);
                     fetchQuestion();
                  } : null}
                     sx={{ justifyContent: 'center', marginTop: 2 }}
                     className={nextButtonEnabled ? '' : 'isNotSelected'} >
-                    Next
+                    <FormattedMessage id="next" />
                 </ListItemButton>
                 : ""}
-                { gameMode === "infinite" ?
+                { settings.gMode === "infinite" ?
                     <ListItemButton onClick={ () => handelInfiniteGameFinish( numberCorrect, numberIncorrect, segundosInfinite, goTo, setGameFinished) }
                         sx={{ color: '#f35858', justifyContent: 'center', marginTop: 2 }}>
-                        End Game
+                        <FormattedMessage id="endGame" />
                     </ListItemButton>
                 : ""}
                 </div>

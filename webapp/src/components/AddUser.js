@@ -1,7 +1,7 @@
 // src/components/AddUser.js
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar, IconButton } from '@mui/material';
+import { Container, Typography, TextField, Snackbar, IconButton } from '@mui/material';
 
 import profileImg1 from '../assets/defaultImgProfile.jpg';
 import profileImg2 from '../assets/perfil2.jpg';
@@ -9,10 +9,23 @@ import profileImg3 from '../assets/perfil3.jpg';
 import profileImg4 from '../assets/perfil4.jpg';
 import profileImg5 from '../assets/perfil5.jpg';
 import { SessionContext } from '../SessionContext';
+import { FormattedMessage } from 'react-intl';
+import '../css/addUser.css';
+import '../css/animatedBG.css';
+import LanguageSelect from './LanguageSelect';
+
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
-const AddUser = ({goTo}) => {
+const AddUser = ({goTo, changeLanguage, locale}) => {
+
+  const [langEnd, setLangEnd] = useState(locale);
+
+  useEffect(() => {
+    changeLanguage(langEnd);
+    
+  }, [locale, changeLanguage, langEnd]);
+
   const { saveSessionData } = useContext(SessionContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -33,9 +46,9 @@ const AddUser = ({goTo}) => {
       setOpenSnackbar(true);
       try{
         const response = await axios.post(`${apiEndpoint}/login`, { username, password });
-        const { createdAt: userCreatedAt, username: loggedInUsername, token: token, profileImage: profileImage, userId: id } = response.data;
+        const { createdAt: userCreatedAt, username: loggedInUsername, token, profileImage, userId: id } = response.data;
         setLoginSuccess(true);
-        saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, token: token, profileImage: profileImage, userId: id });
+        saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, token, profileImage, userId: id });
       } catch (error) {
       }
     } catch (error) {
@@ -58,24 +71,29 @@ const AddUser = ({goTo}) => {
   }
 
   return (
-    <Container component="div" maxWidth="xs" sx={{ marginTop: 8 }}>
-      <Typography component="h2" variant="h5">
-        &gt; Register a user
-      </Typography>
+    <Container component="div" maxWidth="xs" sx={{ marginTop: 4 }}>
+      <div className='inputsRegister'>
+        <div className='topLogin'>
+        <Typography component="h2" variant="h5">
+          &gt; {<FormattedMessage id="register" />}
+        </Typography>
+        
+        <LanguageSelect value={langEnd} onChange={(e) => {setLangEnd(e.target.value)}}/>
+      </div>
+
       <TextField
         name="username"
         margin="normal"
         fullWidth
-        label="Username"
+        label= {<FormattedMessage id="username" />}
         value={username}
-        className='inputAddUser'
         onChange={(e) => setUsername(e.target.value)}
       />
       <TextField
         name="password"
         margin="normal"
         fullWidth
-        label="Password"
+        label= {<FormattedMessage id="password" />}
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
@@ -84,13 +102,13 @@ const AddUser = ({goTo}) => {
         name="confirmPassword"
         margin="normal"
         fullWidth
-        label="Confirm Password"
+        label= {<FormattedMessage id="confirmPassword" />}
         type="password"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
       <Typography component="h3" variant="h5" sx={{ marginTop: 4 }}>
-        Select a profile picture
+        <FormattedMessage id="selectProfileImg" />
       </Typography>
       <div id='fotosPerfil'>
         <IconButton className={`fotoPerfilBtn`} onClick={() => handleImageClick('defaultImgProfile.jpg')}>
@@ -114,12 +132,17 @@ const AddUser = ({goTo}) => {
                 src={profileImg5} alt='Imagen Perfil 5' />
         </IconButton>
       </div>
-      <Button className='buttonLoginRegister' variant="contained" color="primary" onClick={addUser} sx={{ marginTop: 4 }}>
-        Sign up
-      </Button>
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" />
+      <div className='btnRegister'>
+        <button className="btn" onClick={addUser}><FormattedMessage id="signUp" tagName="span" /></button>
+      </div>
+      <ul className="circles">
+              <li></li><li></li><li></li><li></li><li></li>
+              <li></li><li></li><li></li><li></li><li></li>
+            </ul>
+        </div> 
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={<FormattedMessage id="userAdd" />} />
       {error && (
-        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
+        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={<FormattedMessage id="passwordNotMatch" />} />
       )}
     </Container>
   );

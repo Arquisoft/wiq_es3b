@@ -2,6 +2,8 @@ import React from 'react';
 import { render, fireEvent, act, waitFor, findByText, screen } from '@testing-library/react';
 import { Game } from '../components/Game';
 import { SessionProvider } from '../SessionContext';
+import { IntlProvider } from 'react-intl';
+import messages_en from '../messages/messages_en.json';
 
 const MAX_TIME = 600;
 
@@ -45,9 +47,9 @@ describe('Game component', () => {
 
   it('renders question and options correctly', async () => {
     const { getByText, findAllByText } = render(
-      <SessionProvider>
-        <Game goTo={mockGoTo} />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Game goTo={mockGoTo} locale={'en'} />
+      </SessionProvider></IntlProvider>
     );
     expect(getByText(/Question/i)).toBeInTheDocument();
     const options = await findAllByText(/./i);
@@ -56,9 +58,9 @@ describe('Game component', () => {
 
   it('handles option selection correctly', async () => {
     const { getByText, findAllByText } = render(
-      <SessionProvider>
-        <Game goTo={mockGoTo} />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Game goTo={mockGoTo} locale={'en'} />
+      </SessionProvider></IntlProvider>
     );
 
     await waitFor(() => {
@@ -79,21 +81,23 @@ describe('Game component', () => {
 
     await act(async () => {
       render(
-        <SessionProvider>
-          <Game goTo={() => {}} setGameFinished={() => {}} />
-        </SessionProvider>
+        <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+          <Game goTo={() => {}} setGameFinished={() => {}} locale={'en'} />
+        </SessionProvider></IntlProvider>
       );
       jest.advanceTimersByTime(MAX_TIME * 1000);
     });
   });
 
   test('renders Game component with default category', () => {
-    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Game gameMode="category" locale={'en'} /></SessionProvider></IntlProvider>);
     expect(getByText(/Restart game with a new category/i)).toBeInTheDocument();
   });
 
   test('renders Game component with category buttons', () => {
-    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Game gameMode="category" locale={'en'} /></SessionProvider></IntlProvider>);
     expect(getByText(/All Categories/i)).toBeInTheDocument();
     expect(getByText("Art")).toBeInTheDocument();
     expect(getByText(/Sports/i)).toBeInTheDocument();
@@ -103,38 +107,57 @@ describe('Game component', () => {
   });
 
   test('changes category when All Categories category button is clicked', () => {
-    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Game gameMode="category" locale={'en'} /></SessionProvider></IntlProvider>);
     fireEvent.click(getByText(/All Categories/i));
     expect(getByText(/Restart game with a new category/i)).toBeInTheDocument();
   });
 
   test('changes category when Art category button is clicked', () => {
-    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Game gameMode="category" locale={'en'} /></SessionProvider></IntlProvider>);
     fireEvent.click(getByText("Art"));
     expect(getByText(/Restart game with a new category/i)).toBeInTheDocument();
   });
 
   test('changes category when Sports category button is clicked', () => {
-    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Game gameMode="category" locale={'en'} /></SessionProvider></IntlProvider>);
     fireEvent.click(getByText(/Sports/i));
     expect(getByText(/Restart game with a new category/i)).toBeInTheDocument();
   });
 
   test('changes category when Entertainment category button is clicked', () => {
-    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Game gameMode="category" locale={'en'} /></SessionProvider></IntlProvider>);
     fireEvent.click(getByText(/Entertainment/i));
     expect(getByText(/Restart game with a new category/i)).toBeInTheDocument();
   });
 
   test('changes category when Geography category button is clicked', () => {
-    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Game gameMode="category" locale={'en'} /></SessionProvider></IntlProvider>);
     fireEvent.click(getByText(/Geography/i));
     expect(getByText(/Restart game with a new category/i)).toBeInTheDocument();
   });
 
   test('changes category when Planets category button is clicked', () => {
-    const { getByText } = render(<SessionProvider><Game gameMode="category" /></SessionProvider>);
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Game gameMode="category" locale={'en'} /></SessionProvider></IntlProvider>);
     fireEvent.click(getByText(/Planets/i));
     expect(getByText(/Restart game with a new category/i)).toBeInTheDocument();
+  });
+
+  test('sets snackbar open if inputs are not valid', () => {
+    const { getByText, getByLabelText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Game gameMode="custom" locale={'en'} /></SessionProvider></IntlProvider>);
+
+    // Simular entradas inválidas
+    fireEvent.change(getByLabelText('Max Time (minutes)'), { target: { value: 'abc' } });
+    fireEvent.change(getByLabelText('Number of Questions'), { target: { value: 'def' } });
+
+    fireEvent.click(getByText('Start Game'));
+
+    expect(getByText('Please enter valid integers greater than 0 for both Max Time and Number of Questions.')).toBeInTheDocument();
   });
 });

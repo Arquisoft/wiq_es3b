@@ -1,10 +1,21 @@
-// src/components/Login.js
+ // src/components/Login.js
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import { Container, Typography, TextField, Snackbar } from '@mui/material';
 import { SessionContext } from '../SessionContext';
+import '../css/login.css';
+import '../css/animatedBG.css';
+import { FormattedMessage } from 'react-intl';
+import LanguageSelect from './LanguageSelect';
 
-const Login = ({ goTo }) => {
+
+const Login = ({ goTo, changeLanguage, locale }) => {
+
+  const [langEnd, setLangEnd] = useState(locale);
+
+  useEffect(() => {
+    changeLanguage(langEnd);
+  }, [locale, changeLanguage, langEnd]);
 
   const { saveSessionData, sessionData } = useContext(SessionContext);
 
@@ -25,12 +36,12 @@ const Login = ({ goTo }) => {
       const response = await axios.post(`${apiEndpoint}/login`, { username, password });
 
       // Extract data from the response
-      const { createdAt: userCreatedAt, username: loggedInUsername, token: token, profileImage: profileImage, userId: id } = response.data;
+      const { createdAt: userCreatedAt, username: loggedInUsername, token, profileImage, userId: id } = response.data;
       
       setTimeStart(Date.now());
       setCreatedAt(userCreatedAt);
       setLoginSuccess(true);
-      saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, token: token, profileImage: profileImage, userId: id });
+      saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, token, profileImage, userId: id });
       setOpenSnackbar(true);
     } catch (error) {
       setError(error.response.data.error);
@@ -64,34 +75,45 @@ const Login = ({ goTo }) => {
   }, [loginSuccess, goTo]);
 
   return (
-    <Container component="div" maxWidth="xs" sx={{ marginTop: 8 }}>
-        <div>
-          <Typography component="h2" variant="h5">
-            &gt; Login
-          </Typography>
+    <Container component="div" maxWidth="xs" sx={{ marginTop: 4 }}>
+      <div className="area" >
+        <div className='inputsRegister'>
+          <div className='topLogin'>
+            <Typography component="h2" variant="h5">
+              &gt; {<FormattedMessage id="login"/>}
+            </Typography>
+            <LanguageSelect value={langEnd} onChange={(e) => {setLangEnd(e.target.value)}}/>
+          </div>
           <TextField
             name="username"
             margin="normal"
             fullWidth
-            label="Username"
+            label= {<FormattedMessage id="username"/>}
             value={username}
+            className='tf'
+            sx={{ color:'#8f95fd !important' }}
             onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
             name="password"
             margin="normal"
             fullWidth
-            label="Password"
+            label= {<FormattedMessage id="password"/>}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button className='buttonLoginRegister' variant="contained" color="primary" onClick={loginUser}>
-            Login
-          </Button>
-          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
+          <div>
+            <button className="btn" onClick={loginUser}><FormattedMessage id="login" tagName="span" /></button>
+          </div>
+            <ul className="circles">
+              <li></li><li></li><li></li><li></li><li></li>
+              <li></li><li></li><li></li><li></li><li></li>
+            </ul>
+        </div> 
+          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={<FormattedMessage id="loginSuccessfull" />} />
           {error && (
-            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
+            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={<FormattedMessage id="invalidCredentials" />} />
           )}
         </div>
     </Container>

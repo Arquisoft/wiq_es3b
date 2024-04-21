@@ -1,0 +1,76 @@
+.vidaImg {
+    width: 1.6em;
+    vertical-align: middle;
+}
+
+.divPreguntas {
+    max-width: 80%;
+}
+
+.questionTime {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5em;
+}
+
+.audioQuestion {
+    margin: 1px;
+}
+  
+.audioQuestion button {
+    vertical-align: middle;
+}
+
+.audioImg {
+    width: 1.6em;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.isNotSelected {
+    color: #555 !important;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+  
+.disabledButton {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.botoneraPreguntas {
+    display: flex;
+}
+
+.titleQuestion {
+    text-align: center;
+}
+
+.questionBox {
+    border: 1px solid #8f95fd !important;
+    border-radius: 0.6em !important;
+}
+
+.questionBox ul,
+.questionBox > ul div,
+.botoneraPreguntas div {
+    border-radius: 1em;
+    
+}
+
+@media screen and (max-width: 630px) {
+
+    .titleQuestion {
+        font-size: 1.4em !important;
+        padding: 0 0 16px 0 !important;
+    }
+
+    .preguntas span {
+        font-size: 1.2em !important;
+    }
+
+    .questionTime p {
+        font-size: 0.8em;
+    }
+}

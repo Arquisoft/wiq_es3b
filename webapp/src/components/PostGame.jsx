@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import { SessionContext } from '../SessionContext';
+import { FormattedMessage } from 'react-intl';
 
 const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
@@ -53,31 +54,31 @@ export const PostGame = ({ gameMode }) => {
 
     return (
         <div>
-            <Typography sx={{ textAlign: 'center', fontSize:'2em', margin:'2em 0 0.3em 0 !important' }}>Game Over</Typography>
+            <Typography sx={{ textAlign: 'center', fontSize:'2em', margin:'0 0 0.3em 0 !important', color:'#8f95fd' }}>Game Over</Typography>
             <Card>
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <Table className='tablePost' sx={{ minWidth: '30vw' }} aria-label="simple table">
                     <TableBody>
           
                         <TableRow key={"Preguntas acertadas"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell sx={{ fontSize:'1.2em' }}>Correct answers</TableCell>
+                            <TableCell sx={{ fontSize:'1.2em' }}><FormattedMessage id="correctA" /></TableCell>
                             <TableCell sx={{ fontSize:'1.2em' }} align="right">{localStorage.getItem("pAcertadas")}</TableCell>
                         </TableRow>
 
                         { gameMode !== "threeLife" ?
                         <TableRow key={"Preguntas falladas"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell sx={{ fontSize:'1.2em' }}>Incorrect answers</TableCell>
+                            <TableCell sx={{ fontSize:'1.2em' }}><FormattedMessage id="incorrectA" /></TableCell>
                             <TableCell sx={{ fontSize:'1.2em' }} align="right">{localStorage.getItem("pFalladas")}</TableCell>
                         </TableRow>
                         : ""}
                         <TableRow key={"Tiempo usado"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell sx={{ fontSize:'1.2em' }}>Elapsed time</TableCell>
+                            <TableCell sx={{ fontSize:'1.2em' }}><FormattedMessage id="elapseTime" /></TableCell>
                             <TableCell sx={{ fontSize:'1.2em' }} align="right">{formatTiempo(localStorage.getItem("tiempoUsado"))}</TableCell>
                         </TableRow>
 
                         { gameMode === "classic" || gameMode === "category" ?
                         <TableRow key={"Tiempo restante"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell sx={{ fontSize:'1.2em' }}>Time remaining</TableCell>
+                            <TableCell sx={{ fontSize:'1.2em' }}><FormattedMessage id="timeRemaining" /></TableCell>
                             <TableCell sx={{ fontSize:'1.2em' }} align="right">{formatTiempo(localStorage.getItem("tiempoRestante"))}</TableCell>
                         </TableRow>
                         : ""}
@@ -86,9 +87,9 @@ export const PostGame = ({ gameMode }) => {
                 </Table>
             </TableContainer>
             </Card>
-            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Game saved successfully" />
+            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={<FormattedMessage id="gameSaved" />} />
           {error && (
-            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error adding game`} />
+            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={<FormattedMessage id="errorAddingGame" />} />
           )}
         </div>
     )
