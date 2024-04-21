@@ -52,5 +52,24 @@
     "question": "Question: ",
     "time": "Time: ",
     "next": "Next",
-    "endGame": "End Game"
+    "endGame": "End Game",
+
+    "friends": "Friends",
+    "search": "Search",
+    "actions": "Actions",
+    "delete_friend": "Delete friend",
+    "addFriend": "Add friend",
+    "friend_added": "Friend added successfully",
+    "friend_deleted": "Friend deleted successfully",
+    "errorAddingFriend": "Error adding friend",
+    "User not found": "User not found",
+    "User and friend are required": "User and friend are required",
+    "Friend already exists": "Friend already exists",
+    "error_adding_friend": "Error adding friend",
+    "seeProfile": "See profile",
+    "error_getting_friends": "Error getting friends",
+    "friend_list": "Friends list",
+
+
+    "Service down": "Service down"
   }

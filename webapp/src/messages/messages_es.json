@@ -52,5 +52,24 @@
   "question": "Pregunta: ",
   "time": "Tiempo: ",
   "next": "Siguiente",
-  "endGame": "Terminar Juego"
+  "endGame": "Terminar Juego",
+
+  "friends": "Amigos",
+  "search": "Buscar",
+  "actions": "Acciones",
+  "delete_friend": "Eliminar amigo",
+  "addFriend": "Añadir amigo",
+  "friend_added": "Amigo agregado exitosamente",
+  "friend_deleted": "Amigo eliminado exitosamente",
+  "errorAddingFriend": "Error al agregar amigo",
+  "User not found": "Usuario no encontrado",
+  "User and friend are required": "Se requiere usuario y amigo",
+  "Friend already exists": "El amigo ya existe",
+  "error_adding_friend": "Error al agregar amigo",
+  "seeProfile": "Ver Perfil",
+  "error_getting_friends": "Error al obtener amigos",
+  "friend_list": "Lista de amigos",
+
+
+  "Service down": "Servicio no disponible"
 }

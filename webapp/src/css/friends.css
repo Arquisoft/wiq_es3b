@@ -1,0 +1,64 @@
+#friendsListTitle{
+    color: #8f95fd;
+    padding: 0 1em;
+    text-align: center;
+}
+#friends{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.tableFriends {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+
+
+}
+
+.tableFriends th,
+.tableFriends td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+}
+
+.tableFriends th {
+    background-color: #8f95fd;
+    color: black;
+    font-size: 1.5em;
+    text-align: center;
+
+}
+.button_container{
+    display: flex;
+    justify-content: center;
+}
+.friendName{
+    font-size: 1.5em;
+    text-align: center;
+}
+.searchForm{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+.searchForm input{
+    color: white;
+    font-size: 1.5em;
+}
+.actions_container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+@media screen and (max-width: 700px) {
+    .button_container{
+        width: 100%;
+    }
+}

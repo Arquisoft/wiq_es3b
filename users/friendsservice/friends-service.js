@@ -30,29 +30,37 @@ app.get('/getFriends/:username', async (req, res) => {
 });
 app.post('/addfriend', async (req, res) => {
     try {
-        const { username: user, friend } = req.body;
-        if (!user||!friend) {
+        const username=req.body.user;
+        const friend=req.body.friend;
+        if (!username || !friend) {
             throw new Error('User and friend are required');
         }
-        const response = await axios.get(`${userServiceUrl}/getUserInfo/${friend}`);
-        if (!response || response.status!==200) {
-            throw new Error('Friend not found');
+        try{
+            const response = await axios.get(`${userServiceUrl}/getUserInfo/${friend}`);
+            if (!response || response.status !== 200) {
+                throw new Error('User not found');
+            }
+        }catch(error){
+            throw new Error('User not found');
         }
-        const existingUser = await Friends.findOne({ username: user.toString() });
+        const existingUser = await Friends.findOne({ username: username.toString() });
         if (!existingUser) {
             const newFriends = new Friends({
-                username: user,
+                username: username,
                 friends: [friend]
             });
             await newFriends.save();
             res.json({ username: newFriends.username, friends: newFriends.friends });
         } else {
+            if (existingUser.friends.includes(friend)) {
+                throw new Error('Friend already exists');
+            }
             existingUser.friends.push(friend);
             await existingUser.save();
             res.json({ username: existingUser.username, friends: existingUser.friends });
         }
     } catch (error) {
-        res.status(400).json({ error: error.response.data||"Error adding friend" });
+        res.status(400).json({ error: error.message || "Error adding friend" });
     }
 });
 
