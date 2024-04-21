@@ -47,6 +47,18 @@ describe('Nav Component', () => {
     const button = getByText('API-DOC');
     expect(button.getAttribute('href')).toContain('/api-doc');
   });
+  test('calls goTo function when "Friends" is clicked', async () => {
+    const goToMock = jest.fn();
+    const { getAllByText } = render(
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Nav goTo={goToMock} changeLanguage={mockChangeLanguage} locale={'en'} isInGame={true} />
+      </SessionProvider></IntlProvider>
+    );
+    fireEvent.click(getAllByText('Friends')[0]);
+    await waitFor(() => {
+      expect(goToMock).toHaveBeenCalledTimes(1);
+    });
+  });
 
 
 

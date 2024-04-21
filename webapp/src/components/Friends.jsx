@@ -131,7 +131,7 @@ const Friends = ({goTo}) => {
                         </tbody>
                     </table>
                 ) : (
-                    <div><span>Todavia no hay amigos</span></div>
+                    <div><span><FormattedMessage id="no_friends_yet" tagName="span" /></span></div>
                 )}
             </div>
             <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={<FormattedMessage id={snackbarMessage} />} />
