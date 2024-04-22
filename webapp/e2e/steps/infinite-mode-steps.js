@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const setDefaultOptions = require('expect-puppeteer').setDefaultOptions
-const feature = loadFeature('./features/register-form.feature');
+const feature = loadFeature('./features/infinite-mode.feature');
 
 let page;
 let browser;
@@ -23,7 +23,7 @@ defineFeature(feature, test => {
       .catch(() => {});
   });
 
-  test('The user is not registered in the site', ({given,when,then}) => {
+  test('The user is going to play infinite mode', ({given,when,then}) => {
     
     let username;
     let password;
@@ -34,16 +34,20 @@ defineFeature(feature, test => {
       await expect(page).toClick("button", { text: "Don't have an account? Register here." });
     });
 
-    when('I fill the data in the form and press submit', async () => {
+    when('I fill the data in the form, press submit, press Infinte Mode button and end game', async () => {
       await expect(page).toFill('input[name="username"]', username);
       await expect(page).toFill('input[name="password"]', password);
       await expect(page).toFill('input[name="confirmPassword"]', password);
       
-      await expect(page).toClick('button.btn', { text: '' })
+      await expect(page).toClick('button.btn', { text: '' });
+
+      await expect(page).toClick('button.btn', { text: 'Infinite Mode' });
+
+      await expect(page).toClick('div.endGameButton', { text: '' });
     });
 
-    then('A confirmation message should be shown in the screen', async () => {
-        await expect(page).toMatchElement("span", { text: "[ ASW Quiz - WIQ ]" });
+    then('A Game Over message should be shown in the screen', async () => {
+        await expect(page).toMatchElement("p", { text: "Game Over" });
     });
   })
 

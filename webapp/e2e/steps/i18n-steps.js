@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const setDefaultOptions = require('expect-puppeteer').setDefaultOptions
-const feature = loadFeature('./features/register-form.feature');
+const feature = loadFeature('./features/i18n.feature');
 
 let page;
 let browser;
@@ -23,7 +23,7 @@ defineFeature(feature, test => {
       .catch(() => {});
   });
 
-  test('The user is not registered in the site', ({given,when,then}) => {
+  test('The user is going to try different languages', ({given,when,then}) => {
     
     let username;
     let password;
@@ -34,16 +34,33 @@ defineFeature(feature, test => {
       await expect(page).toClick("button", { text: "Don't have an account? Register here." });
     });
 
-    when('I fill the data in the form and press submit', async () => {
+    when('I fill the data in the form, press submit and press langugae button', async () => {
       await expect(page).toFill('input[name="username"]', username);
       await expect(page).toFill('input[name="password"]', password);
       await expect(page).toFill('input[name="confirmPassword"]', password);
       
-      await expect(page).toClick('button.btn', { text: '' })
+      await expect(page).toClick('button.btn', { text: '' });
+
+      await expect(page).toMatchElement("span", { text: "Classic Game" });
+
+      await expect(page).toClick('button.menuLeft', { text: '' });
+
+      await expect(page).toClick('div.languageButton', { text: '' });
+
+      await expect(page).toClick('li', { text: 'Spanish' });
     });
 
-    then('A confirmation message should be shown in the screen', async () => {
-        await expect(page).toMatchElement("span", { text: "[ ASW Quiz - WIQ ]" });
+    then('A Classic Game message should be shown in different languages', async () => {
+
+        await expect(page).toMatchElement("span", { text: "Juego Clásico" });
+
+        await expect(page).toClick('div.languageButton', { text: '' });
+        await expect(page).toClick('li', { text: 'Italiano' });
+        await expect(page).toMatchElement("span", { text: "Gioco Classico" });
+
+        await expect(page).toClick('div.languageButton', { text: '' });
+        await expect(page).toClick('li', { text: 'Francese' });
+        await expect(page).toMatchElement("span", { text: "Jeu classique" });
     });
   })
 

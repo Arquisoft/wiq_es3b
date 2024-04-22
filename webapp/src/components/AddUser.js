@@ -153,7 +153,7 @@ const AddUser = ({goTo, changeLanguage, locale, handleToggleView}) => {
         </div> 
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={<FormattedMessage id="userAdd" />} />
       {error && (
-        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={<FormattedMessage id="passwordNotMatch" />} />
+        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
       )}
     </Container>
   );

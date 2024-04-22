@@ -199,7 +199,7 @@ function Nav({ goTo, changeLanguage, locale, isInGame, changeDaltonicMode }) {
           <Box sx={{ flexGrow: 0, flexDirection: 'row', display:'flex', alignItems: 'center', fontWeight: 'bold', zIndex:'9999'}}>
             <Typography component="a" sx={{ marginRight: 2, fontFamily: 'Roboto Slab', color:'#FFF', marginLeft:'1em'}} >{username}</Typography>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, border: '2px solid #FFF' }}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, border: '2px solid #FFF' }} className='perfilButton' >
                 <Avatar alt="Remy Sharp" src={profileImgSrc}/>
               </IconButton>
             </Tooltip>

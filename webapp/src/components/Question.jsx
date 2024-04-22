@@ -270,7 +270,8 @@ const Question = ({ goTo, setGameFinished, settings, restart, locale, daltonicMo
                 </ListItemButton>
                 : ""}
                 { settings.gMode === "infinite" ?
-                    <ListItemButton onClick={ () => handelInfiniteGameFinish( numberCorrect, numberIncorrect, segundosInfinite, goTo, setGameFinished) }
+                    <ListItemButton className='endGameButton'
+                        onClick={ () => handelInfiniteGameFinish( numberCorrect, numberIncorrect, segundosInfinite, goTo, setGameFinished) }
                         sx={{ color: '#f35858', justifyContent: 'center', marginTop: 2 }}>
                         <FormattedMessage id="endGame" />
                     </ListItemButton>
