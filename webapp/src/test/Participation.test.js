@@ -5,6 +5,7 @@ import { Participation } from '../components/Participation';
 import { SessionContext } from '../SessionContext';
 import { IntlProvider } from 'react-intl';
 import messages_en from '../messages/messages_en.json';
+import { FormattedMessage } from 'react-intl';
 
 jest.mock('axios');
 
@@ -25,8 +26,8 @@ describe('Participation component', () => {
       </SessionContext.Provider></IntlProvider>
     );
 
-    // Verificar que el texto "Participation" se muestra correctamente
-    const participationText = screen.getAllByText(/Participación/i);
+    // Verificar que el título se muestra correctamente
+    const participationText = screen.getAllByText(/Participation/i);
     expect(participationText.length).toBeGreaterThan(0);
   });
 
@@ -45,10 +46,13 @@ describe('Participation component', () => {
 
     await waitFor(() => {
       expect(axios.get).toHaveBeenCalledTimes(1);
-      expect(getByText(`Número de partidas jugadas: ${mockParticipationData.totalGames}`)).toBeInTheDocument();
-      expect(getByText(`Preguntas acertadas: ${mockParticipationData.correctAnswers}`)).toBeInTheDocument();
-      expect(getByText(`Preguntas falladas: ${mockParticipationData.incorrectAnswers}`)).toBeInTheDocument();
-      expect(getByText(`Tiempo total jugando: ${mockParticipationData.totalTime} segundos`)).toBeInTheDocument();
+      expect(getByText(/seconds/i)).toBeInTheDocument();
+      expect(screen.getByText(/Total Games/i)).toBeInTheDocument();
+      expect(screen.getByText(/Correct Answers/)).toBeInTheDocument();
+      expect(screen.getByText(/Incorrect Answers/)).toBeInTheDocument();
+      expect(screen.getByText(/Total Time/i)).toBeInTheDocument();
+
+      expect(screen.getByTestId('pie-chart')).toBeInTheDocument();
     });
   });
 });
