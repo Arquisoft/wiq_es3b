@@ -21,11 +21,20 @@ app.get('/getFriends/:username', async (req, res) => {
         if (!username) {
             throw new Error('Username is required');
         }
-        const friends = await Friends.find({username:username},{username:1, friends: 1, _id: 0});
+        try{
+            const response = await axios.get(`${userServiceUrl}/getUserInfo/${username}`);
+            if (!response || response.status !== 200) {
+                throw new Error('User not found');
+            }
+        }catch(error){
+            throw new Error('User not found');
+        }
+        const friends = await Friends.findOne({username:username},{username:1, friends: 1, _id: 0});
+        
         res.json(friends);
     }
     catch(error){
-        res.status(400).json({error: error.response.data||"Error getting friends"});
+        res.status(400).json({error: error.message||"Error getting friends"});
     }
 });
 app.post('/addfriend', async (req, res) => {
@@ -34,6 +43,9 @@ app.post('/addfriend', async (req, res) => {
         const friend=req.body.friend;
         if (!username || !friend) {
             throw new Error('User and friend are required');
+        }
+        if(username===friend){
+            throw new Error('User and friend cannot be the same');
         }
         try{
             const response = await axios.get(`${userServiceUrl}/getUserInfo/${friend}`);
@@ -69,10 +81,9 @@ app.delete('/deletefriend/:username/:friend', async (req, res) => {
         const username = req.params.username;
         const friend = req.params.friend;
         if (!username || !friend) {
-            throw new Error('User and friend are required'+username+friend);
+            throw new Error('User and friend are required');
         }
         const existingUser = await Friends.findOne({ username: username.toString() });
-        console.log(existingUser)
         if (!existingUser || !existingUser.friends.includes(friend)) {
             throw new Error('Friend not found');
         }

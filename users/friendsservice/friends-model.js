@@ -19,5 +19,5 @@ const friendsSchema = new mongoose.Schema({
 });
 
 module.exports = (connection) => {
-  return connection.model('User', friendsSchema);
+  return connection.model('Friends', friendsSchema);
 };
