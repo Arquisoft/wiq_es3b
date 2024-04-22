@@ -122,7 +122,7 @@ const Login = ({ goTo, changeLanguage, locale, handleToggleView }) => {
         </div> 
           <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={<FormattedMessage id="loginSuccessfull" />} />
           {error && (
-            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={<FormattedMessage id="invalidCredentials" />} />
+            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
           )}
         </div>
     </Container>

@@ -9,11 +9,28 @@ import User from './components/User'
 import { IntlProvider } from 'react-intl';
 import messages_en from './messages/messages_en.json';
 import messages_es from './messages/messages_es.json';
+import messages_it from './messages/messages_it.json';
+import messages_fr from './messages/messages_fr.json';
 
 function App() {
 
   const [locale, setLocale] = useState('en');
-  const messages = locale === 'en' ? messages_en : messages_es;
+  let messages;
+  switch (locale) {
+    case 'en':
+        messages = messages_en;
+        break;
+    case 'es':
+        messages = messages_es;
+        break;
+    case 'it':
+        messages = messages_it;
+        break;
+    case 'fr':
+        messages = messages_fr;
+        break;
+    default: break;
+  }
 
   const [daltonicMode, setDaltonicMode] = useState(false);
 
