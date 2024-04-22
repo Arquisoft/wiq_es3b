@@ -56,7 +56,7 @@ app.get('/verify', async (req, res) => {
     const userId = decodedToken.userId;
     const user = await User.findById(userId);
     if (user) {
-      res.json({ username: user.username, createdAt: user.createdAt });
+      res.json({ username: user.username, createdAt: user.createdAt, _id: userId});
       return;
     } else {
       res.status(404).json({ error: 'User not found' });

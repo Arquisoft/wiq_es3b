@@ -53,6 +53,7 @@ app.post(['/addgame','/addfriend'], async (req, res, next) => {
       });
       if(response.status===200){
         req.body.user = response.data.username;
+        req.body.userId = response.data._id;
         next();
       }
     }catch(error){

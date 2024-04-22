@@ -67,9 +67,6 @@ const Friends = ({goTo}) => {
 
         addFriend();
     };
-    const handleSeeProfile = (username) => {
-        //goTo(`/profile/${username}`);
-    }
 
     const handleInputChange = event => {
         setSearchQuery(event.target.value);
@@ -102,7 +99,7 @@ const Friends = ({goTo}) => {
                 <button className='btn' onClick={handleAddFriend}><FormattedMessage id="addFriend" tagName="span" /></button>
             </div>
             <div id='friends'>
-                {Array.isArray(friends) && friends.length>0 && friends[0].friends && friends[0].friends.length>0 ? (
+                {friends && friends.friends && friends.friends.length>0 ? (
                     <table className='tableFriends'>
                         <thead>
                             <tr>
@@ -111,23 +108,20 @@ const Friends = ({goTo}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {friends.map(user => (
-                                user.friends.map(friend => (
-                                    <tr key={friend}>
-                                        <td>
+                            {friends.friends.map(friend => (
+                                    <tr key={friend}  >
+                                        <td className='upEffect'>
                                             <span className='friendName'>{friend}</span>
                                         </td>
-                                        <td className='actions_container'>
-                                            <div className='button_container'>
-                                                <button className='btn' onClick={() => handleSeeProfile(friend)}><FormattedMessage id="seeProfile" tagName="span" /></button>
-                                            </div>
+                                        <td className='actions_container upEffect'>
                                             <div className='button_container'>
                                                 <button className='btn' onClick={() => handleDeleteFriend(friend)}><FormattedMessage id="delete_friend" tagName="span" /></button>
                                             </div>
                                         </td>
                                     </tr>
                                 ))
-                            ))}
+                            }
+                            
                         </tbody>
                     </table>
                 ) : (
