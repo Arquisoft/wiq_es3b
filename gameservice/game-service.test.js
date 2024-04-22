@@ -50,7 +50,7 @@ describe('Game Service', () => {
   // Test para agregar un nuevo juego con éxito
   it('should add a new game on POST /addgame', async () => {
     const newGame = {
-      user: userId,
+      userId: userId,
       pAcertadas: 5,
       pFalladas: 3,
       totalTime: 1200,
@@ -61,7 +61,7 @@ describe('Game Service', () => {
     expect(response.status).toBe(200);
     const data = response.body;
     expect(data).toHaveProperty("user");
-    expect(data.user.toString()).toBe(newGame.user.toString());
+    expect(data.user.toString()).toBe(newGame.userId.toString());
     expect(data).toHaveProperty('pAcertadas', newGame.pAcertadas);
     expect(data).toHaveProperty('pFalladas', newGame.pFalladas);
     expect(data).toHaveProperty('totalTime', newGame.totalTime);
