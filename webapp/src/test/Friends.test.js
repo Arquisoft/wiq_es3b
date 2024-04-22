@@ -24,9 +24,9 @@ describe('Friends', () => {
             </IntlProvider>
         );
 
-        mockAxios.onGet('http://localhost:8000/getFriends/testUser').reply(200, [
+        mockAxios.onGet('http://localhost:8000/getFriends/testUser').reply(200, 
             { friends: ['friend1', 'friend2', 'friend3', 'friend4'] }
-        ]);
+        );
 
         // Wait for the friends to be fetched
         await screen.findByText('friend1');
@@ -48,9 +48,9 @@ describe('Friends', () => {
                 </SessionContext.Provider>
             </IntlProvider>
         );
-        mockAxios.onPost('http://localhost:8000/addfriend').reply(200, [
+        mockAxios.onPost('http://localhost:8000/addfriend').reply(200, 
             { friends: ['friend1', 'friend2', 'friend3', 'friend4', 'newFriend'] }
-        ]);
+        );
 
         const addButton = screen.getByText('Add friend');
         const input = screen.getByRole('textbox');
@@ -63,8 +63,6 @@ describe('Friends', () => {
         await screen.findByText('friend3');
         await screen.findByText('friend4');
         await screen.findByText('newFriend');
-
-        expect(screen.getByText('newFriend')).toBeInTheDocument();
     });
 
     test('deletes a friend', async () => {
@@ -75,19 +73,19 @@ describe('Friends', () => {
                 </SessionContext.Provider>
             </IntlProvider>
         );
-        mockAxios.onGet('http://localhost:8000/getFriends/testUser').reply(200, [
+        mockAxios.onGet('http://localhost:8000/getFriends/testUser').reply(200, 
             { friends: ['friend1'] }
-        ]);
+        );
 
         // Wait for the friends to be fetched
         await screen.findByText('friend1');
         await mockAxios.reset();
-        mockAxios.onDelete('http://localhost:8000/deletefriend/testUser/friend1').reply(200, [
+        mockAxios.onDelete('http://localhost:8000/deletefriend/testUser/friend1').reply(200, 
             { friends: [] }
-        ]);
-        mockAxios.onGet('http://localhost:8000/getFriends/testUser').reply(200, [
+        );
+        mockAxios.onGet('http://localhost:8000/getFriends/testUser').reply(200, 
             { friends: [] }
-        ]);
+        );
         
 
         const deleteButton = screen.getByText('Delete friend');
