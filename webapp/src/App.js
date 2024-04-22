@@ -29,6 +29,7 @@ function App() {
     case 'fr':
         messages = messages_fr;
         break;
+    default: break;
   }
 
   const [daltonicMode, setDaltonicMode] = useState(false);
