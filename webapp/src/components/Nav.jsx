@@ -187,6 +187,8 @@ function Nav({ goTo, changeLanguage, locale, isInGame, changeDaltonicMode }) {
                     onChange={(e) => {setLangEnd(e.target.value)}}>
                   <MenuItem value="en"><FormattedMessage id="langen" /></MenuItem>
                   <MenuItem value="es"><FormattedMessage id="langes" /></MenuItem>
+                  <MenuItem value="it"><FormattedMessage id="langit" /></MenuItem>
+                  <MenuItem value="fr"><FormattedMessage id="langfr" /></MenuItem>
 
                 </Select>
               </FormControl>
