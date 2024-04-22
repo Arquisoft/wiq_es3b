@@ -56,5 +56,35 @@
     "question": "Domanda: ",
     "time": "Tempo: ",
     "next": "Avanti",
-    "endGame": "Fine Gioco"
+    "endGame": "Fine Gioco",
+
+    "friends": "Amici",
+    "search": "Cerca",
+    "actions": "Azioni",
+    "delete_friend": "Elimina amico",
+    "addFriend": "Aggiungi amico",
+    "friend_added": "Amico aggiunto con successo",
+    "friend_deleted": "Amico eliminato con successo",
+    "errorAddingFriend": "Errore durante l'aggiunta dell'amico",
+    "User not found": "Utente non trovato",
+    "Friend not found": "Amico non trovato",
+    "User and friend are required": "Utente e amico sono obbligatori",
+    "Friend already exists": "L'amico esiste già",
+    "error_adding_friend": "Errore durante l'aggiunta dell'amico",
+    "seeProfile": "Vedi profilo",
+    "error_getting_friends": "Errore durante il recupero degli amici",
+    "friend_list": "Lista amici",
+    "no_friends_yet": "Non hai ancora amici",
+
+
+    "Service down": "Servizio non disponibile",
+    
+    "participationTitle": "Partecipazione",
+    "totalGames": "Totale partite",
+    "correctAnswers": "Risposte corrette",
+    "incorrectAnswers": "Risposte errate",
+    "totalTime": "Tempo totale",
+    "noParticipationData": "Nessun dato di partecipazione",
+    "seconds": "secondi",
+    "loadingData": "Caricamento dati"
 }
