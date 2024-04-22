@@ -69,7 +69,7 @@ export const reloadF = (setSegundos, setSegundosInfinite, setNQuestion, setNumbe
     setReload(false);
 };
 
-const Question = ({ goTo, setGameFinished, settings, restart, locale }) => {
+const Question = ({ goTo, setGameFinished, settings, restart, locale, daltonicMode }) => {
 
     localStorage.setItem("pAcertadas", 0);
     localStorage.setItem("pFalladas", 0);
@@ -167,8 +167,8 @@ const Question = ({ goTo, setGameFinished, settings, restart, locale }) => {
 
     const getBackgroundColor = (option, index) => {
         if (selectedOption == null) return 'transparent';
-        if (!isCorrect(option) && index === selectedIndex) return 'red';
-        if (isCorrect(option)) return 'green';
+        if (!isCorrect(option) && index === selectedIndex) return daltonicMode ? '#cd4304' : 'red';
+        if (isCorrect(option)) return daltonicMode ? 'blue' : 'green';
     };
 
     // @SONAR_STOP@
@@ -225,7 +225,7 @@ const Question = ({ goTo, setGameFinished, settings, restart, locale }) => {
 
     return (
         
-            <div className='divPreguntas'>
+            <div className='divPreguntas appearEffectFast'>
                 <div className='questionTime'>
                     <div className='audioQuestion'>
                     <button onClick={() => changeSound()} style={{ border: 'none', background: 'none', padding: 0 }}>
@@ -242,12 +242,12 @@ const Question = ({ goTo, setGameFinished, settings, restart, locale }) => {
                     <div> {images} </div> :""}
                 </div>
                 <Card variant='outlined' sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }} className='questionBox'>
-                    <Typography className='titleQuestion' variant='h4' sx={{ padding: '10px 40px 30px 40px', color: '#8f95fd', fontSize: '2em' }}>
+                    <Typography className='titleQuestion upEffect' variant='h4' sx={{ padding: '10px 40px 30px 40px', color: '#8f95fd', fontSize: '2em' }}>
                         {question}
                     </Typography>
                     <List sx={{ bgcolor: '#333' }} disablePadding>
                         {options.map((option, index) => (
-                            <ListItem key={index+option}>
+                            <ListItem key={index+option} className='upEffect'>
                                 <ListItemButton className={isSelected ? 'disabledButton' : ''} onClick={() => handleSubmit(option, index)}
                                     sx={{ bgcolor: getBackgroundColor(option, index) }}>
                                     <ListItemText sx={{ textAlign: 'center', fontSize: '1em' }} >
@@ -270,7 +270,8 @@ const Question = ({ goTo, setGameFinished, settings, restart, locale }) => {
                 </ListItemButton>
                 : ""}
                 { settings.gMode === "infinite" ?
-                    <ListItemButton onClick={ () => handelInfiniteGameFinish( numberCorrect, numberIncorrect, segundosInfinite, goTo, setGameFinished) }
+                    <ListItemButton className='endGameButton'
+                        onClick={ () => handelInfiniteGameFinish( numberCorrect, numberIncorrect, segundosInfinite, goTo, setGameFinished) }
                         sx={{ color: '#f35858', justifyContent: 'center', marginTop: 2 }}>
                         <FormattedMessage id="endGame" />
                     </ListItemButton>

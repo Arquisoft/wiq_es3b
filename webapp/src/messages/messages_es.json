@@ -15,8 +15,12 @@
   "userAdd": "Usuario agregado exitosamente",
   "passwordNotMatch": "Las contraseñas no coinciden",
 
+  "menu": "Menú",
   "langen": "Inglés",
   "langes": "Español",
+  "langit": "Italiano",
+  "langfr": "Francés",
+  "daltonic": "Modo daltónico",
   "logout": "Cerrar sesión",
   "btm": "Volver al menú",
 
@@ -73,5 +77,14 @@
   "no_friends_yet": "¡Aún no tienes amigos!",
 
 
-  "Service down": "Servicio no disponible"
+  "Service down": "Servicio no disponible",
+
+  "participationTitle": "Participación",
+  "totalGames": "Número de partidas jugadas",
+  "correctAnswers": "Preguntas acertadas",
+  "incorrectAnswers": "Preguntas falladas",
+  "totalTime": "Tiempo total jugando",
+  "noParticipationData": "No hay datos de participación",
+  "seconds": "segundos",
+  "loadingData": "Cargando datos"
 }

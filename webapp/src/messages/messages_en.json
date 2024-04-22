@@ -15,8 +15,12 @@
     "userAdd": "User added successfully",
     "passwordNotMatch": "Passwords do not match",
 
+    "menu": "Menu",
     "langen": "English",
     "langes": "Spanish",
+    "langit": "Italian",
+    "langfr": "French",
+    "daltonic": "Color blind Mode",
     "logout": "Logout",
     "btm": "Back to menu",
 
@@ -74,5 +78,14 @@
     
 
 
-    "Service down": "Service down"
-  }
+    "Service down": "Service down",
+
+    "participationTitle": "Participation",
+    "totalGames": "Total Games",
+    "correctAnswers": "Correct Answers",
+    "incorrectAnswers": "Incorrect Answers",
+    "totalTime": "Total Time",
+    "noParticipationData": "No participation data",
+    "seconds": "seconds",
+    "loadingData": "Loading data"
+}

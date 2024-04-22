@@ -1,3 +1,7 @@
 .btn {
     margin-top: 1em;
 }
+
+.inputsRegister > div {
+    opacity: 0;
+}

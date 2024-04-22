@@ -53,7 +53,7 @@ export const PostGame = ({ gameMode }) => {
     }, [sessionData]); // Ejecuta saveGame cada vez que sessionData cambie
 
     return (
-        <div>
+        <div className='appearEffectFast'>
             <Typography sx={{ textAlign: 'center', fontSize:'2em', margin:'0 0 0.3em 0 !important', color:'#8f95fd' }}>Game Over</Typography>
             <Card>
             <TableContainer component={Paper}>
