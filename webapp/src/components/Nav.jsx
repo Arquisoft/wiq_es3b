@@ -85,7 +85,7 @@ function Nav({ goTo, changeLanguage, locale, isInGame, changeDaltonicMode }) {
           </a>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
+            <IconButton className='menuLeft'
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -95,7 +95,7 @@ function Nav({ goTo, changeLanguage, locale, isInGame, changeDaltonicMode }) {
             >
               <MenuIcon />
             </IconButton>
-            <Menu
+            <Menu 
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -134,9 +134,11 @@ function Nav({ goTo, changeLanguage, locale, isInGame, changeDaltonicMode }) {
               <FormControl className={isInGame? 'language disable':'language' } fullWidth margin="normal" 
                 sx={{ display:'block', marginTop:'0.2em', zIndex:'9999' }}>
                 <Select labelId="language-label" id="language-select" value={langEnd}
-                    onChange={(e) => {setLangEnd(e.target.value)}}>
+                    onChange={(e) => {setLangEnd(e.target.value)}} className='languageButton' >
                   <MenuItem value="en"><FormattedMessage id="langen" /></MenuItem>
                   <MenuItem value="es"><FormattedMessage id="langes" /></MenuItem>
+                  <MenuItem value="it"><FormattedMessage id="langit" /></MenuItem>
+                  <MenuItem value="fr"><FormattedMessage id="langfr" /></MenuItem>
 
                 </Select>
               </FormControl>
