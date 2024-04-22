@@ -59,6 +59,12 @@
 	"Which is the original language of?": "Which is the original language of %s?",
 	"Which book is written in?": "Which book is written originally in %s?",
 	"Which book was written by?": "Which book was written by %s?",
-	"Which book belongs to genre?": "Which book belongs to genre %s?"
+	"Which book belongs to genre?": "Which book belongs to genre %s?",
+
+	"Which is the homeVenue of?": "Which is the homeVenue of %s?",
+	"Which is the coach of?": "Which is the coach of %s?",
+	"Which basketball team plays in?": "Which basketball team plays in %s?",
+	"Which basketball team is trained by?": "Which basketball team is trained by %s?"
+
 
 }

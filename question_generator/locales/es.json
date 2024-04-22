@@ -60,7 +60,12 @@
 	"Which is the original language of?": "¿Cuál es el idioma original de %s?",
 	"Which book is written in?": "¿Qué libro está escrito originalmente en %s?",
 	"Which book was written by?": "¿Qué libro fue escrito por %s?",
-	"Which book belongs to genre?": "¿Qué libro pertenece al género %s?"
+	"Which book belongs to genre?": "¿Qué libro pertenece al género %s?",
+
+	"Which is the homeVenue of?": "¿Cuál es el estadio de %s?",
+	"Which is the coach of?": "¿Quién es el entrenador de %s?",
+	"Which basketball team plays in?": "¿Qué equipo juega en %s?",
+	"Which basketball team is trained by?": "¿Qué equipo es entrenado por %s?"
 
 	
 }
