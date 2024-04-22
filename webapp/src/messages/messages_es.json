@@ -54,5 +54,14 @@
   "question": "Pregunta: ",
   "time": "Tiempo: ",
   "next": "Siguiente",
-  "endGame": "Terminar Juego"
+  "endGame": "Terminar Juego",
+
+  "participationTitle": "Participación",
+  "totalGames": "Número de partidas jugadas",
+  "correctAnswers": "Preguntas acertadas",
+  "incorrectAnswers": "Preguntas falladas",
+  "totalTime": "Tiempo total jugando",
+  "noParticipationData": "No hay datos de participación",
+  "seconds": "segundos",
+  "loadingData": "Cargando datos"
 }

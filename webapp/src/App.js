@@ -36,7 +36,7 @@ function App() {
       <IntlProvider locale={locale} messages={messages}>
         {menuState === 0 && <User goTo={(x) => goTo(x)} changeLanguage={(y) => changeLanguage(y)} locale={locale}/>}
         {menuState > 0 && <Nav goTo={(x) => goTo(x)} changeLanguage={(y) => changeLanguage(y)} locale={locale}
-          isInGame={menuState >= 2 && menuState <= 6} changeDaltonicMode={() => changeDaltonicMode()} />}
+          isInGame={menuState >= 2 && menuState <= 7} changeDaltonicMode={() => changeDaltonicMode()} />}
         {menuState === 1 && <Start goTo={(x) => goTo(x)}/>}
         {menuState === 2 && <Game gameMode="classic" locale={locale} daltonicMode={daltonicMode} />}
         {menuState === 3 && <Game gameMode="infinite" locale={locale} daltonicMode={daltonicMode} />}
