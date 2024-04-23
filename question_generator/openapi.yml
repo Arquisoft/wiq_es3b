@@ -4,9 +4,7 @@ info:
   version: 1.0.0
 servers:
   - url: 'http://localhost:8003'
-    description: Development server
-  - url: http://SOMEIP:8003
-    description: Production server
+  - url: http://questiongenerationservice:8003
 paths:
   /api/questions/create:
     get:
@@ -17,6 +15,11 @@ paths:
           schema:
             type: string
           description: The language for the question
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: The category of the question
       responses:
         '200':
           description: Question created successfully

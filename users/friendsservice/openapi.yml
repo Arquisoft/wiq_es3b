@@ -21,14 +21,12 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  username:
-                    type: string
-                  friends:
-                    type: array
-                    items:
-                      type: string
+                type: array
+                items:
+                $ref: '#/components/schemas/Friend'
+              example:
+                  username: 'user1'
+                  friends: ['friend1', 'friend2']
         '400':
           description: Bad request
           content:
@@ -112,3 +110,14 @@ paths:
                 properties:
                   error:
                     type: string
+components:
+  schemas:
+    Friend: 
+      type: object
+      properties:
+        username: 
+          type: string
+        friends:
+          type: array
+          items:
+            type: string

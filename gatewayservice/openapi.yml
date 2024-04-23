@@ -353,7 +353,7 @@ paths:
                 correctAnswers: 6
                 incorrectAnswers: 16
                 totalTime: 51
-        '404':
+        '204':
           description: No participation data found for the user.
         '500':
           description: Service down
