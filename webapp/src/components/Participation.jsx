@@ -9,7 +9,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { PieChart, Pie, Tooltip, Cell } from 'recharts';
+import { PieChart, Pie, Tooltip, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 
 const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
@@ -92,6 +92,15 @@ export const Participation = ({ goTo }) => {
                 </Pie>
                 <Tooltip />
               </PieChart>
+
+              <BarChart width={400} height={400} data={participationData.gameModes}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="gameMode" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="totalGames" fill="#8884d8" />
+              </BarChart>
             </div>
           </div>
         ) : (

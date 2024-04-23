@@ -152,6 +152,9 @@ app.get('/getParticipation/:userId', async (req, res) => {
           correctAnswers: { $sum: "$pAcertadas" },
           incorrectAnswers: { $sum: "$pFalladas" },
           totalTime: { $sum: "$totalTime" },
+          gameModes: {
+            $push: { gameMode: "$gameMode", totalGames: 1 } // Guarda el modo de juego y el número de partidas en un array
+          }
         },
       },
     ]);
