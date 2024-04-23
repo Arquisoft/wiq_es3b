@@ -22,29 +22,29 @@ beforeAll(async () => {
     User = await require('../userservice/user-model')(connectionUsers);
 });
 beforeEach(async () => {
-    const friend = await Friends.create({
+    await Friends.create({
       username: 'user1',
       friends: ['user2', 'user3']
     });
-    const user1 = await User.create({
+    await User.create({
         username: 'user1',
         password: 'password123',
         profileImage: 'defaultProfileImg',
         createdAt: new Date('2022-01-01')
     });
-    const user2 = await User.create({
+     await User.create({
         username: 'user2',
         password: 'password123',
         profileImage: 'defaultProfileImg',
         createdAt: new Date('2022-01-01')
     });
-    const user3 = await User.create({
+    await User.create({
         username: 'user3',
         password: 'password123',
         profileImage: 'defaultProfileImg',
         createdAt: new Date('2022-01-01')
     });
-    const user4 = await User.create({
+    await User.create({
         username: 'user4',
         password: 'password123',
         profileImage: 'defaultProfileImg',
