@@ -5,7 +5,7 @@ info:
 servers:
   - url: 'http://localhost:8000'
     description: Development server
-  - url: http://SOMEIP:8000
+  - url: http://172.187.201.54:8000
     description: Production server
 paths:
   /login:
@@ -20,8 +20,10 @@ paths:
       responses:
         '200':
           description: Login successful
-        '500':
+        '400':
           description: Error occurred while forwarding the login request
+        '500':
+          description: Service down
   /adduser:
     post:
       summary: Forward the add user request to the user service
@@ -34,8 +36,10 @@ paths:
       responses:
         '200':
           description: User added successfully
-        '500':
+        '400':
           description: Error occurred while forwarding the add user request
+        '500':
+          description: Service down
   /addquestion:
     post:
       summary: Add a new question
@@ -48,8 +52,10 @@ paths:
       responses:
         '200':
           description: Question added successfully
-        '500':
+        '400':
           description: Error occurred while adding question
+        '500':
+          description: Service down
   /addgame:
     post:
       summary: Add a new game
@@ -62,11 +68,73 @@ paths:
       responses:
         '200':
           description: Game added successfully
-        '500':
+        '400':
           description: Error occurred while adding game
+        '401':
+          description: Unauthorized
+        '500':
+          description: Service down
       security:
         - bearerAuth: []
-      
+  /addfriend:
+    post:
+      summary: Add a new friend
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                friend:
+                  type: string
+      responses:
+        '200':
+          description: Friend added successfully
+        '400':
+          description: Error occurred while adding friend
+        '401':
+          description: Unauthorized
+        '500':
+          description: Service down
+      security:
+        - bearerAuth: []
+  /deletefriend/{username}/{friend}:
+    delete:
+      summary: Delete a friend
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+          description: The username of the user
+        - in: path
+          name: friend
+          schema:
+            type: string
+          required: true
+          description: The username of the friend to delete
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: string
+      responses:
+        '200':
+          description: Friend deleted successfully
+        '400':
+          description: Error occurred while deleting friend
+        '401':
+          description: Unauthorized
+        '500':
+          description: Service down
+      security:
+        - bearerAuth: []
   /verify:
     get:
       summary: Verify the authorization token
@@ -95,7 +163,7 @@ paths:
                 properties:
                   error:
                     type: string
-        '500':
+        '400':
           description: Error occurred while verifying authorization token
           content:
             application/json:
@@ -104,6 +172,8 @@ paths:
                 properties:
                   error:
                     type: string
+        '500':
+          description: Service down
       security:
         - bearerAuth: []
 
@@ -137,8 +207,10 @@ paths:
                     type: array
                     items:
                       type: string
-        '500':
+        '400':
           description: Error occurred while creating question
+        '500':
+          description: Service down
   /api/info/questions:
     get:
       summary: Get information about questions
@@ -179,10 +251,10 @@ paths:
                           - Abraham Lincoln
                           - Thomas Jefferson
                         generationDate: '2022-10-02T14:30:00Z'
-        '400':
+        '404':
           description: No questions found
         '500':
-          description: Error occurred while retrieving information about questions
+          description: Service down
   /api/info/games:
       get:
         summary: Get information about games
@@ -222,7 +294,7 @@ paths:
           '404':
             description: No information for games found
           '500':
-            description: Error occurred while retrieving information about games
+            description: Service down
   /api/info/users:
     get:
       summary: Get information about games
@@ -284,7 +356,33 @@ paths:
         '404':
           description: No participation data found for the user.
         '500':
-          description: Error occurred while retrieving participation
+          description: Service down
+  /getFriends/{username}:
+    get:
+      summary: Get friends of a user
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+          description: The username of the user
+      responses:
+        '200':
+          description: Friends retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                $ref: '#/components/schemas/Friend'
+              example:
+                  username: 'user1'
+                  friends: ['friend1', 'friend2']
+        '400':
+          description: Error occurred while retrieving friends
+        '500':
+          description: Service down
 components:
   securitySchemes:
     bearerAuth: # Define un esquema de seguridad 'bearerAuth' para JWT
@@ -362,3 +460,12 @@ components:
         createdAt:
           type: string
           format: date-time
+    Friend: 
+      type: object
+      properties:
+        username: 
+          type: string
+        friends:
+          type: array
+          items:
+            type: string

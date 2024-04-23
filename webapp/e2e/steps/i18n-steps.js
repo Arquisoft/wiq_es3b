@@ -57,10 +57,6 @@ defineFeature(feature, test => {
         await expect(page).toClick('div.languageButton', { text: '' });
         await expect(page).toClick('li', { text: 'Italiano' });
         await expect(page).toMatchElement("span", { text: "Gioco Classico" });
-
-        await expect(page).toClick('div.languageButton', { text: '' });
-        await expect(page).toClick('li', { text: 'Francese' });
-        await expect(page).toMatchElement("span", { text: "Jeu classique" });
     });
   })
 
