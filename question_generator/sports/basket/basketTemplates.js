@@ -26,6 +26,16 @@ const templates=[
     },
     async ()=>
     {
+        const results = await basketQuery.getDivisionByTeam();
+        return{
+            "question":"Which is the division of?",
+            "question_param":results.question_param,
+            "correct":results.correct,
+            "incorrects":results.incorrects
+        }
+    },
+    async ()=>
+    {
         const results = await basketQuery.doQuestion('headCoach', 4);
         return{
             "question":"Which basketball team is trained by?",
@@ -39,6 +49,16 @@ const templates=[
         const results = await basketQuery.doQuestion('homeVenue', 4);
         return{
             "question": "Which basketball team plays in?",
+            "question_param":results.question_param,
+            "correct":results.correct,
+            "incorrects":results.incorrects
+        }
+    },
+    async ()=>
+    {
+        const results = await basketQuery.doQuestion('division', 4);
+        return{
+            "question": "Which basketball team belongs to?",
             "question_param":results.question_param,
             "correct":results.correct,
             "incorrects":results.incorrects

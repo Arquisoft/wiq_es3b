@@ -22,7 +22,7 @@
 	"Which coach trains?": "Quale allenatore allena %s?",
 	"Which is the stadium of?": "Qual è lo stadio di %s?",
 	"Which f1 driver was born in?": "In quale paese è nato il pilota di Formula 1 %s?",
-	"Which song is sung by?": "Quale canzone è cantata da %s?",
+	"Which song is song by?": "Quale canzone è cantata da %s?",
 	"Which song was released in?": "Quale canzone è stata pubblicata nel %s?",
 	"Which song belongs to?": "A quale album appartiene la canzone %s?",
 	"Which serie has episodes?": "Quale serie ha %s episodi?",
@@ -41,6 +41,8 @@
 	"Which is the homeVenue of?": "Qual è il luogo di casa di %s?",
 	"Which is the coach of?": "Chi è l'allenatore di %s?",
 	"Which basketball team plays in?": "In quale squadra gioca %s?",
-	"Which basketball team is trained by?": "Quale squadra è allenata da %s?"
+	"Which basketball team is trained by?": "Quale squadra è allenata da %s?",
+	"Which basketball team belongs to?": "A quale squadra di basket appartiene %s?",
+    "Which is the division of?": "Quale è la divisione di %s?"
 	
 }

@@ -41,6 +41,8 @@
 	"Which is the homeVenue of?": "Quel est le domicile de %s?",
 	"Which is the coach of?": "Qui est l'entraîneur de %s?",
 	"Which basketball team plays in?": "Dans quelle équipe joue %s ?",
-	"Which basketball team is trained by?": "Quelle équipe est entraînée par %s ?"
+	"Which basketball team is trained by?": "Quelle équipe est entraînée par %s ?",
+	"Which basketball team belongs to?": "À quel équipe de basket appartient %s?",
+    "Which is the division of?": "Quelle est la division de %s?"
 
 }

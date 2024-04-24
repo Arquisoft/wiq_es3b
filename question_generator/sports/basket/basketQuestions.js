@@ -16,14 +16,15 @@ class BasketQuestions{
         let result={};
         const queries=[
             `
-            SELECT ?equipo ?equipoLabel (GROUP_CONCAT(?followers; separator=", ") as ?allFollowers)
+            SELECT ?equipo ?equipoLabel (GROUP_CONCAT(?followers; separator=", ") as ?allFollowers) ?homeVenueLabel
             WHERE {
             ?equipo wdt:P31 wd:Q13393265;
                     wdt:P118 wd:Q155223 .
-            ?equipo wdt:P8687 ?followers
+            ?equipo wdt:P8687 ?followers .
+            ?equipo wdt:P115 ?homeVenue
             SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             }
-            GROUP BY ?equipo ?equipoLabel
+            GROUP BY ?equipo ?equipoLabel ?homeVenueLabel
             `
         ];
         for(let i = 0; i <queries.length; i++) {
@@ -32,10 +33,12 @@ class BasketQuestions{
             teams.forEach(team=>{
                 const teamId = team.equipo.value.match(/Q\d+/)[0];
                 const teamName = team.equipoLabel.value;
+                const homeVenue = team.homeVenueLabel.value;
                 if (!result[teamId]) {
                     result[teamId] = {
                         teamId: teamId,
                         name: teamName,
+                        homeVenue: homeVenue,
                     }
                 }
             });
@@ -52,8 +55,8 @@ class BasketQuestions{
                 id: 'P286'
             },
             {
-                name:'homeVenue',
-                id: 'P115'
+                name:'division',
+                id: 'P361'
             }
         ]
         for(let i = 0; i <Object.keys(newResults).length; i++) {
@@ -116,6 +119,27 @@ class BasketQuestions{
             let team=(await this.getRandomTeam(1))[0];
             if(team.name!=name){
                 incorrects.push(team.headVenue);
+                i++;
+            }
+        }
+        return {
+            question_param:name,
+            correct:correct,
+            incorrects:incorrects
+        }
+    }
+    async getDivisionByTeam() {
+        let numberOfTeams=4;
+        let result =(await this.getRandomTeam(1))[0];
+        let name = result.name;
+        
+        let correct = result.division;
+        let incorrects = []
+        let i=1;
+        while(i<numberOfTeams){
+            let team=(await this.getRandomTeam(1))[0];
+            if(team.division!=correct && !incorrects.includes(team.division)){
+                incorrects.push(team.division);
                 i++;
             }
         }
