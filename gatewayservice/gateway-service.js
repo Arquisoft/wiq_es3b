@@ -14,6 +14,7 @@ const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 const questionGenerationServiceUrl = process.env.QUESTION_GENERATION_SERVICE_URL || 'http://localhost:8003';
 const questionServiceUrl = process.env.QUESTIONS_SERVICE_URL || 'http://localhost:8004';
 const gameServiceUrl = process.env.GAME_SERVICE_URL || 'http://localhost:8005';
+const friendServiceUrl = process.env.FRIENDS_SERVICE_URL || 'http://localhost:8006';
 
 app.use(cors());
 app.use(express.json());
@@ -22,8 +23,7 @@ app.use(express.json());
 const metricsMiddleware = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
-// Security middleware
-app.post('/addgame', async (req, res, next) => {
+app.delete('/deletefriend/:username/:friend', async (req, res, next) => {
   if (req.headers.authorization) {
     try{
       const response = await axios.get(`${authServiceUrl}/verify`, {
@@ -32,6 +32,28 @@ app.post('/addgame', async (req, res, next) => {
         }
       });
       if(response.status===200){
+        req.body.user = response.data.username;
+        next();
+      }
+    }catch(error){
+      res.status(401).json({ error: 'Unauthorized' });
+    }
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+});
+// Security middleware
+app.post(['/addgame','/addfriend'], async (req, res, next) => {
+  if (req.headers.authorization) {
+    try{
+      const response = await axios.get(`${authServiceUrl}/verify`, {
+        headers: {
+          Authorization: req.headers.authorization
+        }
+      });
+      if(response.status===200){
+        req.body.user = response.data.username;
+        req.body.userId = response.data._id;
         next();
       }
     }catch(error){
@@ -169,13 +191,55 @@ app.get('/api/info/games', async (req, res) => {
   }
 });
 
-// Ruta para agregar una nuevo game
+// Ruta para agregar una nuevo amigo
 app.post('/addgame', async (req, res) => {
   try {
     try{
       // Forward the add game request to the games service
       const gameResponse = await axios.post(gameServiceUrl + '/addgame', req.body);
       res.json(gameResponse.data);
+    }catch(error){
+      res.status(error.response.status).json(error.response.data);
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Service down" });
+  }
+});
+
+// Ruta para agregar una nuevo game
+app.post('/addfriend', async (req, res) => {
+  try {
+    try{
+      // Forward the add game request to the games service
+      const friendsResponse = await axios.post(friendServiceUrl + '/addfriend', req.body);
+      res.json(friendsResponse.data);
+    }catch(error){
+      res.status(error.response.status).json(error.response.data);
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Service down" });
+  }
+});
+app.delete('/deletefriend/:username/:friend', async (req, res) => {
+  try {
+    try{
+      if(req.body.user!==req.params.username){
+        throw new Error('Unauthorized');
+      }
+      const friendsResponse = await axios.delete(friendServiceUrl + '/deletefriend/'+req.body.user+'/'+req.params.friend);
+      res.json(friendsResponse.data);
+    }catch(error){
+      res.status(error.response.status).json(error.response.data);
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Service down" });
+  }
+});
+app.get('/getFriends/:username', async (req, res) => {
+  try {
+    try{
+      const friendsResponse = await axios.get(friendServiceUrl + '/getFriends/'+req.params.username);
+      res.json(friendsResponse.data);
     }catch(error){
       res.status(error.response.status).json(error.response.data);
     }

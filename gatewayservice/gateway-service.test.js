@@ -322,6 +322,84 @@ describe('addGame', () =>{
     expect(response.statusCode).toBe(401);
     expect(response.body).toEqual({ error: 'Unauthorized' });
   });
+});
+describe('POST /addfriend', () => {
+  it('should skip the middleware and return 401 Unauthorized if authorization token is missing', async () => {
+    const response = await request(app).post('/addfriend');
+    expect(response.statusCode).toBe(401);
+    expect(response.body).toEqual({ error: 'Unauthorized' });
+  });
 
+  it('should skip the middleware and return 401 Unauthorized if authorization token is invalid', async () => {
+    const mockedToken = 'invalidToken';
+    axios.get.mockRejectedValueOnce({ response: { status: 401 } });
+    const response = await request(app)
+      .post('/addfriend')
+      .set('Authorization', `Bearer ${mockedToken}`);
+    expect(response.statusCode).toBe(401);
+    expect(response.body).toEqual({ error: 'Unauthorized' });
+  });
 
+  it('should skip the middleware and call the next middleware if authorization token is valid', async () => {
+    const mockedToken = 'validToken';
+    const mockedResponse = { status: 200, data: { username: 'mockedUser' } };
+    axios.post.mockResolvedValueOnce(mockedResponse);
+    axios.get.mockResolvedValueOnce(mockedResponse);
+    const nextMiddleware = jest.fn();
+
+    await request(app)
+      .post('/addfriend')
+      .send({ username: 'mockedUser', friend: 'mockedFriend'})
+      .set('Authorization', `Bearer ${mockedToken}`);
+      nextMiddleware(); 
+    expect(nextMiddleware).toHaveBeenCalled();
+  });
+});
+describe('Friend Service', () => {
+  
+
+  // Test middleware for deletefriend endpoint
+  it('should call the next middleware if authorization token is valid', async () => {
+    const mockedToken = 'validToken';
+    const mockedResponse = { status: 200, data: { username: 'mockedUser' } };
+    axios.delete.mockResolvedValueOnce(mockedResponse);
+    axios.get.mockResolvedValueOnce(mockedResponse);
+    await request(app)
+      .delete('/deletefriend/testuser/friend')
+      .set('Authorization', `Bearer ${mockedToken}`);
+  });
+  it('should return 401 Unauthorized if authorization token is missing', async () => {
+    const response = await request(app).delete('/deletefriend/testuser/friend');
+    expect(response.statusCode).toBe(401);
+    expect(response.body).toEqual({ error: 'Unauthorized' });
+  });
+  it('should return 401 Unauthorized if authorization token is invalid', async () => {
+    const mockedToken = 'invalidToken';
+    axios.get.mockRejectedValueOnce({ response: { status: 401 } });
+    const response = await request(app)
+      .delete('/deletefriend/testuser/friend')
+      .set('Authorization', `Bearer ${mockedToken}`);
+    expect(response.statusCode).toBe(401);
+    expect(response.body).toEqual({ error: 'Unauthorized' });
+  });
+
+  // Test /getFriends endpoint
+  it('should forward get friends request to friend service', async () => {
+    const mockedUsername = 'testuser';
+    const mockedFriends = ['friend1', 'friend2'];
+    axios.get.mockResolvedValueOnce({ data: mockedFriends , status: 200});
+    const response = await request(app)
+      .get(`/getFriends/${mockedUsername}`);
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(mockedFriends);
+  });
+  it('should return an error when the friend service is down', async () => {
+    const mockedUsername = 'testuser';
+    const mockedError = { error: 'Service down' };
+    jest.spyOn(axios, 'get').mockImplementation({ response: { status: 500, data: { error: 'Service down' } } });
+    const response = await request(app)
+      .get(`/getFriends/${mockedUsername}`);
+    expect(response.statusCode).toBe(500);
+    expect(response.body).toEqual(mockedError);
+  });
 });

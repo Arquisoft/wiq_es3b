@@ -5,6 +5,7 @@ import { Start } from './components/Start'
 import { Game } from './components/Game'
 import { Participation } from './components/Participation'
 import User from './components/User'
+import Friends from  './components/Friends'
 
 import { IntlProvider } from 'react-intl';
 import messages_en from './messages/messages_en.json';
@@ -61,6 +62,7 @@ function App() {
         {menuState === 5 && <Game gameMode="category" locale={locale} daltonicMode={daltonicMode} />}
         {menuState === 6 && <Game gameMode="custom" locale={locale} daltonicMode={daltonicMode} />}
         {menuState === 7 && <Participation goTo={(x) => goTo(x)}/>}
+        {menuState === 8 && <Friends goTo={(x) => goTo(x)}/>}
       </IntlProvider>
     </>
   )

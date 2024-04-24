@@ -62,6 +62,11 @@ function Nav({ goTo, changeLanguage, locale, isInGame, changeDaltonicMode }) {
     handleCloseNavMenu();
     handleCloseUserMenu();
   }
+  const goToFriendsClic = () => {
+    goTo(8);
+    handleCloseNavMenu();
+    handleCloseUserMenu();
+  }
 
   const logoutClic = async() => {
     clearSessionData();
@@ -116,6 +121,9 @@ function Nav({ goTo, changeLanguage, locale, isInGame, changeDaltonicMode }) {
               
               <MenuItem className='menu' onClick={() => goToMenuClic()}>
                 <Typography textAlign="center"><FormattedMessage id="btm" /></Typography>
+              </MenuItem>
+              <MenuItem className='menu' onClick={() => goToFriendsClic()}>
+                <Typography textAlign="center"><FormattedMessage id="friends" /></Typography>
               </MenuItem>
               <Button
                 href={gatewayUrl + '/api-doc'}
@@ -183,6 +191,13 @@ function Nav({ goTo, changeLanguage, locale, isInGame, changeDaltonicMode }) {
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 Github Repo
+              </Typography>
+              <Typography sx={{ my: 2, color: 'white', display: 'block' }}>|</Typography>
+              <Typography component="a"
+                onClick={() => goToFriendsClic()} className='optionsNav'
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                <FormattedMessage id="friends" />
               </Typography>
               <FormControl className={isInGame? 'language disable':'language' } fullWidth margin="normal" sx={{ display:'block', marginTop:'0.2em' }}>
                 <Select labelId="language-label" id="language-select" value={langEnd}

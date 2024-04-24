@@ -26,13 +26,13 @@ const validateRequiredFields = (req, fields) => {
 // Ruta para agregar un nuevo juego
 app.post('/addgame', async (req, res) => {
   try {
-    validateRequiredFields(req, ['user', 'pAcertadas', 'pFalladas', 'totalTime', 'gameMode']);
+    validateRequiredFields(req, ['userId', 'pAcertadas', 'pFalladas', 'totalTime', 'gameMode']);
 
-    const { user, pAcertadas, pFalladas, totalTime, gameMode } = req.body;
+    const { userId, pAcertadas, pFalladas, totalTime, gameMode } = req.body;
 
     // Crea una nueva instancia del modelo de juegos
     const newGame = new Game({
-      user: user, 
+      user: userId, 
       pAcertadas: pAcertadas,
       pFalladas: pFalladas,
       totalTime: totalTime,

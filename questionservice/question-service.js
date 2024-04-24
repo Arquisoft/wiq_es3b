@@ -53,9 +53,9 @@ app.get('/api/info/questions', async (req, res) => {
     const { id, user, category } = req.query;
     let query = {};
 
-    if (id) query._id = id;
-    if (user !== undefined) query.user = user === '' ? null : user;
-    if (category) query.category = category;
+    if (id) query._id = id.toString();
+    if (user !== undefined) query.user = user === '' ? null : user.toString();
+    if (category) query.category = category.toString();
 
     const questions = await Question.find(query);
     if (!questions) {

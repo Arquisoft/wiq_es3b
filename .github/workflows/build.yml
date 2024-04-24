@@ -18,6 +18,7 @@ jobs:
     - run: npm --prefix question_generator ci
     - run: npm --prefix questionservice ci
     - run: npm --prefix gameservice ci
+    - run: npm --prefix users/friendsservice ci
     - run: npm --prefix gatewayservice ci
     - run: npm --prefix webapp ci
     - run: npm --prefix users/authservice test -- --coverage
@@ -25,6 +26,7 @@ jobs:
     - run: npm --prefix question_generator test
     - run: npm --prefix questionservice test -- --coverage
     - run: npm --prefix gameservice test -- --coverage
+    - run: npm --prefix users/friendsservice test -- --coverage
     - run: npm --prefix gatewayservice test -- --coverage
     - run: npm --prefix webapp test -- --coverage
     - name: Analyze with SonarCloud
@@ -45,6 +47,7 @@ jobs:
     - run: npm --prefix question_generator install
     - run: npm --prefix questionservice install
     - run: npm --prefix gameservice install
+    - run: npm --prefix users/friendsservice install
     - run: npm --prefix gatewayservice install
     - run: npm --prefix webapp install
     - run: npm --prefix webapp run build
