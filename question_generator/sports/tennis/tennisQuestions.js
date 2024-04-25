@@ -151,20 +151,20 @@ class TennisQuestions{
     async getPlayerByWins() {
         let numberOfPlayers=4;
         let result =(await this.getRandomPlayers(1))[0];
-        let name = result.playerName;
+        let wins = result.wins;
         
-        let correct = result.wins;
+        let correct = result.playerName;
         let incorrects = []
         let i=1;
         while(i<numberOfPlayers){
             let player=(await this.getRandomPlayers(1))[0];
-            if(player.wins!=correct){
-                incorrects.push(player.wins);
+            if(player.playerName!=correct){
+                incorrects.push(player.playerName);
                 i++;
             }
         }
-        return {
-            question_param:name,
+        return { 
+            question_param:wins,
             correct:correct,
             incorrects:incorrects
         }

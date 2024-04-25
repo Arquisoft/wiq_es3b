@@ -118,7 +118,7 @@ class BasketQuestions{
         while(i<numberOfTeams){
             let team=(await this.getRandomTeam(1))[0];
             if(team.name!=name){
-                incorrects.push(team.headVenue);
+                incorrects.push(team.homeVenue);
                 i++;
             }
         }

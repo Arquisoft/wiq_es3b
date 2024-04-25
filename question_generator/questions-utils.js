@@ -25,8 +25,8 @@ class QuestionsUtils{
                 result.correct=value.name;
                 break;
             }
-            else if ((!(result.incorrects.includes(value.name)||result.propertyResult==value[property]))&& value[property]!=undefined
-            && !/^Q\d+/.test(value.name) && value.name.trim() !== "") {
+            else if ((!(result.incorrects.includes(value.name)||result.propertyResult==value[property]))
+            && value[property]!=undefined && !/^Q\d+/.test(value.name) && value.name.trim() !== "") {
                 result.incorrects.push(value.name);
                 break;
             }
