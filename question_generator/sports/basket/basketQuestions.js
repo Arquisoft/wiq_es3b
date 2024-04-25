@@ -1,11 +1,11 @@
 const console = require('console')
 const queryExecutor=require("../../queryExecutor")
 const QuestionsUtils = require("../../questions-utils");
-class FootballQuestions{
-    #footballQuestions=null;
+class BasketQuestions{
+    #basketQuestions=null;
     static getInstance(){
         if (!this.questions) {
-            this.questions = new FootballQuestions();
+            this.questions = new BasketQuestions();
           }
           return this.questions;
     }
@@ -16,15 +16,15 @@ class FootballQuestions{
         let result={};
         const queries=[
             `
-            SELECT DISTINCT ?equipo ?equipoLabel ?followers
+            SELECT ?equipo ?equipoLabel (GROUP_CONCAT(?followers; separator=", ") as ?allFollowers) ?homeVenueLabel
             WHERE {
-                ?equipo wdt:P31 wd:Q476028;  
-                        wdt:P17 wd:Q29;
-                OPTIONAL {?equipo wdt:P8687 ?followers }
-                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+            ?equipo wdt:P31 wd:Q13393265;
+                    wdt:P118 wd:Q155223 .
+            ?equipo wdt:P8687 ?followers .
+            ?equipo wdt:P115 ?homeVenue
+            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             }
-            ORDER BY DESC(?followers)
-            LIMIT 50 
+            GROUP BY ?equipo ?equipoLabel ?homeVenueLabel
             `
         ];
         for(let i = 0; i <queries.length; i++) {
@@ -33,12 +33,12 @@ class FootballQuestions{
             teams.forEach(team=>{
                 const teamId = team.equipo.value.match(/Q\d+/)[0];
                 const teamName = team.equipoLabel.value;
-                const followers = team.followers.value;
+                const homeVenue = team.homeVenueLabel.value;
                 if (!result[teamId]) {
                     result[teamId] = {
                         teamId: teamId,
                         name: teamName,
-                        followers: followers,
+                        homeVenue: homeVenue,
                     }
                 }
             });
@@ -51,20 +51,12 @@ class FootballQuestions{
         let newResults = await this.loadValues();
         const propertiesToLoad=[
             {
-                name:'country',
-                id: 'P17'
-            },
-            {
-                name:'coach',
+                name:'headCoach',
                 id: 'P286'
             },
             {
-                name:'stadium',
-                id: 'P115'
-            },
-            {
-                name:'inception',
-                id: 'P571'
+                name:'division',
+                id: 'P361'
             }
         ]
         for(let i = 0; i <Object.keys(newResults).length; i++) {
@@ -94,21 +86,18 @@ class FootballQuestions{
         const randomResults = array.sort(() => Math.random() - 0.5).slice(0, numberOfTeams);
         return randomResults
     }
-    async getCoachOfTeam() {
+    async getCoachByTeam() {
         let numberOfTeams=4;
         let result =(await this.getRandomTeam(1))[0];
-        while(result.coach == undefined || result.coach.trim() == "" || /^Q\d+/.test(result.coach) ){
-            result =(await this.getRandomTeam(1))[0];
-        }
         let name = result.name;
         
-        let correct = result.coach;
+        let correct = result.headCoach;
         let incorrects = []
         let i=1;
         while(i<numberOfTeams){
             let team=(await this.getRandomTeam(1))[0];
-            if(team.coach == undefined && team.coach!=correct && team.coach.trim() !== "" && !/^Q\d+/.test(team.coach)){
-                incorrects.push(team.coach);
+            if(team.name!=name){
+                incorrects.push(team.headCoach);
                 i++;
             }
         }
@@ -118,20 +107,39 @@ class FootballQuestions{
             incorrects:incorrects
         }
     }
-    async getStadiumOfTeam() {
+    async getHomeVenueByTeam() {
         let numberOfTeams=4;
         let result =(await this.getRandomTeam(1))[0];
-        while(result.stadium == undefined || result.stadium.trim() == "" || /^Q\d+/.test(result.stadium) ){
-            result =(await this.getRandomTeam(1))[0];
-        }
         let name = result.name;
-        let correct = result.stadium;
+        
+        let correct = result.homeVenue;
         let incorrects = []
         let i=1;
         while(i<numberOfTeams){
             let team=(await this.getRandomTeam(1))[0];
-            if(team.stadium == undefined && team.stadium!=correct && team.stadium.trim() !== "" && !/^Q\d+/.test(team.stadium)){
-                incorrects.push(team.stadium);
+            if(team.name!=name){
+                incorrects.push(team.homeVenue);
+                i++;
+            }
+        }
+        return {
+            question_param:name,
+            correct:correct,
+            incorrects:incorrects
+        }
+    }
+    async getDivisionByTeam() {
+        let numberOfTeams=4;
+        let result =(await this.getRandomTeam(1))[0];
+        let name = result.name;
+        
+        let correct = result.division;
+        let incorrects = []
+        let i=1;
+        while(i<numberOfTeams){
+            let team=(await this.getRandomTeam(1))[0];
+            if(team.division!=correct && !incorrects.includes(team.division)){
+                incorrects.push(team.division);
                 i++;
             }
         }
@@ -143,4 +151,4 @@ class FootballQuestions{
     }
 
 }
-module.exports = FootballQuestions;
+module.exports = BasketQuestions;
