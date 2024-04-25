@@ -36,13 +36,15 @@ const memoryUsageGauge = new promClient.Gauge({
   help: 'Memory usage',
 });
 
-setInterval(() => {
-  const cpuUsage = os.loadavg()[0] / os.cpus().length;
-  cpuUsageGauge.set(cpuUsage);
+if (process.env.NODE_ENV !== 'test') {
+  setInterval(() => {
+    const cpuUsage = os.loadavg()[0] / os.cpus().length;
+    cpuUsageGauge.set(cpuUsage);
 
-  const memoryUsage = (os.totalmem() - os.freemem()) / os.totalmem();
-  memoryUsageGauge.set(memoryUsage);
-}, 5000);
+    const memoryUsage = (os.totalmem() - os.freemem()) / os.totalmem();
+    memoryUsageGauge.set(memoryUsage);
+  }, 5000);
+}
 
 // Endpoint para exponer las métricas del sistema
 app.get('/metrics', (req, res) => {
