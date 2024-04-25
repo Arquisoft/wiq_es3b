@@ -5,6 +5,8 @@ const promBundle = require('express-prom-bundle');
 const swaggerUi = require('swagger-ui-express');
 const fs=require("fs");
 const YAML=require("yaml");
+const os = require('os');
+const promClient = require('prom-client');
 
 const app = express();
 const port = 8000;
@@ -19,9 +21,34 @@ const friendServiceUrl = process.env.FRIENDS_SERVICE_URL || 'http://localhost:80
 app.use(cors());
 app.use(express.json());
 
-//Prometheus configuration
+// Prometheus configuration
 const metricsMiddleware = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
+
+// System metrics
+const cpuUsageGauge = new promClient.Gauge({
+  name: 'system_cpu_usage',
+  help: 'CPU usage',
+});
+
+const memoryUsageGauge = new promClient.Gauge({
+  name: 'system_memory_usage',
+  help: 'Memory usage',
+});
+
+setInterval(() => {
+  const cpuUsage = os.loadavg()[0] / os.cpus().length;
+  cpuUsageGauge.set(cpuUsage);
+
+  const memoryUsage = (os.totalmem() - os.freemem()) / os.totalmem();
+  memoryUsageGauge.set(memoryUsage);
+}, 5000);
+
+// Endpoint para exponer las métricas del sistema
+app.get('/metrics', (req, res) => {
+  res.set('Content-Type', promClient.register.contentType);
+  res.end(promClient.register.metrics());
+});
 
 app.delete('/deletefriend/:username/:friend', async (req, res, next) => {
   if (req.headers.authorization) {
