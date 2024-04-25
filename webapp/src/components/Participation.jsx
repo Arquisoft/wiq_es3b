@@ -92,14 +92,19 @@ export const Participation = ({ goTo }) => {
                 </Pie>
                 <Tooltip />
               </PieChart>
-
-              <BarChart width={400} height={400} data={participationData.gameModes}>
+              <BarChart width={400} height={400} data={[
+                  { name: <FormattedMessage id="classic" />, value: participationData.classic, fill: "#82ca9d" },
+                  { name: <FormattedMessage id="infinite" />, value: participationData.infinite, fill: "#ff6b6b" },
+                  { name: <FormattedMessage id="tlc" />, value: participationData.threeLife, fill: "#ffc658" },
+                  { name: <FormattedMessage id="category" />, value: participationData.category, fill: "#8884d8" },
+                  { name: <FormattedMessage id="custom" />, value: participationData.custom, fill: "#8884d8" },
+              ]}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="gameMode" />
+                <XAxis dataKey="name" /> 
                 <YAxis />
                 <Tooltip />
-                <Legend />
-                <Bar dataKey="totalGames" fill="#8884d8" />
+                <Legend legendType="plain" />
+                <Bar dataKey="value" />
               </BarChart>
             </div>
           </div>
