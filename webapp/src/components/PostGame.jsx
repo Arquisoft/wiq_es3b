@@ -50,7 +50,7 @@ export const PostGame = ({ gameMode }) => {
             saveGame();
         }
     // eslint-disable-next-line
-    }, [sessionData]); // Ejecuta saveGame cada vez que sessionData cambie
+    }, []);
 
     return (
         <div className='appearEffectFast'>
