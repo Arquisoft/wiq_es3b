@@ -25,7 +25,7 @@
 	"Who has more looses? (Tennis)": "Who has more looses? (Tennis)",
 	"Who has more wins? (Tennis)": "Who has more wins? (Tennis)",
 	"Which tennis player is from?" : "Which tennis player is from %s?",
-	"Which tennis player has wins?":"Which tennis player has wins?",
+	"Which tennis player has wins?":"Which tennis player has %s record?",
 	"What country is from?": "What country is from %s? (Tennis)",
 
 	"Which team plays in?": "Which team plays in %s?",
@@ -39,14 +39,14 @@
 	"Which f1 driver has more wins?": "Which f1 driver has more wins?",
 	"Which f1 driver has wins?": "Which f1 driver has %s wins?",
 
-	"Which song is song by?": "Which song is sing by %s?",
+	"Which song is song by?": "Which song is sung by %s?",
 	"Which song was released in?": "Which song was released in %s?",
 	"Which song belongs to?": "Which song belongs to %s?",
 
-	"Which serie has episodes?": "Which serie has %s episodes?",
+	"Which serie has episodes?": "Which serie has %s chapters?",
 	"Which serie has seasons?": "Which serie has %s seasons?",
 
-	"Which movie was realeased in?": "Which movie was realeased in %s?",
+	"Which movie was realeased in?": "Which movie was released in %s?",
 	"Which movie was directed by?": "Which movie was directed by %s?",
 
 	"Which videogames has sold more units?": "Which videogames has sold more units?",
@@ -59,6 +59,13 @@
 	"Which is the original language of?": "Which is the original language of %s?",
 	"Which book is written in?": "Which book is written originally in %s?",
 	"Which book was written by?": "Which book was written by %s?",
-	"Which book belongs to genre?": "Which book belongs to genre %s?"
+	"Which book belongs to genre?": "Which book belongs to genre %s?",
+
+	"Which is the homeVenue of?": "Which is the homeVenue of %s?",
+	"Which is the coach of?": "Which is the coach of %s?",
+	"Which basketball team plays in?": "Which basketball team plays in %s?",
+	"Which basketball team is trained by?": "Which basketball team is trained by %s?",
+	"Which basketball team belongs to?": "Which basketball team belongs to %s?",
+	"Which is the division of?": "Which is the division of %s?"
 
 }

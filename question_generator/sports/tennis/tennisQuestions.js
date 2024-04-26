@@ -150,35 +150,35 @@ class TennisQuestions{
     }
     async getPlayerByWins() {
         let numberOfPlayers=4;
-        let result =(await this.getRandomTeam(1))[0];
-        let name = result.playerName;
+        let result =(await this.getRandomPlayers(1))[0];
+        let wins = result.wins;
         
-        let correct = result.wins;
+        let correct = result.playerName;
         let incorrects = []
         let i=1;
         while(i<numberOfPlayers){
-            let player=(await this.getRandomTeam(1))[0];
-            if(player.wins!=correct){
-                incorrects.push(player.wins);
+            let player=(await this.getRandomPlayers(1))[0];
+            if(player.playerName!=correct){
+                incorrects.push(player.playerName);
                 i++;
             }
         }
-        return {
-            question_param:name,
+        return { 
+            question_param:wins,
             correct:correct,
             incorrects:incorrects
         }
     }
     async getPlayerByCountry() {
         let numberOfPlayers=4;
-        let result =(await this.getRandomTeam(1))[0];
+        let result =(await this.getRandomPlayers(1))[0];
         let name = result.playerName;
         
         let correct = result.country;
         let incorrects = []
         let i=1;
         while(i<numberOfPlayers){
-            let player=(await this.getRandomTeam(1))[0];
+            let player=(await this.getRandomPlayers(1))[0];
             if(player.country!=correct){
                 incorrects.push(player.country);
                 i++;

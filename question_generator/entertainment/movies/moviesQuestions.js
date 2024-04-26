@@ -84,27 +84,6 @@ class MoviesQuestions{
         const randomResults = array.sort(() => Math.random() - 0.5).slice(0, numberOfMovies);
         return randomResults
     }
-    async getSongByPerformers() {
-        let numberOfSeries=4;
-        let result =(await this.getRandomMovie(1))[0];
-        let performers = result.performers.join(', ');
-        
-        let correct = result.name;
-        let incorrects = []
-        let i=1;
-        while(i<numberOfSeries){
-            let song=(await this.getRandomMovie(1))[0];
-            if(song.performers.join(', ')!=performers){
-                incorrects.push(song.name);
-                i++;
-            }
-        }
-        return {
-            performers:performers,
-            correct:correct,
-            incorrects:incorrects
-        }
-    }
 
 }
 module.exports = MoviesQuestions;
