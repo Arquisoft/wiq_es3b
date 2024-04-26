@@ -198,8 +198,8 @@ jobs:
       uses: fifsky/ssh-action@master
       with:
         host: ${{ secrets.DEPLOY_HOST_DEVELOP }}
-        user: ${{ secrets.DEPLOY_USER }}
-        key: ${{ secrets.DEPLOY_KEY }}
+        user: ${{ secrets.DEPLOY_USER_DEVELOP }}
+        key: ${{ secrets.DEPLOY_KEY_DEVELOP }}
         command: |
           wget https://raw.githubusercontent.com/arquisoft/wiq_es3b/master/docker-compose.yml -O docker-compose.yml
           wget https://raw.githubusercontent.com/arquisoft/wiq_es3b/master/.env -O .env
