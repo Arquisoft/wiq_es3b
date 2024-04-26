@@ -38,6 +38,7 @@ const Friends = ({goTo}) => {
         return () => {
             window.removeEventListener('load', handleLoad);
         };
+        //eslint-disable-next-line
     }, []);
 
     const handleCloseSnackbar = () => {
