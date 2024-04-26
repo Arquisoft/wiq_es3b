@@ -1,5 +1,5 @@
-const moviesQuestions=require('./moviesQuestions');
 const moment = require('moment');
+const moviesQuestions=require('./moviesQuestions');
 
 const moviesQuery=moviesQuestions.getInstance();
 function loadData(){

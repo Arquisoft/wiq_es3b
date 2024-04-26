@@ -1,4 +1,3 @@
-const moment = require('moment');
 const literatureQuestions=require('./literatureQuestions');
 const literatureQuery=literatureQuestions.getInstance();
 function loadData(){

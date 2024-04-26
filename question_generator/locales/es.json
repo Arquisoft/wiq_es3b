@@ -26,7 +26,7 @@
 	"Who has more looses?": "¿Quién tiene más derrotas? (Tenis)",
 	"Who has more wins?": "¿Quién tiene más victorias? (Tenis)",
 	"Which tennis player is from?" : "¿Qué jugador es de %s?",
-	"Which tennis player has wins?": "¿Qué tenista tiene %s victorias?",
+	"Which tennis player has wins?": "¿Qué tenista tiene %s como record?",
 	"What country is from?": "¿De qué país es %s? (Tenis)",
 
 	"Which football team was founded in?": "¿Qué equipo de fútbol fue fundado en %s?",
@@ -60,7 +60,14 @@
 	"Which is the original language of?": "¿Cuál es el idioma original de %s?",
 	"Which book is written in?": "¿Qué libro está escrito originalmente en %s?",
 	"Which book was written by?": "¿Qué libro fue escrito por %s?",
-	"Which book belongs to genre?": "¿Qué libro pertenece al género %s?"
+	"Which book belongs to genre?": "¿Qué libro pertenece al género %s?",
+
+	"Which is the homeVenue of?": "¿Cuál es el estadio de %s?",
+	"Which is the coach of?": "¿Quién es el entrenador de %s?",
+	"Which basketball team plays in?": "¿Qué equipo juega en %s?",
+	"Which basketball team is trained by?": "¿Qué equipo es entrenado por %s?",
+	"Which basketball team belongs to?": "¿Qué equipo pertenece a %s?",
+	"Which is the division of?": "¿Cuál es la division de %s?"
 
 	
 }
