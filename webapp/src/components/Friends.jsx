@@ -28,8 +28,16 @@ const Friends = ({goTo}) => {
         }
     };
     useEffect(() => {
-        fetchData();
-    // eslint-disable-next-line
+
+        const handleLoad = () => {
+            fetchData();
+        };
+
+        window.addEventListener('load', handleLoad);
+
+        return () => {
+            window.removeEventListener('load', handleLoad);
+        };
     }, []);
 
     const handleCloseSnackbar = () => {
@@ -64,7 +72,6 @@ const Friends = ({goTo}) => {
         };
 
         addFriend();
-        fetchData();
     };
 
     const handleInputChange = event => {
@@ -89,7 +96,6 @@ const Friends = ({goTo}) => {
             }
         };
         deletefriend(friend);
-        fetchData();
     }
     return (
         <main>
