@@ -36,10 +36,15 @@ const memoryUsageGauge = new promClient.Gauge({
   help: 'Memory usage',
 });
 // Endpoint usage counter
-const endpointCounter = new promClient.Counter({
+const endpointUsageCounter = new promClient.Counter({
   name: 'endpoint_usage',
   help: 'Number of calls to each endpoint',
-  labelNames: ['endpoint'],
+  labelNames: ['endpoint']
+});
+
+app.use((req, res, next) => {
+  endpointUsageCounter.inc({ endpoint: req.path });
+  next();
 });
 
 if (process.env.NODE_ENV !== 'test') {
