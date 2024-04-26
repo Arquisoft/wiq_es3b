@@ -1,0 +1,63 @@
+{
+    "Which city is higher above sea level?": "Quelle ville est située à une altitude plus élevée ?",
+    "Which city has more population?": "Quelle ville a une population plus nombreuse ?",
+    "Which city is in?": "Quelle ville se trouve en %s ?",
+    "Which city has an area of?": "Quelle ville a une superficie de %s km2 ?",
+    "Which city is governed by?": "Quelle ville est gouvernée par %s ?",
+    "Which city is in the time zone?": "Dans quelle ville est le fuseau horaire %s ?",
+
+    "Which autonomous community of Spain has an area of?": "Quelle communauté autonome d'Espagne a une superficie de %s km2 ?",
+    "Which autonomous community of Spain has a population of?": "Quelle communauté autonome d'Espagne a une population de %s ?",
+    "Which autonomous community of Spain has a capital called?": "Quelle communauté autonome d'Espagne a une capitale appelée %s ?",
+    "Which autonomous community of Spain has a president called?": "Quelle communauté autonome d'Espagne a un président appelé %s ?",
+    "Which autonomous community of Spain has x as the highest point?": "Quelle communauté autonome d'Espagne a %s comme point culminant ?",
+
+    "Which planet is bigger?": "Quelle planète est plus grande ?",
+    "Which planet has a mass of?": "Quelle planète a une masse de %s kg ?",
+    "Which planet has a radius of?": "Quelle planète a un rayon de %s km ?",
+    "Which planet has an orbital period of?": "Quelle planète a une période orbitale de %s jours ?",
+    "Which planet has x as the lowest point?": "Quelle planète a %s comme point le plus bas ?",
+    "Which planet has x as the highest point?": "Quelle planète a %s comme point le plus élevé ?",
+    "Which planet has an area of x?": "Quelle planète a une superficie de %s km2 ?",
+    "Which planet has a density of x?": "Quelle planète a une densité de %s kg/m3 ?",
+
+    "Who has more followers? (Tennis)": "Qui a plus de followers ? (Tennis)",
+    "Who has more looses? (Tennis)": "Qui a plus de défaites ? (Tennis)",
+    "Who has more wins? (Tennis)": "Qui a plus de victoires ? (Tennis)",
+    "Which tennis player is from?": "De quelle ville est originaire le joueur de tennis %s ?",
+    "Which tennis player has wins?": "Quel joueur de tennis a des victoires ?",
+    "What country is from?": "De quel pays est originaire %s ? (Tennis)",
+
+    "Which team plays in?": "Dans quelle ville joue l'équipe %s ?",
+    "Which team trains?": "Dans quelle ville s'entraîne l'équipe %s ?",
+    "Which football team was founded in?": "Dans quelle ville l'équipe de football a-t-elle été fondée en %s ?",
+    "Which coach trains?": "Quel entraîneur entraîne l'équipe %s ?",
+    "Which is the stadium of?": "Quel est le stade de l'équipe %s ?",
+
+    "Which f1 driver was born in?": "Dans quelle ville est né le pilote de F1 %s ?",
+    "Which f1 driver has more podiums?": "Quel pilote de F1 a le plus de podiums ?",
+    "Which f1 driver has more wins?": "Quel pilote de F1 a le plus de victoires ?",
+    "Which f1 driver has wins?": "Quel pilote de F1 a %s victoires ?",
+
+    "Which song is song by?": "Quelle chanson est interprétée par %s ?",
+    "Which song was released in?": "Quelle chanson a été publiée en %s ?",
+    "Which song belongs to?": "À quel album appartient la chanson %s ?",
+
+    "Which serie has episodes?": "Quelle série a %s épisodes ?",
+    "Which serie has seasons?": "Quelle série a %s saisons ?",
+
+    "Which movie was realeased in?": "Quel film a été publié en %s ?",
+    "Which movie was directed by?": "Quel film a été réalisé par %s ?",
+
+    "Which videogames has sold more units?": "Quel jeu vidéo a vendu plus d'unités ?",
+    "Which videogame was released in?": "Quel jeu vidéo a été publié en %s ?",
+
+    "Which paint belongs to genre?": "À quel genre appartient la peinture %s ?",
+    "Which paint was painted in?": "Dans quelle année la peinture %s a-t-elle été peinte ?",
+
+    "Which author wrote?": "Quel auteur a écrit %s ?",
+    "Which is the original language of?": "Quelle est la langue originale de %s ?",
+    "Which book is written in?": "Dans quelle langue %s est-il écrit ?",
+    "Which book was written by?": "Quel livre a été écrit par %s ?",
+    "Which book belongs to genre?": "À quel genre appartient le livre %s ?"
+}

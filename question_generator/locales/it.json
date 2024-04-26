@@ -1,0 +1,63 @@
+{
+    "Which city is higher above sea level?": "Quale città si trova ad un'altitudine più elevata?",
+    "Which city has more population?": "Quale città ha una popolazione maggiore?",
+    "Which city is in?": "Quale città si trova in %s?",
+    "Which city has an area of?": "Quale città ha un'area di %s km2?",
+    "Which city is governed by?": "Quale città è governata da %s?",
+    "Which city is in the time zone?": "Quale città si trova nel fuso orario %s?",
+
+    "Which autonomous community of Spain has an area of?": "Quale comunità autonoma della Spagna ha un'area di %s km2?",
+    "Which autonomous community of Spain has a population of?": "Quale comunità autonoma della Spagna ha una popolazione di %s?",
+    "Which autonomous community of Spain has a capital called?": "Quale comunità autonoma della Spagna ha una capitale chiamata %s?",
+    "Which autonomous community of Spain has a president called?": "Quale comunità autonoma della Spagna ha un presidente chiamato %s?",
+    "Which autonomous community of Spain has x as the highest point?" : "Quale comunità autonoma della Spagna ha %s come punto più alto?",
+
+    "Which planet is bigger?": "Quale pianeta è più grande?",
+    "Which planet has a mass of?": "Quale pianeta ha una massa di %s kg?",
+    "Which planet has a radius of?": "Quale pianeta ha un raggio di %s km?",
+    "Which planet has an orbital period of?" : "Quale pianeta ha un periodo orbitale di %s giorni?",
+    "Which planet has x as the lowest point?" : "Quale pianeta ha %s come punto più basso?",
+    "Which planet has x as the highest point?" : "Quale pianeta ha %s come punto più alto?",
+    "Which planet has an area of x?" : "Quale pianeta ha un'area di %s km2?",
+    "Which planet has a density of x?" : "Quale pianeta ha una densità di %s kg/m3?",
+
+    "Who has more followers? (Tennis)": "Chi ha più seguaci? (Tennis)",
+    "Who has more looses? (Tennis)": "Chi ha più sconfitte? (Tennis)",
+    "Who has more wins? (Tennis)": "Chi ha più vittorie? (Tennis)",
+    "Which tennis player is from?" : "Quale giocatore di tennis è di %s?",
+    "Which tennis player has wins?":"Quale giocatore di tennis ha vinto?",
+    "What country is from?": "Di quale paese è %s? (Tennis)",
+
+    "Which team plays in?": "Quale squadra gioca a %s?",
+    "Which team trains?": "Quale squadra si allena a %s?",
+    "Which football team was founded in?": "Quale squadra di calcio è stata fondata nel %s?",
+    "Which coach trains?": "Quale allenatore allena %s?",
+    "Which is the stadium of?": "Quale è lo stadio di %s?",
+
+    "Which f1 driver was born in?": "Quale pilota di F1 è nato a %s?",
+    "Which f1 driver has more podiums?": "Quale pilota di F1 ha più podi?",
+    "Which f1 driver has more wins?": "Quale pilota di F1 ha più vittorie?",
+    "Which f1 driver has wins?": "Quale pilota di F1 ha %s vittorie?",
+
+    "Which song is song by?": "Quale canzone è cantata da %s?",
+    "Which song was released in?": "Quale canzone è stata pubblicata nel %s?",
+    "Which song belongs to?": "A quale artista appartiene la canzone %s?",
+
+    "Which serie has episodes?": "Quale serie ha %s episodi?",
+    "Which serie has seasons?": "Quale serie ha %s stagioni?",
+
+    "Which movie was realeased in?": "Quale film è stato rilasciato nel %s?",
+    "Which movie was directed by?": "Quale film è stato diretto da %s?",
+
+    "Which videogames has sold more units?": "Quale videogioco ha venduto più unità?",
+    "Which videogame was released in?": "Quale videogioco è stato rilasciato nel %s?",
+
+    "Which paint belongs to genre?":"A quale genere appartiene il dipinto %s?",
+    "Which paint was painted in?": "Quale dipinto è stato dipinto nel %s?",
+
+    "Which author wrote?": "Quale autore ha scritto %s?",
+    "Which is the original language of?": "Quale è la lingua originale di %s?",
+    "Which book is written in?": "Quale libro è scritto originariamente in %s?",
+    "Which book was written by?": "Quale libro è stato scritto da %s?",
+    "Which book belongs to genre?": "A quale genere appartiene il libro %s?"
+}
