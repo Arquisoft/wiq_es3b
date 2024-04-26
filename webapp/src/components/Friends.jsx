@@ -29,6 +29,7 @@ const Friends = ({goTo}) => {
     };
     useEffect(() => {
         fetchData();
+    // eslint-disable-next-line
     }, []);
 
     const handleCloseSnackbar = () => {
