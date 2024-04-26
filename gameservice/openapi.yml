@@ -4,9 +4,7 @@ info:
   version: 1.0.0
 servers:
   - url: 'http://localhost:8005'
-    description: Development server
-  - url: http://SOMEIP:8005
-    description: Production server
+  - url: http://gameservice:8005
 paths:
   /getParticipation/{userId}:
     get:
@@ -21,20 +19,158 @@ paths:
       responses:
         '200':
           description: User participation data retrieved successfully
-        '404':
+          content:
+            application/json:
+              example:
+                _id: null
+                totalGames: 3
+                correctAnswers: 6
+                incorrectAnswers: 16
+                totalTime: 51
+        '204':
           description: No participation data found for the user
         '500':
           description: Error occurred while retrieving participation data
+  /addgame:
+    post:
+      summary: Add a new game
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                pAcertadas:
+                  type: integer
+                pFalladas:
+                  type: integer
+                totalTime:
+                  type: integer
+                gameMode:
+                  type: string
+              required:
+                - userId
+                - pAcertadas
+                - pFalladas
+                - totalTime
+                - gameMode
+      responses:
+        '200':
+          description: New game added successfully
+        '500':
+          description: Error occurred while adding a new game
+  /api/info/games:
+    get:
+      summary: Get game information
+      parameters:
+        - in: query
+          name: user
+          schema:
+            type: string
+          description: Filter games by user ID
+      responses:
+        '200':
+          description: Information about games retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  games:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Game'
+                    example:
+                      - _id: '6611905d159f818f669c3a5b'
+                        user: '660a5e0d084133274d96383b'
+                        correctAnswers: 5
+                        incorrectsAnswers: 5
+                        totalTime: 18
+                        gameMode: 'classic'
+                        date: '2022-10-01T10:00:00Z'
+                      - _id: '609c4e9e0a3e4c001f2e8e2a'
+                        user: '660a5e0d084133274d96383b'
+                        correctAnswers: 2
+                        incorrectsAnswers: 8
+                        totalTime: 30
+                        gameMode: 'classic'
+                        date: '2022-10-02T14:30:00Z'
+          
+        '404':
+          description: No information for games found
+        '500':
+          description: Error occurred while retrieving game information
+  /api/info/users:
+    get:
+      summary: Get user information
+      parameters:
+        - in: query
+          name: user
+          schema:
+            type: string
+          description: Filter users by username
+      responses:
+        '200':
+          description: User information retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+              example:
+                - _id: '660a5e0d084133274d96383b'
+                  username: 'test'
+                  createdAt: '2024-04-01T07:11:09.282Z'
+                  correctAnswers: 10
+                  incorrectAnswers: 20
+                  totalTime: 60
+                  totalGames: 5
+                - _id: '66108339728d008fa6d64845'
+                  username: 'user'
+                  createdAt: '2024-04-05T23:03:21.221Z'
+                  correctAnswers: 2
+                  incorrectAnswers: 4
+                  totalTime: 15
+                  totalGames: 1
+        '400':
+          description: User not found or error occurred while retrieving user information
+        '500':
+          description: Error occurred while retrieving user information
 components:
   schemas:
-    ParticipationData:
+    Game:
       type: object
       properties:
-        totalGames:
-          type: integer
-        correctAnswers:
-          type: integer
-        incorrectAnswers:
-          type: integer
+        _id:
+          type: string
+        user:
+          type: string
+        pAcertadas:
+          type: number
+        pFalladas:
+          type: number
         totalTime:
-          type: integer
+          type: number
+        date:
+          type: string
+          format: date-time
+        gameMode:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        password:
+          type: string        
+        profileImage:
+          type: string
+        createdAt:
+          type: string
+          format: date-time

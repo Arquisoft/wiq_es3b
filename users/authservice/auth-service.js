@@ -39,7 +39,7 @@ app.post('/login', async (req, res) => {
       // Generate a JWT token
       const token = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
       // Respond with the token and user information
-      res.json({ token: token, username: username, createdAt: user.createdAt, userId: user._id });
+      res.json({ token: token, username: username, createdAt: user.createdAt, profileImage: user.profileImage, userId: user._id });
       return;
     } else {
       res.status(401).json({ error: 'Invalid credentials' });
@@ -56,7 +56,7 @@ app.get('/verify', async (req, res) => {
     const userId = decodedToken.userId;
     const user = await User.findById(userId);
     if (user) {
-      res.json({ username: user.username, createdAt: user.createdAt });
+      res.json({ username: user.username, createdAt: user.createdAt, _id: userId});
       return;
     } else {
       res.status(404).json({ error: 'User not found' });

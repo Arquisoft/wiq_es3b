@@ -1,0 +1,20 @@
+.Participation-container {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .Participation-title {
+    color: #8f95fd;
+    padding: 0 1em;
+    text-align: center;
+    font-size: 1.4em;
+  }
+  
+  .Participation-text {
+    font-size: 1.4em;
+    text-align: center;
+    line-height: 1;
+  }
+  

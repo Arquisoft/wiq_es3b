@@ -55,12 +55,16 @@ app.post('/adduser', async (req, res) => {
   app.get('/getUserInfo/:username', async (req, res) => {
     try {
       const username = req.params.username;
-      const user = await User.findOne({ username },{ _id: 1, username: 1, createdAt: 1 });
-      if (!user) {
+      try{
+        const user = await User.findOne({ username:username.toString() },{ _id: 1, username: 1, createdAt: 1 });
+        if (!user) {
+          res.status(400).json({ error: 'User not found' });
+          return;
+        }
+        res.json(user);
+      }catch(error){
         res.status(400).json({ error: 'User not found' });
-        return;
       }
-      res.json(user);
     } catch (error) {
       res.status(400).json({ error: error.message });
     }

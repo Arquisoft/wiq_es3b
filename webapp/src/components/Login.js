@@ -1,10 +1,22 @@
-// src/components/Login.js
+ // src/components/Login.js
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import { Container, Typography, TextField, Snackbar } from '@mui/material';
 import { SessionContext } from '../SessionContext';
+import Link from '@mui/material/Link';
+import '../css/login.css';
+import '../css/animatedBG.css';
+import { FormattedMessage } from 'react-intl';
+import LanguageSelect from './LanguageSelect';
 
-const Login = ({ goTo }) => {
+
+const Login = ({ goTo, changeLanguage, locale, handleToggleView }) => {
+
+  const [langEnd, setLangEnd] = useState(locale);
+
+  useEffect(() => {
+    changeLanguage(langEnd);
+  }, [locale, changeLanguage, langEnd]);
 
   const { saveSessionData, sessionData } = useContext(SessionContext);
 
@@ -30,7 +42,7 @@ const Login = ({ goTo }) => {
       setTimeStart(Date.now());
       setCreatedAt(userCreatedAt);
       setLoginSuccess(true);
-      saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, token: token, profileImage: profileImage, userId: id });
+      saveSessionData({ username: loggedInUsername, createdAt: userCreatedAt, token, profileImage, userId: id });
       setOpenSnackbar(true);
     } catch (error) {
       setError(error.response.data.error);
@@ -64,32 +76,51 @@ const Login = ({ goTo }) => {
   }, [loginSuccess, goTo]);
 
   return (
-    <Container component="div" maxWidth="xs" sx={{ marginTop: 8 }}>
-        <div>
-          <Typography component="h2" variant="h5">
-            &gt; Login
-          </Typography>
+    <Container component="div" maxWidth="xs" sx={{ marginTop: 4 }}>
+      <h1 className="titleLoginRegister upEffect">ASW - WIQ Quiz</h1>
+      <div className="area" >
+        <div className='inputsRegister'>
+          <div className='topLogin upEffect'>
+            <Typography component="h2" variant="h5">
+              &gt; {<FormattedMessage id="login"/>}
+            </Typography>
+            <LanguageSelect value={langEnd} onChange={(e) => {setLangEnd(e.target.value)}}/>
+          </div>
           <TextField
             name="username"
             margin="normal"
             fullWidth
-            label="Username"
+            label= {<FormattedMessage id="username"/>}
             value={username}
+            className='tf upEffect'
+            sx={{ color:'#8f95fd !important' }}
             onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
             name="password"
             margin="normal"
             fullWidth
-            label="Password"
+            label= {<FormattedMessage id="password"/>}
             type="password"
             value={password}
+            className='upEffect'
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button className='buttonLoginRegister' variant="contained" color="primary" onClick={loginUser}>
-            Login
-          </Button>
-          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
+          <div className='upEffect'>
+            <button className="btn" onClick={loginUser}><FormattedMessage id="login" tagName="span" /></button>
+          </div>
+          <div className='btnRegister upEffect'>
+            <Link className='link' name="gotoregister" component="button" variant="body2" onClick={() => {handleToggleView()}}>
+              <FormattedMessage id='noAccountRegister'/>
+            </Link>
+            <button className="btn sing" onClick={handleToggleView}><FormattedMessage id="signUp" tagName="span" /></button>
+          </div>
+            <ul className="circles">
+              <li></li><li></li><li></li><li></li><li></li>
+              <li></li><li></li><li></li><li></li><li></li>
+            </ul>
+        </div> 
+          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={<FormattedMessage id="loginSuccessfull" />} />
           {error && (
             <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
           )}

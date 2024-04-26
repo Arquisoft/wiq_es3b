@@ -86,6 +86,21 @@ services:
       MONGODB_URI: mongodb://mongodb:27017/gamesdb
       USER_SERVICE_URL: http://userservice:8001
     restart: always
+  friendsservice:
+    container_name: friendsservice-${teamname:-defaultASW}
+    image: ghcr.io/arquisoft/wiq_es3b/friendsservice:latest
+    profiles: ["dev", "prod"]
+    build: ./users/friendsservice
+    depends_on:
+      - mongodb
+    ports:
+      - "8006:8006"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/friendsdb
+      USER_SERVICE_URL: http://userservice:8001
+    restart: always
 
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
@@ -109,6 +124,7 @@ services:
       QUESTION_GENERATION_SERVICE_URL: http://questiongenerationservice:8003
       QUESTIONS_SERVICE_URL: http://questionservice:8004
       GAME_SERVICE_URL: http://gameservice:8005
+      FRIENDS_SERVICE_URL: http://friendsservice:8006
     restart: always
 
   webapp:
@@ -130,7 +146,7 @@ services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus-${teamname:-defaultASW}
-    profiles: ["dev"]
+    profiles: ["dev", "prod"]
     networks:
       - mynetwork
     volumes:
@@ -140,25 +156,28 @@ services:
       - "9090:9090"
     depends_on: 
       - gatewayservice
+    restart: always
       
   grafana:
     image: grafana/grafana
     container_name: grafana-${teamname:-defaultASW}
-    profiles: ["dev"]
+    profiles: ["dev", "prod"]
     networks:
       - mynetwork
     volumes:
       - grafana_data:/var/lib/grafana
       - ./gatewayservice/monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana_admin_password:/run/secrets/grafana_admin_password
     environment:
       - GF_SERVER_HTTP_PORT=9091
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=false
+      - GF_AUTH_ANONYMOUS_ENABLED=false
+      - GF_SECURITY_ADMIN_PASSWORD_FILE=/run/secrets/grafana_admin_password
     ports:
       - "9091:9091"
     depends_on: 
       - prometheus
+    restart: always
 
 
 volumes:

@@ -26,13 +26,13 @@ const validateRequiredFields = (req, fields) => {
 // Ruta para agregar un nuevo juego
 app.post('/addgame', async (req, res) => {
   try {
-    validateRequiredFields(req, ['user', 'pAcertadas', 'pFalladas', 'totalTime', 'gameMode']);
+    validateRequiredFields(req, ['userId', 'pAcertadas', 'pFalladas', 'totalTime', 'gameMode']);
 
-    const { user, pAcertadas, pFalladas, totalTime, gameMode } = req.body;
+    const { userId, pAcertadas, pFalladas, totalTime, gameMode } = req.body;
 
     // Crea una nueva instancia del modelo de juegos
     const newGame = new Game({
-      user: user, 
+      user: userId, 
       pAcertadas: pAcertadas,
       pFalladas: pFalladas,
       totalTime: totalTime,
@@ -136,9 +136,9 @@ app.get('/getParticipation/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
 
-    if (!userId) {
-      // Si no se encuentra el usuario, responder con un error
-      res.status(404).json({ error: 'User not found' });
+    // Verificar si el userId recibido es un string vacío o nulo
+    if (!userId || userId.trim() === '') {
+      res.status(404).json({ error: 'Invalid User ID' });
       return;
     }
     
@@ -156,9 +156,9 @@ app.get('/getParticipation/:userId', async (req, res) => {
       },
     ]);
 
-    if (participationData.length === 0) {
+    if (participationData.length === 0 || (participationData.length > 0 && participationData[0].totalGames === 0)) {
       // No se encontraron datos para el usuario
-      res.status(404).json({ error: 'No participation data found for the user.' });
+      res.status(204).json({ error: 'No participation data for the user' });
       return;
     }
 
@@ -168,6 +168,40 @@ app.get('/getParticipation/:userId', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+app.get('/api/ranking', async (req, res) => {
+  try {
+    const ranking = await Game.aggregate([
+      {
+        $group: {
+          _id: '$user',
+          totalGames: { $sum: 1 } // Contar el número total de juegos por usuario
+        }
+      },
+      { $sort: { totalGames: -1 } } // Ordenar en orden descendente por total de juegos
+    ]);
+
+    const rankedPlayers = [];
+    for (const entry of ranking) {
+      try {
+        const user = await axios.get(`${USER_SERVICE_URL}/getUserInfo/${entry._id}`);
+        rankedPlayers.push({
+          user: user.data.username, // Puedes usar el campo apropiado según tu esquema de usuario
+          totalGames: entry.totalGames
+        });
+      } catch (error) {
+        console.error(`Error al obtener información del usuario ${entry._id}:`, error.message);
+        // Puedes manejar el error de manera adecuada, por ejemplo, puedes continuar sin agregar este usuario al ranking
+      }
+    }
+
+    res.status(200).json(rankedPlayers);
+  } catch (error) {
+    console.error('Error al obtener el ranking de jugadores:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 const server = app.listen(port, () => {
   console.log(`Games Service listening at http://localhost:${port}`);

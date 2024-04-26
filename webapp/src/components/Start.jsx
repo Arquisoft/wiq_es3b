@@ -1,5 +1,6 @@
-
 import Divider from '@mui/material/Divider';
+import '../css/start.css';
+import { FormattedMessage } from 'react-intl';
 
 export const Start = ({ goTo }) => {
 
@@ -7,25 +8,29 @@ export const Start = ({ goTo }) => {
 
         <>
         <main>
-            <h1 className="tituloStart">ASW Quiz - WIQ</h1>
+            <h1 className="tituloStart upEffect"><span className="fancy">[ ASW Quiz - WIQ ]</span></h1>
+            
             <div id="start">
-                <button onClick={ () => goTo(2) }>
-                    Classic Game
-                </button>
-                <Divider sx={{ border:'2px solid', marginBottom:'0.8em' }} />
-                <button onClick={ () => goTo(3) }>
-                    Infinite Mode
-                </button>
-                <button onClick={ () => goTo(4) }>
-                    Three Lifes Classic
-                </button>
-                <button onClick={ () => goTo(5) }>
-                    Category Mode
-                </button>
-                <Divider sx={{ border:'2px solid', marginTop:'0.8em' }} />
-                <button onClick={ () => goTo(6) }>
-                    Participation
-                </button>
+                <div className="button_container upEffect ">
+                    <button className="btn" onClick={ () => goTo(2) }><FormattedMessage id="classic" tagName="span" /></button>
+                </div>
+                <Divider sx={{ border:'2px solid', marginBottom:'0.8em' }} className='upEffect' />
+                <div className="button_container upEffect">
+                    <button className="btn" onClick={ () => goTo(3) }><FormattedMessage id="infinite" tagName="span" /></button>
+                </div>
+                <div className="button_container upEffect">
+                    <button className="btn" onClick={ () => goTo(4) }><FormattedMessage id="tlc" tagName="span" /></button>
+                </div>
+                <div className="button_container upEffect">
+                    <button className="btn" onClick={ () => goTo(5) }><FormattedMessage id="category" tagName="span" /></button>
+                </div>
+                <div className="button_container upEffect">
+                    <button className="btn" onClick={ () => goTo(6) }><FormattedMessage id="custom" tagName="span" /></button>
+                </div>
+                <Divider sx={{ border:'2px solid', marginTop:'0.8em' }} className='upEffect' />
+                <div className="button_container upEffect">
+                    <button className="btn"  onClick={ () => goTo(7) }><FormattedMessage id="participation" tagName="span" /></button>
+                </div>
             </div>
         </main>
         </>

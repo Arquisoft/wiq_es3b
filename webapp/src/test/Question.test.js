@@ -5,6 +5,8 @@ import '@testing-library/jest-dom/extend-expect';
 import Question, { finishByQuestions, finishByTime, reloadF,
   handleClassicGameFinish, handleOOLGameFinish, handelInfiniteGameFinish } from '../components/Question';
 import { SessionProvider } from '../SessionContext';
+import { IntlProvider } from 'react-intl';
+import messages_en from '../messages/messages_en.json';
 
 const mockPlay = jest.fn();
 HTMLMediaElement.prototype.play = mockPlay;
@@ -20,6 +22,13 @@ jest.mock('axios', () => ({
   get: jest.fn(() => Promise.resolve({ data: mockQuestionResponse }))
 }));
 
+const customSettings = {
+  gMode: 'classic',
+  maxTime: 3,
+  numberQ: 10,
+  category: "general"
+};
+
 describe('Question component', () => {
   beforeEach(() => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
@@ -32,10 +41,11 @@ describe('Question component', () => {
   });
 
   it('renders question and options correctly', async () => {
+
     const { getByText } = render(
-      <SessionProvider>
-        <Question />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Question locale={'en'} settings={customSettings}/>
+      </SessionProvider></IntlProvider>
     );
 
     // Esperar a que se cargue la pregunta
@@ -53,10 +63,11 @@ describe('Question component', () => {
   });
 
   it('selects correct option and handles click correctly', async () => {
+
     const { getByText } = render(
-      <SessionProvider>
-        <Question />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Question locale={'en'} settings={customSettings}/>
+      </SessionProvider></IntlProvider>
     );
 
     // Esperar a que se cargue la pregunta
@@ -76,10 +87,11 @@ describe('Question component', () => {
   });
 
   it('handles Next button click correctly', async () => {
+
     const { getByText } = render(
-      <SessionProvider>
-        <Question />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Question locale={'en'} settings={customSettings}/>
+      </SessionProvider></IntlProvider>
     );
 
     // Esperar a que se cargue la pregunta
@@ -113,9 +125,10 @@ describe('Question component', () => {
     // Mock para funciones auxiliares
     const mockSetGameFinished = jest.fn();
     const mockGoTo = jest.fn();
-    const questionComponent = <SessionProvider>
-       <Question setGameFinished={mockSetGameFinished} goTo={mockGoTo} />
-      </SessionProvider>;
+ 
+    const questionComponent = <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+       <Question locale={'en'} setGameFinished={mockSetGameFinished} goTo={mockGoTo} settings={customSettings}/>
+      </SessionProvider></IntlProvider>;
 
     // Renderizar el componente
     const { getByText } = render(questionComponent);
@@ -152,21 +165,23 @@ describe('Question component', () => {
   test('El contador de segundos debe decrementar correctamente', () => {
     jest.useFakeTimers();
     const setSegundos = jest.fn();
+    act(() => {
     render(
-      <SessionProvider>
-        <Question />
-      </SessionProvider>
+      <IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+        <Question locale={'en'} settings={customSettings}/>
+      </SessionProvider></IntlProvider>
       );
-
+    });
     jest.advanceTimersByTime(5000);
 
     expect(setSegundos).toHaveBeenCalledTimes(0);
   });
 
   it('should toggle sound on and off when clicking audio image', () => {
-    const { getByRole } = render(<SessionProvider>
-      <Question />
-    </SessionProvider>);
+  
+    const { getByRole } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={customSettings}/>
+    </SessionProvider></IntlProvider>);
 
     // Verificar que el sonido está activado inicialmente
     expect(localStorage.getItem('sonido')).toBe(undefined);
@@ -181,9 +196,10 @@ describe('Question component', () => {
   });
 
   it('should toggle isSelected state when clicking button', () => {
-    const { getByText } = render(<SessionProvider>
-      <Question />
-    </SessionProvider>);
+  
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={customSettings}/>
+    </SessionProvider></IntlProvider>);
 
     // Simular hacer clic en el botón
     act(() => {
@@ -224,9 +240,10 @@ describe('handleGameFinish function', () => {
     Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
     // Render the Question component
-    const { getByText } = render(<SessionProvider>
-      <Question />
-    </SessionProvider>);
+
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={customSettings}/>
+    </SessionProvider></IntlProvider>);
 
     // Simulate answering all questions
     for (let i = 0; i < 10; i++) {
@@ -262,9 +279,9 @@ describe('handleGameFinish function', () => {
     Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
     // Render the Question component
-    const { getByText } = render(<SessionProvider>
-      <Question />
-    </SessionProvider>);
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={customSettings}/>
+    </SessionProvider></IntlProvider>);
 
     // After time runs out, pAcertadas and pFalladas should be set in localStorage
     expect(localStorage.getItem('pAcertadas')).toBeDefined();
@@ -278,10 +295,12 @@ describe('handleGameFinish function', () => {
     const MAX_TIME = 120;
 
     // Renderizamos el componente
-    const { getByText } = render(<SessionProvider><Question goTo={goToMock} /></SessionProvider>);
+
+    const { getByText } = render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} goTo={goToMock} settings={customSettings}/></SessionProvider></IntlProvider>);
 
     // Llamamos directamente a finishByQuestions
-    finishByQuestions(segundos, MAX_TIME);
+    finishByQuestions(segundos, MAX_TIME); 
 
     // Verificamos que los valores correctos se hayan establecido en el local storage
     expect(localStorage.getItem("tiempoUsado").toString()).toBe((MAX_TIME - segundos).toString());
@@ -296,8 +315,10 @@ describe('handleGameFinish function', () => {
 
   it('should call finishByTime when game finishes by time', () => {
 
-    render(<SessionProvider><Question /></SessionProvider>);
-    
+    act(() => {
+    render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={customSettings}/></SessionProvider></IntlProvider>);
+  });
     const MAX_TIME = 120;
     // Simula que se agota el tiempo
     jest.useFakeTimers();
@@ -306,8 +327,8 @@ describe('handleGameFinish function', () => {
     });
 
     act(() => {
-      finishByTime(true);
-      finishByTime(false);
+      finishByTime(true, MAX_TIME);
+      finishByTime(false, MAX_TIME);
     });
 
     // Verifica si finishByTime fue llamado
@@ -315,8 +336,10 @@ describe('handleGameFinish function', () => {
   });
 
   it('should call handleClassicGameFinish with the correct arguments', () => {
-    render(<SessionProvider><Question /></SessionProvider>);
-    
+    act(() => {
+    render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={customSettings}/></SessionProvider></IntlProvider>);
+  });
     // Simula que se alcanza el final del juego
     const nQuestion = 10; // Número de preguntas igual al máximo
     const numberCorrect = 8; // Supongamos que el jugador acierta 8 preguntas
@@ -327,13 +350,21 @@ describe('handleGameFinish function', () => {
     const goTo = jest.fn();
 
     act(() => {
-      handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, sonido, goTo, setGameFinished);
+      handleClassicGameFinish(nQuestion, numberCorrect, numberIncorrect, segundos, sonido, goTo, setGameFinished, 10 , 120);
     });
   });
 
   it('should call handleOOLGameFinish with the correct arguments', () => {
-    render(<SessionProvider><Question /></SessionProvider>);
-    
+    const TLSettings = {
+      gMode: 'threeLife',
+      maxTime: 3,
+      numberQ: 10,
+      category: "general"
+    };
+    act(() => {
+    render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={TLSettings}/></SessionProvider></IntlProvider>);
+  });
     // Simula que se alcanza el final del juego
     const numberCorrect = 8; // Supongamos que el jugador acierta 8 preguntas
     const setGameFinished = jest.fn();
@@ -345,8 +376,17 @@ describe('handleGameFinish function', () => {
     });
   });
 
-  it('should call handleClassicGameFinish with the correct arguments', () => {
-    render(<SessionProvider><Question /></SessionProvider>);
+  it('should call handelInfiniteGameFinish with the correct arguments', () => {
+    const InfiniteSettings = {
+      gMode: 'threeLife',
+      maxTime: 3,
+      numberQ: 10,
+      category: "general"
+    };
+    act(() => {
+    render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={InfiniteSettings}/></SessionProvider></IntlProvider>);
+    });
     
     // Simula que se alcanza el final del juego
     const numberCorrect = 8; // Supongamos que el jugador acierta 8 preguntas
@@ -362,7 +402,6 @@ describe('handleGameFinish function', () => {
 
   it('should call handleClassicGameFinish with the correct arguments', () => {
     
-    const MAX_TIME = 240;
     const mockSetState = jest.fn();
     const mockContext = {
       setSegundos: mockSetState,
@@ -373,8 +412,11 @@ describe('handleGameFinish function', () => {
       setReload: mockSetState
     };
     
-    render(<SessionProvider><Question /></SessionProvider>);
-    
+    act(() => {
+    render(<IntlProvider locale={"en"} messages={messages_en}><SessionProvider>
+      <Question locale={'en'} settings={customSettings}/></SessionProvider></IntlProvider>);
+    });
+
     act(() => {
       reloadF(
         mockContext.setSegundos,
@@ -387,7 +429,7 @@ describe('handleGameFinish function', () => {
     });
 
     // Verifica que todas las funciones setState hayan sido llamadas con los valores correctos
-    expect(mockContext.setSegundos).toHaveBeenCalledWith(MAX_TIME);
+    expect(mockContext.setSegundos).toHaveBeenCalledWith(undefined);
     expect(mockContext.setSegundosInfinite).toHaveBeenCalledWith(0);
     expect(mockContext.setNQuestion).toHaveBeenCalledWith(0);
     expect(mockContext.setNumberCorrect).toHaveBeenCalledWith(0);

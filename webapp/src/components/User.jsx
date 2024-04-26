@@ -4,9 +4,9 @@ import Login from './Login';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+import '../css/users.css';
 
-function User({ goTo }) {
+function User({ goTo, changeLanguage, locale }) {
   const [showLogin, setShowLogin] = useState(true);
 
   const handleToggleView = () => {
@@ -16,22 +16,13 @@ function User({ goTo }) {
   return (
     <main>
       <div>
-    <Container component="main" className='panelLoginRegister'>
+    <Container component="main">
       <CssBaseline />
-      <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2, fontSize: '3em', color: '#8f95fd' }}>
-        ASW - WIQ Quiz
-      </Typography>
-      {showLogin ? <Login goTo={(x) => goTo(x)} /> : <AddUser goTo={(x) => goTo(x)}/>}
+      
+      {showLogin ? 
+      <Login goTo={(x) => goTo(x)} changeLanguage={(y) => changeLanguage(y)} locale={locale} handleToggleView={() => handleToggleView()} /> : 
+      <AddUser goTo={(x) => goTo(x)} changeLanguage={(y) => changeLanguage(y)} locale={locale} handleToggleView={() => handleToggleView()} />}
       <Typography component="div" align="center" sx={{ marginTop: 2 }}>
-        {showLogin ? (
-          <Link name="gotoregister" component="button" variant="body2" onClick={handleToggleView}>
-            Don't have an account? Register here.
-          </Link>
-        ) : (
-          <Link component="button" variant="body2" onClick={handleToggleView}>
-            Already have an account? Login here.
-          </Link>
-        )}
       </Typography>
     </Container>
     </div>

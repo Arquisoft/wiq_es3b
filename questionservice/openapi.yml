@@ -4,9 +4,7 @@ info:
   version: 1.0.0
 servers:
   - url: 'http://localhost:8004'
-    description: Development server
-  - url: http://SOMEIP:8004
-    description: Production server
+  - url: http://questionservice:8004
 paths:
   /addQuestion:
     post:
@@ -24,6 +22,60 @@ paths:
           description: Missing required fields
         '500':
           description: Error occurred while adding question
+  /api/info/questions:
+    get:
+      summary: Get questions information
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          description: Filter by question ID
+        - in: query
+          name: user
+          schema:
+            type: string
+          description: Filter by user
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Filter by category
+      responses:
+        '200':
+          description: Questions information retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  questions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Question'
+                    example:
+                      - id: 1
+                        user: john_doe
+                        category: science
+                        question: What is the capital of France?
+                        correct: Paris
+                        incorrects:
+                          - London
+                          - Berlin
+                        generationDate: '2022-10-01T10:00:00Z'
+                      - id: 2
+                        user: john_doe
+                        category: history
+                        question: Who was the first president of the United States?
+                        correct: George Washington
+                        incorrects:
+                          - Abraham Lincoln
+                          - Thomas Jefferson
+                        generationDate: '2022-10-02T14:30:00Z'
+        '404':
+          description: No questions found
+        '500':
+          description: Error occurred while retrieving questions information
 components:
   schemas:
     Question:
