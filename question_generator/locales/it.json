@@ -1,7 +1,7 @@
 {
 	"Which city is higher above sea level?": "Quale città si trova ad un'altitudine maggiore?",
 	"Which city has more population?": "Quale città ha una popolazione maggiore?",
-	"Which city is in %s?": "In quale città si trova %s?",
+	"Which city is in %s?": "Quale città si trova in %s?",
 	"Which city has an area of %s km2?": "Quale città ha un'area di %s km2?",
 	"Which city is governed by %s?": "Quale città è governata da %s?",
 	"Which city is in the time zone %s?": "In quale città si trova il fuso orario %s?",
@@ -67,5 +67,4 @@
 	"Which basketball team is trained by %s?": "Quale squadra di basket è allenata da %s?",
 	"Which basketball team belongs to %s?": "A quale squadra di basket appartiene %s?",
 	"Which is the division of %s?": "Qual è la divisione di %s?"
-
 }

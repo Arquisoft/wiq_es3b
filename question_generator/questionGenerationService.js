@@ -16,7 +16,7 @@ const app = express();
 const port = 8003;
 
 i18n.configure({
-  locales: ['en', 'es'],
+  locales: ['en', 'es', 'fr', 'it'],
   directory: './locales',
   defaultLocale: 'en',
   cookie: 'lang',

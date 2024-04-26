@@ -11,7 +11,7 @@ defineFeature(feature, test => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: false, slowMo: 10 });
+      : await puppeteer.launch({ headless: false, slowMo: 50 });
     page = await browser.newPage();
     //Way of setting up the timeout
     setDefaultOptions({ timeout: 10000 })
@@ -41,13 +41,15 @@ defineFeature(feature, test => {
       
       await expect(page).toClick('button.btn', { text: '' });
 
+      await page.waitForSelector('button.btn', { text: 'Infinite Mode' });
       await expect(page).toClick('button.btn', { text: 'Infinite Mode' });
 
+      await page.waitForSelector('div.endGameButton', { text: '' });
       await expect(page).toClick('div.endGameButton', { text: '' });
     });
 
     then('A Game Over message should be shown in the screen', async () => {
-        await expect(page).toMatchElement("p", { text: "Game Over" });
+      await page.waitForSelector('p', { text: 'Game Over' });
     });
   })
 
