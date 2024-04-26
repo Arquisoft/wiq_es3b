@@ -12,27 +12,24 @@ const Friends = ({goTo}) => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [error, setError] = useState('');
     const [snackbarMessage, setSnackbarMessage] = useState('');
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${gatewayUrl}/getFriends/${sessionData.username}`, {
-                    headers: {
-                        Authorization: `Bearer ${sessionData.token}`
-                    }
-                });
-                if (response.status === 200) {
-                    setFriends(response.data);
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${gatewayUrl}/getFriends/${sessionData.username}`, {
+                headers: {
+                    Authorization: `Bearer ${sessionData.token}`
                 }
-            } catch (e) {
-                setError(e);
-                setSnackbarMessage(e.response.data || 'error_getting_friends')
+            });
+            if (response.status === 200) {
+                setFriends(response.data);
             }
-        };
-
+        } catch (e) {
+            setError(e);
+            setSnackbarMessage(e.response.data || 'error_getting_friends')
+        }
+    };
+    useEffect(() => {
         fetchData();
-        // eslint-disable-next-line
-    });
+    }, []);
 
     const handleCloseSnackbar = () => {
         setOpenSnackbar(false);
@@ -66,6 +63,7 @@ const Friends = ({goTo}) => {
         };
 
         addFriend();
+        fetchData();
     };
 
     const handleInputChange = event => {
@@ -90,6 +88,7 @@ const Friends = ({goTo}) => {
             }
         };
         deletefriend(friend);
+        fetchData();
     }
     return (
         <main>

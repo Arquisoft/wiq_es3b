@@ -35,6 +35,12 @@ const memoryUsageGauge = new promClient.Gauge({
   name: 'system_memory_usage',
   help: 'Memory usage',
 });
+// Endpoint usage counter
+const endpointCounter = new promClient.Counter({
+  name: 'endpoint_usage',
+  help: 'Number of calls to each endpoint',
+  labelNames: ['endpoint'],
+});
 
 if (process.env.NODE_ENV !== 'test') {
   setInterval(() => {
