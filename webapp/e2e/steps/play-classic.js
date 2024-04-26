@@ -80,14 +80,16 @@ defineFeature(feature, test => {
 
         await expect(page).toClick('button.btn', { text: 'Classic Game' });
         for(let i = 0; i <10; i++) {
+                await page.waitForSelector('ul li span');
                 await expect(page).toClick('ul li span');
+                await page.waitForSelector('.botoneraPreguntas div', { visible: true, enabled: true });
                 await expect(page).toClick('.botoneraPreguntas div');
         }
 
     });
 
     then('A Game Over message should be shown in the screen', async () => {
-        await expect(page).toMatchElement("p", { text: "Game Over" });
+      await page.waitForSelector('p', { text: 'Game Over' });
     });
   })
 
