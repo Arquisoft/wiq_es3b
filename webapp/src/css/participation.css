@@ -17,4 +17,11 @@
     text-align: center;
     line-height: 1;
   }
-  
+@media screen and (max-width: 768px) {
+  .tablePost {
+    font-size: 0.8rem;
+  }
+  .Participation-text{
+    width: 100vmin;
+  }  
+}

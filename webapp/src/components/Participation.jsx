@@ -54,7 +54,7 @@ export const Participation = ({ goTo }) => {
         ) : (
           participationData !== null ? (
             <div className="Participation-text">
-              <TableContainer component={Paper}>
+              <TableContainer component={Paper} className='tableContainer'>
                 <Table className='tablePost' sx={{ minWidth: '30vw' }} aria-label="simple table">
                   <TableBody>
                     <TableRow key={"Total Games"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -98,7 +98,7 @@ export const Participation = ({ goTo }) => {
                 </PieChart>
               </div>
               <div data-testid="bar-chart" className="recharts-wrapper" style={{ display: 'flex', justifyContent: 'center' }}>
-                <BarChart width={400} height={400} data={[
+                <BarChart width={400} height={400} title="modos de juego" data={[
                     { name: <FormattedMessage id="classic" />, value: participationData.classic, fill: "#82ca9d" },
                     { name: <FormattedMessage id="infinite" />, value: participationData.infinite, fill: "#ff6b6b" },
                     { name: <FormattedMessage id="tlc" />, value: participationData.threeLife, fill: "#ffc658" },
@@ -109,7 +109,8 @@ export const Participation = ({ goTo }) => {
                   <XAxis dataKey="name" /> 
                   <YAxis dataKey="value" />
                   <Tooltip />
-                  <Legend />
+                  <Legend 
+                  />
                   <Bar dataKey="value" />
                 </BarChart>
               </div>
