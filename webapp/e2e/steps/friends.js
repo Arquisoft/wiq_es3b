@@ -37,14 +37,25 @@ defineFeature(feature, test => {
     });
 
     when('I fill the data in the form, press submit, press Friends and adds a friend', async () => {
+        await page.waitForSelector('input[name="username"]');
         await expect(page).toFill('input[name="username"]', username);
+
+        await page.waitForSelector('input[name="password"]');
         await expect(page).toFill('input[name="password"]', password);
+
+        await page.waitForSelector('input[name="confirmPassword"]');
         await expect(page).toFill('input[name="confirmPassword"]', password);
+
+        await page.waitForSelector('button.btn');
         await expect(page).toClick('button.btn', { text: '' });
 
-
+        await page.waitForSelector('div a');
         await expect(page).toClick('div a', { text: 'Friends' });
+
+        await page.waitForSelector('.searchForm input');
         await expect(page).toFill('.searchForm input', 'defaultuser');
+
+        await page.waitForSelector('button.btn');
         await expect(page).toClick('button.btn', { text: '' });
 
     });
@@ -59,6 +70,7 @@ defineFeature(feature, test => {
     });
 
     when('I am in Friends page and select the friend to remove', async () => {
+        await page.waitForSelector('.tableFriends button.btn');
         await expect(page).toClick('.tableFriends button.btn', { text: 'Delete friend' });
 
     });
