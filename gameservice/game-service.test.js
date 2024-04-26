@@ -37,7 +37,7 @@ beforeEach(async () => {
     pAcertadas: 5,
     pFalladas: 3,
     totalTime: 1200,
-    gameMode: 'normal'
+    gameMode: 'classic'
   });
 });
 
@@ -54,7 +54,7 @@ describe('Game Service', () => {
       pAcertadas: 5,
       pFalladas: 3,
       totalTime: 1200,
-      gameMode: 'normal'
+      gameMode: 'classic'
     };
 
     const response = await request(app).post('/addgame').send(newGame);
@@ -79,7 +79,14 @@ describe('Game Service', () => {
       correctAnswers: 5,
       incorrectAnswers: 3,
       totalTime: 1200,
+      classic: 1,
+      infinite: 0,
+      threeLife: 0,
+      category: 0,
+      custom: 0,
     };
+
+    
 
     const response = await request(app).get(`/getParticipation/${userId}`);
 
