@@ -11,7 +11,7 @@ defineFeature(feature, test => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: false, slowMo: 100 });
+      : await puppeteer.launch({ headless: false, slowMo: 50 });
     page = await browser.newPage();
     //Way of setting up the timeout
     setDefaultOptions({ timeout: 10000 })
