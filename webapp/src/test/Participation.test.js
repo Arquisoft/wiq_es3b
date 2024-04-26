@@ -5,7 +5,6 @@ import { Participation } from '../components/Participation';
 import { SessionContext } from '../SessionContext';
 import { IntlProvider } from 'react-intl';
 import messages_en from '../messages/messages_en.json';
-import { FormattedMessage } from 'react-intl';
 
 jest.mock('axios');
 
@@ -53,6 +52,7 @@ describe('Participation component', () => {
       expect(screen.getByText(/Total Time/i)).toBeInTheDocument();
 
       expect(screen.getByTestId('pie-chart')).toBeInTheDocument();
+      expect(screen.getByTestId('bar-chart')).toBeInTheDocument();
     });
   });
 });

@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../css/participation.css';
 import { SessionContext } from '../SessionContext';
 import { FormattedMessage } from 'react-intl';
+import Typography from '@mui/material/Typography';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,6 +11,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { PieChart, Pie, Tooltip, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
+import { Card } from '@mui/material';
 
 const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
@@ -43,75 +45,79 @@ export const Participation = ({ goTo }) => {
   return (
     <main className="Participation-container">
       <div>
-      <h1 className="Participation-title"><FormattedMessage id="participationTitle" /></h1>
+        <Typography sx={{ textAlign: 'center', fontSize:'2em', margin:'0 0 0.3em 0 !important', color:'#8f95fd' }}>
+          <FormattedMessage id="participationTitle" />
+        </Typography>
 
-      {loading ? (
-        <p><FormattedMessage id={participationData ? "loadingData" : "noParticipationData"} className="Participation-text"/></p>
-      ) : (
-        participationData !== null ? (
-          <div className="Participation-text">
-            <TableContainer component={Paper}>
-              <Table className='tablePost' sx={{ minWidth: '30vw' }} aria-label="simple table">
-                <TableBody>
-                  <TableRow key={"Total Games"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell sx={{ fontSize:'1.2em' }}><FormattedMessage id="totalGames" /></TableCell>
-                    <TableCell sx={{ fontSize:'1.2em' }} align="right">{participationData.totalGames}</TableCell>
-                  </TableRow>
-                  <TableRow key={"Correct Answers"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell sx={{ fontSize:'1.2em' }}><FormattedMessage id="correctAnswers" /></TableCell>
-                    <TableCell sx={{ fontSize:'1.2em' }} align="right">{participationData.correctAnswers}</TableCell>
-                  </TableRow>
-                  <TableRow key={"Incorrect Answers"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell sx={{ fontSize:'1.2em' }}><FormattedMessage id="incorrectAnswers" /></TableCell>
-                    <TableCell sx={{ fontSize:'1.2em' }} align="right">{participationData.incorrectAnswers}</TableCell>
-                  </TableRow>
-                  <TableRow key={"Total Time"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell sx={{ fontSize:'1.2em' }}><FormattedMessage id="totalTime" /></TableCell>
-                    <TableCell sx={{ fontSize:'1.2em' }} align="right">{participationData.totalTime} <FormattedMessage id="seconds" /></TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <div data-testid="pie-chart" className="recharts-wrapper">
-              <PieChart width={400} height={400}>
-                <Pie
-                  data={[
-                    { name: <FormattedMessage id="correctAnswers" />, value: participationData.correctAnswers },
-                    { name: <FormattedMessage id="incorrectAnswers" />, value: participationData.incorrectAnswers }
-                  ]}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  label
-                  labelLine={false}
-                >
-                  <Cell fill="#82ca9d" /> {/* Color verde para Respuestas Correctas */}
-                  <Cell fill="#ff6b6b" /> {/* Color rojo para Respuestas Incorrectas */}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-              <BarChart width={400} height={400} data={[
-                  { name: <FormattedMessage id="classic" />, value: participationData.classic, fill: "#82ca9d" },
-                  { name: <FormattedMessage id="infinite" />, value: participationData.infinite, fill: "#ff6b6b" },
-                  { name: <FormattedMessage id="tlc" />, value: participationData.threeLife, fill: "#ffc658" },
-                  { name: <FormattedMessage id="category" />, value: participationData.category, fill: "#8884d8" },
-                  { name: <FormattedMessage id="custom" />, value: participationData.custom, fill: "#8884d8" },
-              ]}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" /> 
-                <YAxis />
-                <Tooltip />
-                <Legend legendType="plain" />
-                <Bar dataKey="value" />
-              </BarChart>
-            </div>
-          </div>
+        {loading ? (
+          <p><FormattedMessage id={participationData ? "loadingData" : "noParticipationData"} className="Participation-text"/></p>
         ) : (
-          <p><FormattedMessage id="noParticipationData" className="Participation-text"/></p>
-        )
-      )}
+          participationData !== null ? (
+            <div className="Participation-text">
+              <Card>
+                <TableContainer component={Paper}>
+                  <Table className='tablePost' sx={{ minWidth: '30vw' }} aria-label="simple table">
+                    <TableBody>
+                      <TableRow key={"Total Games"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell sx={{ fontSize:'1.2em' }}><FormattedMessage id="totalGames" /></TableCell>
+                        <TableCell sx={{ fontSize:'1.2em' }} align="right">{participationData.totalGames}</TableCell>
+                      </TableRow>
+                      <TableRow key={"Correct Answers"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell sx={{ fontSize:'1.2em' }}><FormattedMessage id="correctAnswers" /></TableCell>
+                        <TableCell sx={{ fontSize:'1.2em' }} align="right">{participationData.correctAnswers}</TableCell>
+                      </TableRow>
+                      <TableRow key={"Incorrect Answers"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell sx={{ fontSize:'1.2em' }}><FormattedMessage id="incorrectAnswers" /></TableCell>
+                        <TableCell sx={{ fontSize:'1.2em' }} align="right">{participationData.incorrectAnswers}</TableCell>
+                      </TableRow>
+                      <TableRow key={"Total Time"} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell sx={{ fontSize:'1.2em' }}><FormattedMessage id="totalTime" /></TableCell>
+                        <TableCell sx={{ fontSize:'1.2em' }} align="right">{participationData.totalTime} <FormattedMessage id="seconds" /></TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <div data-testid="pie-chart" className="recharts-wrapper">
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      data={[
+                        { name: <FormattedMessage id="correctAnswers" />, value: participationData.correctAnswers },
+                        { name: <FormattedMessage id="incorrectAnswers" />, value: participationData.incorrectAnswers }
+                      ]}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      label
+                      labelLine={false}
+                    >
+                      <Cell fill="#82ca9d" /> {/* Color verde para Respuestas Correctas */}
+                      <Cell fill="#ff6b6b" /> {/* Color rojo para Respuestas Incorrectas */}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </div>
+                <div data-testid="bar-chart" className="recharts-wrapper">
+                  <BarChart width={400} height={400} data={[
+                      { name: <FormattedMessage id="classic" />, value: participationData.classic, fill: "#82ca9d" },
+                      { name: <FormattedMessage id="infinite" />, value: participationData.infinite, fill: "#ff6b6b" },
+                      { name: <FormattedMessage id="tlc" />, value: participationData.threeLife, fill: "#ffc658" },
+                      { name: <FormattedMessage id="category" />, value: participationData.category, fill: "#8884d8" },
+                      { name: <FormattedMessage id="custom" />, value: participationData.custom, fill: "#8884d8" },
+                  ]}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="value" /> 
+                    <YAxis />
+                    <Bar dataKey="name" />
+                  </BarChart>
+                </div>
+              </Card>
+            </div>
+          ) : (
+            <p><FormattedMessage id="noParticipationData" className="Participation-text"/></p>
+          )
+        )}
       </div>
     </main>
   );
