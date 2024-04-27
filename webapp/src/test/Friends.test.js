@@ -16,6 +16,9 @@ describe('Friends', () => {
     });
 
     test('renders the friend list', async () => {
+        mockAxios.onGet('http://localhost:8000/getFriends/testUser').reply(200, 
+        { friends: ['friend1', 'friend2', 'friend3', 'friend4'] }
+    );
         render(
             <IntlProvider locale={"en"} messages={messages_en}>
                 <SessionContext.Provider value={{ sessionData: { username: 'testUser', token: 'testToken' } }}>
@@ -24,9 +27,7 @@ describe('Friends', () => {
             </IntlProvider>
         );
 
-        mockAxios.onGet('http://localhost:8000/getFriends/testUser').reply(200, 
-            { friends: ['friend1', 'friend2', 'friend3', 'friend4'] }
-        );
+
 
         // Wait for the friends to be fetched
         await screen.findByText('friend1');

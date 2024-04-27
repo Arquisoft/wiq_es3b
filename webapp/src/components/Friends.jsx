@@ -29,15 +29,7 @@ const Friends = ({goTo}) => {
     };
     useEffect(() => {
 
-        const handleLoad = () => {
-            fetchData();
-        };
-
-        window.addEventListener('load', handleLoad);
-
-        return () => {
-            window.removeEventListener('load', handleLoad);
-        };
+        fetchData();
         //eslint-disable-next-line
     }, []);
 
