@@ -1,10 +1,10 @@
 {
 	"Which city is higher above sea level?": "Quelle ville est située à une altitude plus élevée ?",
 	"Which city has more population?": "Quelle ville a une population plus nombreuse ?",
-	"Which city is in %s?": "Quelle ville se trouve en %s ?",
-	"Which city has an area of %s km2?": "Quelle ville a une superficie de %s km2 ?",
-	"Which city is governed by %s?": "Quelle ville est gouvernée par %s ?",
-	"Which city is in the time zone %s?": "Dans quelle ville se trouve le fuseau horaire %s ?",
+	"Which city is in?": "Quelle ville se trouve en %s ?",
+	"Which city has an area of?": "Quelle ville a une superficie de %s km2 ?",
+	"Which city is governed by?": "Quelle ville est gouvernée par %s ?",
+	"Which city is in the time zone?": "Dans quelle ville se trouve le fuseau horaire %s ?",
 
 	"Which autonomous community of Spain has an area of?": "Quelle communauté autonome d'Espagne a une superficie de %s km2 ?",
 	"Which autonomous community of Spain has a population of?": "Quelle communauté autonome d'Espagne a une population de %s ?",
@@ -24,9 +24,9 @@
 	"Who has more followers? (Tennis)": "Qui a le plus de followers ? (Tennis)",
 	"Who has more looses? (Tennis)": "Qui a le plus de défaites ? (Tennis)",
 	"Who has more wins? (Tennis)": "Qui a le plus de victoires ? (Tennis)",
-	"Which tennis player is from %s?": "De quel pays est originaire ce joueur de tennis %s ?",
-	"Which tennis player has %s record?": "Quel joueur de tennis détient le record de %s ?",
-	"What country is from %s? (Tennis)": "De quel pays est originaire %s ? (Tennis)",
+	"Which tennis player is from?": "De quel pays est originaire ce joueur de tennis %s ?",
+	"Which tennis player has wins?": "Quel joueur de tennis détient le record de %s ?",
+	"What country is from?": "De quel pays est originaire %s ? (Tennis)",
 	
 	"Which team plays in?": "Dans quelle équipe joue %s ?",
 	"Which team trains?": "Quelle équipe entraîne %s ?",
