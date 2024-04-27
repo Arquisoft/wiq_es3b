@@ -9,10 +9,12 @@ ifndef::imagesdir[:imagesdir: ../images]
 [options="header",cols="1,2"]
 |===
 |Decision|Motivation
-| Docker | It is decided to use Docker due to its popularity in the professional field and its ease of execution thanks to the configuration files provided by the subject's faculty.
-| MongoDB | It is decided to use MongoDB based on the recommendation of the faculty, as it is one of the most popular NoSQL databases and because it fits perfectly with the application's needs.
-| NodeJS | It is decided to use NodeJS since it is the recommended option by the subject's faculty and one of the most widely used technologies in this area of web applications, thus having extensive documentation and examples available on the Internet.
-| React | It is decided to use React since it is the recommended option by the subject's faculty.
+|Docker | It is decided to use Docker due to its popularity in the professional field and its ease of execution thanks to the configuration files provided by the subject's faculty. Docker allows the project to be encapsulated into portable containers, ensuring consistent runtime environments across development, testing, and production.
+|Microservices Architecture
+|Breaking down the application into independently deployable services offers flexibility, scalability, and fault isolation. Microservices promote team autonomy and facilitate the adoption of diverse architecture decisions for each component. It also facilitates teamwork, by dividing members' tasks, mainly focused on one service per task.
+|MongoDB | It is decided to use MongoDB based on the recommendation of the faculty, as it is one of the most popular NoSQL databases and because it fits perfectly with the application's needs. MongoDB's flexible document model aligns well with the application's data requirements, providing scalability and performance benefits.
+|NodeJS | It is decided to use NodeJS since it is the recommended option by the subject's faculty and one of the most widely used technologies in this area of web applications, thus having extensive documentation and examples available on the Internet, that extensive library ecosystem and community support offer ample resources for building robust server-side logic.
+|React | It is decided to use React since it is the recommended option by the subject's faculty. React optimizes rendering performance, ensuring a responsive user interface for the web application.
 |===
 
 [role="arc42help"]
