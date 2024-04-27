@@ -1,20 +1,11 @@
-.Participation-container {
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  @media screen and (max-width: 768px) {
+  .tablePost {
+    font-size: 0.8rem;
   }
-  
-  .Participation-title {
-    color: #8f95fd;
-    padding: 0 1em;
-    text-align: center;
-    font-size: 1.4em;
+  .Participation-text{
+    width: 100vmin;
+  }  
+  #participationTitle{
+    padding-top: 60px;
   }
-  
-  .Participation-text {
-    font-size: 1.4em;
-    text-align: center;
-    line-height: 1;
-  }
-  
+}
