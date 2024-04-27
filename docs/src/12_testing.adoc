@@ -1,0 +1,58 @@
+= Testing
+
+== Unit Tests
+Unit tests are used to test individual units of code, such as functions or methods. They are typically written by developers to ensure that each unit of code behaves as expected. In the context of microservices, unit tests can be used to verify the functionality of each microservice. To reduce the possibility of errors that are not due to the microservice being tested, any dependencies that the microservice calls can be mocked.
+
+== Acceptance Tests
+
+Acceptance tests allow us to evaluate the functionality of the graphical part of the application by simulating the behaviour that a user would have.
+
+[horizontal]
+|===
+|Test Case | Description
+
+|Registration
+|Test the registration functionality.
+
+|Login
+|Test the login functionality.
+
+|Logout
+|Test the logout functionality.
+
+|Language Change
+|Test the language change functionality.
+
+|Add and Delete Friends
+|Test the add and delete friends functionality.
+
+|Play in Classic Mode
+|Test the play in classic mode functionality.
+
+|Play in Infinite Mode
+|Test the play in infinite mode functionality.
+|===
+
+== Load and stress tests
+
+Load and stress tests allow us to evaluate the behavior of the system under different numbers of users and specific conditions. Load tests test the system's performance with varying user loads, while stress tests push the system to its limits under extreme conditions.
+
+[horizontal]
+|===
+|Test Case | Description
+
+|Load test 1
+|Test with a low number of users.
+
+|Load test 2
+|Test with a medium number of users.
+
+|Stress test 1
+|Test with a peak of 1000 users.
+
+|Stress test 2
+|Test with a peak of 1500 users.
+
+|Stress test 3
+|Test with a peak of 2000 users.
+|===
