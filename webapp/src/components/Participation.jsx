@@ -10,8 +10,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { PieChart, Pie, Tooltip, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
-import { Card } from '@mui/material';
+import { PieChart, Pie, Tooltip, Cell } from 'recharts';
 
 const gatewayUrl = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
@@ -96,23 +95,6 @@ export const Participation = ({ goTo }) => {
                   </Pie>
                   <Tooltip />
                 </PieChart>
-              </div>
-              <div data-testid="bar-chart" className="recharts-wrapper" style={{ display: 'flex', justifyContent: 'center' }}>
-                <BarChart width={400} height={400} title="modos de juego" data={[
-                    { name: <FormattedMessage id="classic" />, value: participationData.classic, fill: "#82ca9d" },
-                    { name: <FormattedMessage id="infinite" />, value: participationData.infinite, fill: "#ff6b6b" },
-                    { name: <FormattedMessage id="tlc" />, value: participationData.threeLife, fill: "#ffc658" },
-                    { name: <FormattedMessage id="category" />, value: participationData.category, fill: "#8884d8" },
-                    { name: <FormattedMessage id="custom" />, value: participationData.custom, fill: "#8884d8" },
-                ]}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" /> 
-                  <YAxis dataKey="value" />
-                  <Tooltip />
-                  <Legend 
-                  />
-                  <Bar dataKey="value" />
-                </BarChart>
               </div>
             </div>
           ) : (

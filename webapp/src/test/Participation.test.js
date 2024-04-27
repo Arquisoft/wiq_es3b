@@ -52,7 +52,6 @@ describe('Participation component', () => {
       expect(screen.getByText(/Total Time/i)).toBeInTheDocument();
 
       expect(screen.getByTestId('pie-chart')).toBeInTheDocument();
-      expect(screen.getByTestId('bar-chart')).toBeInTheDocument();
     });
   });
 });
