@@ -21,6 +21,7 @@ export const Game = ({ gameMode, locale, daltonicMode }) => {
 
     const changeCategory = (category) => {
         setCategory(category);
+        setCustomSettings(prevSettings => ({ ...prevSettings, category:category }));
         setRestart(!restart);
         goTo(0);
     }
@@ -30,7 +31,7 @@ export const Game = ({ gameMode, locale, daltonicMode }) => {
         gMode: gMode,
         maxTime: 3,
         numberQ: 10,
-        category: "general"
+        category: category
     });
 
     const startCustomGame = () => {
