@@ -4,6 +4,9 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 ## 1.0 Designs
 
+In the user interface concept, we have opted for a darker shade that is more pleasing to the eye, very easy to use, and fully adapted to any desktop and mobile device.
+Below are images of some of these interfaces.
+
 ### User Page
 :imagesdir: ../images
 image::UserView.png[User View]
