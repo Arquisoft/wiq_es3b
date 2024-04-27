@@ -148,13 +148,28 @@ app.get('/getParticipation/:userId', async (req, res) => {
       {
         $group: {
           _id: null,
-          totalGames: { $sum: 1 }, //$sum -> Retorna la suma de los valores numéricos
+          totalGames: { $sum: 1 },
           correctAnswers: { $sum: "$pAcertadas" },
           incorrectAnswers: { $sum: "$pFalladas" },
           totalTime: { $sum: "$totalTime" },
+          classic: {
+            $sum: { $cond: [{ $eq: ["$gameMode", "classic"] }, 1, 0] }
+          },
+          infinite: {
+            $sum: { $cond: [{ $eq: ["$gameMode", "infinite"] }, 1, 0] }
+          },
+          threeLife: {
+            $sum: { $cond: [{ $eq: ["$gameMode", "threeLife"] }, 1, 0] }
+          },
+          category: {
+            $sum: { $cond: [{ $eq: ["$gameMode", "category"] }, 1, 0] }
+          },
+          custom: {
+            $sum: { $cond: [{ $eq: ["$gameMode", "custom"] }, 1, 0] }
+          }
         },
       },
-    ]);
+    ]);    
 
     if (participationData.length === 0 || (participationData.length > 0 && participationData[0].totalGames === 0)) {
       // No se encontraron datos para el usuario
