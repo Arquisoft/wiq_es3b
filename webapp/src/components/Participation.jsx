@@ -44,7 +44,7 @@ export const Participation = ({ goTo }) => {
   return (
     <main className="Participation-container">
       <div>
-        <Typography sx={{ textAlign: 'center', fontSize:'2em', margin:'0 0 0.3em 0 !important', color:'#8f95fd' }}>
+        <Typography id="participationTitle" sx={{ textAlign: 'center', fontSize:'2em', margin:'0 0 0.3em 0 !important', color:'#8f95fd' }}>
           <FormattedMessage id="participationTitle" />
         </Typography>
 
