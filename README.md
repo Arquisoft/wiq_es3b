@@ -9,6 +9,8 @@ This is a base repo for the [Software Architecture course](http://arquisoft.gith
 This repo is a basic application composed of several components.
 
 - **Gateway service**. Express service that is exposed to the public and serves as a proxy to the two previous ones.
+- **Game service**. Service responsible of managing game-related logic, including game logging, game results and statistics associated with users 
+- **Question service**. Service responsible of managing questions and answers for games. It allows the creation and retrieval of questions from the database. 
 - **User service**. Express service that handles the insertion of new users in the system.
 - **Auth service**. Express service that handles the authentication of users.
 - **Webapp**. React web application that uses the gateway service to allow basic login and new user features.
