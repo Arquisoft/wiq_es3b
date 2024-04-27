@@ -1277,7 +1277,7 @@ In case the login isn&#8217;t succesfully, a warning message is shown.</p>
 <div class="sect2">
 <h3 id="_motivation_6">7.2. Motivation:</h3>
 <div class="paragraph">
-<p>The system is based on a microservices architecture with six independent services, each responsible for a specific aspect of functionality. One service is the graphical interface (WebApp), which is responsible for the presentation layer of a web application. The user service is responsible for managing user-related functionalities, while the auth service is responsible for authenticating users. The question generation service uses Wikidata, a free and open database, to generate questions automatically. Finally, the question service allows to save and retrieve information from the generated questions and the game service does the same for game-related data and statistics. MongoDB, a NoSQL database, is used to store the information.</p>
+<p>The system is based on a microservices architecture in which each service is responsible for a specific aspect of functionality. One service is the graphical interface (WebApp), which is responsible for the presentation layer of a web application. The user service is responsible for managing user-related functionalities, while the auth service is responsible for authenticating users. The question generation service uses Wikidata, a free and open database, to generate questions automatically. The Friends service is responsible for managing the social aspect of the application, allowing users to connect with their friends. The question service allows to save and retrieve information from the generated questions, and the game service does the same for game-related data and statistics. MongoDB, a NoSQL database, is used to store the information. All microservices connect to the graphical interface through an API Gateway.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1334,6 +1334,10 @@ The availability and efficiency of the application will be affected by the avail
 <td class="tableblock halign-left valign-top"><p class="tableblock"> <em>The microservice responsible for managing users.</em></p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Friends service</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"> <em>The microservice responsible for managing the social aspect of the application. It allows users to connect with their friends.</em></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Auth service</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"> <em>The microservice responsible for managing the authentication of the users.</em></p></td>
 </tr>
@@ -1350,6 +1354,10 @@ The availability and efficiency of the application will be affected by the avail
 <div class="sect1">
 <h2 id="section-concepts">8. 1.0 Designs</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>In the user interface concept, we have opted for a darker shade that is more pleasing to the eye, very easy to use, and fully adapted to any desktop and mobile device.
+Below are images of some of these interfaces.</p>
+</div>
 <div class="sect2">
 <h3 id="_user_page">8.1. User Page</h3>
 <div class="imageblock">
@@ -1442,19 +1450,23 @@ The application can be deployed at any time locally or in an environment such as
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Docker</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">It is decided to use Docker due to its popularity in the professional field and its ease of execution thanks to the configuration files provided by the subject&#8217;s faculty.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It is decided to use Docker due to its popularity in the professional field and its ease of execution thanks to the configuration files provided by the subject&#8217;s faculty. Docker allows the project to be encapsulated into portable containers, ensuring consistent runtime environments across development, testing, and production.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Microservices Architecture</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Breaking down the application into independently deployable services offers flexibility, scalability, and fault isolation. Microservices promote team autonomy and facilitate the adoption of diverse architecture decisions for each component. It also facilitates teamwork, by dividing members' tasks, mainly focused on one service per task.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">MongoDB</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">It is decided to use MongoDB based on the recommendation of the faculty, as it is one of the most popular NoSQL databases and because it fits perfectly with the application&#8217;s needs.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It is decided to use MongoDB based on the recommendation of the faculty, as it is one of the most popular NoSQL databases and because it fits perfectly with the application&#8217;s needs. MongoDB&#8217;s flexible document model aligns well with the application&#8217;s data requirements, providing scalability and performance benefits.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">NodeJS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">It is decided to use NodeJS since it is the recommended option by the subject&#8217;s faculty and one of the most widely used technologies in this area of web applications, thus having extensive documentation and examples available on the Internet.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It is decided to use NodeJS since it is the recommended option by the subject&#8217;s faculty and one of the most widely used technologies in this area of web applications, thus having extensive documentation and examples available on the Internet, that extensive library ecosystem and community support offer ample resources for building robust server-side logic.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">React</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">It is decided to use React since it is the recommended option by the subject&#8217;s faculty.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It is decided to use React since it is the recommended option by the subject&#8217;s faculty. React optimizes rendering performance, ensuring a responsive user interface for the web application.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1569,11 +1581,15 @@ The application can be deployed at any time locally or in an environment such as
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Lack of time</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Not planning work well can result in difficulties meeting deadlines</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not planning work well can result in difficulties meeting deadlines.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Use of unknown technologies</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The use of languages and technologies unknown to group members can make it difficult to perform assigned tasks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The use of languages and technologies unknown to group members can make it difficult to perform assigned tasks.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Non-optimal design</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Poorly considered design decisions can lead to a fragile or difficult-to-scale architecture, leading to long-term maintenance issues.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1595,6 +1611,18 @@ The application can be deployed at any time locally or in an environment such as
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Insufficient documentation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A lack of clear documentation about code and architecture can make it difficult to understand and maintain code, leading to additional work.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lack of refactoring</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The accumulation of redundant or outdated code can hinder future modifications and improvements, increasing the technical complexity of the project.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Poor test coverage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The absence of adequate test coverage can result in software that is prone to bugs and vulnerabilities that go undetected during the development.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bug pile-up</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Failure to properly resolve known bugs during development can result in code that is more problem-prone.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1636,6 +1664,22 @@ The application can be deployed at any time locally or in an environment such as
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>MongoDB</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>NoSQL database management system used in the application</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Continuous Integration (CI)</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Development practice where developers merge their code changes into a shared repository, triggering automated builds and tests to detect integration errors early in the development process.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Microservices</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Architectural style where an application is composed of loosely coupled, independently deployable services that are organized around business capabilities. Each service represents a small, focused component.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Session Management</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>The process of handling and maintaining user session information between requests. It involves managing user information during it&#8217;s interaction with the web application.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Scalability</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>The ability of a system to handle increased workload or demand by adding resources without impacting performance or availability.</em></p></td>
 </tr>
 </tbody>
 </table>
