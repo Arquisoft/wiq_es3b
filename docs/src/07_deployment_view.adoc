@@ -7,7 +7,7 @@ image::deployment_diagram.svg[align="center",title="Deployment Diagram"]
 
 === Motivation:
 
-The system is based on a microservices architecture with six independent services, each responsible for a specific aspect of functionality. One service is the graphical interface (WebApp), which is responsible for the presentation layer of a web application. The user service is responsible for managing user-related functionalities, while the auth service is responsible for authenticating users. The question generation service uses Wikidata, a free and open database, to generate questions automatically. Finally, the question service allows to save and retrieve information from the generated questions and the game service does the same for game-related data and statistics. MongoDB, a NoSQL database, is used to store the information.
+The system is based on a microservices architecture in which each service is responsible for a specific aspect of functionality. One service is the graphical interface (WebApp), which is responsible for the presentation layer of a web application. The user service is responsible for managing user-related functionalities, while the auth service is responsible for authenticating users. The question generation service uses Wikidata, a free and open database, to generate questions automatically. The Friends service is responsible for managing the social aspect of the application, allowing users to connect with their friends. The question service allows to save and retrieve information from the generated questions, and the game service does the same for game-related data and statistics. MongoDB, a NoSQL database, is used to store the information. All microservices connect to the graphical interface through an API Gateway.
 
 === Quality and/or Performance Features::
 
@@ -26,6 +26,7 @@ The availability and efficiency of the application will be affected by the avail
 | _Question service_  | _The microservice responsible for saving and getting information about the questions._
 | _Game service_ | _The microservice responsible for saving and getting information about the games._
 | _User service_ | _The microservice responsible for managing users._
+| _Friends service_ | _The microservice responsible for managing the social aspect of the application. It allows users to connect with their friends._
 | _Auth service_ | _The microservice responsible for managing the authentication of the users._
 | _MongoDB_ | _A NoSQL based database where we can save the user's data._
 |===
