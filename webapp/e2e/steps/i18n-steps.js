@@ -56,6 +56,9 @@ defineFeature(feature, test => {
     then('A Classic Game message should be shown in different languages', async () => {
         await expect(page).toMatchElement("span", { text: "Juego Clásico" });
 
+        await page.waitForSelector('button.menuLeft', { text: '' });
+        await expect(page).toClick('button.menuLeft', { text: '' });
+
         await page.waitForSelector('div.languageButton', { text: '' });
         await expect(page).toClick('div.languageButton', { text: '' });
         await page.waitForSelector('li', { text: 'Italiano' });
