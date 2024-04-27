@@ -9,8 +9,10 @@ This is a base repo for the [Software Architecture course](http://arquisoft.gith
 This repo is a basic application composed of several components.
 
 - **Gateway service**. Express service that is exposed to the public and serves as a proxy to the two previous ones.
-- **Game service**. Service responsible of managing game-related logic, including game logging, game results and statistics associated with users 
-- **Question service**. Service responsible of managing questions and answers for games. It allows the creation and retrieval of questions from the database. 
+- **Game service**. Service responsible for saving and getting information about the games.
+- **Question service**. Service responsible for saving and getting information about the questions.
+- **Question generation service**. Service responsible for generating random questions for the game service.
+- **Friends service**. Service responsible for managing the friend relationships between users.
 - **User service**. Express service that handles the insertion of new users in the system.
 - **Auth service**. Express service that handles the authentication of users.
 - **Webapp**. React web application that uses the gateway service to allow basic login and new user features.
@@ -106,7 +108,7 @@ deploy:
         command: |
           wget https://raw.githubusercontent.com/arquisoft/wiq_es3b/master/docker-compose.yml -O docker-compose.yml
           wget https://raw.githubusercontent.com/arquisoft/wiq_es3b/master/.env -O .env
-          docker compose down
+          docker compose --profile down down
           docker compose --profile prod up -d
 ```
 
