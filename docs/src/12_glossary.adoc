@@ -20,4 +20,16 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 |MongoDB
 |NoSQL database management system used in the application
+
+|Continuous Integration (CI)
+|Development practice where developers merge their code changes into a shared repository, triggering automated builds and tests to detect integration errors early in the development process.
+
+|Microservices
+|Architectural style where an application is composed of loosely coupled, independently deployable services that are organized around business capabilities. Each service represents a small, focused component.
+
+|Session Management
+|The process of handling and maintaining user session information between requests. It involves managing user information during it's interaction with the web application.
+
+|Scalability
+|The ability of a system to handle increased workload or demand by adding resources without impacting performance or availability.
 |===
