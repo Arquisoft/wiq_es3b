@@ -1,9 +1,12 @@
-= Testing
+ifndef::imagesdir[:imagesdir: ../images]
 
-== Unit Tests
-Unit tests are used to test individual units of code, such as functions or methods. They are typically written by developers to ensure that each unit of code behaves as expected. In the context of microservices, unit tests can be used to verify the functionality of each microservice. To reduce the possibility of errors that are not due to the microservice being tested, any dependencies that the microservice calls can be mocked.
+[[section-testing]]
+== Testing
 
-== Acceptance Tests
+=== Unit Tests
+Unit tests are used to test individual units of code, such as functions or methods. In the context of microservices, unit tests can be used to verify the functionality of each microservice. To reduce the possibility of errors that are not due to the microservice being tested, any dependencies that the microservice calls can be mocked.
+
+=== Acceptance Tests
 
 Acceptance tests allow us to evaluate the functionality of the graphical part of the application by simulating the behaviour that a user would have.
 
@@ -33,7 +36,7 @@ Acceptance tests allow us to evaluate the functionality of the graphical part of
 |Test the play in infinite mode functionality.
 |===
 
-== Load and stress tests
+=== Load and stress tests
 
 Load and stress tests allow us to evaluate the behavior of the system under different numbers of users and specific conditions. Load tests test the system's performance with varying user loads, while stress tests push the system to its limits under extreme conditions.
 
