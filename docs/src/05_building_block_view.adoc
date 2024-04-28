@@ -85,4 +85,7 @@ Detailed structure of the system. Focused on the components of the _User Interfa
 | *_Question Service_* 
 | Saves the questions.
 
+| *_Friend Service_* 
+| Allows to add, list and remove other users of the app as friends. 
+
 |=== 
