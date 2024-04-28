@@ -529,7 +529,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_load_and_stress_tests">13.3. Load and stress tests</a></li>
 </ul>
 </li>
-<li><a href="#section-glossary">14. Glossary</a></li>
+<li><a href="#section-monitoring">14. Monitoring with Grafana and Prometheus</a>
+<ul class="sectlevel2">
+<li><a href="#_memory_and_cpu_usage">14.1. Memory and CPU Usage</a></li>
+<li><a href="#_number_of_requests_and_response_time">14.2. Number of Requests and Response Time</a></li>
+<li><a href="#_number_of_calls_to_each_endpoint">14.3. Number of Calls to Each Endpoint</a></li>
+</ul>
+</li>
+<li><a href="#section-glossary">15. Glossary</a></li>
 </ul>
 </div>
 </div>
@@ -1701,35 +1708,63 @@ The application can be deployed at any time locally or in an environment such as
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Test Case</th>
 <th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Response time &lt;800ms</th>
+<th class="tableblock halign-left valign-top">Response time 800-1200ms</th>
+<th class="tableblock halign-left valign-top">Response time &gt;1200ms</th>
+<th class="tableblock halign-left valign-top">No response</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Load test 1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Test with a low number of users.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0%</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Load test 2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Test with a medium number of users.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">84.3%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9.1%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6.6%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0%</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Stress test 1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Test with a peak of 1000 users.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">64.5%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13.9%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20.2%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.4%</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Stress test 2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Test with a peak of 1500 users.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">47.9%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10.8%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">36.4%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.9%</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Stress test 3</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Test with a peak of 2000 users.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">49.2%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10.6%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22.3%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17.9%</p></td>
 </tr>
 </tbody>
 </table>
@@ -1738,7 +1773,55 @@ The application can be deployed at any time locally or in an environment such as
 </div>
 </div>
 <div class="sect1">
-<h2 id="section-glossary">14. Glossary</h2>
+<h2 id="section-monitoring">14. Monitoring with Grafana and Prometheus</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Monitoring is a crucial part of application development as it allows us to obtain real-time information about the performance and health of the system. In this case, we used Grafana and Prometheus to collect and visualize monitoring data.</p>
+</div>
+<div class="sect2">
+<h3 id="_memory_and_cpu_usage">14.1. Memory and CPU Usage</h3>
+<div class="paragraph">
+<p>Grafana and Prometheus enable us to monitor the memory and CPU usage of the system. This helps us identify potential bottlenecks and optimize the performance of our application. We can visualize real-time graphs that show the evolution of memory and CPU usage over time.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="./images/system_usage.png" alt="system usage">
+</div>
+<div class="title">Figure 3. System Usage Monitoring</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_number_of_requests_and_response_time">14.2. Number of Requests and Response Time</h3>
+<div class="paragraph">
+<p>In addition to memory and CPU usage, we can also monitor the number of requests our application receives and the response time of these requests. This allows us to identify potential performance issues and optimize the responsiveness of our application. Grafana and Prometheus allow us to visualize graphs that show the evolution of the number of requests and response time.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="./images/response_time_monitoring.png" alt="response time monitoring">
+</div>
+<div class="title">Figure 4. Response Time Monitoring</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_number_of_calls_to_each_endpoint">14.3. Number of Calls to Each Endpoint</h3>
+<div class="paragraph">
+<p>Another important metric we can monitor is the number of calls made to each endpoint of our application. This helps us identify the most frequently used endpoints and optimize their performance. Grafana and Prometheus allow us to visualize graphs that show the number of calls to each endpoint.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="./images/endpoint_monitoring.png" alt="endpoint monitoring">
+</div>
+<div class="title">Figure 5. Endpoint Monitoring</div>
+</div>
+<div class="paragraph">
+<p>With monitoring using Grafana and Prometheus, we can gain a comprehensive view of the performance and health of our application. This enables us to make informed decisions to improve the performance and responsiveness of our application.
+&lt;&lt;&lt;&lt;</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-glossary">15. Glossary</h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1796,7 +1879,7 @@ The application can be deployed at any time locally or in an environment such as
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-04-28 02:04:30 +0200
+Last updated 2024-04-28 16:52:29 +0200
 </div>
 </div>
 </body>
