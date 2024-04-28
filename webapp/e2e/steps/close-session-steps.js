@@ -39,15 +39,15 @@ defineFeature(feature, test => {
       await expect(page).toFill('input[name="password"]', password);
       await expect(page).toFill('input[name="confirmPassword"]', password);
       
-      await expect(page).toClick('button.btn', { text: '' });
+      await expect(page).toClick('button.btn', {text: "Sign Up"});
 
-      await expect(page).toClick('button.perfilButton', { text: '' });
+      await expect(page).toClick('button.perfilButton');
 
       await expect(page).toClick('li', { text: 'Logout' });
     });
 
     then('A title message should be shown in the screen', async () => {
-        await expect(page).toMatchElement("h1.titleLoginRegister", { text: "" });
+        await expect(page).toMatchElement("h1.titleLoginRegister");
     });
   })
 

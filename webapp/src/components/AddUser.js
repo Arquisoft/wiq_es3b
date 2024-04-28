@@ -39,6 +39,11 @@ const AddUser = ({goTo, changeLanguage, locale, handleToggleView}) => {
 
   const addUser = async () => {
     try {
+      if (password.length < 4) {
+        setError('Password must be at least 4 characters long');
+        return;
+      }
+      
       if (password !== confirmPassword) {
         setError('Passwords do not match');
         return;
@@ -153,7 +158,7 @@ const AddUser = ({goTo, changeLanguage, locale, handleToggleView}) => {
         </div> 
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={<FormattedMessage id="userAdd" />} />
       {error && (
-        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
+        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={<FormattedMessage id={error} />} />
       )}
     </Container>
   );

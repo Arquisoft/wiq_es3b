@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const { defineFeature, loadFeature }=require('jest-cucumber');
+const { text } = require('stream/consumers');
 const setDefaultOptions = require('expect-puppeteer').setDefaultOptions
 const feature = loadFeature('./features/friends.feature');
 
@@ -22,7 +23,6 @@ defineFeature(feature, test => {
         waitUntil: "networkidle0",
       })
       .catch(() => {});
-      
   });
 
   test('The user is going to add a friend', ({given,when,then}) => {
@@ -47,7 +47,7 @@ defineFeature(feature, test => {
         await expect(page).toFill('input[name="confirmPassword"]', password);
 
         await page.waitForSelector('button.btn');
-        await expect(page).toClick('button.btn', { text: '' });
+        await expect(page).toClick('button.btn', {text: "Sign Up"});
 
         await page.waitForSelector('div a');
         await expect(page).toClick('div a', { text: 'Friends' });
@@ -55,8 +55,8 @@ defineFeature(feature, test => {
         await page.waitForSelector('.searchForm input');
         await expect(page).toFill('.searchForm input', 'defaultuser');
 
-        await page.waitForSelector('button.btn');
-        await expect(page).toClick('button.btn', { text: '' });
+        await page.waitForSelector('button.btn',{text: "Add friend"});
+        await expect(page).toClick('button.btn',{text: "Add friend"});
 
     });
 
@@ -70,7 +70,7 @@ defineFeature(feature, test => {
     });
 
     when('I am in Friends page and select the friend to remove', async () => {
-        await page.waitForSelector('.tableFriends button.btn');
+        await page.waitForSelector('.tableFriends button.btn', { text: 'Delete friend' });
         await expect(page).toClick('.tableFriends button.btn', { text: 'Delete friend' });
 
     });

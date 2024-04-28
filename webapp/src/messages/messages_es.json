@@ -6,6 +6,7 @@
   "signIn": "Iniciar sesión",
   "loginSuccessfull": "Inicio de sesión exitoso",
   "invalidCredentials": "Credenciales inválidas",
+  "Invalid credentials":"Credenciales inválidas",
 
   "register": "Registrar usuario",
   "confirmPassword": "Confirmar contraseña",
@@ -13,7 +14,9 @@
   "signUp": "Registrarse",
   "alreadyAccount": "¿Ya tienes una cuenta? Inicia sesión aquí.",
   "userAdd": "Usuario agregado exitosamente",
-  "passwordNotMatch": "Las contraseñas no coinciden",
+  "Passwords do not match": "Las contraseñas no coinciden",
+  "Password must be at least 4 characters long": "La contraseña debe tener al menos 4 caracteres",
+  "User already exist": "El usuario ya existe",
 
   "menu": "Menú",
   "langen": "Inglés",

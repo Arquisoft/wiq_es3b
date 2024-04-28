@@ -38,7 +38,7 @@ defineFeature(feature, test => {
         when('I fill the data in the form, press submit', async () => {
             await expect(page).toFill('input[name="username"]', username);
             await expect(page).toFill('input[name="password"]', password);
-            expect(page).toClick('button.btn', { text: '' })
+            expect(page).toClick('button.btn')
 
         
 

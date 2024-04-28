@@ -37,6 +37,11 @@ app.post('/adduser', async (req, res) => {
           res.status(400).json({ error: "User already exist" }); 
           return;
         }
+        // Check if the password has at least 4 characters
+        if (req.body.password.length < 4) {
+          res.status(400).json({ error: "Password must be at least 4 characters long" });
+          return;
+        }
         // Encrypt the password before saving it
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 

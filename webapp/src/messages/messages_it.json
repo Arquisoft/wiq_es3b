@@ -6,6 +6,8 @@
     "signIn": "Accedi",
     "loginSuccessfull": "Accesso riuscito",
     "invalidCredentials": "Credenziali non valide",
+    "Invalid credentials":"Credenziali non valide",
+
 
     "register": "Registrati",
     "confirmPassword": "Conferma Password",
@@ -13,7 +15,9 @@
     "signUp": "Registrati",
     "alreadyAccount": "Hai già un account? Accedi qui.",
     "userAdd": "Utente aggiunto con successo",
-    "passwordNotMatch": "Le password non corrispondono",
+    "Passwords do not match": "Le password non corrispondono",
+    "Password must be at least 4 characters long": "La password deve essere lunga almeno 4 caratteri",
+    "User already exist": "L'utente esiste già",
 
     "menu": "Menu",
     "langen": "Inglese",

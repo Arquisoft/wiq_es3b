@@ -6,6 +6,7 @@
     "signIn": "Sign In",
     "loginSuccessfull": "Login successful",
     "invalidCredentials": "Invalid credentials",
+    "Invalid credentials":"Invalid credentials",
 
     "register": "Register a user",
     "confirmPassword": "Confirm Password",
@@ -13,7 +14,9 @@
     "signUp": "Sign Up",
     "alreadyAccount": "Already have an account? Login here.",
     "userAdd": "User added successfully",
-    "passwordNotMatch": "Passwords do not match",
+    "Passwords do not match": "Passwords do not match",
+    "Password must be at least 4 characters long": "Password must be at least 4 characters long",
+    "User already exist": "User already exist",
 
     "menu": "Menu",
     "langen": "English",

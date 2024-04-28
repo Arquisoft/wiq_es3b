@@ -38,16 +38,16 @@ defineFeature(feature, test => {
       await expect(page).toFill('input[name="username"]', username);
       await expect(page).toFill('input[name="password"]', password);
       await expect(page).toFill('input[name="confirmPassword"]', password);
-      await page.waitForSelector('button.btn', { text: '' });
-      await expect(page).toClick('button.btn', { text: '' });
+      await page.waitForSelector('button.btn');
+      await expect(page).toClick('button.btn', {text: "Sign Up"});
       await page.waitForSelector('span', { text: "Classic Game" });
       await expect(page).toMatchElement("span", { text: "Classic Game" });
 
-      await page.waitForSelector('button.menuLeft', { text: '' });
-      await expect(page).toClick('button.menuLeft', { text: '' });
+      await page.waitForSelector('button.menuLeft');
+      await expect(page).toClick('button.menuLeft');
 
-      await page.waitForSelector('div.languageButton', { text: '' });
-      await expect(page).toClick('div.languageButton', { text: '' });
+      await page.waitForSelector('div.languageButton');
+      await expect(page).toClick('div.languageButton');
 
       await page.waitForSelector('li', { text: 'Spanish' });
       await expect(page).toClick('li', { text: 'Spanish' });

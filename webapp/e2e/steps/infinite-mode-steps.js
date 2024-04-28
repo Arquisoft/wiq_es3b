@@ -39,13 +39,13 @@ defineFeature(feature, test => {
       await expect(page).toFill('input[name="password"]', password);
       await expect(page).toFill('input[name="confirmPassword"]', password);
       
-      await expect(page).toClick('button.btn', { text: '' });
+      await expect(page).toClick('button.btn', {text: "Sign Up"});
 
       await page.waitForSelector('button.btn', { text: 'Infinite Mode' });
       await expect(page).toClick('button.btn', { text: 'Infinite Mode' });
 
-      await page.waitForSelector('div.endGameButton', { text: '' });
-      await expect(page).toClick('div.endGameButton', { text: '' });
+      await page.waitForSelector('div.endGameButton');
+      await expect(page).toClick('div.endGameButton');
     });
 
     then('A Game Over message should be shown in the screen', async () => {
