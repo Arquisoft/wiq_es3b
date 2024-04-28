@@ -522,7 +522,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_technical_debts">12.2. Technical debts</a></li>
 </ul>
 </li>
-<li><a href="#section-glossary">13. Glossary</a></li>
+<li><a href="#_testing_2">Testing</a>
+<ul class="sectlevel1">
+<li><a href="#_unit_tests">1. Unit Tests</a></li>
+<li><a href="#_acceptance_tests">2. Acceptance Tests</a></li>
+<li><a href="#_load_and_stress_tests">3. Load and stress tests</a></li>
+<li><a href="#section-glossary">4. Glossary</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -1630,8 +1637,110 @@ The application can be deployed at any time locally or in an environment such as
 </div>
 </div>
 </div>
+<h1 id="_testing_2" class="sect0">Testing</h1>
 <div class="sect1">
-<h2 id="section-glossary">13. Glossary</h2>
+<h2 id="_unit_tests">1. Unit Tests</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Unit tests are used to test individual units of code, such as functions or methods. They are typically written by developers to ensure that each unit of code behaves as expected. In the context of microservices, unit tests can be used to verify the functionality of each microservice. To reduce the possibility of errors that are not due to the microservice being tested, any dependencies that the microservice calls can be mocked.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_acceptance_tests">2. Acceptance Tests</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Acceptance tests allow us to evaluate the functionality of the graphical part of the application by simulating the behaviour that a user would have.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Test Case</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Registration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test the registration functionality.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Login</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test the login functionality.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Logout</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test the logout functionality.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Language Change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test the language change functionality.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add and Delete Friends</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test the add and delete friends functionality.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Play in Classic Mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test the play in classic mode functionality.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Play in Infinite Mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test the play in infinite mode functionality.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_load_and_stress_tests">3. Load and stress tests</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Load and stress tests allow us to evaluate the behavior of the system under different numbers of users and specific conditions. Load tests test the system&#8217;s performance with varying user loads, while stress tests push the system to its limits under extreme conditions.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Test Case</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Load test 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test with a low number of users.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Load test 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test with a medium number of users.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stress test 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test with a peak of 1000 users.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stress test 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test with a peak of 1500 users.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stress test 3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test with a peak of 2000 users.</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-glossary">4. Glossary</h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1683,19 +1792,13 @@ The application can be deployed at any time locally or in an environment such as
 </tr>
 </tbody>
 </table>
-<div style="page-break-after: always;"></div>
-<div class="literalblock">
-<div class="content">
-<pre>include::src/12_testing.adoc[]</pre>
-</div>
-</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-04-28 02:01:46 +0200
+Last updated 2024-04-28 02:04:30 +0200
 </div>
 </div>
 </body>
