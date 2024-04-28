@@ -1,0 +1,26 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[[section-monitoring]]
+== Monitoring with Grafana and Prometheus
+
+Monitoring is a crucial part of application development as it allows us to obtain real-time information about the performance and health of the system. In this case, we used Grafana and Prometheus to collect and visualize monitoring data.
+
+=== Memory and CPU Usage
+
+Grafana and Prometheus enable us to monitor the memory and CPU usage of the system. This helps us identify potential bottlenecks and optimize the performance of our application. We can visualize real-time graphs that show the evolution of memory and CPU usage over time.
+image::system_usage.png[align="center",title="System Usage Monitoring"]
+
+
+=== Number of Requests and Response Time
+
+In addition to memory and CPU usage, we can also monitor the number of requests our application receives and the response time of these requests. This allows us to identify potential performance issues and optimize the responsiveness of our application. Grafana and Prometheus allow us to visualize graphs that show the evolution of the number of requests and response time.
+image::response_time_monitoring.png[align="center",title="Response Time Monitoring"]
+
+
+=== Number of Calls to Each Endpoint
+
+Another important metric we can monitor is the number of calls made to each endpoint of our application. This helps us identify the most frequently used endpoints and optimize their performance. Grafana and Prometheus allow us to visualize graphs that show the number of calls to each endpoint.
+image::endpoint_monitoring.svg[align="center",title="Endpoint Monitoring"]
+
+
+With monitoring using Grafana and Prometheus, we can gain a comprehensive view of the performance and health of our application. This enables us to make informed decisions to improve the performance and responsiveness of our application.
