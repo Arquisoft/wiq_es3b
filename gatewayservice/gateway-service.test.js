@@ -278,6 +278,15 @@ describe('GET /api/info/users', () => {
   });
 });
 describe('GET /api/info/games', () => {
+  const runGameInfoTest = async (mockedUsername, mockedInfoResponse) => {
+    axios.get.mockResolvedValueOnce({ data: mockedInfoResponse });
+
+    const response = await request(app).get(`/api/info/games?user=${mockedUsername}`);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(mockedInfoResponse);
+  };
+
   it('should return game information', async () => {
     const mockedUsername = 'mockedUser';
     const mockedInfoResponse = { 
@@ -286,24 +295,24 @@ describe('GET /api/info/games', () => {
       answers: ['User 1', 'User 2'],
       questions: ['Question 1', 'Question 2']
     };
-    axios.get.mockResolvedValueOnce({ data: mockedInfoResponse });
 
-    const response = await request(app).get(`/api/info/games?user=${mockedUsername}`);
-
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(mockedInfoResponse);
+    await runGameInfoTest(mockedUsername, mockedInfoResponse);
   });
+
+  const runErrorTest = async (endpoint, mockedUsername, mockedError) => {
+    axios.get.mockRejectedValueOnce({ response: { status: 500, data: mockedError } });
+
+    const response = await request(app).get(`${endpoint}?user=${mockedUsername}`);
+
+    expect(response.statusCode).toBe(500);
+    expect(response.body).toEqual(mockedError);
+  };
 
   it('should return an error when the game service is down', async () => {
     const mockedUsername = 'mockedUser';
     const mockedError = { error: 'Service down' };
 
-    axios.get.mockRejectedValueOnce({ response: { status: 500, data: mockedError } });
-
-    const response = await request(app).get(`/api/info/games?user=${mockedUsername}`);
-
-    expect(response.statusCode).toBe(500);
-    expect(response.body).toEqual(mockedError);
+    await runErrorTest('/api/info/games', mockedUsername, mockedError);
   });
 });
 describe('addGame', () =>{
@@ -323,7 +332,7 @@ describe('addGame', () =>{
     expect(response.body).toEqual({ error: 'Unauthorized' });
   });
 });
-describe('POST /friends', () => {
+describe('Add a friend', () => {
   it('should skip the middleware and return 401 Unauthorized if authorization token is missing', async () => {
     const response = await request(app).post('/friends');
     expect(response.statusCode).toBe(401);
@@ -393,13 +402,17 @@ describe('Friend Service', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(mockedFriends);
   });
-  it('should return an error when the friend service is down', async () => {
-    const mockedUsername = 'testuser';
-    const mockedError = { error: 'Service down' };
-    jest.spyOn(axios, 'get').mockImplementation({ response: { status: 500, data: { error: 'Service down' } } });
+  const testFriendServiceError = async (mockedUsername, mockedError) => {
+    jest.spyOn(axios, 'get').mockRejectedValueOnce({ response: { status: 500, data: mockedError } });
     const response = await request(app)
       .get(`/friends/${mockedUsername}`);
     expect(response.statusCode).toBe(500);
     expect(response.body).toEqual(mockedError);
+  };
+
+  it('should return an error when the friend service is down', async () => {
+    const mockedUsername = 'testuser';
+    const mockedError = { error: 'Service down' };
+    await testFriendServiceError(mockedUsername, mockedError);
   });
 });
