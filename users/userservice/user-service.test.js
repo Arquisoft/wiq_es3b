@@ -59,6 +59,24 @@ describe('User Service', () => {
     const response = await request(app).post('/users').send(existingUser);
     expect(response.status).toBe(400);
   });
+  it('should return an error when adding a user with an empty username on POST /users', async () => {
+    const user = {
+      username: '',
+      password: 'testpassword',
+      profileImage: 'perfil2.jpg',
+    };
+    const response = await request(app).post('/users').send(user);
+    expect(response.status).toBe(400);
+  });
+  it('should return an error when adding a user with an username too long on POST /users', async () => {
+    const user = {
+      username: 'qwertyuiopasdfghjklñzxcvbnmqwertyuiopasdfghjklñ',
+      password: 'testpassword',
+      profileImage: 'perfil2.jpg',
+    };
+    const response = await request(app).post('/users').send(user);
+    expect(response.status).toBe(400);
+  });
   it('should get user info on GET /users/:username', async () => {
     const username = 'defaultuser';
     const response = await request(app).get(`/users/${username}`);
