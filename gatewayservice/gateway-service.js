@@ -63,7 +63,7 @@ app.get('/metrics', (req, res) => {
   res.end(promClient.register.metrics());
 });
 
-app.delete('/deletefriend/:username/:friend', async (req, res, next) => {
+app.delete('/friends/:friend_username', async (req, res, next) => {
   if (req.headers.authorization) {
     try{
       const response = await axios.get(`${authServiceUrl}/verify`, {
@@ -83,7 +83,7 @@ app.delete('/deletefriend/:username/:friend', async (req, res, next) => {
   }
 });
 // Security middleware
-app.post(['/addgame','/addfriend'], async (req, res, next) => {
+app.post(['/games','/friends'], async (req, res, next) => {
   if (req.headers.authorization) {
     try{
       const response = await axios.get(`${authServiceUrl}/verify`, {
@@ -144,11 +144,11 @@ app.get('/verify', async (req, res) => {
 });
 
 
-app.post('/adduser', async (req, res) => {
+app.post('/users', async (req, res) => {
   try {
     // Forward the add user request to the user service
     try{
-      const userResponse = await axios.post(userServiceUrl+'/adduser', req.body);
+      const userResponse = await axios.post(userServiceUrl+'/users', req.body);
       res.json(userResponse.data);
     } catch (error) {
       res.status(error.response.status).json(error.response.data);
@@ -232,11 +232,11 @@ app.get('/api/info/games', async (req, res) => {
 });
 
 // Ruta para agregar una nuevo amigo
-app.post('/addgame', async (req, res) => {
+app.post('/games', async (req, res) => {
   try {
     try{
       // Forward the add game request to the games service
-      const gameResponse = await axios.post(gameServiceUrl + '/addgame', req.body);
+      const gameResponse = await axios.post(gameServiceUrl + '/games', req.body);
       res.json(gameResponse.data);
     }catch(error){
       res.status(error.response.status).json(error.response.data);
@@ -247,11 +247,11 @@ app.post('/addgame', async (req, res) => {
 });
 
 // Ruta para agregar una nuevo game
-app.post('/addfriend', async (req, res) => {
+app.post('/friends', async (req, res) => {
   try {
     try{
       // Forward the add game request to the games service
-      const friendsResponse = await axios.post(friendServiceUrl + '/addfriend', req.body);
+      const friendsResponse = await axios.post(friendServiceUrl + '/friends', req.body);
       res.json(friendsResponse.data);
     }catch(error){
       res.status(error.response.status).json(error.response.data);
@@ -260,13 +260,10 @@ app.post('/addfriend', async (req, res) => {
     res.status(500).json({ error: "Service down" });
   }
 });
-app.delete('/deletefriend/:username/:friend', async (req, res) => {
+app.delete('/friends/:friend_username', async (req, res) => {
   try {
     try{
-      if(req.body.user!==req.params.username){
-        throw new Error('Unauthorized');
-      }
-      const friendsResponse = await axios.delete(friendServiceUrl + '/deletefriend/'+req.body.user+'/'+req.params.friend);
+      const friendsResponse = await axios.delete(friendServiceUrl + '/friends/'+req.body.user.toString()+'/'+req.params.friend_username.toString());
       res.json(friendsResponse.data);
     }catch(error){
       res.status(error.response.status).json(error.response.data);
@@ -275,10 +272,10 @@ app.delete('/deletefriend/:username/:friend', async (req, res) => {
     res.status(500).json({ error: "Service down" });
   }
 });
-app.get('/getFriends/:username', async (req, res) => {
+app.get('/friends/:username', async (req, res) => {
   try {
     try{
-      const friendsResponse = await axios.get(friendServiceUrl + '/getFriends/'+req.params.username);
+      const friendsResponse = await axios.get(friendServiceUrl + '/friends/'+req.params.username);
       res.json(friendsResponse.data);
     }catch(error){
       res.status(error.response.status).json(error.response.data);
@@ -289,10 +286,10 @@ app.get('/getFriends/:username', async (req, res) => {
 });
 
 /// Ruta para obtener la participación del usuario
-app.get('/getParticipation/:userId', async (req, res) => {
+app.get('/games/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
-    const apiUrl = `${gameServiceUrl}/getParticipation/${userId}`;
+    const apiUrl = `${gameServiceUrl}/games/${userId}`;
     try{
       const gameResponse = await axios.get(apiUrl);
       res.json(gameResponse.data);

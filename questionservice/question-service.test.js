@@ -17,7 +17,7 @@ afterAll(async () => {
 });
 
 describe('Question Service', () => {
-  it('should add a new question on POST /addquestion', async () => {
+  it('should add a new question on POST /questions', async () => {
     const newQuestion = {
       question: 'Mocked Question',
       correct: 'Mocked Correct Answer',
@@ -26,7 +26,7 @@ describe('Question Service', () => {
       category: 'Mocked Category'
     };
 
-    const response = await request(app).post('/addquestion').send(newQuestion);
+    const response = await request(app).post('/questions').send(newQuestion);
     expect(response.status).toBe(200); 
     expect(response.body).toHaveProperty('question', 'Mocked Question');
   });

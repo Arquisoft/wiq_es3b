@@ -14,9 +14,9 @@ jest.mock('axios');
 describe('Gateway Service', () => {
   // Mock responses from external services
   axios.post.mockImplementation((url, data) => {
-    if (url.endsWith('/adduser')) {
+    if (url.endsWith('/users')) {
       return Promise.resolve({ data: { userId: 'mockedUserId' } });
-    }else if (url.endsWith('/addquestion')) {
+    }else if (url.endsWith('/questions')) {
       return Promise.resolve({
         data: {
           question: 'Mocked Question',
@@ -132,7 +132,7 @@ describe('Gateway Service', () => {
   // Test /adduser endpoint
   it('should forward add user request to user service', async () => {
     const response = await request(app)
-      .post('/adduser')
+      .post('/users')
       .send({ username: 'newuser', password: 'newpassword' });
 
     expect(response.statusCode).toBe(200);
@@ -141,7 +141,7 @@ describe('Gateway Service', () => {
   it('should return an error when the user service is down', async () => {
     axios.post.mockRejectedValueOnce({ response: { status: 500, data: { error: 'Service down' } } });
     const response = await request(app)
-    .post('/adduser')
+    .post('/users')
     .send({ username: 'testuser', password: 'testpassword' });
     expect(response.statusCode).toBe(500);
     expect(response.body).toEqual({ error: 'Service down' });
@@ -221,14 +221,14 @@ describe('Gateway Service', () => {
 
   
 });
-describe('GET /getParticipation/:userId', () => {
+describe('GET /games/:userId', () => {
   it('should return the participation of the user', async () => {
     const mockedUserId = 'mockedUserId';
     const mockedGameResponse = { participation: 10 };
 
     axios.get.mockResolvedValueOnce({ data: mockedGameResponse });
 
-    const response = await request(app).get(`/getParticipation/${mockedUserId}`);
+    const response = await request(app).get(`/games/${mockedUserId}`);
 
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(mockedGameResponse);
@@ -240,7 +240,7 @@ describe('GET /getParticipation/:userId', () => {
 
     axios.get.mockRejectedValueOnce({ response: { status: 500, data: mockedError } });
 
-    const response = await request(app).get(`/getParticipation/${mockedUserId}`);
+    const response = await request(app).get(`/games/${mockedUserId}`);
 
     expect(response.statusCode).toBe(500);
     expect(response.body).toEqual(mockedError);
@@ -308,7 +308,7 @@ describe('GET /api/info/games', () => {
 });
 describe('addGame', () =>{
   it('should return 401 Unauthorized if authorization token is missing', async () => {
-    const response = await request(app).post('/addgame');
+    const response = await request(app).post('/games');
     expect(response.statusCode).toBe(401);
     expect(response.body).toEqual({ error: 'Unauthorized' });
   });
@@ -317,7 +317,7 @@ describe('addGame', () =>{
     const mockedToken = 'invalidToken';
     axios.get.mockRejectedValueOnce({ response: { status: 401 } });
     const response = await request(app)
-      .post('/addgame')
+      .post('/games')
       .set('Authorization', `Bearer ${mockedToken}`);
     expect(response.statusCode).toBe(401);
     expect(response.body).toEqual({ error: 'Unauthorized' });
@@ -325,7 +325,7 @@ describe('addGame', () =>{
 });
 describe('POST /addfriend', () => {
   it('should skip the middleware and return 401 Unauthorized if authorization token is missing', async () => {
-    const response = await request(app).post('/addfriend');
+    const response = await request(app).post('/friends');
     expect(response.statusCode).toBe(401);
     expect(response.body).toEqual({ error: 'Unauthorized' });
   });
@@ -334,7 +334,7 @@ describe('POST /addfriend', () => {
     const mockedToken = 'invalidToken';
     axios.get.mockRejectedValueOnce({ response: { status: 401 } });
     const response = await request(app)
-      .post('/addfriend')
+      .post('/friends')
       .set('Authorization', `Bearer ${mockedToken}`);
     expect(response.statusCode).toBe(401);
     expect(response.body).toEqual({ error: 'Unauthorized' });
@@ -348,7 +348,7 @@ describe('POST /addfriend', () => {
     const nextMiddleware = jest.fn();
 
     await request(app)
-      .post('/addfriend')
+      .post('/friends')
       .send({ username: 'mockedUser', friend: 'mockedFriend'})
       .set('Authorization', `Bearer ${mockedToken}`);
       nextMiddleware(); 
@@ -365,11 +365,11 @@ describe('Friend Service', () => {
     axios.delete.mockResolvedValueOnce(mockedResponse);
     axios.get.mockResolvedValueOnce(mockedResponse);
     await request(app)
-      .delete('/deletefriend/testuser/friend')
+      .delete('/friends/friend')
       .set('Authorization', `Bearer ${mockedToken}`);
   });
   it('should return 401 Unauthorized if authorization token is missing', async () => {
-    const response = await request(app).delete('/deletefriend/testuser/friend');
+    const response = await request(app).delete('/friends/friend');
     expect(response.statusCode).toBe(401);
     expect(response.body).toEqual({ error: 'Unauthorized' });
   });
@@ -377,7 +377,7 @@ describe('Friend Service', () => {
     const mockedToken = 'invalidToken';
     axios.get.mockRejectedValueOnce({ response: { status: 401 } });
     const response = await request(app)
-      .delete('/deletefriend/testuser/friend')
+      .delete('/friends/friend')
       .set('Authorization', `Bearer ${mockedToken}`);
     expect(response.statusCode).toBe(401);
     expect(response.body).toEqual({ error: 'Unauthorized' });
@@ -389,7 +389,7 @@ describe('Friend Service', () => {
     const mockedFriends = ['friend1', 'friend2'];
     axios.get.mockResolvedValueOnce({ data: mockedFriends , status: 200});
     const response = await request(app)
-      .get(`/getFriends/${mockedUsername}`);
+      .get(`/friends/${mockedUsername}`);
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(mockedFriends);
   });
@@ -398,7 +398,7 @@ describe('Friend Service', () => {
     const mockedError = { error: 'Service down' };
     jest.spyOn(axios, 'get').mockImplementation({ response: { status: 500, data: { error: 'Service down' } } });
     const response = await request(app)
-      .get(`/getFriends/${mockedUsername}`);
+      .get(`/friends/${mockedUsername}`);
     expect(response.statusCode).toBe(500);
     expect(response.body).toEqual(mockedError);
   });

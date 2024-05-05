@@ -78,7 +78,7 @@ app.get('/api/questions/create', async (req, res) => {
     }
     randomQuestion.question = i18n.__(randomQuestion.question, randomQuestion.question_param);
     const saveQuestion = async (question) => {
-      const url = `${questionServiceUrl}/addquestion`;
+      const url = `${questionServiceUrl}/questions`;
       try {
         await axios.post(url, question);
       } catch (error) {

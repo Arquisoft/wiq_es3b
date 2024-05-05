@@ -48,7 +48,7 @@ afterEach(async () => {
 
 describe('Game Service', () => {
   // Test para agregar un nuevo juego con éxito
-  it('should add a new game on POST /addgame', async () => {
+  it('should add a new game on POST /games', async () => {
     const newGame = {
       userId: userId,
       pAcertadas: 5,
@@ -57,7 +57,7 @@ describe('Game Service', () => {
       gameMode: 'classic'
     };
 
-    const response = await request(app).post('/addgame').send(newGame);
+    const response = await request(app).post('/games').send(newGame);
     expect(response.status).toBe(200);
     const data = response.body;
     expect(data).toHaveProperty("user");
@@ -88,7 +88,7 @@ describe('Game Service', () => {
 
     
 
-    const response = await request(app).get(`/getParticipation/${userId}`);
+    const response = await request(app).get(`/games/${userId}`);
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(mockParticipationData);
@@ -97,7 +97,7 @@ describe('Game Service', () => {
   // Test para manejar el caso de usuario no encontrado al obtener los datos de participación
   it('should return 404 when getting participation data for invalid user', async () => {
     const nonExistentUserId = '';
-    const response = await request(app).get(`/getParticipation/${nonExistentUserId}`);
+    const response = await request(app).get(`/games/${nonExistentUserId}`);
 
     expect(response.status).toBe(404);
   });
@@ -109,7 +109,7 @@ describe('Game Service', () => {
     });
     const userNGId = userNoGames._id;
   
-    const response = await request(app).get(`/getParticipation/${userNGId}`);
+    const response = await request(app).get(`/games/${userNGId}`);
   
     expect(response.status).toBe(204);
   });

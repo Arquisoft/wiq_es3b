@@ -23,7 +23,7 @@ export const Participation = ({ goTo }) => {
     // Realizar la solicitud al servidor para obtener los datos de participación
     const fetchData = async () => {
       try { 
-        const response = await axios.get(`${gatewayUrl}/getParticipation/${sessionData.userId}`);
+        const response = await axios.get(`${gatewayUrl}/games/${sessionData.userId}`);
         if (response.status === 204) {
           setLoading(false);
         } else {

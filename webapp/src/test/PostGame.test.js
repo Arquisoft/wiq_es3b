@@ -72,7 +72,7 @@ describe('PostGame component', () => {
 
     // Check if saveGame function is called correctly
     expect(axios.post).toHaveBeenCalledWith(
-      'http://localhost:8000/addgame',
+      'http://localhost:8000/games',
       {
         user: mockSessionData.userId,
         pAcertadas: localStorage.getItem('pAcertadas'), 
@@ -136,7 +136,7 @@ describe('PostGame component', () => {
     );
     // Check if saveGame function is called correctly
     expect(axios.post).toHaveBeenCalledWith(
-      'http://localhost:8000/addgame',
+      'http://localhost:8000/games',
       {
         user: sessionData.userId,
         pAcertadas: localStorage.getItem('pAcertadas'), 

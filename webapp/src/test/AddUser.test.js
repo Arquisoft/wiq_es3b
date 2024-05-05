@@ -29,7 +29,7 @@ describe('AddUser component', () => {
     const addUserButton = screen.getByRole('button', { name: /SIGN UP/i });
 
     // Mock the axios.post request to simulate a successful response
-    mockAxios.onPost('http://localhost:8000/adduser').reply(200);
+    mockAxios.onPost('http://localhost:8000/users').reply(200);
     // Simulate user input
     fireEvent.change(usernameInput, { target: { value: 'testUser' } });
     fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
@@ -69,7 +69,7 @@ describe('AddUser component', () => {
     const addUserButton = screen.getByRole('button', { name: /SIGN UP/i });
 
     // Mock the axios.post request to simulate a successful response
-    mockAxios.onPost('http://localhost:8000/adduser').reply(200);
+    mockAxios.onPost('http://localhost:8000/users').reply(200);
     mockAxios.onPost('http://localhost:8000/login').reply(200);
 
     // Simulate user input
@@ -101,7 +101,7 @@ describe('AddUser component', () => {
     const addUserButton = screen.getByRole('button', { name: /SIGN UP/i });
 
     // Mock the axios.post request to simulate an error response
-    mockAxios.onPost('http://localhost:8000/adduser').reply(500, { error: 'Internal Server Error' });
+    mockAxios.onPost('http://localhost:8000/users').reply(500, { error: 'Internal Server Error' });
     mockAxios.onPost('http://localhost:8000/login').reply(500, { error: 'Internal Server Error' });
 
     // Simulate user input
@@ -139,7 +139,7 @@ describe('AddUser component', () => {
   });
   it('should handle successful user registration and login', async () => {
     // Mock the response for successful user registration
-    mockAxios.onPost('http://localhost:8000/adduser').reply(200);
+    mockAxios.onPost('http://localhost:8000/users').reply(200);
   
     // Mock the response for successful user login
     mockAxios.onPost('http://localhost:8000/login').reply(200, {

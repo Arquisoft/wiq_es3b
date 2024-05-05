@@ -14,7 +14,7 @@ const Friends = ({goTo}) => {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const fetchData = async () => {
         try {
-            const response = await axios.get(`${gatewayUrl}/getFriends/${sessionData.username}`, {
+            const response = await axios.get(`${gatewayUrl}/friends/${sessionData.username}`, {
                 headers: {
                     Authorization: `Bearer ${sessionData.token}`
                 }
@@ -45,7 +45,7 @@ const Friends = ({goTo}) => {
         const addFriend = async () => {
             try {
                 const body= {user: sessionData.username, friend: searchQuery};
-                const response = await axios.post(`${gatewayUrl}/addfriend`, body
+                const response = await axios.post(`${gatewayUrl}/friends`, body
                 , {
                     headers: {
                         Authorization: `Bearer ${sessionData.token}`
@@ -73,7 +73,7 @@ const Friends = ({goTo}) => {
     const handleDeleteFriend = (friend) => {
         const deletefriend = async (friend) => {
             try {
-                const response = await axios.delete(`${gatewayUrl}/deletefriend/${sessionData.username}/${friend}`, {
+                const response = await axios.delete(`${gatewayUrl}/friends/${friend}`, {
                     headers: {
                         Authorization: `Bearer ${sessionData.token}`
                     }

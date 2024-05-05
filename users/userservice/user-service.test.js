@@ -40,44 +40,44 @@ afterEach(async () => {
 });
 
 describe('User Service', () => {
-  it('should add a new user on POST /adduser', async () => {
+  it('should add a new user on POST /users', async () => {
     const newUser = {
       username: 'testuser',
       password: 'testpassword',
       profileImage: 'perfil2.jpg',
     };
-    const response = await request(app).post('/adduser').send(newUser);
+    const response = await request(app).post('/users').send(newUser);
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('username', 'testuser');
   });
-  it('should return an error when adding a user that already exists on POST /adduser', async () => {
+  it('should return an error when adding a user that already exists on POST /users', async () => {
     const existingUser = {
       username: 'defaultuser',
       password: 'testpassword',
       profileImage: 'perfil2.jpg',
     };
-    const response = await request(app).post('/adduser').send(existingUser);
+    const response = await request(app).post('/users').send(existingUser);
     expect(response.status).toBe(400);
   });
-  it('should get user info on GET /getUserInfo/:username', async () => {
+  it('should get user info on GET /users/:username', async () => {
     const username = 'defaultuser';
-    const response = await request(app).get(`/getUserInfo/${username}`);
+    const response = await request(app).get(`/users/${username}`);
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('username', username);
     expect(response.body).toHaveProperty('_id');
     expect(response.body).toHaveProperty('createdAt');
     expect(Object.keys(response.body)).toHaveLength(3);
   });
-  it('should return an error when getting info of a non-existent user on GET /getUserInfo/:username', async () => {
+  it('should return an error when getting info of a non-existent user on GET /users/:username', async () => {
     const nonExistentUsername = 'nonexistentuser';
-    const response = await request(app).get(`/getUserInfo/${nonExistentUsername}`);
+    const response = await request(app).get(`/users/${nonExistentUsername}`);
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty('error', 'User not found');
   });
 
 
-  it('should get all users on GET /getAllUsers', async () => {
-    const response = await request(app).get('/getAllUsers');
+  it('should get all users on GET /users', async () => {
+    const response = await request(app).get('/users');
     expect(response.status).toBe(200);
     expect(response.body).toHaveLength(2);
     expect(response.body[0]).toHaveProperty('_id');

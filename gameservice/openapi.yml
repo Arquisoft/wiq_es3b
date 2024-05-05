@@ -6,7 +6,7 @@ servers:
   - url: 'http://localhost:8005'
   - url: http://gameservice:8005
 paths:
-  /getParticipation/{userId}:
+  /games/{userId}:
     get:
       summary: Get user participation data
       parameters:
@@ -31,7 +31,7 @@ paths:
           description: No participation data found for the user
         '500':
           description: Error occurred while retrieving participation data
-  /addgame:
+  /games:
     post:
       summary: Add a new game
       requestBody:

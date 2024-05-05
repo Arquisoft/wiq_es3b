@@ -45,7 +45,7 @@ const addQuestion = async (req, res) => {
   }
 };
 // Ruta para agregar una nueva pregunta
-app.post('/addquestion', addQuestion);
+app.post('/questions', addQuestion);
 
 
 app.get('/api/info/questions', async (req, res) => {

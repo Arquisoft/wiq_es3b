@@ -27,7 +27,7 @@ function validateRequiredFields(req, requiredFields) {
     }
 }
 
-app.post('/adduser', async (req, res) => {
+app.post('/users', async (req, res) => {
     try {
         // Check if required fields are present in the request body
         validateRequiredFields(req, ['username', 'password', 'profileImage']);
@@ -57,7 +57,7 @@ app.post('/adduser', async (req, res) => {
         res.status(400).json({ error: error.message }); 
     }
   });
-  app.get('/getUserInfo/:username', async (req, res) => {
+  app.get('/users/:username', async (req, res) => {
     try {
       const username = req.params.username;
       try{
@@ -74,7 +74,7 @@ app.post('/adduser', async (req, res) => {
       res.status(400).json({ error: error.message });
     }
   });
-  app.get('/getAllUsers', async (req, res) => {
+  app.get('/users', async (req, res) => {
     try {
       const users = await User.find({}, { _id: 1, username: 1, createdAt: 1 });
       res.json(users);

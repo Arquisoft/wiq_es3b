@@ -16,7 +16,7 @@ describe('Friends', () => {
     });
 
     test('renders the friend list', async () => {
-        mockAxios.onGet('http://localhost:8000/getFriends/testUser').reply(200, 
+        mockAxios.onGet('http://localhost:8000/friends/testUser').reply(200, 
         { friends: ['friend1', 'friend2', 'friend3', 'friend4'] }
     );
         render(
@@ -49,7 +49,7 @@ describe('Friends', () => {
                 </SessionContext.Provider>
             </IntlProvider>
         );
-        mockAxios.onPost('http://localhost:8000/addfriend').reply(200, 
+        mockAxios.onPost('http://localhost:8000/friends').reply(200, 
             { friends: ['friend1', 'friend2', 'friend3', 'friend4', 'newFriend'] }
         );
 
@@ -74,7 +74,7 @@ describe('Friends', () => {
                 </SessionContext.Provider>
             </IntlProvider>
         );
-        mockAxios.onPost('http://localhost:8000/addfriend').reply(200, 
+        mockAxios.onPost('http://localhost:8000/friends').reply(200, 
             { friends: ['friend1'] }
         );
         const addButton = screen.getByText('Add friend');
@@ -85,7 +85,7 @@ describe('Friends', () => {
         // Wait for the friends to be fetched
         await screen.findByText('friend1');
         await mockAxios.reset();
-        mockAxios.onDelete('http://localhost:8000/deletefriend/testUser/friend1').reply(200, 
+        mockAxios.onDelete('http://localhost:8000/friends/friend1').reply(200, 
             { friends: [] }
         );
         

@@ -6,7 +6,7 @@ servers:
   - url: http://localhost:8006
   - url: http://friendsservice:8006
 paths:
-  /getFriends/{username}:
+  /friends/{username}:
     get:
       summary: Get friends of a user
       parameters:
@@ -36,7 +36,7 @@ paths:
                 properties:
                   error:
                     type: string
-  /addfriend:
+  /friends:
     post:
       summary: Add a friend to a user
       requestBody:
@@ -73,7 +73,7 @@ paths:
                 properties:
                   error:
                     type: string
-  /deletefriend/{username}/{friend}:
+  /friends/{username}/{friend_username}:
     delete:
       summary: Delete a friend from a user
       parameters:
@@ -82,7 +82,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: friend
+        - name: friend_username
           in: path
           required: true
           schema:
