@@ -323,7 +323,7 @@ describe('addGame', () =>{
     expect(response.body).toEqual({ error: 'Unauthorized' });
   });
 });
-describe('POST /addfriend', () => {
+describe('POST /friends', () => {
   it('should skip the middleware and return 401 Unauthorized if authorization token is missing', async () => {
     const response = await request(app).post('/friends');
     expect(response.statusCode).toBe(401);
@@ -365,7 +365,7 @@ describe('Friend Service', () => {
     axios.delete.mockResolvedValueOnce(mockedResponse);
     axios.get.mockResolvedValueOnce(mockedResponse);
     await request(app)
-      .delete('/friends/friend')
+      .delete('/friends/mockedUser')
       .set('Authorization', `Bearer ${mockedToken}`);
   });
   it('should return 401 Unauthorized if authorization token is missing', async () => {
@@ -377,7 +377,7 @@ describe('Friend Service', () => {
     const mockedToken = 'invalidToken';
     axios.get.mockRejectedValueOnce({ response: { status: 401 } });
     const response = await request(app)
-      .delete('/friends/friend')
+      .delete('/friends/friend1')
       .set('Authorization', `Bearer ${mockedToken}`);
     expect(response.statusCode).toBe(401);
     expect(response.body).toEqual({ error: 'Unauthorized' });

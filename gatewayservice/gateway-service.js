@@ -275,7 +275,7 @@ app.delete('/friends/:friend_username', async (req, res) => {
 app.get('/friends/:username', async (req, res) => {
   try {
     try{
-      const friendsResponse = await axios.get(friendServiceUrl + '/friends/'+req.params.username);
+      const friendsResponse = await axios.get(friendServiceUrl + '/friends/'+req.params.username.toString());
       res.json(friendsResponse.data);
     }catch(error){
       res.status(error.response.status).json(error.response.data);
