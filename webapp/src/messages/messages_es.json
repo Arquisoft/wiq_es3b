@@ -17,6 +17,8 @@
   "Passwords do not match": "Las contraseñas no coinciden",
   "Password must be at least 4 characters long": "La contraseña debe tener al menos 4 caracteres",
   "User already exist": "El usuario ya existe",
+  "Username can't be empty": "El nombre de usuario no puede estar vacío",
+  "Username can't have more than 20 characters": "El nombre de usuario no puede tener más de 20 caracteres",
 
   "menu": "Menú",
   "langen": "Inglés",

@@ -31,17 +31,26 @@ app.post('/users', async (req, res) => {
     try {
         // Check if required fields are present in the request body
         validateRequiredFields(req, ['username', 'password', 'profileImage']);
+        // Check if the password has at least 4 characters
+        if (req.body.password.length < 4) {
+          res.status(400).json({ error: "Password must be at least 4 characters long" });
+          return;
+        }
+        if (req.body.username.length === 0) {
+          res.status(400).json({ error: "Username can't be empty" });
+          return;
+        }
+        if (req.body.username.length > 20) {
+          res.status(400).json({ error: "Username can't have more than 20 characters" });
+          return;
+        }
         // Check if the user already exists
         const existingUser = await User.findOne({ username: req.body.username.toString() });
         if (existingUser) {
           res.status(400).json({ error: "User already exist" }); 
           return;
         }
-        // Check if the password has at least 4 characters
-        if (req.body.password.length < 4) {
-          res.status(400).json({ error: "Password must be at least 4 characters long" });
-          return;
-        }
+
         // Encrypt the password before saving it
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
