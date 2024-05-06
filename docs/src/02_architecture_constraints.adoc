@@ -13,7 +13,7 @@
 [options="header",cols="1,2"]
 |===
 |Constraint|Description
-|Team|The development team is composed of 6 people
+|Team|The development team is composed of 4 people
 |Repository control|The repository has a "main" and a "develop" branch and numerous "feature" branches where new functionalities are developed
 |Meetings|At least one weekly team meeting is held to maintain proper organisation
 |===
