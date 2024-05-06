@@ -20,6 +20,7 @@ The quality goals in order of priority are as follows:
 |===
 |Quality goal|Description
 |Performance efficiency|Question generation must be efficient
+|Availability|Users must always be able to play, regardless of the number of users or problems with third-party services used
 |Usability|The application must be easy to understand and use
 |Maintainability|The application must be testable and easily modifiable
 |Security|The login password of users must be encrypted. Other sensitive information must be kept secure
