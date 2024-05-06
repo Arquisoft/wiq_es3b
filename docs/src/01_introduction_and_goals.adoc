@@ -2,7 +2,7 @@
 == Introduction and Goals
 WIQ is a web application developed by HappySw that allows users to play an online quiz game. 
 
-The questions are automatically generated from Wikidata data and can be grouped by topic. Users can get a prize for each correctly answered question within a limited time and can also check their historical results in the game.
+The questions are automatically generated from Wikidata data and can be grouped by topic. In the main game mode, players can answer the questions in a set amount of time and can later check their record and the number of correct and incorrect answers. 
 
 === Requirements Overview
 The main functional requirements to be met are:
@@ -19,10 +19,10 @@ The quality goals in order of priority are as follows:
 [options="header",cols="1,2"]
 |===
 |Quality goal|Description
-|Usability|The application must be easy to understand and use
 |Performance efficiency|Question generation must be efficient
-|Security|The confidentiality and integrity of user data must be ensured
+|Usability|The application must be easy to understand and use
 |Maintainability|The application must be testable and easily modifiable
+|Security|The login password of users must be encrypted. Other sensitive information must be kept secure
 |===
 
 === Stakeholders
