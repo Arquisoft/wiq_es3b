@@ -22,7 +22,7 @@ export const PostGame = ({ gameMode }) => {
     const saveGame = async () => {
         try {
             // Guardar el juego en la base de datos
-            const response = await axios.post(`${gatewayUrl}/addgame`, {
+            const response = await axios.post(`${gatewayUrl}/games`, {
                 user: sessionData.userId,
                 pAcertadas: localStorage.getItem("pAcertadas"),
                 pFalladas: localStorage.getItem("pFalladas"),

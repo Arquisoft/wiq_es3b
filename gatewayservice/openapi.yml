@@ -24,7 +24,7 @@ paths:
           description: Error occurred while forwarding the login request
         '500':
           description: Service down
-  /adduser:
+  /users:
     post:
       summary: Forward the add user request to the user service
       requestBody:
@@ -40,7 +40,7 @@ paths:
           description: Error occurred while forwarding the add user request
         '500':
           description: Service down
-  /addquestion:
+  /questions:
     post:
       summary: Add a new question
       requestBody:
@@ -56,7 +56,7 @@ paths:
           description: Error occurred while adding question
         '500':
           description: Service down
-  /addgame:
+  /games:
     post:
       summary: Add a new game
       requestBody:
@@ -76,7 +76,7 @@ paths:
           description: Service down
       security:
         - bearerAuth: []
-  /addfriend:
+  /friends:
     post:
       summary: Add a new friend
       requestBody:
@@ -99,18 +99,12 @@ paths:
           description: Service down
       security:
         - bearerAuth: []
-  /deletefriend/{username}/{friend}:
+  /friends//{friend_username}:
     delete:
       summary: Delete a friend
       parameters:
         - in: path
-          name: username
-          schema:
-            type: string
-          required: true
-          description: The username of the user
-        - in: path
-          name: friend
+          name: friend_username
           schema:
             type: string
           required: true
@@ -332,7 +326,7 @@ paths:
           description: User not found
         '500':
           description: Error occurred while retrieving information about games
-  /getParticipation/{userId}:
+  /games/{userId}:
     get:
       summary: Get participation of a user
       parameters:
@@ -357,7 +351,7 @@ paths:
           description: No participation data found for the user.
         '500':
           description: Service down
-  /getFriends/{username}:
+  /friends/{username}:
     get:
       summary: Get friends of a user
       parameters:

@@ -6,7 +6,7 @@ servers:
   - url: 'http://localhost:8004'
   - url: http://questionservice:8004
 paths:
-  /addQuestion:
+  /questions:
     post:
       summary: Add a new question
       requestBody:

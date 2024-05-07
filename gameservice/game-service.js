@@ -24,7 +24,7 @@ const validateRequiredFields = (req, fields) => {
 };
 
 // Ruta para agregar un nuevo juego
-app.post('/addgame', async (req, res) => {
+app.post('/games', async (req, res) => {
   try {
     validateRequiredFields(req, ['userId', 'pAcertadas', 'pFalladas', 'totalTime', 'gameMode']);
 
@@ -80,7 +80,7 @@ app.get('/api/info/users', async (req, res) => {
     let usersData=[];
     if(username!=undefined){
       try{
-        const user = await axios.get(`${USER_SERVICE_URL}/getUserInfo/${username}`)
+        const user = await axios.get(`${USER_SERVICE_URL}/users/${username}`)
         if (!user.data) {
           res.status(400).json({ error: 'User not found' });
           return;
@@ -94,7 +94,7 @@ app.get('/api/info/users', async (req, res) => {
       }
     }else{
       try {
-        const users = await axios.get(`${USER_SERVICE_URL}/getAllUsers`);
+        const users = await axios.get(`${USER_SERVICE_URL}/users`);
         if(users.data)
           users.data.forEach(user => {usersData.push(user)});
       } catch (error) {
@@ -132,7 +132,7 @@ app.get('/api/info/users', async (req, res) => {
 });
 
 // Ruta para obtener datos de participación del usuario
-app.get('/getParticipation/:userId', async (req, res) => {
+app.get('/games/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
 
@@ -199,7 +199,7 @@ app.get('/api/ranking', async (req, res) => {
     const rankedPlayers = [];
     for (const entry of ranking) {
       try {
-        const user = await axios.get(`${USER_SERVICE_URL}/getUserInfo/${entry._id}`);
+        const user = await axios.get(`${USER_SERVICE_URL}/users/${entry._id}`);
         rankedPlayers.push({
           user: user.data.username, // Puedes usar el campo apropiado según tu esquema de usuario
           totalGames: entry.totalGames

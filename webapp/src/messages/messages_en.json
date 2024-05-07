@@ -17,6 +17,8 @@
     "Passwords do not match": "Passwords do not match",
     "Password must be at least 4 characters long": "Password must be at least 4 characters long",
     "User already exist": "User already exist",
+    "Username can't be empty": "Username can't be empty",
+    "Username can't have more than 20 characters": "Username can't have more than 20 characters",
 
     "menu": "Menu",
     "langen": "English",

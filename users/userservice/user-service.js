@@ -27,21 +27,30 @@ function validateRequiredFields(req, requiredFields) {
     }
 }
 
-app.post('/adduser', async (req, res) => {
+app.post('/users', async (req, res) => {
     try {
         // Check if required fields are present in the request body
         validateRequiredFields(req, ['username', 'password', 'profileImage']);
+        // Check if the password has at least 4 characters
+        if (req.body.password.length < 4) {
+          res.status(400).json({ error: "Password must be at least 4 characters long" });
+          return;
+        }
+        if (req.body.username.length === 0) {
+          res.status(400).json({ error: "Username can't be empty" });
+          return;
+        }
+        if (req.body.username.length > 20) {
+          res.status(400).json({ error: "Username can't have more than 20 characters" });
+          return;
+        }
         // Check if the user already exists
         const existingUser = await User.findOne({ username: req.body.username.toString() });
         if (existingUser) {
           res.status(400).json({ error: "User already exist" }); 
           return;
         }
-        // Check if the password has at least 4 characters
-        if (req.body.password.length < 4) {
-          res.status(400).json({ error: "Password must be at least 4 characters long" });
-          return;
-        }
+
         // Encrypt the password before saving it
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
@@ -57,7 +66,7 @@ app.post('/adduser', async (req, res) => {
         res.status(400).json({ error: error.message }); 
     }
   });
-  app.get('/getUserInfo/:username', async (req, res) => {
+  app.get('/users/:username', async (req, res) => {
     try {
       const username = req.params.username;
       try{
@@ -74,7 +83,7 @@ app.post('/adduser', async (req, res) => {
       res.status(400).json({ error: error.message });
     }
   });
-  app.get('/getAllUsers', async (req, res) => {
+  app.get('/users', async (req, res) => {
     try {
       const users = await User.find({}, { _id: 1, username: 1, createdAt: 1 });
       res.json(users);

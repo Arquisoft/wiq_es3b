@@ -63,16 +63,16 @@ afterEach(async () => {
 jest.mock('axios');
 
 
-describe('GET /getFriends/:username', () => {
+describe('GET /friends/:username', () => {
     it('should return the friends of the specified user', async () => {
         jest.mock('axios');
         axios.get.mockImplementationOnce(() => Promise.resolve({ status: 200 }));
-        const response = await request(app).get('/getFriends/user1');
+        const response = await request(app).get('/friends/user1');
         expect(response.body).toEqual({ username: 'user1', friends: ['user2', 'user3'] });
     });
 
     it('should return an error if the username does not exist', async () => {
-        const response = await request(app).get('/getFriends/invalid-username');
+        const response = await request(app).get('/friends/invalid-username');
 
         expect(response.status).toBe(400);
         expect(response.body).toEqual({error: 'User not found'});
@@ -81,7 +81,7 @@ describe('GET /getFriends/:username', () => {
     // Add more test cases for different scenarios
 });
 
-describe('POST /addfriend', () => {
+describe('POST /friends', () => {
     it('should add a friend to the user', async () => {
         jest.mock('axios');
         axios.get.mockImplementationOnce(() => Promise.resolve({ status: 200, data: 'mocked data' }));
@@ -89,7 +89,7 @@ describe('POST /addfriend', () => {
         const mockUser = { username: 'user2', friends: ['user1'] };
 
         const response = await request(app)
-            .post('/addfriend')
+            .post('/friends')
             .send({ user: 'user2', friend: 'user1' });
         expect(response.status).toBe(200);
         expect(response.body).toEqual(mockUser);
@@ -99,7 +99,7 @@ describe('POST /addfriend', () => {
         axios.get.mockImplementationOnce(() => Promise.resolve({ status: 200, data: 'mocked data' }));
 
         const response = await request(app)
-            .post('/addfriend')
+            .post('/friends')
             .send({ user: 'user1', friend: 'user2' });
         expect(response.status).toBe(400);
         expect(response.body).toEqual({ error: "Friend already exists" });
@@ -109,25 +109,25 @@ describe('POST /addfriend', () => {
         axios.get.mockImplementationOnce(() => Promise.resolve({ status: 200, data: 'mocked data' }));
         const mockUser = { username: 'user1', friends: ['user2','user3','user4'] };
         const response = await request(app)
-            .post('/addfriend')
+            .post('/friends')
             .send({ user: 'user1', friend: 'user4' });
         expect(response.status).toBe(200);
         expect(response.body).toEqual(mockUser);
     });
     it('should return an error if the user and friend are the same', async () => {
-        const response = await request(app).post('/addfriend').send({user: 'user1', friend: 'user1'});
+        const response = await request(app).post('/friends').send({user: 'user1', friend: 'user1'});
         expect(response.status).toBe(400);
         expect(response.body).toEqual({ error: 'User and friend cannot be the same' });
     });
 
     it('should return an error if the user is not provided', async () => {
-        const response = await request(app).post('/addfriend/').send({friend: 'friend2'});
+        const response = await request(app).post('/friends/').send({friend: 'friend2'});
 
         expect(response.status).toBe(400);
         expect(response.body).toEqual({ error: 'User and friend are required' });
     });
     it('should return an error if the user does not exists', async () => {
-        const response = await request(app).post('/addfriend/').send({user: 'invalid-username', friend: 'invalid-friend'});
+        const response = await request(app).post('/friends/').send({user: 'invalid-username', friend: 'invalid-friend'});
 
         expect(response.status).toBe(400);
         expect(response.body).toEqual({ error: 'User not found' });
@@ -136,18 +136,18 @@ describe('POST /addfriend', () => {
 
     // Add more test cases for different scenarios
 
-describe('DELETE /deletefriend/:username/:friend', () => {
+describe('DELETE /friends/:username/:friend', () => {
     it('should delete a friend from the user', async () => {
         const mockUser = { username: 'user1', friends: ['user2'] };
 
-        const response = await request(app).delete('/deletefriend/user1/user3');
+        const response = await request(app).delete('/friends/user1/user3');
 
         expect(response.status).toBe(200);
         expect(response.body).toEqual(mockUser);
     });
 
     it('should return an error if the user or friend is not provided', async () => {
-        const response = await request(app).delete('/deletefriend/user1/invalid-friend');
+        const response = await request(app).delete('/friends/user1/invalid-friend');
 
         expect(response.status).toBe(400);
         expect(response.body).toEqual({ error: 'Friend not found'});

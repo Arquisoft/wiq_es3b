@@ -6,7 +6,27 @@ servers:
   - url: http://localhost:8001
   - url: http://userservice:8001
 paths:
-  /adduser:
+  /users:
+    get:
+      summary: Get all users
+      responses:
+        '200':
+          description: Users retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
     post:
       summary: Add a new user
       requestBody:
@@ -31,7 +51,7 @@ paths:
                 properties:
                   error:
                     type: string
-  /getUserInfo/{username}:
+  /users/{username}:
     get:
       summary: Get user information
       parameters:
@@ -56,27 +76,7 @@ paths:
                 properties:
                   error:
                     type: string
-  /getAllUsers:
-    get:
-      summary: Get all users
-      responses:
-        '200':
-          description: Users retrieved successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
+
 components:
   schemas:
     User:
