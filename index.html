@@ -596,7 +596,7 @@ For documentation of your own system you use better the <em>plain</em> version.<
 <p>WIQ is a web application developed by HappySw that allows users to play an online quiz game.</p>
 </div>
 <div class="paragraph">
-<p>The questions are automatically generated from Wikidata data and can be grouped by topic. Users can get a prize for each correctly answered question within a limited time and can also check their historical results in the game.</p>
+<p>The questions are automatically generated from Wikidata data and can be grouped by topic. In the main game mode, players can answer the questions in a set amount of time and can later check their record and the number of correct and incorrect answers.</p>
 </div>
 <div class="sect2">
 <h3 id="_requirements_overview">1.1. Requirements Overview</h3>
@@ -644,20 +644,24 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be easy to understand and use</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Performance efficiency</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Question generation must be efficient</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The confidentiality and integrity of user data must be ensured</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Availability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Users must always be able to play, regardless of the number of users or problems with third-party services used</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be easy to understand and use</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Maintainability</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The application must be testable and easily modifiable</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The login password of users must be encrypted. Other sensitive information must be kept secure</p></td>
 </tr>
 </tbody>
 </table>
@@ -752,7 +756,7 @@ For documentation of your own system you use better the <em>plain</em> version.<
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Team</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The development team is composed of 6 people</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The development team is composed of 4 people</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Repository control</p></td>
