@@ -70,14 +70,20 @@ Detailed structure of the system. Focused on the components of the _User Interfa
 
 | Name | Description 
 
-| *_Game_* 
+| *_User interface_* 
 | Game screen where the user can play the game.
+
+| *_Gateway service_* 
+| Allows the user interface to communicate with each microservice.
 
 | *_Game Service_* 
 | Contains all user participations with the number of games played, correct/incorrect answers, and times.
 
 | *_Users Service_* 
-| Allows the client to create a new account for the application, log in and log out.
+| Allows the client to create a new account for the application and get some information about users.
+
+| *_Auth Service_* 
+| Allows the client to login in the application.
 
 | *_Question Generator Service_* 
 | Allows to ask him questions and receive the answers of them.
