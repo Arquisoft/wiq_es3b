@@ -99,7 +99,7 @@ paths:
           description: Service down
       security:
         - bearerAuth: []
-  /friends//{friend_username}:
+  /friends/{friend_username}:
     delete:
       summary: Delete a friend
       parameters:
