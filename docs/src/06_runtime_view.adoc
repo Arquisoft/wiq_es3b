@@ -26,4 +26,4 @@ In this view, the user can watch this options about his past games:
 - Best times
 - Correct/incorrect questions
 
-image::06_history.png["Game"]
+image::06_history.png["History"]
