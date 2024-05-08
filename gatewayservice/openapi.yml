@@ -99,12 +99,12 @@ paths:
           description: Service down
       security:
         - bearerAuth: []
-  /friends/{friend_username}:
+  /friends/{username}:
     delete:
       summary: Delete a friend
       parameters:
         - in: path
-          name: friend_username
+          name: username
           schema:
             type: string
           required: true
@@ -129,6 +129,31 @@ paths:
           description: Service down
       security:
         - bearerAuth: []
+    get:
+      summary: Get friends of a user
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+          description: The username of the user
+      responses:
+        '200':
+          description: Friends retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                $ref: '#/components/schemas/Friend'
+              example:
+                  username: 'user1'
+                  friends: ['friend1', 'friend2']
+        '400':
+          description: Error occurred while retrieving friends
+        '500':
+          description: Service down
   /verify:
     get:
       summary: Verify the authorization token
@@ -291,16 +316,16 @@ paths:
             description: Service down
   /api/info/users:
     get:
-      summary: Get information about games
+      summary: Get information about users
       parameters:
         - in: query
           name: user
           schema:
             type: string
-          description: Filter games by username
+          description: Filter information by username
       responses:
         '200':
-          description: Information about games retrieved successfully
+          description: Information about user retrieved successfully
           content:
             application/json:
               schema:
@@ -326,12 +351,12 @@ paths:
           description: User not found
         '500':
           description: Error occurred while retrieving information about games
-  /games/{userId}:
+  /games/{user}:
     get:
       summary: Get participation of a user
       parameters:
         - in: path
-          name: userId
+          name: user
           schema:
             type: string
           required: true
@@ -351,32 +376,7 @@ paths:
           description: No participation data found for the user.
         '500':
           description: Service down
-  /friends/{username}:
-    get:
-      summary: Get friends of a user
-      parameters:
-        - in: path
-          name: username
-          schema:
-            type: string
-          required: true
-          description: The username of the user
-      responses:
-        '200':
-          description: Friends retrieved successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                $ref: '#/components/schemas/Friend'
-              example:
-                  username: 'user1'
-                  friends: ['friend1', 'friend2']
-        '400':
-          description: Error occurred while retrieving friends
-        '500':
-          description: Service down
+    
 components:
   securitySchemes:
     bearerAuth: # Define un esquema de seguridad 'bearerAuth' para JWT
